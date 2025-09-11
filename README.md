@@ -7,4 +7,4 @@ Description: A text-based RPG that a player makes their way through a dungeon ge
 
 Technologies: The technology being used in this project is JavaScript, Git, Ducky Script, PHP, HTML.
 
-Client: Null.
+More information can be found at: [Project Description](https://github.com/Etown-CS/the-silver-slayer/wiki/Project-Description).
