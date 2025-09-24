@@ -6,12 +6,4 @@
 ### Description
 A text-based RPG hosted in a to-be-built cybersecurity lab. The game will feature cybersecurity themes and take place across multiple computers.
 
-### Technologies
-- HTML
-- PHP
-- JavaScript
-- DuckyScript
-- Bash
-- Git
-
 More information can be found on the [project wiki](https://github.com/Etown-CS/the-silver-slayer/wiki/Project-Description).
