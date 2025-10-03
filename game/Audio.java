@@ -14,6 +14,13 @@ public class Audio {
 
     public void command(int cmd) {command(cmd, 0);}
     public void command(int cmd, int id) {
+        /*
+         * Function for managing an instance of Audio
+         * 
+         * id: The command to be executed
+         *      1: Play the sound
+         *      Default: Stop the sound
+         */
 
         try {
 

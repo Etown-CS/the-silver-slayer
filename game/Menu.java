@@ -23,8 +23,8 @@ public class Menu {
     private int textDelay = 15;
 
     // Storage
-    private final String[] titleStrings = {"Silver Slayer RPG", "Also try Terraria!", "Also try Minecraft!", "THE FOG IS COMING", "There may be an egg", "It's 10/03/2025 right now"};
-    private final String introText = "The Silver Slayer [Version 1.0]\n\nYou are at the Gate.\nBegin by typing 'enter'\n";
+    private final String[] TITLE_STRINGS = {"Silver Slayer RPG", "Also try Terraria!", "Also try Minecraft!", "THE FOG IS COMING", "There may be an egg", "It's 10:30am on 10/03/2025 right now"};
+    private final String INTRO_TEXT = "The Silver Slayer [Version 1.0]\n\nYou are at the Gate.\nBegin by typing 'enter'\n";
 
     public Menu() {
         /* Constructor */
@@ -33,7 +33,7 @@ public class Menu {
         audio = new Audio();
 
         // Frame itself
-        frame = new JFrame(titleStrings[r.nextInt(titleStrings.length)]);
+        frame = new JFrame(TITLE_STRINGS[getRandomInt(TITLE_STRINGS.length)]);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(frameWidth, frameHeight);
 
@@ -154,7 +154,7 @@ public class Menu {
         Menu main = new Menu();
         Player player = new Player(main);
 
-        main.writeText(main.introText, 0);
+        main.writeText(main.INTRO_TEXT, 0);
 
     }
 
