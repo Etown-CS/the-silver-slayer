@@ -38,7 +38,7 @@ public class Menu {
     private int textDelay = 15;
 
     // Storage
-    private final String[] TITLE_STRINGS = {"Silver Slayer RPG", "Also try Terraria!", "Also try Minecraft!", "THE FOG IS COMING", "There may be an egg", "It's " + LocalDateTime.now().format(dateTime) + " right now", "here come dat boi"};
+    private final String[] TITLE_STRINGS = {"Silver Slayer RPG", "Also try Terraria!", "Also try Minecraft!", "THE FOG IS COMING", "There may be an egg", "It's " + LocalDateTime.now().format(dateTime) + " right now", "here come dat boi", "JOHN WAS HERE", "The name is Gus... Amon Gus", "water bottle 😭", "Microwave be like 'mmmmmmmmmmmmmmmmmmmmmmmmmmmmm BEEP BEEP BEEP BEEP BEEP'", "As I write this, it's 1:30pm on Friday, October 3rd, 2025", "[J]ohn, [A]sher, and [M]artin... JAM", "Why am I writing these?", "Silksong is out!!", "I ate my toothbrush :(", "", "o _ o", "get rekt", "Low on magenta!"};
     private final String INTRO_TEXT = "The Silver Slayer [Version 1.0]\n\nYou are at the Gate.\nBegin by typing 'enter'\n";
 
     public Menu() {
@@ -151,7 +151,7 @@ public class Menu {
 
                     } catch (NumberFormatException ex) {
 
-                        writeText(bits[1], 0);
+                        writeText('"' + bits[1] + "\" is not a valid slot.", 0);
 
                     }
 
@@ -167,8 +167,33 @@ public class Menu {
 
             case "title":
 
-                frame.setTitle(TITLE_STRINGS[getRandomInt(TITLE_STRINGS.length)]);
-                writeText("Rerolled title!", 0);
+                if (bits.length != 2) {
+
+                    frame.setTitle(TITLE_STRINGS[getRandomInt(TITLE_STRINGS.length)]);
+                    writeText("Rerolled title!", 0);
+
+                } else {
+
+                    int slot;
+                    try {
+
+                        slot = Integer.parseInt(bits[1]);
+                        if (slot < 0 || slot > TITLE_STRINGS.length - 1) writeText(slot + " is out of range.", 0);
+                        else {
+
+                            frame.setTitle(TITLE_STRINGS[slot]);
+                            writeText("Updated title!", 0);
+
+                        }
+
+                    } catch (NumberFormatException ex) {
+
+                        writeText(bits[1], 0);
+
+                    }
+
+                }
+
                 break;
 
             default:
