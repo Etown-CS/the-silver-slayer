@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.util.Random;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
 
 public class Menu {
 
@@ -20,12 +22,19 @@ public class Menu {
 
     Player playerRef;
 
+    // Date and Time
+    LocalDate dateObj = LocalDate.now();
+    LocalTime timeObj = LocalTime.now();
+
+    DateTimeFormatter dateTime = DateTimeFormatter.ofPattern("HH:mm:ss 'on' E, MMM dd yyyy");
+
+
     // Options
     private int frameWidth = 1000, frameHeight = 1000;
     private int textDelay = 15;
 
     // Storage
-    private final String[] TITLE_STRINGS = {"Silver Slayer RPG", "Also try Terraria!", "Also try Minecraft!", "THE FOG IS COMING", "There may be an egg", "It's 10:30am on 10/03/2025 right now", "here come dat boi"};
+    private final String[] TITLE_STRINGS = {"Silver Slayer RPG", "Also try Terraria!", "Also try Minecraft!", "THE FOG IS COMING", "There may be an egg", "It's " + LocalDateTime.now().format(dateTime) + " right now", "here come dat boi"};
     private final String INTRO_TEXT = "The Silver Slayer [Version 1.0]\n\nYou are at the Gate.\nBegin by typing 'enter'\n";
 
     public Menu() {
