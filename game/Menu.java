@@ -25,7 +25,7 @@ public class Menu {
     private int textDelay = 15;
 
     // Storage
-    private final String[] TITLE_STRINGS = {"Silver Slayer RPG", "Also try Terraria!", "Also try Minecraft!", "THE FOG IS COMING", "There may be an egg", "It's 10:30am on 10/03/2025 right now"};
+    private final String[] TITLE_STRINGS = {"Silver Slayer RPG", "Also try Terraria!", "Also try Minecraft!", "THE FOG IS COMING", "There may be an egg", "It's 10:30am on 10/03/2025 right now", "here come dat boi"};
     private final String INTRO_TEXT = "The Silver Slayer [Version 1.0]\n\nYou are at the Gate.\nBegin by typing 'enter'\n";
 
     public Menu() {
@@ -136,7 +136,8 @@ public class Menu {
                 if (characterIndex < text.length()) terminal.append(String.valueOf(text.charAt(characterIndex++)));
                 else {
 
-                    terminal.append("\n /" + playerRef.sublocation + " >");
+
+                    terminal.append("\n/" + playerRef.location + "/" + playerRef.sublocation + " >");
                     if (voiceID >= 0) audio.command(0);
                     timer.stop();
 
