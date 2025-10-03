@@ -29,9 +29,7 @@ public class Menu {
     // Date and Time
     LocalDate dateObj = LocalDate.now();
     LocalTime timeObj = LocalTime.now();
-
     DateTimeFormatter dateTime = DateTimeFormatter.ofPattern("HH:mm:ss 'on' E, MMM dd yyyy");
-
 
     // Options
     private int frameWidth = 1000, frameHeight = 1000;
@@ -46,6 +44,7 @@ public class Menu {
                                             "Why am I writing these?", "Silksong is out!!", "I ate my toothbrush :(", "", "o _ o", "get rekt", 
                                             "Low on magenta!", "Strings 🙏"};
     private final String INTRO_TEXT = "The Silver Slayer [Beta v1.0]\n\nYou are at the Gate.\nBegin by typing 'enter'\n";
+    private final String SIDEBAR_BASE = "     PLAYER     ";
 
     public Menu() {
         /* Constructor */
@@ -60,8 +59,8 @@ public class Menu {
 
         // Player
         playerRef = new Player(this);
-        playerRef.addItem(new Item("Apple", "You ate the apple.", true));
-        playerRef.addItem(new Item("Apple", "You ate the apple.", true));
+        playerRef.addItem(new Item("Cookie", "You ate the cookie.", 3, true));
+        playerRef.addItem(new Item("Golden Apple", "Eating gold is not good for you.", -3, true));
 
         // Display
         panel = new JPanel();
@@ -76,8 +75,7 @@ public class Menu {
 
         scrollPane = new JScrollPane(terminal);
 
-        // Sidebar
-        sidebar = new JTextArea("     PLAYER     \n\nHealth: ?\nAttack: ?\nDefense: ?");
+        sidebar = new JTextArea(SIDEBAR_BASE + "\n\nHealth: ?\nAttack: ?\nDefense: ?");
         sidebar.setFont(new Font("Cascadia Mono", Font.BOLD, 20));
         sidebar.setEditable(false); // make player stats not editable
         sidebar.setBackground(Color.BLACK);
@@ -112,6 +110,12 @@ public class Menu {
 
         // Automatically clicks on input field
         inputField.requestFocusInWindow();
+
+    }
+
+    private void updateSidebar() {
+
+        sidebar.setText(SIDEBAR_BASE + "\n\nHealth: " + playerRef.health + "\nAttack: ?\nDefense: ?");
 
     }
 
@@ -235,11 +239,11 @@ public class Menu {
                 if (characterIndex < text.length()) terminal.append(String.valueOf(text.charAt(characterIndex++)));
                 else {
 
-
                     if (!text.equals("")) terminal.append("\n\n");
                     terminal.append(playerRef.location + "/" + playerRef.sublocation + " >");
                     if (voiceID >= 0) audio.command(0);
                     timer.stop();
+                    updateSidebar();
 
                 }
 

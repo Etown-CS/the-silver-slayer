@@ -72,6 +72,14 @@ public class Player {
 
         }
 
+        switch (inventory[slot].type) {
+
+            case Heal:
+
+                health += inventory[slot].magnitude;
+
+        }
+
         menuRef.writeText(inventory[slot].useMessage, 0);
         if (inventory[slot].consumable) inventory[slot] = null;
         return true;
