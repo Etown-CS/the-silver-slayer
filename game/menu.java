@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
+import java.util.Random;
 
 public class menu {
 
@@ -13,14 +14,26 @@ public class menu {
     private Timer timer;
     private int characterIndex;
 
+    Random r;
+
+    Audio audio;
+
     // Options
     private int frameWidth = 1000, frameHeight = 1000;
     private int textDelay = 10;
 
+    // Storage
+    private final String[] titleStrings = {"Silver Slayer RPG", "Also try Terraria!", "Also try Minecraft!", "THE FOG IS COMING", "There may be an egg"};
+    private final String introText = "Welcome to The Silver Slayer text-based RPG!\n\nYou are at the Gate.\n\nBegin by typing 'enter'\n\n";
+
     public menu() {
+        // Constructor
+
+        r = new Random();
+        audio = new Audio();
 
         // Frame itself
-        frame = new JFrame("Silver Slayer RPG");
+        frame = new JFrame(titleStrings[r.nextInt(titleStrings.length)]);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(frameWidth, frameHeight);
 
@@ -39,7 +52,7 @@ public class menu {
 
             if (!timer.isRunning()) {
 
-                writeText(inputField.getText().toLowerCase());
+                writeText(inputField.getText().toLowerCase(), 0);
                 inputField.setText("");
 
             }
@@ -54,22 +67,31 @@ public class menu {
 
     }
 
-    private void writeText(final String text) {
+    private void writeText(final String text, int voiceID) {
+        /*
+        * Uses the typewrite effect to print text to the screen
+        * text: The text to be written
+        * voiceID: ID for the sound to be played (use 0 for default or negative for silent)
+        */
 
+        // Special Commands
         switch (text) {
 
             case "help":
 
-                writeText("TODO: Help text\n\"exit\" - Quit the game.");
+                writeText("TODO: Help text\n\"exit\" - Quit the game.", voiceID);
                 return;
 
             case "exit":
 
                 frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+                return;
 
         }
         
         characterIndex = 0;
+        if (voiceID >= 0) audio.command(1, voiceID);
+
         this.timer = new Timer(textDelay, new ActionListener() {
             
             public void actionPerformed(ActionEvent e) {
@@ -82,6 +104,7 @@ public class menu {
                 } else {
 
                     terminal.append("\n>");
+                    if (voiceID >= 0) audio.command(0);
                     timer.stop();
 
                 }
@@ -95,11 +118,10 @@ public class menu {
     }
     
     public static void main(String[] args) {
+        // Main
 
         menu main = new menu();
-        main.writeText("Welcome to The Silver Slayer text-based RPG\n\n" +
-                         "You are at the Gate.\n\n" +
-                         "Begin by typing 'enter'\n\n");
+        main.writeText(main.introText, 0);
 
     }
 
