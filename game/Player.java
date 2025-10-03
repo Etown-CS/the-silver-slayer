@@ -20,6 +20,16 @@ public class Player {
 
     }
 
+    public void changeStats(int H, int A, int D) {
+
+        health += H;
+        attack += A;
+        defense += D;
+
+        menuRef.updateSidebar(health, attack, defense);
+
+    }
+
     public int addItem(Item item) {
         /*
          * Add an item to the player's inventory
@@ -74,9 +84,9 @@ public class Player {
 
         switch (inventory[slot].type) {
 
-            case Heal:
+            case Health:
 
-                health += inventory[slot].magnitude;
+                changeStats(inventory[slot].magnitude, 0, 0);
 
         }
 

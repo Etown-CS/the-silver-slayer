@@ -1,6 +1,6 @@
 public class Item {
 
-    ItemType type = ItemType.Heal;
+    ItemType type = ItemType.Health;
     String name;
     String useMessage;
     int magnitude;

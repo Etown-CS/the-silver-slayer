@@ -45,6 +45,7 @@ public class Menu {
                                             "Low on magenta!", "Strings 🙏"};
     private final String INTRO_TEXT = "The Silver Slayer [Beta v1.0]\n\nYou are at the Gate.\nBegin by typing 'enter'\n";
     private final String SIDEBAR_BASE = "     PLAYER     ";
+    private final String HELP_TEXT = "clear: Clear screen\n\nexit: Quit the game.\nquit: Quit the game\n\ninv: Show inventory\nInventory: Show inventory.\n\nsettings: Modify game settings\n\ntitle [int]: Display a random title or specifiy\n\nuse [int]: Use an inventory item";
 
     public Menu() {
         /* Constructor */
@@ -56,11 +57,6 @@ public class Menu {
         frame = new JFrame(TITLE_STRINGS[getRandomInt(TITLE_STRINGS.length)]);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(frameWidth, frameHeight);
-
-        // Player
-        playerRef = new Player(this);
-        playerRef.addItem(new Item("Cookie", "You ate the cookie.", 3, true));
-        playerRef.addItem(new Item("Golden Apple", "Eating gold is not good for you.", -3, true));
 
         // Display
         panel = new JPanel();
@@ -104,6 +100,12 @@ public class Menu {
         panel.add(sidebar, BorderLayout.EAST);
         panel.add(scrollPane, BorderLayout.CENTER);
 
+        // Player
+        playerRef = new Player(this);
+        playerRef.changeStats(0, 0, 0);
+        playerRef.addItem(new Item("Cookie", "You ate the cookie.", 3, true));
+        playerRef.addItem(new Item("Golden Apple", "Eating gold is not good for you.", -3, true));
+
         frame.add(panel);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
@@ -113,9 +115,9 @@ public class Menu {
 
     }
 
-    private void updateSidebar() {
+    public void updateSidebar(int H, int A, int D) {
 
-        sidebar.setText(SIDEBAR_BASE + "\n\nHealth: " + playerRef.health + "\nAttack: ?\nDefense: ?");
+        sidebar.setText(SIDEBAR_BASE + "\n\nHealth: " + H + "\nAttack: " + A + "\nDefense: " + D);
 
     }
 
@@ -131,7 +133,7 @@ public class Menu {
 
             case "help":
 
-                writeText("TODO: Help text\n\"exit\" - Quit the game.", 0);
+                writeText(HELP_TEXT, 0);
                 break;
 
             case "quit":
@@ -213,7 +215,7 @@ public class Menu {
 
             default:
 
-                writeText("Unknown command: \"" + text + '"', 0);
+                writeText("Unknown command: \"" + text + "\"\nUse 'help' to see valid commands.", 0);
                 break;
 
         }
@@ -243,7 +245,6 @@ public class Menu {
                     terminal.append(playerRef.location + "/" + playerRef.sublocation + " >");
                     if (voiceID >= 0) audio.command(0);
                     timer.stop();
-                    updateSidebar();
 
                 }
 
