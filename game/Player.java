@@ -4,6 +4,8 @@ public class Player {
     Item[] inventory = {null, null, null, null, null, null, null, null, null, null};
     int health, attack, defense, invCap;
 
+    String location, sublocation;
+
     public Player(Menu refToMenu) {
         /* Constructor */
 
@@ -12,6 +14,8 @@ public class Player {
         defense = 0;
         invCap = 5;
 
+        location = "Start";
+        sublocation = "Gate";
         menuRef = refToMenu;
 
     }
