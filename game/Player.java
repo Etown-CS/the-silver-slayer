@@ -20,6 +20,37 @@ public class Player {
 
     }
 
+    public int addItem(Item item) {
+        /*
+         * Add an item to the player's inventory
+         * Returns the number of the slot the item was placed in, or -1 if the inventory is full
+         * 
+         * item: The item to be added
+         */
+
+        for (int c = 0; c < invCap; c++) {
+
+            if (inventory[c] == null) {
+
+                inventory[c] = item;
+                return c;
+
+            }
+
+        }
+
+        return -1;
+
+    }
+
+    public String listItems() {
+
+        String inv = "";
+        for (int c = 0; c < invCap; c++) if (inventory[c] != null) inv += inventory[c].name;
+        return inv;
+
+    }
+
     public boolean useItem(int slot) {
         /*
          * Use a particular item. Checks if the target slot is valid and actually has an item

@@ -108,6 +108,14 @@ public class Menu {
                 writeText("TODO: Options", 0);
                 break;
 
+            case "inv":
+            case "inventory":
+
+                String items = playerRef.listItems();
+                if (items.length() > 0) writeText(items, 0);
+                else writeText("Your inventory is empty!", 0);
+                break;
+
             default:
 
                 writeText(text, 0);
@@ -159,8 +167,6 @@ public class Menu {
         /* Main */
 
         Menu main = new Menu();
-        // playerRef = new Player(main);
-
         main.writeText(main.INTRO_TEXT, 0);
 
     }
