@@ -24,7 +24,7 @@ public class menu {
 
     // Storage
     private final String[] titleStrings = {"Silver Slayer RPG", "Also try Terraria!", "Also try Minecraft!", "THE FOG IS COMING", "There may be an egg"};
-    private final String introText = "Welcome to The Silver Slayer text-based RPG!\n\nYou are at the Gate.\n\nBegin by typing 'enter'\n\n";
+    private final String introText = "The Silver Slayer [Version 1.0]\n\nYou are at the Gate.\nBegin by typing 'enter'\n";
 
     public menu() {
         // Constructor
@@ -37,6 +37,7 @@ public class menu {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(frameWidth, frameHeight);
 
+
         // Display
         terminal = new JTextArea();
         terminal.setEditable(false);
@@ -48,7 +49,14 @@ public class menu {
 
         // Input
         JTextField inputField = new JTextField();
-        inputField.addActionListener((ActionEvent e) -> {
+
+            inputField.setBackground(Color.BLACK);
+            inputField.setForeground(Color.GREEN);
+            inputField.setFont(new Font("Cascadia Mono", Font.PLAIN, 20));
+            inputField.setBorder(BorderFactory.createEmptyBorder()); // removes border from input field
+
+            inputField.addActionListener((ActionEvent e) -> {
+            
 
             if (!timer.isRunning()) {
 
@@ -56,7 +64,6 @@ public class menu {
                 inputField.setText("");
 
             }
-
         });
 
         // Layout
@@ -65,6 +72,8 @@ public class menu {
         frame.add(inputField, BorderLayout.SOUTH);
         frame.setVisible(true);
 
+        // Automatically clicks on input field
+        inputField.requestFocusInWindow();
     }
 
     private void writeText(final String text, int voiceID) {
