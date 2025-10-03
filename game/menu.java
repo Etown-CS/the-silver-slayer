@@ -2,22 +2,72 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 
 public class menu {
 
-    private final JTextArea terminal = new JTextArea();
+    // Core
+    JFrame frame;
+    private JTextArea terminal;
+    private JScrollPane scrollPane;
     private Timer timer;
-
     private int characterIndex;
-    private int textDelay;
+
+    // Options
+    private int frameWidth = 1000, frameHeight = 1000;
+    private int textDelay = 10;
 
     public menu() {
 
-        textDelay = 50;
+        // Frame itself
+        frame = new JFrame("Silver Slayer RPG");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(frameWidth, frameHeight);
+
+        // Display
+        terminal = new JTextArea();
+        terminal.setEditable(false);
+        terminal.setBackground(Color.BLACK);
+        terminal.setForeground(Color.GREEN);
+        terminal.setFont(new Font("Cascadia Mono", Font.PLAIN, 20));
+
+        scrollPane = new JScrollPane(terminal);
+
+        // Input
+        JTextField inputField = new JTextField();
+        inputField.addActionListener((ActionEvent e) -> {
+
+            if (!timer.isRunning()) {
+
+                writeText(inputField.getText().toLowerCase());
+                inputField.setText("");
+
+            }
+
+        });
+
+        // Layout
+        frame.setLayout(new BorderLayout());
+        frame.add(scrollPane, BorderLayout.CENTER);
+        frame.add(inputField, BorderLayout.SOUTH);
+        frame.setVisible(true);
 
     }
 
-    private void writeText(JTextArea terminal, String text) {
+    private void writeText(final String text) {
+
+        switch (text) {
+
+            case "help":
+
+                writeText("TODO: Help text\n\"exit\" - Quit the game.");
+                return;
+
+            case "exit":
+
+                frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+
+        }
         
         characterIndex = 0;
         this.timer = new Timer(textDelay, new ActionListener() {
@@ -29,7 +79,12 @@ public class menu {
                     terminal.append(String.valueOf(text.charAt(characterIndex)));
                     characterIndex++;
 
-                } else timer.stop();
+                } else {
+
+                    terminal.append("\n>");
+                    timer.stop();
+
+                }
 
             }
 
@@ -42,37 +97,9 @@ public class menu {
     public static void main(String[] args) {
 
         menu main = new menu();
-
-        JFrame frame = new JFrame("Silver Slayer RPG");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(1000, 1000);
-
-        // Display
-        JTextArea terminal = new JTextArea();
-        terminal.setEditable(false);
-        terminal.setText("Welcome to the Silver Slayer text-based RPG\n\n" +
+        main.writeText("Welcome to The Silver Slayer text-based RPG\n\n" +
                          "You are at the Gate.\n\n" +
                          "Begin by typing 'enter'\n\n");
-        terminal.setBackground(Color.BLACK);
-        terminal.setForeground(Color.GREEN);
-        terminal.setFont(new Font("Cascadia Mono", Font.PLAIN, 20));
-        
-        JScrollPane scrollPane = new JScrollPane(terminal);
-
-        // Input
-        JTextField inputField = new JTextField();
-        inputField.addActionListener((ActionEvent e) -> {
-
-            main.writeText(terminal, inputField.getText());
-            inputField.setText("");
-
-        });
-
-        // Layout
-        frame.setLayout(new BorderLayout());
-        frame.add(scrollPane, BorderLayout.CENTER);
-        frame.add(inputField, BorderLayout.SOUTH);
-        frame.setVisible(true);
 
     }
 
