@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.util.Random;
 
-public class menu {
+public class Menu {
 
     // Core
     JFrame frame;
@@ -26,7 +26,7 @@ public class menu {
     private final String[] titleStrings = {"Silver Slayer RPG", "Also try Terraria!", "Also try Minecraft!", "THE FOG IS COMING", "There may be an egg"};
     private final String introText = "The Silver Slayer [Version 1.0]\n\nYou are at the Gate.\nBegin by typing 'enter'\n";
 
-    public menu() {
+    public Menu() {
         // Constructor
 
         r = new Random();
@@ -56,7 +56,6 @@ public class menu {
             inputField.setBorder(BorderFactory.createEmptyBorder()); // removes border from input field
 
             inputField.addActionListener((ActionEvent e) -> {
-            
 
             if (!timer.isRunning()) {
 
@@ -64,6 +63,7 @@ public class menu {
                 inputField.setText("");
 
             }
+
         });
 
         // Layout
@@ -74,6 +74,7 @@ public class menu {
 
         // Automatically clicks on input field
         inputField.requestFocusInWindow();
+
     }
 
     private void writeText(final String text, int voiceID) {
@@ -129,7 +130,7 @@ public class menu {
     public static void main(String[] args) {
         // Main
 
-        menu main = new menu();
+        Menu main = new Menu();
         main.writeText(main.introText, 0);
 
     }
