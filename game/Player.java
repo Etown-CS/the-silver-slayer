@@ -46,7 +46,8 @@ public class Player {
     public String listItems() {
 
         String inv = "";
-        for (int c = 0; c < invCap; c++) if (inventory[c] != null) inv += inventory[c].name;
+        for (int c = 0; c < invCap; c++) if (inventory[c] != null) inv += "|" + inventory[c].name + "|";
+        else inv += "|_____|";
         return inv;
 
     }
@@ -71,8 +72,8 @@ public class Player {
 
         }
 
-        boolean consume = inventory[slot].use();
-        if (consume) inventory[slot] = null;
+        menuRef.writeText(inventory[slot].useMessage, 0);
+        if (inventory[slot].consumable) inventory[slot] = null;
         return true;
 
     }

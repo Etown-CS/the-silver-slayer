@@ -2,30 +2,15 @@ public class Item {
 
     ItemType type;
     String name;
+    String useMessage;
+    boolean consumable;
 
-    public Item(String itemName) {
+    public Item(String itemName, String usageText, boolean consumedOnUse) {
         /* Constructor */
 
         name = itemName;
-
-    }
-
-    public boolean use() {
-        /*
-         * Use this item
-         * Returns true if the item should be consumed; false otherwise
-         */
-
-        switch (type) {
-
-            case Heal:
-
-                System.out.println("<3");
-                return true;
-
-        }
-
-        return false;
+        useMessage = usageText;
+        consumable = consumedOnUse;
 
     }
     

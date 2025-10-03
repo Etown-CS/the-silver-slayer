@@ -49,8 +49,8 @@ public class Menu {
         frame.setSize(frameWidth, frameHeight);
 
         playerRef = new Player(this);
-
-
+        playerRef.addItem(new Item("Apple", "You ate the apple.", true));
+        playerRef.addItem(new Item("Apple", "You ate the apple.", true));
 
         // Display
         terminal = new JTextArea();
@@ -73,8 +73,9 @@ public class Menu {
 
             if (!timer.isRunning()) {
 
+                terminal.append(inputField.getText() + "\n\n");
                 readInput(inputField.getText());
-                inputField.setText("");
+                inputField.setText(null);
 
             }
 
@@ -98,8 +99,8 @@ public class Menu {
          * text: The String that was submitted
          */
 
-        text = text.strip();
-        switch (text.toLowerCase()) {
+        String[] bits = text.toLowerCase().split(" ");
+        switch (bits[0]) {
 
             case "help":
 
@@ -125,9 +126,36 @@ public class Menu {
                 else writeText("Your inventory is empty!", 0);
                 break;
 
+            case "use":
+
+                if (bits.length != 2) writeText("Specify an inventory slot.", 0);
+                else {
+
+                    int slot;
+                    try {
+
+                        slot = Integer.parseInt(bits[1]);
+                        playerRef.useItem(slot);
+
+                    } catch (NumberFormatException ex) {
+
+                        writeText(bits[1], 0);
+
+                    }
+
+                }
+
+                break;
+
+            case "clear":
+
+                terminal.setText(null);
+                writeText("", -1);
+                break;
+
             default:
 
-                writeText(text, 0);
+                writeText("Unknown command: \"" + text + '"', 0);
                 break;
 
         }
@@ -136,7 +164,7 @@ public class Menu {
 
     public void writeText(final String text, int voiceID) {
         /*
-        * Uses the typewrite effect to print text to the screen
+        * Uses the typewriter effect to print text to the screen
         *
         * text: The text to be written
         * voiceID: ID for the sound to be played (use 0 for default or negative for silent)
@@ -154,7 +182,8 @@ public class Menu {
                 else {
 
 
-                    terminal.append("\n/" + playerRef.location + "/" + playerRef.sublocation + " >");
+                    if (!text.equals("")) terminal.append("\n\n");
+                    terminal.append(playerRef.location + "/" + playerRef.sublocation + " >");
                     if (voiceID >= 0) audio.command(0);
                     timer.stop();
 
