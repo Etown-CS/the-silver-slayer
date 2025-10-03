@@ -20,14 +20,14 @@ public class Menu {
 
     // Options
     private int frameWidth = 1000, frameHeight = 1000;
-    private int textDelay = 10;
+    private int textDelay = 15;
 
     // Storage
     private final String[] titleStrings = {"Silver Slayer RPG", "Also try Terraria!", "Also try Minecraft!", "THE FOG IS COMING", "There may be an egg"};
     private final String introText = "The Silver Slayer [Version 1.0]\n\nYou are at the Gate.\nBegin by typing 'enter'\n";
 
     public Menu() {
-        // Constructor
+        /* Constructor */
 
         r = new Random();
         audio = new Audio();
@@ -50,16 +50,16 @@ public class Menu {
         // Input
         JTextField inputField = new JTextField();
 
-            inputField.setBackground(Color.BLACK);
-            inputField.setForeground(Color.GREEN);
-            inputField.setFont(new Font("Cascadia Mono", Font.PLAIN, 20));
-            inputField.setBorder(BorderFactory.createEmptyBorder()); // removes border from input field
+        inputField.setBackground(Color.BLACK);
+        inputField.setForeground(Color.GREEN);
+        inputField.setFont(new Font("Cascadia Mono", Font.PLAIN, 20));
+        inputField.setBorder(BorderFactory.createEmptyBorder()); // removes border from input field
 
-            inputField.addActionListener((ActionEvent e) -> {
+        inputField.addActionListener((ActionEvent e) -> {
 
             if (!timer.isRunning()) {
 
-                writeText(inputField.getText().toLowerCase(), 0);
+                readInput(inputField.getText());
                 inputField.setText("");
 
             }
@@ -77,27 +77,48 @@ public class Menu {
 
     }
 
-    private void writeText(final String text, int voiceID) {
+    private void readInput(String text) {
         /*
-        * Uses the typewrite effect to print text to the screen
-        * text: The text to be written
-        * voiceID: ID for the sound to be played (use 0 for default or negative for silent)
-        */
+         * Called whenever the player enters text
+         * 
+         * text: The String that was submitted
+         */
 
-        // Special Commands
-        switch (text) {
+        text = text.strip();
+        switch (text.toLowerCase()) {
 
             case "help":
 
-                writeText("TODO: Help text\n\"exit\" - Quit the game.", voiceID);
-                return;
+                writeText("TODO: Help text\n\"exit\" - Quit the game.", 0);
+                break;
 
+            case "quit":
             case "exit":
 
                 frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
-                return;
+                break;
+
+            case "settings":
+
+                writeText("TODO: Options", 0);
+                break;
+
+            default:
+
+                writeText(text, 0);
+                break;
 
         }
+
+    }
+
+    public void writeText(final String text, int voiceID) {
+        /*
+        * Uses the typewrite effect to print text to the screen
+        *
+        * text: The text to be written
+        * voiceID: ID for the sound to be played (use 0 for default or negative for silent)
+        */
         
         characterIndex = 0;
         if (voiceID >= 0) audio.command(1, voiceID);
@@ -106,12 +127,8 @@ public class Menu {
             
             public void actionPerformed(ActionEvent e) {
 
-                if (characterIndex < text.length()) {
-                    
-                    terminal.append(String.valueOf(text.charAt(characterIndex)));
-                    characterIndex++;
-
-                } else {
+                if (characterIndex < text.length()) terminal.append(String.valueOf(text.charAt(characterIndex++)));
+                else {
 
                     terminal.append("\n>");
                     if (voiceID >= 0) audio.command(0);
@@ -126,11 +143,17 @@ public class Menu {
         timer.start();
 
     }
+
+    public int getRandomInt() {return getRandomInt();}              // Return a random integer
+    public int getRandomInt(int bound) {return r.nextInt(bound);}   // Return a random integer between 0 and bound - 1
+    public double getRandomDouble() {return r.nextDouble();}        // Return a random double between 0 and 1
     
     public static void main(String[] args) {
-        // Main
+        /* Main */
 
         Menu main = new Menu();
+        Player player = new Player(main);
+
         main.writeText(main.introText, 0);
 
     }
