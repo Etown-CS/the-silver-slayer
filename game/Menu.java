@@ -18,6 +18,8 @@ public class Menu {
 
     Audio audio;
 
+    Player playerRef;
+
     // Options
     private int frameWidth = 1000, frameHeight = 1000;
     private int textDelay = 15;
@@ -36,6 +38,9 @@ public class Menu {
         frame = new JFrame(TITLE_STRINGS[getRandomInt(TITLE_STRINGS.length)]);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(frameWidth, frameHeight);
+
+        playerRef = new Player(this);
+
 
 
         // Display
@@ -119,6 +124,7 @@ public class Menu {
         * text: The text to be written
         * voiceID: ID for the sound to be played (use 0 for default or negative for silent)
         */
+
         
         characterIndex = 0;
         if (voiceID >= 0) audio.command(1, voiceID);
@@ -130,7 +136,7 @@ public class Menu {
                 if (characterIndex < text.length()) terminal.append(String.valueOf(text.charAt(characterIndex++)));
                 else {
 
-                    terminal.append("\n>");
+                    terminal.append("\n /" + playerRef.sublocation + " >");
                     if (voiceID >= 0) audio.command(0);
                     timer.stop();
 
@@ -152,7 +158,7 @@ public class Menu {
         /* Main */
 
         Menu main = new Menu();
-        Player player = new Player(main);
+        // playerRef = new Player(main);
 
         main.writeText(main.INTRO_TEXT, 0);
 
