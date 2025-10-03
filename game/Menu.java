@@ -10,9 +10,13 @@ import java.time.format.DateTimeFormatter;
 public class Menu {
 
     // Core
-    JFrame frame;
+    private JFrame frame;
+    private JPanel panel;
     private JTextArea terminal;
+    private JTextArea sidebar;
     private JScrollPane scrollPane;
+    private JTextField inputField;
+
     private Timer timer;
     private int characterIndex;
 
@@ -48,11 +52,15 @@ public class Menu {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(frameWidth, frameHeight);
 
+        // Player
         playerRef = new Player(this);
         playerRef.addItem(new Item("Apple", "You ate the apple.", true));
         playerRef.addItem(new Item("Apple", "You ate the apple.", true));
 
         // Display
+        panel = new JPanel();
+        panel.setLayout(new BorderLayout());
+
         terminal = new JTextArea();
         terminal.setEditable(false);
         terminal.setBackground(Color.BLACK);
@@ -61,14 +69,15 @@ public class Menu {
 
         scrollPane = new JScrollPane(terminal);
 
-        // Input
-        JTextField inputField = new JTextField();
+        sidebar = new JTextArea("     PLAYER     \n\nHealth: ?\nAttack: ?\nDefense: ?");
+        sidebar.setFont(new Font("Cascadia Mono", Font.BOLD, 20));
 
+        // Input
+        inputField = new JTextField();
         inputField.setBackground(Color.BLACK);
         inputField.setForeground(Color.GREEN);
         inputField.setFont(new Font("Cascadia Mono", Font.PLAIN, 20));
         inputField.setBorder(BorderFactory.createEmptyBorder()); // removes border from input field
-
         inputField.addActionListener((ActionEvent e) -> {
 
             if (!timer.isRunning()) {
@@ -82,9 +91,12 @@ public class Menu {
         });
 
         // Layout
-        frame.setLayout(new BorderLayout());
-        frame.add(scrollPane, BorderLayout.CENTER);
-        frame.add(inputField, BorderLayout.SOUTH);
+        panel.add(inputField, BorderLayout.SOUTH);
+        panel.add(sidebar, BorderLayout.EAST);
+        panel.add(scrollPane, BorderLayout.CENTER);
+
+        frame.add(panel);
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
         // Automatically clicks on input field
@@ -151,6 +163,12 @@ public class Menu {
 
                 terminal.setText(null);
                 writeText("", -1);
+                break;
+
+            case "title":
+
+                frame.setTitle(TITLE_STRINGS[getRandomInt(TITLE_STRINGS.length)]);
+                writeText("Rerolled title!", 0);
                 break;
 
             default:
