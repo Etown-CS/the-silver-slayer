@@ -38,8 +38,14 @@ public class Menu {
     private int textDelay = 15;
 
     // Storage
-    private final String[] TITLE_STRINGS = {"Silver Slayer RPG", "Also try Terraria!", "Also try Minecraft!", "THE FOG IS COMING", "There may be an egg", "It's " + LocalDateTime.now().format(dateTime) + " right now", "here come dat boi", "JOHN WAS HERE", "The name is Gus... Amon Gus", "water bottle 😭", "Microwave be like 'mmmmmmmmmmmmmmmmmmmmmmmmmmmmm BEEP BEEP BEEP BEEP BEEP'", "As I write this, it's 1:30pm on Friday, October 3rd, 2025", "[J]ohn, [A]sher, and [M]artin... JAM", "Why am I writing these?", "Silksong is out!!", "I ate my toothbrush :(", "", "o _ o", "get rekt", "Low on magenta!"};
-    private final String INTRO_TEXT = "The Silver Slayer [Version 1.0]\n\nYou are at the Gate.\nBegin by typing 'enter'\n";
+    private final String[] TITLE_STRINGS = {"Silver Slayer RPG", "Also try Terraria!", "Also try Minecraft!", "THE FOG IS COMING", 
+                                            "There may be an egg", "It's " + LocalDateTime.now().format(dateTime) + " right now", 
+                                            "here come dat boi", "JOHN WAS HERE", "The name is Gus... Amon Gus", "water bottle 😭", 
+                                            "Microwave be like 'mmmmmmmmmmmmmmmmmmmmmmmmmmmmm BEEP BEEP BEEP BEEP BEEP'", 
+                                            "As I write this, it's 1:30pm on Friday, October 3rd, 2025", "[J]ohn, [A]sher, and [M]artin... JAM", 
+                                            "Why am I writing these?", "Silksong is out!!", "I ate my toothbrush :(", "", "o _ o", "get rekt", 
+                                            "Low on magenta!", "Strings 🙏"};
+    private final String INTRO_TEXT = "The Silver Slayer [Beta v1.0]\n\nYou are at the Gate.\nBegin by typing 'enter'\n";
 
     public Menu() {
         /* Constructor */
@@ -61,6 +67,7 @@ public class Menu {
         panel = new JPanel();
         panel.setLayout(new BorderLayout());
 
+        // Terminal
         terminal = new JTextArea();
         terminal.setEditable(false);
         terminal.setBackground(Color.BLACK);
@@ -69,8 +76,12 @@ public class Menu {
 
         scrollPane = new JScrollPane(terminal);
 
+        // Sidebar
         sidebar = new JTextArea("     PLAYER     \n\nHealth: ?\nAttack: ?\nDefense: ?");
         sidebar.setFont(new Font("Cascadia Mono", Font.BOLD, 20));
+        sidebar.setEditable(false); // make player stats not editable
+        sidebar.setBackground(Color.BLACK);
+        sidebar.setForeground(Color.GREEN);
 
         // Input
         inputField = new JTextField();
@@ -162,7 +173,7 @@ public class Menu {
             case "clear":
 
                 terminal.setText(null);
-                writeText("", -1);
+                writeText("The Silver Slayer [Beta v1.0]", -1);
                 break;
 
             case "title":
