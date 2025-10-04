@@ -21,7 +21,13 @@ public class Player {
     }
 
     public void changeStats(int H, int A, int D) {
-
+        /*
+         * Change player stats
+         * 
+         * H: Mod health
+         * A: Mod attack
+         * D: Mod defense
+         */
         health += H;
         attack += A;
         defense += D;
