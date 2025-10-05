@@ -13,18 +13,20 @@ public class Menu {
     private JFrame frame;
     private JPanel panel;
     private JTextArea terminal;
-    private JTextArea sidebar;
+    private JTextArea playerBar;
+    private JTextArea enemyBar;
     private JScrollPane scrollPane;
     private JTextField inputField;
 
+    private Font gameFont;
     private Timer timer;
     private int characterIndex;
 
     Random r;
-
     Audio audio;
-
     Player playerRef;
+
+    public boolean gameOver;
 
     // Date and Time
     LocalDate dateObj = LocalDate.now();
@@ -32,8 +34,7 @@ public class Menu {
     DateTimeFormatter dateTime = DateTimeFormatter.ofPattern("HH:mm:ss 'on' E, MMM dd yyyy");
 
     // Options
-    private int frameWidth = 1000, frameHeight = 1000;
-    private int textDelay = 15;
+    private int textDelay = 10;
 
     // Storage
     private final String[] TITLE_STRINGS = {"Silver Slayer RPG", "Also try Terraria!", "Also try Minecraft!", "THE FOG IS COMING", 
@@ -42,9 +43,8 @@ public class Menu {
                                             "Microwave be like 'mmmmmmmmmmmmmmmmmmmmmmmmmmmmm BEEP BEEP BEEP BEEP BEEP'", 
                                             "As I write this, it's 1:30pm on Friday, October 3rd, 2025", "[J]ohn, [A]sher, and [M]artin... JAM", 
                                             "Why am I writing these?", "Silksong is out!!", "I ate my toothbrush :(", "", "o _ o", "get rekt", 
-                                            "Low on magenta!", "Strings 🙏"};
+                                            "Low on magenta!", "Strings 🙏", "WORK is a dish best served NO"};
     private final String INTRO_TEXT = "The Silver Slayer [Beta v1.0]\n\nYou are at the Gate.\nBegin by typing 'enter'";
-    private final String SIDEBAR_BASE = "     PLAYER     ";
     private final String HELP_TEXT = "clear: Clear screen\n\nexit: Quit the game.\nquit: Quit the game\n\ninv: Show inventory\nInventory: Show inventory.\n\nsettings: Modify game settings\n\ntitle [int]: Display a random title or specifiy\n\nuse [int]: Use an inventory item";
 
     public Menu() {
@@ -52,37 +52,48 @@ public class Menu {
 
         r = new Random();
         audio = new Audio();
+        gameFont = new Font("Cascadia Mono", Font.PLAIN, 20);
+        gameOver = false;
 
         // Frame itself
         frame = new JFrame(TITLE_STRINGS[getRandomInt(TITLE_STRINGS.length)]);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(frameWidth, frameHeight);
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
         // Display
         panel = new JPanel();
         panel.setLayout(new BorderLayout());
 
         // Terminal
-        terminal = new JTextArea();
+        terminal = new JTextArea("", 1, 30);
         terminal.setEditable(false);
         terminal.setBackground(Color.BLACK);
         terminal.setForeground(Color.GREEN);
-        terminal.setFont(new Font("Cascadia Mono", Font.PLAIN, 20));
+        terminal.setFont(gameFont);
 
         scrollPane = new JScrollPane(terminal);
 
-        sidebar = new JTextArea(SIDEBAR_BASE + "\n\nHealth: ?\nAttack: ?\nDefense: ?");
-        sidebar.setFont(new Font("Cascadia Mono", Font.BOLD, 20));
-        sidebar.setEditable(false); // make player stats not editable
-        sidebar.setBackground(Color.BLACK);
-        sidebar.setForeground(Color.GREEN);
+        // Right (player's) sidebar
+        playerBar = new JTextArea("PLAYER\n\nHealth: ?\nAttack: ?\nDefense: ?", 1, 10);
+        playerBar.setFont(gameFont);
+        playerBar.setEditable(false); // make player stats not editable
+        playerBar.setBackground(Color.BLACK);
+        playerBar.setForeground(Color.GREEN);
+
+        // Left (enemy's) sidebar
+        enemyBar = new JTextArea("ENEMY", 1, 10);
+        enemyBar.setFont(gameFont);
+        enemyBar.setEditable(false);
+        enemyBar.setBackground(Color.BLACK);
+        enemyBar.setForeground(Color.GREEN);
 
         // Input
         inputField = new JTextField();
         inputField.setBackground(Color.BLACK);
         inputField.setForeground(Color.GREEN);
-        inputField.setFont(new Font("Cascadia Mono", Font.PLAIN, 20));
+        inputField.setFont(gameFont);
         inputField.setBorder(BorderFactory.createEmptyBorder()); // removes border from input field
+        inputField.setHorizontalAlignment(JTextField.CENTER);
         inputField.addActionListener((ActionEvent e) -> {
 
             if (!timer.isRunning()) {
@@ -97,14 +108,15 @@ public class Menu {
 
         // Layout
         panel.add(inputField, BorderLayout.SOUTH);
-        panel.add(sidebar, BorderLayout.EAST);
         panel.add(scrollPane, BorderLayout.CENTER);
+        panel.add(playerBar, BorderLayout.EAST);
+        panel.add(enemyBar, BorderLayout.WEST);
 
         // Player
         playerRef = new Player(this);
         playerRef.changeStats(0, 0, 0);
-        playerRef.addItem(new Item("Cookie", "You ate the cookie.", 3, true));
-        playerRef.addItem(new Item("Golden Apple", "Eating gold is not good for you.", -3, true));
+        playerRef.addItem(new Item("Cookie", "You ate the cookie.\n+3 health!", 3, true));
+        playerRef.addItem(new Item("Golden Apple", "Eating gold is not good for you.\n-3 health!", -3, true));
 
         frame.add(panel);
         frame.setLocationRelativeTo(null);
@@ -115,9 +127,9 @@ public class Menu {
 
     }
 
-    public void updateSidebar(int H, int A, int D) {
+    public void updatePlayerBar(int H, int A, int D) {
 
-        sidebar.setText(SIDEBAR_BASE + "\n\nHealth: " + H + "\nAttack: " + A + "\nDefense: " + D);
+        playerBar.setText("PLAYER\n\nHealth: " + H + "\nAttack: " + A + "\nDefense: " + D);
 
     }
 
@@ -128,6 +140,7 @@ public class Menu {
          * text: The String that was submitted
          */
 
+        if (gameOver) return;
         String[] bits = text.toLowerCase().split(" ");
         switch (bits[0]) {
 
@@ -205,7 +218,7 @@ public class Menu {
 
                     } catch (NumberFormatException ex) {
 
-                        writeText(bits[1], 0);
+                        writeText('"' + bits[1] + "\" is not a valid title ID.", 0);
 
                     }
 
@@ -242,8 +255,9 @@ public class Menu {
                 else {
 
                     if (!text.equals("")) terminal.append("\n\n");
-                    terminal.append(playerRef.location + "/" + playerRef.sublocation + " >");
                     if (voiceID >= 0) audio.command(0);
+                    if (!gameOver) terminal.append(playerRef.location + "/" + playerRef.sublocation + " > ");
+                    else terminate();
                     timer.stop();
 
                 }
@@ -253,6 +267,14 @@ public class Menu {
         });
 
         timer.start();
+
+    }
+
+    public void terminate() {
+
+        panel.remove(inputField);
+        frame.setTitle("Game Over");
+        JOptionPane.showMessageDialog(panel, "You have been terminated.", "Game Over", JOptionPane.ERROR_MESSAGE);
 
     }
 

@@ -31,12 +31,11 @@ public class Player {
         health += H;
         attack += A;
         defense += D;
-        menuRef.updateSidebar(health, attack, defense);
+        menuRef.updatePlayerBar(health, attack, defense);
 
         if (health <= 0) {
 
-            // TODO: Die
-            System.out.println("💀");
+            menuRef.gameOver = true;
 
         }
 
