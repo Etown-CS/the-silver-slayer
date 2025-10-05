@@ -22,10 +22,10 @@ public class Menu {
     private Timer timer;
     private int characterIndex;
 
-    Random r;
-    Audio audio;
-    Player playerRef;
-
+    private Random r;
+    private Audio audio;
+    private Story theStory;
+    public Player playerRef;
     public boolean gameOver;
 
     // Date and Time
@@ -40,10 +40,10 @@ public class Menu {
     private final String[] TITLE_STRINGS = {"Silver Slayer RPG", "Also try Terraria!", "Also try Minecraft!", "THE FOG IS COMING", 
                                             "There may be an egg", "It's " + LocalDateTime.now().format(dateTime) + " right now", 
                                             "here come dat boi", "JOHN WAS HERE", "The name is Gus... Amon Gus", "water bottle 😭", 
-                                            "Microwave be like 'mmmmmmmmmmmmmmmmmmmmmmmmmmmmm BEEP BEEP BEEP BEEP BEEP'", 
+                                            "Microwave be like 'mmmmmmmmmmmmmmmmmmmmmmmmmmmmm BEEP BEEP BEEP BEEP'", "-inf < x < inf", 
                                             "As I write this, it's 1:30pm on Friday, October 3rd, 2025", "[J]ohn, [A]sher, and [M]artin... JAM", 
-                                            "Why am I writing these?", "Silksong is out!!", "I ate my toothbrush :(", "", "o _ o", "get rekt", 
-                                            "Low on magenta!", "Strings 🙏", "WORK is a dish best served NO"};
+                                            "Why am I writing these?", "Silksong is out!", "I ate my toothbrush :(", "o _ o", "get rekt", 
+                                            "Low on magenta!", "Strings 🙏", "WORK is a dish best served NO", "jk jk............ unless?"};
     private final String INTRO_TEXT = "The Silver Slayer [Beta v1.0]\n\nYou are at the Gate.\nBegin by typing 'enter'";
     private final String HELP_TEXT = "clear: Clear screen\n\nexit: Quit the game.\nquit: Quit the game\n\ninv: Show inventory\nInventory: Show inventory.\n\nsettings: Modify game settings\n\ntitle [int]: Display a random title or specifiy\n\nuse [int]: Use an inventory item";
 
@@ -111,6 +111,9 @@ public class Menu {
         panel.add(scrollPane, BorderLayout.CENTER);
         panel.add(playerBar, BorderLayout.EAST);
         panel.add(enemyBar, BorderLayout.WEST);
+
+        // Story
+        theStory = new Story(this); // Making it create a "new story" has so much aura
 
         // Player
         playerRef = new Player(this);
