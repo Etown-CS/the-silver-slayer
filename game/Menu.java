@@ -178,8 +178,6 @@ public class Menu {
                     try {
 
                         int slot = Integer.parseInt(bits[1]);
-                        playerRef.useItem(slot);
-
                         if (slot < 0 || slot > playerRef.invCap) writeText(slot + " is not a valid slot.", 0);
                         else if (playerRef.inventory[slot] == null) writeText("Slot " + slot + " is empty.", 0);
                         else writeText(playerRef.useItem(slot), 0);
