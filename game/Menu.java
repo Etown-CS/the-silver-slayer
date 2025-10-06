@@ -117,8 +117,6 @@ public class Menu {
         // Player
         playerRef = new Player(this);
         playerRef.changeStats(0, 0, 0);
-        playerRef.addItem(new Item("Cookie", "You ate the cookie.\n+3 health!", 3, true));
-        playerRef.addItem(new Item("Golden Apple", "Eating gold is not good for you.\n-3 health!", -3, true));
 
         frame.add(panel);
         frame.setLocationRelativeTo(null);
@@ -178,7 +176,7 @@ public class Menu {
                     try {
 
                         int slot = Integer.parseInt(bits[1]);
-                        if (slot < 0 || slot > playerRef.invCap) writeText(slot + " is not a valid slot.", 0);
+                        if (slot < 0 || slot >= playerRef.invCap) writeText(slot + " is not a valid slot.", 0);
                         else if (playerRef.inventory[slot] == null) writeText("Slot " + slot + " is empty.", 0);
                         else writeText(playerRef.useItem(slot), 0);
 
