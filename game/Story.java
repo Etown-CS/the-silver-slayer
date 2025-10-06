@@ -3,7 +3,7 @@ public class Story {
     // The idea for this class is to store all the story elements here
     // This way it won't get in the way of the code
 
-    public String[] start = {};
+    public String[] start = {"Someone write something with mad aura here for the first event"};
     public String[] village = {};
     public String[] lake = {};
     public String[] mountain = {};
@@ -14,14 +14,6 @@ public class Story {
     public String[] fracture = {};
     public String[] lair = {};
     public String[][] locations = {start, village, lake, mountain, cave, mine, desert, swamp, fracture, lair};
-
-    private Menu menuRef;
-
-    public Story(Menu main) {
-
-        menuRef = main;
-
-    }
 
     public String getEvent(int locationID, int eventID) {
 

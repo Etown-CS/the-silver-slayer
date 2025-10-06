@@ -1,10 +1,9 @@
 public class Player {
 
-    Menu menuRef;
-    Item[] inventory = {null, null, null, null, null, null, null, null, null, null};
-    int health, attack, defense, invCap;
-
-    String location, sublocation;
+    private Menu menuRef;
+    public Item[] inventory = {null, null, null, null, null, null, null, null, null, null};
+    public String location, sublocation;
+    public int health, attack, defense, invCap;
 
     public Player(Menu refToMenu) {
         /* Constructor */
@@ -73,37 +72,18 @@ public class Player {
 
     }
 
-    public boolean useItem(int slot) {
+    public String useItem(int slot) {
         /*
-         * Use a particular item. Checks if the target slot is valid and actually has an item
-         * Returns true if the item was successfully used; false otherwise
+         * Use a particular item.
+         * Returns the item's usage message
          * 
          * slot: The inventory slot of the item to be used
          */
-
-        if (slot < 0 || slot > invCap) {
-
-            menuRef.writeText("Invalid slot number!", 0);
-            return false;
-
-        } else if (inventory[slot] == null) {
-
-            menuRef.writeText("Slot " + slot + " is empty.", 0);
-            return false;
-
-        }
-
-        switch (inventory[slot].type) {
-
-            case Health:
-
-                changeStats(inventory[slot].magnitude, 0, 0);
-
-        }
-
-        menuRef.writeText(inventory[slot].useMessage, 0);
+        
+        String msg = inventory[slot].useMessage;
+        if (inventory[slot].type == ItemType.Health) changeStats(inventory[slot].magnitude, 0, 0);
         if (inventory[slot].consumable) inventory[slot] = null;
-        return true;
+        return msg;
 
     }
     

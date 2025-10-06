@@ -45,7 +45,6 @@ public class Menu {
                                             "Why am I writing these?", "Silksong is out!", "I ate my toothbrush :(", "o _ o", "get rekt", 
                                             "Low on magenta!", "Strings 🙏", "WORK is a dish best served NO", "jk jk............ unless?"};
     private final String INTRO_TEXT = "The Silver Slayer [Beta v1.0]\n\nYou are at the Gate.\nBegin by typing 'enter'";
-    private final String HELP_TEXT = "clear: Clear screen\n\nexit: Quit the game.\nquit: Quit the game\n\ninv: Show inventory\nInventory: Show inventory.\n\nsettings: Modify game settings\n\ntitle [int]: Display a random title or specifiy\n\nuse [int]: Use an inventory item";
 
     public Menu() {
         /* Constructor */
@@ -113,7 +112,7 @@ public class Menu {
         panel.add(enemyBar, BorderLayout.WEST);
 
         // Story
-        theStory = new Story(this); // Making it create a "new story" has so much aura
+        theStory = new Story(); // Making it create a "new story" has so much aura
 
         // Player
         playerRef = new Player(this);
@@ -149,7 +148,7 @@ public class Menu {
 
             case "help":
 
-                writeText(HELP_TEXT, 0);
+                writeText("clear: Clear screen\n\nexit: Quit the game.\nquit: Quit the game\n\ninv: Show inventory\nInventory: Show inventory.\n\nsettings: Modify game settings\n\ntitle [int]: Display a random title or specifiy\n\nuse [int]: Use an inventory item", 0);
                 break;
 
             case "quit":
@@ -173,18 +172,21 @@ public class Menu {
 
             case "use":
 
-                if (bits.length != 2) writeText("Specify an inventory slot.", 0);
+                if (bits.length < 2) writeText("Specify an inventory slot.", 0);
                 else {
 
-                    int slot;
                     try {
 
-                        slot = Integer.parseInt(bits[1]);
+                        int slot = Integer.parseInt(bits[1]);
                         playerRef.useItem(slot);
+
+                        if (slot < 0 || slot > playerRef.invCap) writeText(slot + " is not a valid slot.", 0);
+                        else if (playerRef.inventory[slot] == null) writeText("Slot " + slot + " is empty.", 0);
+                        else writeText(playerRef.useItem(slot), 0);
 
                     } catch (NumberFormatException ex) {
 
-                        writeText('"' + bits[1] + "\" is not a valid slot.", 0);
+                        writeText('"' + bits[1] + "\" is not a valid inventory slot.", 0);
 
                     }
 
@@ -200,17 +202,16 @@ public class Menu {
 
             case "title":
 
-                if (bits.length != 2) {
+                if (bits.length < 2) {
 
                     frame.setTitle(TITLE_STRINGS[getRandomInt(TITLE_STRINGS.length)]);
                     writeText("Rerolled title!", 0);
 
                 } else {
 
-                    int slot;
                     try {
 
-                        slot = Integer.parseInt(bits[1]);
+                        int slot = Integer.parseInt(bits[1]);
                         if (slot < 0 || slot > TITLE_STRINGS.length - 1) writeText(slot + " is out of range.", 0);
                         else {
 
@@ -227,6 +228,11 @@ public class Menu {
 
                 }
 
+                break;
+
+            case "enter":
+
+                writeText(theStory.getEvent(0, 0), 0);
                 break;
 
             default:
