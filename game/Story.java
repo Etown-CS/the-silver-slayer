@@ -3,7 +3,7 @@ public class Story {
     // The idea for this class is to store all the story elements here
     // This way it won't get in the way of the code
 
-    public String[] start = {"Someone write something with mad aura here for the first event"};
+    public String[] start = {"Someone write something with mad aura here for the first event\nAlso I found this goofy song to use for testing"};
     public String[] village = {};
     public String[] lake = {};
     public String[] mountain = {};

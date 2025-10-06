@@ -27,7 +27,8 @@ public class Menu {
     public boolean gameOver;
 
     // Sounds
-    private Audio terminalSound = new Audio("game/sound/blip.wav");
+    private Audio terminalSound = new Audio("blip.wav");
+    private Audio bgMusic;
 
     // Date and Time
     private DateTimeFormatter dateTime = DateTimeFormatter.ofPattern("HH:mm:ss 'on' E, MMM dd yyyy");
@@ -43,6 +44,7 @@ public class Menu {
                                             "As I write this, it's 1:30pm on Friday, October 3rd, 2025", "[J]ohn, [A]sher, and [M]artin... JAM", 
                                             "Why am I writing these?", "Silksong is out!", "I ate my toothbrush :(", "o _ o", "get rekt", 
                                             "Low on magenta!", "Strings 🙏", "WORK is a dish best served NO", "jk jk............ unless?"};
+    private final String[] GAME_OVERS = {"How unfortunate", "That's gonna leave a mark", "Better luck some time!", "oof", "bruh.mp3"};
     private final String INTRO_TEXT = "The Silver Slayer [Beta v1.0]\n\nYou are at the Gate.\nBegin by typing 'enter'";
 
     public Menu() {
@@ -228,6 +230,9 @@ public class Menu {
 
             case "enter":
 
+                bgMusic = new Audio("mushroom_music.wav");
+                try {bgMusic.command(1);}
+                catch (Exception ex) {ex.printStackTrace();}
                 writeText(theStory.getEvent(0, 0), 0);
                 break;
 
@@ -267,8 +272,8 @@ public class Menu {
                 else {
 
                     if (voiceID >= 0) terminalSound.command(0);
-                    if (!gameOver) terminal.append("\n\n" + playerRef.location + "/" + playerRef.sublocation + " > ");
-                    else terminate();
+                    terminal.append("\n\n" + playerRef.location + "/" + playerRef.sublocation + " > ");
+                    if (gameOver) terminate();
                     timer.stop();
 
                 }
@@ -283,10 +288,11 @@ public class Menu {
 
     public void terminate() {
 
+        if (bgMusic != null) bgMusic.command(0);
         panel.remove(inputField);
         frame.setTitle("Game Over");
-        JOptionPane.showMessageDialog(panel, "You have been terminated.", "Game Over", JOptionPane.ERROR_MESSAGE);
-
+        JOptionPane.showMessageDialog(panel, "You have been terminated.", GAME_OVERS[getRandomInt(GAME_OVERS.length)], JOptionPane.ERROR_MESSAGE);
+        
     }
 
     public int getRandomInt() {return getRandomInt();}              // Return a random integer
