@@ -11,9 +11,15 @@ public class Audio {
 
     AudioInputStream stream;
     Clip clip;
+    String filePath;
 
-    public void command(int cmd) {command(cmd, 0);}
-    public void command(int cmd, int id) {
+    public Audio (String path) {
+
+        filePath = path;
+
+    }
+
+    public void command(int cmd) {
         /*
          * Function for managing an instance of Audio
          * 
@@ -22,37 +28,26 @@ public class Audio {
          *      Default: Stop the sound
          */
 
-        try {
+        switch (cmd) {
 
-            switch (cmd) {
+            case 1:
 
-                case 1:
-
-                    play(id);
-                    break;
-
-                default:
-
-                    stop();
-                    break;
-
-            }
-
-        } catch (Exception ex) {System.out.println("WARN: Failed to manage sound with ID " + id);}
-
-    }
-
-    private void play(int id) throws IOException, LineUnavailableException, UnsupportedAudioFileException {
-   
-        switch (id) {
+                try {play();}
+                catch (Exception ex) {System.out.println("WARN: Failed to play sound.");}
+                break;
 
             default:
 
-                stream = AudioSystem.getAudioInputStream(new File("game/sound/blip.wav").getAbsoluteFile());
+                stop();
                 break;
 
         }
 
+    }
+
+    private void play() throws IOException, LineUnavailableException, UnsupportedAudioFileException {
+
+        stream = AudioSystem.getAudioInputStream(new File(filePath).getAbsoluteFile());
         clip = AudioSystem.getClip();
         clip.open(stream);
         clip.loop(-1);
@@ -60,7 +55,7 @@ public class Audio {
 
     }
 
-    private void stop() throws IOException, LineUnavailableException, UnsupportedAudioFileException {
+    private void stop() {
 
         clip.stop();
         clip.close();

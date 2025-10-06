@@ -1,7 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.util.Random;
 import java.time.*;
@@ -19,19 +18,19 @@ public class Menu {
     private JTextField inputField;
 
     private Font gameFont;
-    private Timer timer;
+    private Timer timer = new Timer(0, null);
     private int characterIndex;
 
     private Random r;
-    private Audio audio;
     private Story theStory;
     public Player playerRef;
     public boolean gameOver;
 
+    // Sounds
+    private Audio terminalSound = new Audio("game/sound/blip.wav");
+
     // Date and Time
-    LocalDate dateObj = LocalDate.now();
-    LocalTime timeObj = LocalTime.now();
-    DateTimeFormatter dateTime = DateTimeFormatter.ofPattern("HH:mm:ss 'on' E, MMM dd yyyy");
+    private DateTimeFormatter dateTime = DateTimeFormatter.ofPattern("HH:mm:ss 'on' E, MMM dd yyyy");
 
     // Options
     private int textDelay = 10;
@@ -50,7 +49,6 @@ public class Menu {
         /* Constructor */
 
         r = new Random();
-        audio = new Audio();
         gameFont = new Font("Cascadia Mono", Font.PLAIN, 20);
         gameOver = false;
 
@@ -250,20 +248,26 @@ public class Menu {
         * voiceID: ID for the sound to be played (use 0 for default or negative for silent)
         */
 
-        
-        characterIndex = 0;
-        if (voiceID >= 0) audio.command(1, voiceID);
+        if (timer.isRunning()) {
 
-        this.timer = new Timer(textDelay, new ActionListener() {
+            System.out.println("WARN: Attempt to call writeText whilst timer is still active.");
+            return;
+
+        }
+        
+        if (voiceID >= 0) terminalSound.command(1);
+        characterIndex = 0;
+
+        this.timer = new Timer(textDelay, new AbstractAction() {
             
+            @Override
             public void actionPerformed(ActionEvent e) {
 
                 if (characterIndex < text.length()) terminal.append(String.valueOf(text.charAt(characterIndex++)));
                 else {
 
-                    if (!text.equals("")) terminal.append("\n\n");
-                    if (voiceID >= 0) audio.command(0);
-                    if (!gameOver) terminal.append(playerRef.location + "/" + playerRef.sublocation + " > ");
+                    if (voiceID >= 0) terminalSound.command(0);
+                    if (!gameOver) terminal.append("\n\n" + playerRef.location + "/" + playerRef.sublocation + " > ");
                     else terminate();
                     timer.stop();
 
