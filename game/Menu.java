@@ -190,6 +190,28 @@ public class Menu {
 
                 break;
 
+            case "drop":
+
+                if (bits.length < 2) writeText("Specify an inventory slot.", 0);
+                else {
+
+                    try {
+
+                        int slot = Integer.parseInt(bits[1]);
+                        if (slot < 0 || slot >= playerRef.invCap) writeText(slot + " is not a valid slot.", 0);
+                        else if (playerRef.inventory[slot] == null) writeText("Slot " + slot + " is already empty.", 0);
+                        else writeText("Dropped '" + playerRef.removeItem(slot) + "' from inventory.", 0);
+
+                    } catch (NumberFormatException ex) {
+
+                        writeText('"' + bits[1] + "\" is not a valid inventory slot.", 0);
+
+                    }
+
+                }
+
+                break;
+
             case "clear":
 
                 terminal.setText(null);

@@ -73,6 +73,14 @@ public class Player {
 
     }
 
+    public String removeItem(int slot) {
+
+        String tmp = inventory[slot].name;
+        inventory[slot] = null;
+        return tmp;
+        
+    }
+
     public String listItems() {
 
         String inv = "";
