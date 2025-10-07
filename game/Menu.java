@@ -40,12 +40,11 @@ public class Menu {
     private final String[] TITLE_STRINGS = {"Silver Slayer RPG", "Also try Terraria!", "Also try Minecraft!", "THE FOG IS COMING", 
                                             "There may be an egg", "It's " + LocalDateTime.now().format(dateTime) + " right now", 
                                             "here come dat boi", "JOHN WAS HERE", "The name is Gus... Amon Gus", "water bottle 😭", 
-                                            "Microwave be like 'mmmmmmmmmmmmmmmmmmmmmmmmmmmmm BEEP BEEP BEEP BEEP'", "-inf < x < inf", 
+                                            "Microwave be like 'mmmmmm BEEP BEEP BEEP BEEP'", "-inf < x < inf", 
                                             "As I write this, it's 1:30pm on Friday, October 3rd, 2025", "[J]ohn, [A]sher, and [M]artin... JAM", 
                                             "Why am I writing these?", "Silksong is out!", "I ate my toothbrush :(", "o _ o", "get rekt", 
                                             "Low on magenta!", "Strings 🙏", "WORK is a dish best served NO", "jk jk............ unless?"};
     private final String[] GAME_OVERS = {"How unfortunate", "That's gonna leave a mark", "Better luck some time!", "oof", "bruh.mp3"};
-    private final String INTRO_TEXT = "The Silver Slayer [Beta v1.0]\n\nYou are at the Gate.\nBegin by typing 'enter'";
 
     public Menu() {
         /* Constructor */
@@ -128,6 +127,13 @@ public class Menu {
     }
 
     public void updatePlayerBar(int H, int A, int D) {
+        /*
+         * Updates the player's sidebar
+         * 
+         * H: Health value
+         * A: Attack value
+         * D: Defense value
+         */
 
         playerBar.setText("PLAYER\n\nHealth: " + H + "\nAttack: " + A + "\nDefense: " + D);
 
@@ -163,9 +169,7 @@ public class Menu {
             case "inv":
             case "inventory":
 
-                String items = playerRef.listItems();
-                if (items.length() > 0) writeText(items, 0);
-                else writeText("Your inventory is empty!", 0);
+                writeText(playerRef.listItems(), 0);
                 break;
 
             case "use":
@@ -176,7 +180,7 @@ public class Menu {
                     try {
 
                         int slot = Integer.parseInt(bits[1]);
-                        if (slot < 0 || slot >= playerRef.invCap) writeText(slot + " is not a valid slot.", 0);
+                        if (slot < 0 || slot >= playerRef.invCap) writeText(slot + " is not a valid inventory slot.", 0);
                         else if (playerRef.inventory[slot] == null) writeText("Slot " + slot + " is empty.", 0);
                         else writeText(playerRef.useItem(slot), 0);
 
@@ -198,7 +202,7 @@ public class Menu {
                     try {
 
                         int slot = Integer.parseInt(bits[1]);
-                        if (slot < 0 || slot >= playerRef.invCap) writeText(slot + " is not a valid slot.", 0);
+                        if (slot < 0 || slot >= playerRef.invCap) writeText(slot + " is not a valid inventory slot.", 0);
                         else if (playerRef.inventory[slot] == null) writeText("Slot " + slot + " is already empty.", 0);
                         else writeText("Dropped '" + playerRef.removeItem(slot) + "' from inventory.", 0);
 
@@ -268,6 +272,7 @@ public class Menu {
     public void writeText(final String text, int voiceID) {
         /*
         * Uses the typewriter effect to print text to the screen
+        * SHOULD ONLY EVER BE CALLED FROM readInput()
         *
         * text: The text to be written
         * voiceID: ID for the sound to be played (use 0 for default or negative for silent)
@@ -307,6 +312,10 @@ public class Menu {
     }
 
     public void terminate() {
+        /*
+         * Ends the game
+         * Remove the inputField and displays a game over message
+         */
 
         if (bgMusic != null) bgMusic.command(0);
         panel.remove(inputField);
@@ -323,7 +332,7 @@ public class Menu {
         /* Main */
 
         Menu main = new Menu();
-        main.writeText(main.INTRO_TEXT, 0);
+        main.writeText("The Silver Slayer [Beta v1.0]\n\nYou are at the Gate.\nBegin by typing 'enter'", 0);
 
     }
 

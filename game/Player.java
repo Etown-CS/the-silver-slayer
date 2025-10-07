@@ -74,7 +74,13 @@ public class Player {
     }
 
     public String removeItem(int slot) {
+        /*
+         * Remove an item from the players inventory
+         * 
+         * slot: The inventory slot to clear
+         */
 
+        if (inventory[slot] == null) return null;
         String tmp = inventory[slot].name;
         inventory[slot] = null;
         return tmp;
@@ -82,6 +88,9 @@ public class Player {
     }
 
     public String listItems() {
+        /*
+         * Print out entirety of player's inventory
+         */
 
         String inv = "";
         int count = 0;
@@ -117,12 +126,23 @@ public class Player {
     }
 
     public void attackEnemy(Enemy target) {
+        /*
+         * Attack an enemy!
+         * 
+         * target: The enemy object that's under fire
+         */
 
         target.getAttacked(attack);
 
     }
 
     public int playerAttacked(int dmg) {
+        /*
+         * Use this to deal damage to the player
+         * Minimum damage taken cannot be <1
+         * 
+         * dmg: Incoming damage amount
+         */
 
         int netDamage = dmg - defense;
         if (netDamage < 1) netDamage = 1;
