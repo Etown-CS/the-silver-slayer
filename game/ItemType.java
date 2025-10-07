@@ -4,6 +4,6 @@ public enum ItemType {
      * Health: Something that modifies the player's health, either positively or negatively
      */
 
-    Unassigned, Junk, Health;
+    Unassigned, Junk, Health, Weapon, Wearable;
     
 }

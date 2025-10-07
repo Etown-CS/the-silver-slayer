@@ -2,6 +2,7 @@ public class Player {
 
     private Menu menuRef;
     public Item[] inventory = {null, null, null, null, null, null, null, null, null, null};
+    public Item currentWeapon = null;
     public String location, sublocation;
     public int health, attack, defense, invCap;
 
@@ -21,6 +22,7 @@ public class Player {
         addItem(new Item("Golden Apple", ItemType.Health, "Eating gold is not good for you.\n-3 health!", -3, true));
         addItem(new Item("Pebble", ItemType.Junk, "It's a small, white pebble.", 0, false));
         addItem(new Item("BBQ Bacon Burger", ItemType.Health, "You ate the BBQ Bacon Burger.\n+5 health!", 5, true));
+        addItem(new Item("Comically Large Spoon", ItemType.Weapon, "Equipped the Comically Large Spoon.", 5, false));
 
     }
 
@@ -82,6 +84,7 @@ public class Player {
 
         if (inventory[slot] == null) return null;
         String tmp = inventory[slot].name;
+        if (inventory[slot] == currentWeapon) currentWeapon = null;
         inventory[slot] = null;
         return tmp;
         
@@ -99,7 +102,9 @@ public class Player {
 
             if (inventory[c] != null) {
 
-                inv += "Slot " + c + ": " + inventory[c].name + "\n";
+                inv += "Slot " + c + ": " + inventory[c].name;
+                if (inventory[c] == currentWeapon) inv += " *";
+                inv += "\n";
                 count++;
 
             } else inv += "Slot " + c + ": \n";
@@ -120,6 +125,7 @@ public class Player {
         
         String msg = inventory[slot].useMessage;
         if (inventory[slot].type == ItemType.Health) changeStats(inventory[slot].magnitude, 0, 0);
+        else if (inventory[slot].type == ItemType.Weapon) currentWeapon = inventory[slot];
         if (inventory[slot].consumable) inventory[slot] = null;
         return msg;
 
@@ -132,7 +138,8 @@ public class Player {
          * target: The enemy object that's under fire
          */
 
-        target.getAttacked(attack);
+        if (currentWeapon == null) target.getAttacked(attack);
+        else target.getAttacked(attack + currentWeapon.magnitude);
 
     }
 
