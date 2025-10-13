@@ -8,9 +8,9 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class Audio {
 
-    AudioInputStream stream;
-    Clip clip;
-    String filePath;
+    private AudioInputStream stream;
+    private Clip clip;
+    private String filePath;
 
     public Audio (String fileName) {
 
@@ -18,6 +18,7 @@ public class Audio {
 
     }
 
+    public void command() {command(0);}
     public void command(int cmd) {
         /*
          * Function for managing an instance of Audio

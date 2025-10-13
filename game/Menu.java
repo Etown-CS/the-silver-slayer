@@ -27,7 +27,7 @@ public class Menu {
     public boolean gameOver;
 
     // Sounds
-    private Audio terminalSound = new Audio("blip.wav");
+    private Audio[] voices = {new Audio("blip.wav")};
     private Audio bgMusic;
 
     // Date and Time
@@ -285,7 +285,7 @@ public class Menu {
 
         }
         
-        if (voiceID >= 0) terminalSound.command(1);
+        if (voiceID >= 0) voices[voiceID].command(1);
         characterIndex = 0;
 
         this.timer = new Timer(textDelay, new AbstractAction() {
@@ -296,7 +296,7 @@ public class Menu {
                 if (characterIndex < text.length()) terminal.append(String.valueOf(text.charAt(characterIndex++)));
                 else {
 
-                    if (voiceID >= 0) terminalSound.command(0);
+                    if (voiceID >= 0) voices[voiceID].command();
                     terminal.append("\n\n" + playerRef.location + "/" + playerRef.sublocation + " > ");
                     if (gameOver) terminate();
                     timer.stop();
