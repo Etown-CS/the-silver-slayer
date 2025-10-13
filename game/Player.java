@@ -2,7 +2,7 @@ public class Player {
 
     private Menu menuRef;
     public Item[] inventory = {null, null, null, null, null, null, null, null, null, null};
-    public Item currentWeapon = null;
+    public Item currentArmor = null, currentWeapon = null, currentWearable = null;
     public String location, sublocation;
     public int health, attack, defense, invCap;
 
@@ -18,11 +18,11 @@ public class Player {
         sublocation = "Gate";
         menuRef = refToMenu;
 
-        addItem(new Item("Cookie", ItemType.Health, "You ate the cookie.\n+3 health!", 3, true));
-        addItem(new Item("Golden Apple", ItemType.Health, "Eating gold is not good for you.\n-3 health!", -3, true));
+        addItem(new Item("Paper Hat", ItemType.Armor, "A carefully folded origami hat.", 1, false));
+        addItem(new Item("Golden Apple", ItemType.Health, "A normal apple but encased in gold.", -3, true));
         addItem(new Item("Pebble", ItemType.Junk, "It's a small, white pebble.", 0, false));
-        addItem(new Item("BBQ Bacon Burger", ItemType.Health, "You ate the BBQ Bacon Burger.\n+5 health!", 5, true));
-        addItem(new Item("Comically Large Spoon", ItemType.Weapon, "Equipped the Comically Large Spoon.", 5, false));
+        addItem(new Item("BBQ Bacon Burger", ItemType.Health, "BBQ. Bacon. Burger.", 5, true));
+        addItem(new Item("Comically Large Spoon", ItemType.Weapon, "A spoon of impressive size.", 5, false));
 
     }
 
@@ -84,7 +84,19 @@ public class Player {
 
         if (inventory[slot] == null) return null;
         String tmp = inventory[slot].name;
-        if (inventory[slot] == currentWeapon) currentWeapon = null;
+
+        if (inventory[slot] == currentArmor) {
+
+            changeStats(0, 0, -currentArmor.magnitude);
+            currentArmor = null;
+
+        } else if (inventory[slot] == currentWeapon) {
+
+            changeStats(0, -currentWeapon.magnitude, 0);
+            currentWeapon = null;
+
+        }
+
         inventory[slot] = null;
         return tmp;
         
@@ -103,7 +115,7 @@ public class Player {
             if (inventory[c] != null) {
 
                 inv += "Slot " + c + ": " + inventory[c].name;
-                if (inventory[c] == currentWeapon) inv += " *";
+                if (inventory[c] == currentArmor || inventory[c] == currentWeapon || inventory[c] == currentWearable) inv += " *";
                 inv += "\n";
                 count++;
 
@@ -123,9 +135,55 @@ public class Player {
          * slot: The inventory slot of the item to be used
          */
         
-        String msg = inventory[slot].useMessage;
-        if (inventory[slot].type == ItemType.Health) changeStats(inventory[slot].magnitude, 0, 0);
-        else if (inventory[slot].type == ItemType.Weapon) currentWeapon = inventory[slot];
+        String msg = inventory[slot].description;
+        switch (inventory[slot].type) {
+
+            case Health:
+
+                changeStats(inventory[slot].magnitude, 0, 0);
+                msg = "You ate the " + inventory[slot].name + ".\n";
+
+                // Extra flavor text
+                switch (inventory[slot].name) {
+
+                    case "Golden Apple":
+
+                        msg += "Eating gold is not good for you.\n";
+                        break;
+
+                }
+
+                if (inventory[slot].magnitude >= 0) msg += "+" + inventory[slot].magnitude + " health!";
+                else msg += inventory[slot].magnitude + " health!";
+                break;
+
+            case Armor:
+
+                if (currentArmor != null) changeStats(0, 0, -currentArmor.magnitude);
+                currentArmor = inventory[slot];
+                changeStats(0, 0, inventory[slot].magnitude);
+                msg = "Equipped armor: " + inventory[slot].name;
+                break;
+
+            case Weapon:
+
+                if (currentWeapon != null) changeStats(0, -currentWeapon.magnitude, 0);
+                currentWeapon = inventory[slot];
+                changeStats(0, inventory[slot].magnitude, 0);
+                msg = "Equipped weapon: " + inventory[slot].name;
+                break;
+
+            case Wearable:
+
+                // Will likely need manual implemtations for each item
+                break;
+
+            default:
+
+                break;
+
+        }
+        
         if (inventory[slot].consumable) inventory[slot] = null;
         return msg;
 
@@ -143,7 +201,7 @@ public class Player {
 
     }
 
-    public int playerAttacked(int dmg) {
+    public void playerAttacked(int dmg) {
         /*
          * Use this to deal damage to the player
          * Minimum damage taken cannot be <1
@@ -153,9 +211,7 @@ public class Player {
 
         int netDamage = dmg - defense;
         if (netDamage < 1) netDamage = 1;
-        health -= netDamage;
-        if (health < 0) health = 0;
-        return health;
+        changeStats(-netDamage, 0, 0);
 
     }
     

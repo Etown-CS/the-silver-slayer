@@ -2,16 +2,16 @@ public class Item {
 
     ItemType type = ItemType.Unassigned;
     String name;
-    String useMessage;
+    String description;
     int magnitude;
     boolean consumable;
 
-    public Item(String itemName, ItemType itemType, String usageText, int statValChange, boolean consumedOnUse) {
+    public Item(String itemName, ItemType itemType, String desc, int statValChange, boolean consumedOnUse) {
         /* Constructor */
 
         name = itemName;
         type = itemType;
-        useMessage = usageText;
+        description = desc;
         magnitude = statValChange;
         consumable = consumedOnUse;
 

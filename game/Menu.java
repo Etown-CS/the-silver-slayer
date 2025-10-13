@@ -255,8 +255,7 @@ public class Menu {
             case "enter":
 
                 bgMusic = new Audio("mushroom_music.wav");
-                try {bgMusic.command(1);}
-                catch (Exception ex) {ex.printStackTrace();}
+                bgMusic.command(1);
                 writeText(theStory.getEvent(0, 0), 0);
                 break;
 
