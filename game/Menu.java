@@ -47,6 +47,7 @@ public class Menu {
                                             "As I write this, it's 1:30pm on Friday, October 3rd, 2025", "[J]ohn, [A]sher, and [M]artin... JAM", 
                                             "Why am I writing these?", "Silksong is out!", "I ate my toothbrush :(", "o _ o", "get rekt", 
                                             "Low on magenta!", "Strings 🙏", "WORK is a dish best served NO", "jk jk............ unless?"};
+    private final String[] FLEE_STRINGS = {"You can't run forever."};
     private final String[] GAME_OVERS = {"How unfortunate", "That's gonna leave a mark", "Better luck some time!", "oof", "bruh.mp3",
                                             "Process killed"};
 
@@ -170,7 +171,7 @@ public class Menu {
 
             case "help":
 
-                writeText("GENERAL\nclear: Clear screen\nexit / quit: Quit the game.\nsettings: Modify game settings\ntitle [int]: Display a random title or specifiy\n\nINVENTORY\ndesc / describe: Show an inventory item's description\ndrop (int): Drop an item\ninv / inventory / ls: Display inventory\nuse (int): Use an inventory item\n\nCOMBAT\natk / attack: Attack the current enemy", 0);
+                writeText("GENERAL\nclear: Clear screen\nexit / quit: Quit the game.\nsettings: Modify game settings\ntitle [int]: Display a random title or specifiy\n\nINVENTORY\ndesc / describe: Show an inventory item's description\ndrop (int): Drop an item\ninv / inventory / ls: Display inventory\nuse (int): Use an inventory item\n\nCOMBAT\natk / attack: Attack the current enemy\nflee: Run away", 0);
                 break;
 
             case "quit":
@@ -273,6 +274,20 @@ public class Menu {
                         // there are 20 spaces in the line below
                     } else writeText("Attacked " + enemyRef.name + " for " + atkdmg + " damage!                    \n\n" + enemyRef.name + " attacks you for " + playerRef.playerAttacked(enemyRef.attack) + " damage!", 0);
                     
+                }
+
+                break;
+
+            case "flee":
+
+                if (enemyRef == null) writeText("There's nothing to run from.", 0);
+                else {
+
+                    writeText("You fled from " + enemyRef.name + ".\n" + FLEE_STRINGS[getRandomInt(FLEE_STRINGS.length)], 0);
+                    enemyRef = null;
+                    enemyBar.setText("ENEMY");
+                    // TODO: Make it a percent chance to escape and/or take damage
+
                 }
 
                 break;
