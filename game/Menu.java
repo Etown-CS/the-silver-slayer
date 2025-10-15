@@ -154,7 +154,7 @@ public class Menu {
          * D: Defense value
          */
 
-        enemyBar.setText(name.toUpperCase() + "\n\nHealth: " + H + "\nAttack: " + A + "\nDefense: " + D);
+        enemyBar.setText("ENEMY\n\n" + name.toUpperCase() + "\n\nHealth: " + H + "\nAttack: " + A + "\nDefense: " + D);
 
     }
 
