@@ -17,10 +17,12 @@ public class Menu {
     private JScrollPane scrollPane;
     private JTextField inputField;
 
+    // Text
     private Font gameFont;
-    private Timer timer = new Timer(0, null);
+    private Timer timer;
     private int characterIndex;
 
+    // Elements
     private Random r;
     private Story theStory;
     public Player playerRef;
@@ -166,10 +168,34 @@ public class Menu {
                 writeText("TODO: Options", 0);
                 break;
 
+            case "ls":
             case "inv":
             case "inventory":
 
                 writeText(playerRef.listItems(), 0);
+                break;
+
+            case "desc":
+            case "describe":
+
+                if (bits.length < 2) writeText("Specify an inventory slot.", 0);
+                else {
+
+                    try {
+
+                        int slot = Integer.parseInt(bits[1]);
+                        if (slot < 0 || slot >= playerRef.invCap) writeText(slot + " is not a valid inventory slot.", 0);
+                        else if (playerRef.inventory[slot] == null) writeText("Slot " + slot + " is empty.", 0);
+                        else writeText(playerRef.inventory[slot].description, 0);
+
+                    } catch (NumberFormatException ex) {
+
+                        writeText('"' + bits[1] + "\" is not a valid inventory slot.", 0);
+
+                    }
+
+                }
+
                 break;
 
             case "use":
@@ -277,7 +303,7 @@ public class Menu {
         * voiceID: ID for the sound to be played (use 0 for default or negative for silent)
         */
 
-        if (timer.isRunning()) {
+        if (timer != null && timer.isRunning()) {
 
             System.out.println("WARN: Attempt to call writeText whilst timer is still active.");
             return;
@@ -287,7 +313,7 @@ public class Menu {
         if (voiceID >= 0) voices[voiceID].command(1);
         characterIndex = 0;
 
-        this.timer = new Timer(textDelay, new AbstractAction() {
+        timer = new Timer(textDelay, new AbstractAction() {
             
             @Override
             public void actionPerformed(ActionEvent e) {
