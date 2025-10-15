@@ -61,9 +61,8 @@ public class Enemy {
         
         dmg = dmg - defense;
         if (dmg < 1) dmg = 1;
-        health -= dmg;
-        if (health < 0) health = 0;
-        return health;
+        changeStats(-dmg, 0, 0);
+        return dmg;
 
     }
     

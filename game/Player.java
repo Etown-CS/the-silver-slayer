@@ -189,15 +189,14 @@ public class Player {
 
     }
 
-    public void attackEnemy(Enemy target) {
+    public int attackEnemy(Enemy target) {
         /*
          * Attack an enemy!
          * 
          * target: The enemy object that's under fire
          */
 
-        if (currentWeapon == null) target.getAttacked(attack);
-        else target.getAttacked(attack + currentWeapon.magnitude);
+        return target.getAttacked(attack);
 
     }
 

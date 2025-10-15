@@ -26,6 +26,7 @@ public class Menu {
     private Random r;
     private Story theStory;
     public Player playerRef;
+    public Enemy enemyRef;
     public boolean gameOver;
 
     // Sounds
@@ -82,7 +83,7 @@ public class Menu {
         playerBar.setForeground(Color.GREEN);
 
         // Left (enemy's) sidebar
-        enemyBar = new JTextArea("", 1, 10);
+        enemyBar = new JTextArea("ENEMY", 1, 10);
         enemyBar.setFont(gameFont);
         enemyBar.setEditable(false);
         enemyBar.setBackground(Color.BLACK);
@@ -257,6 +258,25 @@ public class Menu {
 
                 break;
 
+            case "atk":
+            case "attack":
+
+                if (enemyRef == null) writeText("There's nothing here...", 0);
+                else {
+
+                    int atkdmg = playerRef.attackEnemy(enemyRef);
+                    if (enemyRef.defeated) {
+
+                        writeText("Attacked " + enemyRef.name + " for " + atkdmg + " damage!\n" + enemyRef.name + " has been defeated.", 0);
+                        enemyRef = null;
+                        enemyBar.setText("ENEMY");
+
+                    } else writeText("Attacked " + enemyRef.name + " for " + atkdmg + " damage!", 0);
+                    
+                }
+
+                break;
+
             case "clear":
 
                 terminal.setText(null);
@@ -373,8 +393,8 @@ public class Menu {
         Menu main = new Menu();
         main.writeText("The Silver Slayer [Beta v1.0]\n\nYou are at the Gate.\nBegin by typing 'enter'", 0);
 
-        Enemy aBug = new Enemy(main, main.playerRef, "Bug");
-        aBug.changeStats(3, 1, 0);
+        main.enemyRef = new Enemy(main, main.playerRef, "Boulder");
+        main.enemyRef.changeStats(10, 2, 3);
 
     }
 
