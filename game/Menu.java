@@ -297,7 +297,7 @@ public class Menu {
 
                 bgMusic = new Audio("mushroom_music.wav");
                 bgMusic.command(1);
-                writeText(theStory.getEvent(0, 0), 0);
+                writeText(theStory.getEvent(0, 10), 0);
                 break;
 
             default:
@@ -364,9 +364,8 @@ public class Menu {
         
     }
 
-    public int getRandomInt() {return getRandomInt();}              // Return a random integer
+    public int getRandomInt() {return r.nextInt();}                 // Return a random integer
     public int getRandomInt(int bound) {return r.nextInt(bound);}   // Return a random integer between 0 and bound - 1
-    public double getRandomDouble() {return r.nextDouble();}        // Return a random double between 0 and 1
     
     public static void main(String[] args) {
         /* Main */

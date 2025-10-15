@@ -1,23 +1,32 @@
+import java.util.HashMap;
+
 public class Story {
 
     // The idea for this class is to store all the story elements here
     // This way it won't get in the way of the code
 
-    private String[] start = {"Someone write something with mad aura here for the first event\nAlso I found this goofy song to use for testing"};
-    private String[] village = {};
-    private String[] lake = {};
-    private String[] mountain = {};
-    private String[] cave = {};      // Will probably be empty but here just in case
-    private String[] mine = {};      // Same deal as cave
-    private String[] desert = {};
-    private String[] swamp = {};
-    private String[] fracture = {};
-    private String[] lair = {};
-    private String[][] locations = {start, village, lake, mountain, cave, mine, desert, swamp, fracture, lair};
+    private HashMap<Integer, String> start = new HashMap<>();
+    private HashMap<Integer, String> village = new HashMap<>();
+    private HashMap<Integer, String> lake = new HashMap<>();
+    private HashMap<Integer, String> mountain = new HashMap<>();
+    private HashMap<Integer, String> cave = new HashMap<>();
+    private HashMap<Integer, String> mine = new HashMap<>();
+    private HashMap<Integer, String> desert = new HashMap<>();
+    private HashMap<Integer, String> swamp = new HashMap<>();
+    private HashMap<Integer, String> fracture = new HashMap<>();
+    private HashMap<Integer, String> lair = new HashMap<>();
+    private HashMap[] events = {start, village, lake, mountain, cave, mine, desert, swamp, fracture, lair};
+
+    public Story() {
+        /* Constructor */
+
+        start.put(10, "Song time :D");
+
+    }
 
     public String getEvent(int locationID, int eventID) {
 
-        return locations[locationID][eventID];
+        return events[locationID].get(eventID).toString();
 
     }
     
