@@ -20,14 +20,14 @@
 #define BKWHITE "\e[47m"
 
 void printWaterText(char* inputText,int percentage,int newline);
-
+int handleCommand(char* input);
 int waterlvl=1;
 
 int main()
 {
     char startText[]="\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nThe Silver Slayer [c alpha v1.0]\n\n You enter the caves. \n\n";
     char consoleText[32]="Cave/Entryway>";
-    char *inputText;
+    char inputText[256];
     printWaterText(startText,waterlvl,1);
     
     
@@ -39,7 +39,8 @@ int main()
         fgets(inputText,256,stdin);
         //printf("%s",inputText);
         handleCommand(inputText);
-        waterlvl+=5;
+
+        waterlvl+=10;
     }
 
 
@@ -51,7 +52,10 @@ int handleCommand(char* input)
     if(!strcmp(input,"exit\n")||!strcmp(input,"quit\n"))
         exit(0);
     if(!strcmp(input,"help\n"))
-        printWaterText("exit,quit: close the game\nhelp: show the help menu\nuse [int]: use an item from the inventory\n",waterlvl,1);
+        printWaterText("GENERAL\nclear: Clear screen\nexit / quit: Quit the game.\nsettings: Modify game settings\ntitle (int)*: Display a random title or specifiy\n\nINVENTORY\ndesc / describe: Show an inventory item's description\ndrop (int)+: Drop an item\ninv / inventory / ls: Display inventory\nuse (int)+: Use an inventory item\n\nCOMBAT\natk / attack: Attack the current enemy",waterlvl,1);
+    if(!strcmp(input,"ls\n"))
+        printWaterText("sampleInv",waterlvl,1);
+    return 0;
 }
 
 void printWaterText(char* inputText,int percentage,int newline)
@@ -59,7 +63,7 @@ void printWaterText(char* inputText,int percentage,int newline)
     //this method should iterate through the string, and print it out
     int i=0;
     while(inputText[i]!='\0'){
-        if(((rand()%100))<percentage)
+        if(((rand()%100))<percentage&&inputText[i]!='\n')
         {
             if(waterlvl>50 && ((rand()%10))-(waterlvl/15)<1)
                 printf(BKBLUE CYAN"%c"RESET BKBLACK,inputText[i]);
@@ -68,7 +72,7 @@ void printWaterText(char* inputText,int percentage,int newline)
         }
 
         else{
-            if(waterlvl>50 && ((rand()%10))-(waterlvl/30)<1)
+            if(waterlvl>50 && ((rand()%10))-(waterlvl/30)<1 && inputText[i]!='\n')
                 printf(BKBLUE);
             printf("%c",inputText[i]);
             printf(BKBLACK);
