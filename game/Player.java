@@ -19,7 +19,7 @@ public class Player {
         menuRef = refToMenu;
 
         addItem(new Item("Paper Hat", ItemType.Armor, "A carefully folded origami hat.", 1, false));
-        addItem(new Item("Golden Apple", ItemType.Health, "A normal apple but encased in gold.", -3, true));
+        addItem(new Item("Golden Apple", ItemType.Health, "A normal apple, but encased in gold.", -3, true));
         addItem(new Item("Pebble", ItemType.Junk, "It's a small, white pebble.", 0, false));
         addItem(new Item("BBQ Bacon Burger", ItemType.Health, "BBQ. Bacon. Burger.", 5, true));
         addItem(new Item("Comically Large Spoon", ItemType.Weapon, "A spoon of impressive size.", 5, false));
@@ -159,7 +159,7 @@ public class Player {
 
             case Armor:
 
-                if (currentArmor != null) changeStats(0, 0, -currentArmor.magnitude);
+                if (currentArmor != null) defense -= currentArmor.magnitude;
                 currentArmor = inventory[slot];
                 changeStats(0, 0, inventory[slot].magnitude);
                 msg = "Equipped armor: " + inventory[slot].name;
@@ -167,7 +167,7 @@ public class Player {
 
             case Weapon:
 
-                if (currentWeapon != null) changeStats(0, -currentWeapon.magnitude, 0);
+                if (currentWeapon != null) attack -= currentWeapon.magnitude;
                 currentWeapon = inventory[slot];
                 changeStats(0, inventory[slot].magnitude, 0);
                 msg = "Equipped weapon: " + inventory[slot].name;
@@ -209,9 +209,9 @@ public class Player {
          * dmg: Incoming damage amount
          */
 
-        int netDamage = dmg - defense;
-        if (netDamage < 1) netDamage = 1;
-        changeStats(-netDamage, 0, 0);
+        dmg = dmg - defense;
+        if (dmg < 1) dmg = 1;
+        changeStats(-dmg, 0, 0);
 
     }
     

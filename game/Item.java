@@ -9,6 +9,8 @@ public class Item {
     public Item(String itemName, ItemType itemType, String desc, int statValChange, boolean consumedOnUse) {
         /* Constructor */
 
+        if (statValChange < 0) System.out.println("WARN: Item created with negative magnitude.");
+
         name = itemName;
         type = itemType;
         description = desc;

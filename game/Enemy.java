@@ -1,15 +1,45 @@
 public class Enemy {
 
-    Player playerRef;
-    String name;
-    int health, attack, defense;
+    private Menu menuRef;
+    private Player playerRef;
+    public String name;
+    public int health, attack, defense;
+    public boolean defeated;
 
-    public Enemy(int h, int a, int d) {
+    public Enemy(Menu refToMenu, Player refToPlayer, String enemyName) {
         /* Constructor */
 
-        health = h;
-        attack = a;
-        defense = d;
+        menuRef = refToMenu;
+        playerRef = refToPlayer;
+        name = enemyName;
+        defeated = false;
+
+    }
+
+    public void changeStats(int H, int A, int D) {
+        /*
+         * Change enemy stats
+         * 
+         * H: Mod health
+         * A: Mod attack
+         * D: Mod defense
+         */
+
+        health += H;
+        attack += A;
+        defense += D;
+
+        if (health <= 0) {
+
+            health = 0;
+            defeated = true;
+
+        }
+
+        if (attack < 0) attack = 0;
+        if (defense < 0) defense = 0;
+
+        menuRef.updateEnemyBar(name, health, attack, defense);
 
     }
 
@@ -29,9 +59,9 @@ public class Enemy {
          * dmg: Incoming damage value
          */
         
-        int netDamage = dmg - defense;
-        if (netDamage < 1) netDamage = 1;
-        health -= netDamage;
+        dmg = dmg - defense;
+        if (dmg < 1) dmg = 1;
+        health -= dmg;
         if (health < 0) health = 0;
         return health;
 

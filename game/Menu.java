@@ -46,7 +46,8 @@ public class Menu {
                                             "As I write this, it's 1:30pm on Friday, October 3rd, 2025", "[J]ohn, [A]sher, and [M]artin... JAM", 
                                             "Why am I writing these?", "Silksong is out!", "I ate my toothbrush :(", "o _ o", "get rekt", 
                                             "Low on magenta!", "Strings 🙏", "WORK is a dish best served NO", "jk jk............ unless?"};
-    private final String[] GAME_OVERS = {"How unfortunate", "That's gonna leave a mark", "Better luck some time!", "oof", "bruh.mp3"};
+    private final String[] GAME_OVERS = {"How unfortunate", "That's gonna leave a mark", "Better luck some time!", "oof", "bruh.mp3",
+                                            "Process killed"};
 
     public Menu() {
         /* Constructor */
@@ -74,14 +75,14 @@ public class Menu {
         scrollPane = new JScrollPane(terminal);
 
         // Right (player's) sidebar
-        playerBar = new JTextArea("PLAYER\n\nHealth: ?\nAttack: ?\nDefense: ?", 1, 10);
+        playerBar = new JTextArea("", 1, 10);
         playerBar.setFont(gameFont);
         playerBar.setEditable(false); // make player stats not editable
         playerBar.setBackground(Color.BLACK);
         playerBar.setForeground(Color.GREEN);
 
         // Left (enemy's) sidebar
-        enemyBar = new JTextArea("ENEMY", 1, 10);
+        enemyBar = new JTextArea("", 1, 10);
         enemyBar.setFont(gameFont);
         enemyBar.setEditable(false);
         enemyBar.setBackground(Color.BLACK);
@@ -138,6 +139,20 @@ public class Menu {
          */
 
         playerBar.setText("PLAYER\n\nHealth: " + H + "\nAttack: " + A + "\nDefense: " + D);
+
+    }
+
+    public void updateEnemyBar(String name, int H, int A, int D) {
+        /*
+         * Updates the enemy sidebar
+         * 
+         * enemy: A reference to the current enemy
+         * H: Health value
+         * A: Attack value
+         * D: Defense value
+         */
+
+        enemyBar.setText(name.toUpperCase() + "\n\nHealth: " + H + "\nAttack: " + A + "\nDefense: " + D);
 
     }
 
@@ -297,7 +312,7 @@ public class Menu {
     public void writeText(final String text, int voiceID) {
         /*
         * Uses the typewriter effect to print text to the screen
-        * SHOULD ONLY EVER BE CALLED FROM readInput()
+        * SHOULD TYPICALLY ONLY BE CALLED FROM readInput()
         *
         * text: The text to be written
         * voiceID: ID for the sound to be played (use 0 for default or negative for silent)
@@ -322,8 +337,8 @@ public class Menu {
                 else {
 
                     if (voiceID >= 0) voices[voiceID].command();
-                    terminal.append("\n\n" + playerRef.location + "/" + playerRef.sublocation + " > ");
-                    if (gameOver) terminate();
+                    if (!gameOver) terminal.append("\n\n" + playerRef.location + "/" + playerRef.sublocation + " > ");
+                    else terminate();
                     timer.stop();
 
                 }
@@ -358,6 +373,9 @@ public class Menu {
 
         Menu main = new Menu();
         main.writeText("The Silver Slayer [Beta v1.0]\n\nYou are at the Gate.\nBegin by typing 'enter'", 0);
+
+        Enemy aBug = new Enemy(main, main.playerRef, "Bug");
+        aBug.changeStats(3, 1, 0);
 
     }
 
