@@ -1,5 +1,6 @@
 run: cave
 	./cave
+	make clean
 
 cave: cave.o
 	gcc cave.o -o cave
