@@ -297,7 +297,7 @@ public class Menu {
 
                 bgMusic = new Audio("mushroom_music.wav");
                 bgMusic.command(1);
-                writeText(theStory.getEvent(0, 10), 0);
+                writeText(theStory.getEvent(1, 100), 0);
                 break;
 
             default:
