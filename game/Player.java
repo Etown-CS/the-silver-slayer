@@ -3,13 +3,14 @@ public class Player {
     private Menu menuRef;
     public Item[] inventory = {null, null, null, null, null, null, null, null, null, null};
     public Item currentArmor = null, currentWeapon = null, currentWearable = null;
-    public String location, sublocation;
-    public int health, attack, defense, invCap;
+    public String location, sublocation, name;
+    public int health, healthCap, attack, defense, invCap;
 
     public Player(Menu refToMenu) {
         /* Constructor */
 
         health = 3;
+        healthCap = 3;
         attack = 1;
         defense = 0;
         invCap = 5;
@@ -17,12 +18,6 @@ public class Player {
         location = "Start";
         sublocation = "Gate";
         menuRef = refToMenu;
-
-        addItem(new Item("Paper Hat", ItemType.Armor, "A carefully folded origami hat.", 1, false));
-        addItem(new Item("Golden Apple", ItemType.Health, "A normal apple, but encased in gold.", -3, true));
-        addItem(new Item("Pebble", ItemType.Junk, "It's a small, white pebble.", 0, false));
-        addItem(new Item("BBQ Bacon Burger", ItemType.Health, "BBQ. Bacon. Burger.", 5, true));
-        addItem(new Item("Comically Large Spoon", ItemType.Weapon, "A spoon of impressive size.", 5, false));
 
     }
 
@@ -38,7 +33,8 @@ public class Player {
         attack += A;
         defense += D;
 
-        if (health <= 0) {
+        if (health > healthCap) health = healthCap;
+        else if (health <= 0) {
 
             health = 0;
             menuRef.gameOver = true;
@@ -135,8 +131,14 @@ public class Player {
          * slot: The inventory slot of the item to be used
          */
         
-        String msg = inventory[slot].description;
+        String msg = "";
         switch (inventory[slot].type) {
+            
+            case Unassigned:
+            case Junk:
+
+                msg = "You're not too sure what to do with this...";
+                break;
 
             case Health:
 
@@ -178,10 +180,6 @@ public class Player {
                 // Will likely need manual implemtations for each item
                 break;
 
-            default:
-
-                break;
-
         }
         
         if (inventory[slot].consumable) inventory[slot] = null;
@@ -189,18 +187,7 @@ public class Player {
 
     }
 
-    public int attackEnemy(Enemy target) {
-        /*
-         * Attack an enemy!
-         * 
-         * target: The enemy object that's under fire
-         */
-
-        return target.getAttacked(attack);
-
-    }
-
-    public void playerAttacked(int dmg) {
+    public int playerAttacked(int dmg) {
         /*
          * Use this to deal damage to the player
          * Minimum damage taken cannot be <1
@@ -211,6 +198,7 @@ public class Player {
         dmg = dmg - defense;
         if (dmg < 1) dmg = 1;
         changeStats(-dmg, 0, 0);
+        return dmg;
 
     }
     

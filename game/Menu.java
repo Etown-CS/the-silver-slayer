@@ -139,7 +139,7 @@ public class Menu {
          * D: Defense value
          */
 
-        playerBar.setText("PLAYER\n\nHealth: " + H + "\nAttack: " + A + "\nDefense: " + D);
+        playerBar.setText("PLAYER\n\nHealth: " + H + " / " + playerRef.healthCap + "\nAttack: " + A + "\nDefense: " + D);
 
     }
 
@@ -170,7 +170,7 @@ public class Menu {
 
             case "help":
 
-                writeText("GENERAL\nclear: Clear screen\nexit / quit: Quit the game.\nsettings: Modify game settings\ntitle (int)*: Display a random title or specifiy\n\nINVENTORY\ndesc / describe: Show an inventory item's description\ndrop (int)+: Drop an item\ninv / inventory / ls: Display inventory\nuse (int)+: Use an inventory item\n\nCOMBAT\natk / attack: Attack the current enemy", 0);
+                writeText("GENERAL\nclear: Clear screen\nexit / quit: Quit the game.\nsettings: Modify game settings\ntitle [int]: Display a random title or specifiy\n\nINVENTORY\ndesc / describe: Show an inventory item's description\ndrop (int): Drop an item\ninv / inventory / ls: Display inventory\nuse (int): Use an inventory item\n\nCOMBAT\natk / attack: Attack the current enemy", 0);
                 break;
 
             case "quit":
@@ -264,14 +264,14 @@ public class Menu {
                 if (enemyRef == null) writeText("There's nothing here...", 0);
                 else {
 
-                    int atkdmg = playerRef.attackEnemy(enemyRef);
+                    int atkdmg = enemyRef.getAttacked(playerRef.attack);
                     if (enemyRef.defeated) {
 
                         writeText("Attacked " + enemyRef.name + " for " + atkdmg + " damage!\n" + enemyRef.name + " has been defeated.", 0);
                         enemyRef = null;
                         enemyBar.setText("ENEMY");
-
-                    } else writeText("Attacked " + enemyRef.name + " for " + atkdmg + " damage!", 0);
+                        // there are 20 spaces in the line below
+                    } else writeText("Attacked " + enemyRef.name + " for " + atkdmg + " damage!                    \n\n" + enemyRef.name + " attacks you for " + playerRef.playerAttacked(enemyRef.attack) + " damage!", 0);
                     
                 }
 
@@ -393,8 +393,14 @@ public class Menu {
         Menu main = new Menu();
         main.writeText("The Silver Slayer [Beta v1.0]\n\nYou are at the Gate.\nBegin by typing 'enter'", 0);
 
-        main.enemyRef = new Enemy(main, main.playerRef, "Boulder");
-        main.enemyRef.changeStats(10, 2, 3);
+        main.enemyRef = new Enemy(main, "The Silver Slayer");
+        main.enemyRef.changeStats(Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE);
+
+        main.playerRef.addItem(new Item("Paper Hat", ItemType.Armor, "A carefully folded origami hat.", 1, false));
+        main.playerRef.addItem(new Item("Golden Apple", ItemType.Health, "A normal apple, but encased in gold.", -3, true));
+        main.playerRef.addItem(new Item("Pebble", ItemType.Junk, "It's a small, white pebble.", 0, false));
+        main.playerRef.addItem(new Item("BBQ Bacon Burger", ItemType.Health, "BBQ. Bacon. Burger.", 5, true));
+        main.playerRef.addItem(new Item("Comically Large Spoon", ItemType.Weapon, "A spoon of impressive size.", 5, false));
 
     }
 

@@ -1,16 +1,14 @@
 public class Enemy {
 
     private Menu menuRef;
-    private Player playerRef;
     public String name;
     public int health, attack, defense;
     public boolean defeated;
 
-    public Enemy(Menu refToMenu, Player refToPlayer, String enemyName) {
+    public Enemy(Menu refToMenu, String enemyName) {
         /* Constructor */
 
         menuRef = refToMenu;
-        playerRef = refToPlayer;
         name = enemyName;
         defeated = false;
 
@@ -40,15 +38,6 @@ public class Enemy {
         if (defense < 0) defense = 0;
 
         menuRef.updateEnemyBar(name, health, attack, defense);
-
-    }
-
-    public void doAttack() {
-        /*
-         * Execute an attack against the player
-         */
-
-        playerRef.playerAttacked(attack);
 
     }
 
