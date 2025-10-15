@@ -1,5 +1,5 @@
 #include <stdio.h>
-//#include <string.h>
+#include <string.h>
 #include <stdlib.h>
 
 #define RED     "\x1b[31m"
@@ -19,29 +19,43 @@
 #define BKCYAN "\e[46m"
 #define BKWHITE "\e[47m"
 
-void printWaterText(char* inputText,int percentage);
+void printWaterText(char* inputText,int percentage,int newline);
 
 int waterlvl=1;
 
 int main()
 {
-    char inputText[]="You enter the caves, It feels a bit moist for some reason...";
-    printWaterText(inputText,waterlvl);
+    char startText[]="\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nThe Silver Slayer [c alpha v1.0]\n\n You enter the caves. \n\n";
+    char consoleText[32]="Cave/Entryway>";
+    char *inputText;
+    printWaterText(startText,waterlvl,1);
+    
+    
 
-    for(;waterlvl<=100;waterlvl++)
+
+    while(1)
     {
-        printf(YELLOW"Water lvl=%d"RESET,waterlvl);
-        printWaterText("Waters Rise! Get to high ground!!! This is so that there are more characters in the text!!!",waterlvl);
-        
+        printWaterText(consoleText,waterlvl,0);
+        fgets(inputText,256,stdin);
+        //printf("%s",inputText);
+        handleCommand(inputText);
+        waterlvl+=5;
     }
-
-    printWaterText("You died, very sad",100);
 
 
     return 0;
 }
 
-void printWaterText(char* inputText,int percentage){
+int handleCommand(char* input)
+{
+    if(!strcmp(input,"exit\n")||!strcmp(input,"quit\n"))
+        exit(0);
+    if(!strcmp(input,"help\n"))
+        printWaterText("exit,quit: close the game\nhelp: show the help menu\nuse [int]: use an item from the inventory\n",waterlvl,1);
+}
+
+void printWaterText(char* inputText,int percentage,int newline)
+{
     //this method should iterate through the string, and print it out
     int i=0;
     while(inputText[i]!='\0'){
@@ -61,5 +75,6 @@ void printWaterText(char* inputText,int percentage){
         }
         i++;
     }
-    printf("\n");
+    if(newline)
+        printf("\n");
 }
