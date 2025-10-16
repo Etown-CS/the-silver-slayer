@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.util.Random;
 import java.time.*;
@@ -21,6 +22,7 @@ public class Menu {
     private Font gameFont;
     private Timer timer;
     private int characterIndex;
+    private boolean wait;
 
     // Elements
     private Random r;
@@ -37,7 +39,7 @@ public class Menu {
     private DateTimeFormatter dateTime = DateTimeFormatter.ofPattern("HH:mm:ss 'on' E, MMM dd yyyy");
 
     // Options
-    private int textDelay = 10;
+    private int textDelay = 5;
 
     // Storage
     private final String[] TITLE_STRINGS = {"Silver Slayer RPG", "Also try Terraria!", "Also try Minecraft!", "THE FOG IS COMING", 
@@ -47,7 +49,7 @@ public class Menu {
                                             "As I write this, it's 1:30pm on Friday, October 3rd, 2025", "[J]ohn, [A]sher, and [M]artin... JAM", 
                                             "Why am I writing these?", "Silksong is out!", "I ate my toothbrush :(", "o _ o", "get rekt", 
                                             "Low on magenta!", "Strings 🙏", "WORK is a dish best served NO", "jk jk............ unless?"};
-    private final String[] FLEE_STRINGS = {"You can't run forever."};
+    private final String[] FLEE_STRINGS = {"You can't run forever.", "You got away... for now."};
     private final String[] GAME_OVERS = {"How unfortunate", "That's gonna leave a mark", "Better luck some time!", "oof", "bruh.mp3",
                                             "Process killed"};
 
@@ -57,78 +59,15 @@ public class Menu {
         r = new Random();
         gameFont = new Font("Cascadia Mono", Font.PLAIN, 20);
         gameOver = false;
+        wait = true;
 
         // Frame itself
-        frame = new JFrame(TITLE_STRINGS[getRandomInt(TITLE_STRINGS.length)]);
+        frame = new JFrame(TITLE_STRINGS[0]);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
         // Display
         panel = new JPanel();
-        panel.setLayout(new BorderLayout());
-
-        // Terminal
-        terminal = new JTextArea("", 1, 30);
-        terminal.setEditable(false);
-        terminal.setBackground(Color.BLACK);
-        terminal.setForeground(Color.GREEN);
-        terminal.setFont(gameFont);
-
-        scrollPane = new JScrollPane(terminal);
-
-        // Right (player's) sidebar
-        playerBar = new JTextArea("", 1, 10);
-        playerBar.setFont(gameFont);
-        playerBar.setEditable(false); // make player stats not editable
-        playerBar.setBackground(Color.BLACK);
-        playerBar.setForeground(Color.GREEN);
-
-        // Left (enemy's) sidebar
-        enemyBar = new JTextArea("ENEMY", 1, 10);
-        enemyBar.setFont(gameFont);
-        enemyBar.setEditable(false);
-        enemyBar.setBackground(Color.BLACK);
-        enemyBar.setForeground(Color.GREEN);
-
-        // Input
-        inputField = new JTextField();
-        inputField.setBackground(Color.BLACK);
-        inputField.setForeground(Color.GREEN);
-        inputField.setFont(gameFont);
-        inputField.setBorder(BorderFactory.createEmptyBorder()); // removes border from input field
-        inputField.setHorizontalAlignment(JTextField.CENTER);
-        inputField.addActionListener((ActionEvent e) -> {
-
-            if (!timer.isRunning()) {
-
-                terminal.append(inputField.getText() + "\n\n");
-                readInput(inputField.getText());
-                inputField.setText(null);
-
-            }
-
-        });
-
-        // Layout
-        panel.add(inputField, BorderLayout.SOUTH);
-        panel.add(scrollPane, BorderLayout.CENTER);
-        panel.add(playerBar, BorderLayout.EAST);
-        panel.add(enemyBar, BorderLayout.WEST);
-
-        // Story
-        theStory = new Story(); // Making it create a "new story" has so much aura
-
-        // Player
-        playerRef = new Player(this, SelectedPlayer.Bitter_Java);
-        playerRef.changeStats(0, 0, 0);
-        updatePlayerBar(playerRef.name, playerRef.health, playerRef.attack, playerRef.defense);
-
-        frame.add(panel);
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-
-        // Automatically clicks on input field
-        inputField.requestFocusInWindow();
+        init();
 
     }
 
@@ -141,7 +80,7 @@ public class Menu {
          * D: Defense value
          */
 
-        playerBar.setText("PLAYER\n" + name + "\n\nHealth: " + H + " / " + playerRef.healthCap + "\nAttack: " + A + "\nDefense: " + D);
+        playerBar.setText("PLAYER\n\n" + playerRef.name + "\n\nHealth: " + H + " / " + playerRef.healthCap + "\nAttack: " + A + "\nDefense: " + D);
 
     }
 
@@ -155,7 +94,7 @@ public class Menu {
          * D: Defense value
          */
 
-        enemyBar.setText("ENEMY\n\n" + name.toUpperCase() + "\n\nHealth: " + H + "\nAttack: " + A + "\nDefense: " + D);
+        enemyBar.setText("ENEMY\n\n" + name + "\n\nHealth: " + H + "\nAttack: " + A + "\nDefense: " + D);
 
     }
 
@@ -429,11 +368,170 @@ public class Menu {
         main.enemyRef = new Enemy(main, "The Silver Slayer");
         main.enemyRef.changeStats(Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE);
 
+        main.playerRef.changeStats(0, 0, 0); // to get sidebar to update for the first time
         main.playerRef.addItem(new Item("Paper Hat", ItemType.Armor, "A carefully folded origami hat.", 1, false));
         main.playerRef.addItem(new Item("Golden Apple", ItemType.Health, "A normal apple, but encased in gold.", -3, true));
         main.playerRef.addItem(new Item("Pebble", ItemType.Junk, "It's a small, white pebble.", 0, false));
         main.playerRef.addItem(new Item("BBQ Bacon Burger", ItemType.Health, "BBQ. Bacon. Burger.", 5, true));
         main.playerRef.addItem(new Item("Comically Large Spoon", ItemType.Weapon, "A spoon of impressive size.", 5, false));
+
+        main.theStory = new Story(); // Making it create a "new story" has so much aura
+
+    }
+
+    private void init() {
+        /*
+         * Sets up the game & UI
+         */
+
+        // Player
+        playerRef = new Player(this, SelectedPlayer.Bitter_Java);
+
+        // Character select buttons
+        JButton javaButton = new JButton("Bitter Java");
+        javaButton.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+                playerRef.name = "Bitter Java";
+                wait = false;
+
+            }
+            
+        });
+
+        JButton cButton = new JButton("C--");
+        cButton.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+                playerRef.name = "C--";
+                wait = false;
+
+            }
+            
+        });
+
+        JButton pythonButton = new JButton("Dapper Python");
+        pythonButton.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                playerRef.name = "Dapper Python";
+                wait = false;
+
+            }
+            
+        });
+
+        JButton phpButton = new JButton("P. H. Periwinkle");
+        phpButton.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+                playerRef.name = "P. H. Periwinkle";
+                wait = false;
+
+            }
+            
+        });
+
+        JButton sqlButton = new JButton("Saea Quowle");
+        sqlButton.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+                playerRef.name = "Saea Quowle";
+                wait = false;
+
+            }
+            
+        });
+
+        panel.add(javaButton);
+        panel.add(cButton);
+        panel.add(pythonButton);
+        panel.add(phpButton);
+        panel.add(sqlButton);
+
+        frame.setSize(300, 300);
+        frame.add(panel);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+        while (wait) {System.out.print("");} // TODO: Find line that does less but still works
+
+        // Reset frame
+        frame.setVisible(false);
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+
+        // Clear buttons
+        panel.remove(javaButton);
+        panel.remove(cButton);
+        panel.remove(pythonButton);
+        panel.remove(phpButton);
+        panel.remove(sqlButton);
+        panel.setLayout(new BorderLayout());
+
+        // Terminal
+        terminal = new JTextArea("", 1, 30);
+        terminal.setEditable(false);
+        terminal.setBackground(Color.BLACK);
+        terminal.setForeground(Color.GREEN);
+        terminal.setFont(gameFont);
+
+        scrollPane = new JScrollPane(terminal);
+
+        // Right (player's) sidebar
+        playerBar = new JTextArea("", 1, 10);
+        playerBar.setFont(gameFont);
+        playerBar.setEditable(false); // make player stats not editable
+        playerBar.setBackground(Color.BLACK);
+        playerBar.setForeground(Color.GREEN);
+
+        // Left (enemy's) sidebar
+        enemyBar = new JTextArea("ENEMY", 1, 10);
+        enemyBar.setFont(gameFont);
+        enemyBar.setEditable(false);
+        enemyBar.setBackground(Color.BLACK);
+        enemyBar.setForeground(Color.GREEN);
+
+        // Input
+        inputField = new JTextField();
+        inputField.setBackground(Color.BLACK);
+        inputField.setForeground(Color.GREEN);
+        inputField.setFont(gameFont);
+        inputField.setBorder(BorderFactory.createEmptyBorder()); // removes border from input field
+        inputField.setHorizontalAlignment(JTextField.CENTER);
+        inputField.addActionListener((ActionEvent e) -> {
+
+            if (!timer.isRunning()) {
+
+                terminal.append(inputField.getText() + "\n\n");
+                readInput(inputField.getText());
+                inputField.setText(null);
+
+            }
+
+        });
+
+        // Layout
+        panel.add(inputField, BorderLayout.SOUTH);
+        panel.add(scrollPane, BorderLayout.CENTER);
+        panel.add(playerBar, BorderLayout.EAST);
+        panel.add(enemyBar, BorderLayout.WEST);
+
+        // Final
+        frame.setTitle(TITLE_STRINGS[r.nextInt(TITLE_STRINGS.length)]);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+
+        // Automatically clicks on input field
+        inputField.requestFocusInWindow();
 
     }
 
