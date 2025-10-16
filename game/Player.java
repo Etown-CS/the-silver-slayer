@@ -1,33 +1,28 @@
 public class Player {
 
     private Menu menuRef;
-    private SelectedPlayer character;
+    public SelectedPlayer character;
     public Item[] inventory = {null, null, null, null, null, null, null, null, null, null};
     public Item currentArmor = null, currentWeapon = null, currentWearable = null;
     public String location, sublocation, name;
     public int health, healthCap, attack, defense, invCap;
 
     public Player(Menu refToMenu, SelectedPlayer character) {
+        /* Constructor */
 
         // set player to selected character
         this.character = character;
         setCharacterStats(character);
 
-        /* Constructor */
-
-        // health = 3;
-        // healthCap = 3;
-        // attack = 1;
-        // defense = 0;
-        // invCap = 5;
-
         location = "Start";
         sublocation = "Gate";
         menuRef = refToMenu;
+
     }
 
     // set stats based on character (all stats are the same for now)
     private void setCharacterStats(SelectedPlayer character) {
+
         switch (character) {
             case Bitter_Java:
                 name = "Bitter Java";
@@ -39,6 +34,14 @@ public class Player {
                 break;
             case Brustel_Sprout:
                 name = "Brustel Sprout";
+                health = 3;
+                healthCap = 3;
+                attack = 1;
+                defense = 0;
+                invCap = 5;
+                break;
+            case C__:
+                name = "C--";
                 health = 3;
                 healthCap = 3;
                 attack = 1;
@@ -88,6 +91,7 @@ public class Player {
          * A: Mod attack
          * D: Mod defense
          */
+
         health += H;
         attack += A;
         defense += D;

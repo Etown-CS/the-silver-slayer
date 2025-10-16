@@ -28,6 +28,7 @@ public class Menu {
     private Random r;
     private Story theStory;
     public Player playerRef;
+    private Player[] characters;
     public Enemy enemyRef;
     public boolean gameOver;
 
@@ -67,7 +68,7 @@ public class Menu {
 
         // Display
         panel = new JPanel();
-        init();
+        init(this);
 
     }
 
@@ -110,17 +111,32 @@ public class Menu {
         switch (bits[0]) {
 
             case "character":
+
                 if (bits.length < 2 ) {
-                    writeText("Available characters:\n0: Bitter Java\n1: Brustel Sprout\n2: Dapper Python\n3: P.H. Periwinkle\n4: ReacTor\n5: Saea Quowle\n\nType 'character [int]'", 0);
+
+                    String chars = "Available characters:\n\n";
+                    for (int c = 0; c < SelectedPlayer.values().length; c++) chars += characters[c].name + "\n";
+                    writeText(chars + "\n" + SelectedPlayer.values().length + " characters available.", 0);
+                    
                 } else {
+
                     try {
-                        SelectedPlayer selectedCharacter = SelectedPlayer.values()[Integer.parseInt(bits[1])];
-                        playerRef = new Player(this, selectedCharacter);
-                        playerRef.changeStats(0, 0, 0);
-                        writeText("Character set to " + playerRef.name + "!", 0);
+
+                        int slot = Integer.parseInt(bits[1]);
+                        if (slot < 0 || slot >= SelectedPlayer.values().length) writeText(slot + " is not valid.", 0);
+                        else {playerRef = characters[slot];
+
+                            playerRef.changeStats(0, 0, 0);
+                            writeText("Character set to " + playerRef.name + "!", 0);
+                            
+                        }
+
                     } catch (NumberFormatException ex) {
+
                         writeText(bits[1] + " is not a valid character.", 0);
+
                     }
+
                 }
 
                 break;
@@ -379,13 +395,14 @@ public class Menu {
 
     }
 
-    private void init() {
+    private void init(Menu self) {
         /*
          * Sets up the game & UI
          */
 
-        // Player
-        playerRef = new Player(this, SelectedPlayer.Bitter_Java);
+        // Prep playable characters
+        characters = new Player[SelectedPlayer.values().length];
+        for (int c = 0; c < SelectedPlayer.values().length; c++) characters[c] = new Player(this, SelectedPlayer.values()[c]);
 
         // Character select buttons
         JButton javaButton = new JButton("Bitter Java");
@@ -394,33 +411,46 @@ public class Menu {
             @Override
             public void actionPerformed(ActionEvent e) {
                 
-                playerRef.name = "Bitter Java";
+                playerRef = characters[0];
                 wait = false;
 
             }
             
         });
 
+        JButton rustButton = new JButton("Brustel Sprout");
+        rustButton.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+                playerRef = characters[1];
+                wait = false;
+
+            }
+            
+        });
+        
         JButton cButton = new JButton("C--");
         cButton.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
                 
-                playerRef.name = "C--";
+                playerRef = characters[2];
                 wait = false;
 
             }
             
         });
-
+        
         JButton pythonButton = new JButton("Dapper Python");
         pythonButton.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                playerRef.name = "Dapper Python";
+                playerRef = characters[3];
                 wait = false;
 
             }
@@ -433,7 +463,20 @@ public class Menu {
             @Override
             public void actionPerformed(ActionEvent e) {
                 
-                playerRef.name = "P. H. Periwinkle";
+                playerRef = characters[1];playerRef = characters[4];
+                wait = false;
+
+            }
+            
+        });
+
+        JButton reactButton = new JButton("ReacTor");
+        reactButton.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+                playerRef = characters[5];
                 wait = false;
 
             }
@@ -446,7 +489,7 @@ public class Menu {
             @Override
             public void actionPerformed(ActionEvent e) {
                 
-                playerRef.name = "Saea Quowle";
+                playerRef = characters[6];
                 wait = false;
 
             }
@@ -454,9 +497,11 @@ public class Menu {
         });
 
         panel.add(javaButton);
+        panel.add(rustButton);
         panel.add(cButton);
         panel.add(pythonButton);
         panel.add(phpButton);
+        panel.add(reactButton);
         panel.add(sqlButton);
 
         frame.setSize(300, 300);
@@ -471,9 +516,11 @@ public class Menu {
 
         // Clear buttons
         panel.remove(javaButton);
+        panel.remove(rustButton);
         panel.remove(cButton);
         panel.remove(pythonButton);
         panel.remove(phpButton);
+        panel.remove(reactButton);
         panel.remove(sqlButton);
         panel.setLayout(new BorderLayout());
 
