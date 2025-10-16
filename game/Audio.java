@@ -32,7 +32,13 @@ public class Audio {
 
             case 1:
 
-                try {play();}
+                try {play(true);}
+                catch (Exception ex) {System.out.println("WARN: Failed to play sound.");}
+                break;
+
+            case 2:
+
+                try {play(false);}
                 catch (Exception ex) {System.out.println("WARN: Failed to play sound.");}
                 break;
 
@@ -45,13 +51,14 @@ public class Audio {
 
     }
 
-    private void play() throws IOException, LineUnavailableException, UnsupportedAudioFileException {
+    private void play(boolean loop) throws IOException, LineUnavailableException, UnsupportedAudioFileException {
 
         stream = AudioSystem.getAudioInputStream(new File(filePath).getAbsoluteFile());
         clip = AudioSystem.getClip();
         clip.open(stream);
-        clip.loop(-1);
-        clip.start();
+        
+        if (loop) clip.loop(-1);
+        else clip.start();
 
     }
 

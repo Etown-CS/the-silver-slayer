@@ -6,6 +6,7 @@ public class Player {
     public Item currentArmor = null, currentWeapon = null, currentWearable = null;
     public String location, sublocation, name;
     public int health, healthCap, attack, defense, invCap;
+    public boolean defeated;
 
     public Player(Menu refToMenu, SelectedPlayer character) {
         /* Constructor */
@@ -17,6 +18,7 @@ public class Player {
         location = "Start";
         sublocation = "Gate";
         menuRef = refToMenu;
+        defeated = false;
 
     }
 
@@ -57,7 +59,7 @@ public class Player {
                 invCap = 5;
                 break;
             case P_H_Periwinkle:
-                name = "P.H. Periwinkle";
+                name = "P. H. Periwinkle";
                 health = 3;
                 healthCap = 3;
                 attack = 1;
@@ -81,6 +83,7 @@ public class Player {
                 invCap = 5;
                 break;
         }
+
     }
 
     public void changeStats(int H, int A, int D) {
@@ -100,6 +103,7 @@ public class Player {
         else if (health <= 0) {
 
             health = 0;
+            defeated = true;
             menuRef.gameOver = true;
 
         }
@@ -257,6 +261,8 @@ public class Player {
          * 
          * dmg: Incoming damage amount
          */
+
+        // TODO: Dodge chance? Maybe an item does this
 
         dmg = dmg - defense;
         if (dmg < 1) dmg = 1;

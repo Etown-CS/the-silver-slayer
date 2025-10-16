@@ -27,13 +27,14 @@ public class Menu {
     // Elements
     private Random r;
     private Story theStory;
-    public Player playerRef;
     private Player[] characters;
+    public Player playerRef;
     public Enemy enemyRef;
     public boolean gameOver;
 
     // Sounds
     private Audio[] voices = {new Audio("blip.wav")};
+    private Audio damageSFX = new Audio("damage.wav");
     private Audio bgMusic;
 
     // Date and Time
@@ -243,8 +244,14 @@ public class Menu {
                         writeText("Attacked " + enemyRef.name + " for " + atkdmg + " damage!\n" + enemyRef.name + " has been defeated.", 0);
                         enemyRef = null;
                         enemyBar.setText("ENEMY");
-                        // there are 20 spaces in the line below
-                    } else writeText("Attacked " + enemyRef.name + " for " + atkdmg + " damage!                    \n\n" + enemyRef.name + " attacks you for " + playerRef.playerAttacked(enemyRef.attack) + " damage!", 0);
+                        
+                    } else {
+
+                        damageSFX.command(2);
+                        writeText("Attacked " + enemyRef.name + " for " + atkdmg + " damage!                    \n\n" + enemyRef.name + " attacks you for " + playerRef.playerAttacked(enemyRef.attack) + " damage!", 0);
+                        // there are 20 spaces in the line above
+                        
+                    }
                     
                 }
 
@@ -379,7 +386,7 @@ public class Menu {
 
         Menu main = new Menu();
 
-        main.writeText("The Silver Slayer [Beta v1.0]\n\nYou are at the Gate.\nBegin by typing 'enter'", 0);
+        main.writeText("The Silver Slayer [Beta v1.0]\n\nWelcome " + main.playerRef.name + ".\nYou are at the Gate.\nBegin by typing 'enter'", 0);
 
         main.enemyRef = new Enemy(main, "The Silver Slayer");
         main.enemyRef.changeStats(Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE);
