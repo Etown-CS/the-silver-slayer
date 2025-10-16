@@ -239,6 +239,8 @@ public class Menu {
                 else {
 
                     int atkdmg = enemyRef.getAttacked(playerRef.attack);
+                    updateEnemyBar(enemyRef.name, enemyRef.health, enemyRef.attack, enemyRef.defense);
+                    
                     if (enemyRef.defeated) {
 
                         writeText("Attacked " + enemyRef.name + " for " + atkdmg + " damage!\n" + enemyRef.name + " has been defeated.", 0);
@@ -250,7 +252,7 @@ public class Menu {
                         damageSFX.command(2);
                         writeText("Attacked " + enemyRef.name + " for " + atkdmg + " damage!                    \n\n" + enemyRef.name + " attacks you for " + playerRef.playerAttacked(enemyRef.attack) + " damage!", 0);
                         // there are 20 spaces in the line above
-                        
+
                     }
                     
                 }
@@ -388,8 +390,8 @@ public class Menu {
 
         main.writeText("The Silver Slayer [Beta v1.0]\n\nWelcome " + main.playerRef.name + ".\nYou are at the Gate.\nBegin by typing 'enter'", 0);
 
-        main.enemyRef = new Enemy(main, "The Silver Slayer");
-        main.enemyRef.changeStats(Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE);
+        main.enemyRef = new Enemy("The Silver Slayer", Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE);
+        main.updateEnemyBar(main.enemyRef.name, main.enemyRef.health, main.enemyRef.attack, main.enemyRef.defense);
 
         main.playerRef.changeStats(0, 0, 0); // to get sidebar to update for the first time
         main.playerRef.addItem(new Item("Paper Hat", ItemType.Armor, "A carefully folded origami hat.", 1, false));
