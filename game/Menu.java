@@ -102,8 +102,7 @@ public class Menu {
     }
     public Enemy spawnEnemy() {
         Enemy[] enemies = getEnemies(playerRef.location);
-        int allEnemy = enemies.length - 2; // All enemies minus the boss
-        
+        int allEnemy = enemies.length - 2; // All enemies (not the boss)
         int enemyIdx = getRandomInt(allEnemy); // selects random enemy
         return enemies[enemyIdx];
     }
