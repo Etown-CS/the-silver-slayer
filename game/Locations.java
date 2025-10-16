@@ -42,34 +42,34 @@ public class Locations {
             new Enemy("Abominable Snowball", 40, 4, 4)
         };
         
-    public static final Enemy[] Cave = 
-        {
-            new Enemy("Blue Flower", 3, 3, 0),
-            new Enemy("Bug", 3, 1, 0),
-            new Enemy("Gobbler", 5, 3, 2),
-            new Enemy("Gremlin", 4, 1, 1),
-            new Enemy("Rat", 1, 3, 0),
-            new Enemy("Skeleton", 6, 2, 3),
-            new Enemy("Scavenger", 8, 0, 0),
-            new Enemy("PISMPE", 2, 0, 0),
-            new Enemy("RAT", 6, 10, 0),
-            new Enemy("Worm", 4, 1, 5),
-            new Enemy("SkeleTON", 30, 5, 5)
-        };
+    // public static final Enemy[] Cave = 
+    //     {
+    //         new Enemy("Blue Flower", 3, 3, 0),
+    //         new Enemy("Bug", 3, 1, 0),
+    //         new Enemy("Gobbler", 5, 3, 2),
+    //         new Enemy("Gremlin", 4, 1, 1),
+    //         new Enemy("Rat", 1, 3, 0),
+    //         new Enemy("Skeleton", 6, 2, 3),
+    //         new Enemy("Scavenger", 8, 0, 0),
+    //         new Enemy("PISMPE", 2, 0, 0),
+    //         new Enemy("RAT", 6, 10, 0),
+    //         new Enemy("Worm", 4, 1, 5),
+    //         new Enemy("SkeleTON", 30, 5, 5)
+    //     };
         
-    public static final Enemy[] Mine = 
-        {
-            new Enemy("Bug", 3, 1, 0),
-            new Enemy("Dweller", 10, 4, 3),
-            new Enemy("Gobbler", 5, 3, 2),
-            new Enemy("Phantom", 3, 5, 0),
-            new Enemy("Rat", 1, 3, 0),
-            new Enemy("Skeleton", 6, 2, 3),
-            new Enemy("PISMPE", 2, 0, 0),
-            new Enemy("Banshee", 9, 9, 1),
-            new Enemy("RAT", 6, 10, 0),
-            new Enemy("Last Prospector", 45, 6, 10)
-        };
+    // public static final Enemy[] Mine = 
+    //     {
+    //         new Enemy("Bug", 3, 1, 0),
+    //         new Enemy("Dweller", 10, 4, 3),
+    //         new Enemy("Gobbler", 5, 3, 2),
+    //         new Enemy("Phantom", 3, 5, 0),
+    //         new Enemy("Rat", 1, 3, 0),
+    //         new Enemy("Skeleton", 6, 2, 3),
+    //         new Enemy("PISMPE", 2, 0, 0),
+    //         new Enemy("Banshee", 9, 9, 1),
+    //         new Enemy("RAT", 6, 10, 0),
+    //         new Enemy("Last Prospector", 45, 6, 10)
+    //     };
         
     public static final Enemy[] Desert = 
         {

@@ -30,6 +30,7 @@ public class Menu {
     private Player[] characters;
     public Player playerRef;
     public Enemy enemyRef;
+    public Locations locs;
     public boolean gameOver;
 
     // Sounds
@@ -84,6 +85,33 @@ public class Menu {
 
         playerBar.setText("PLAYER\n\n" + playerRef.name + "\n\nHealth: " + H + " / " + playerRef.healthCap + "\nAttack: " + A + "\nDefense: " + D);
 
+    }
+
+    private Enemy[] getEnemies(String location) {
+        if(location == "Gate") return null;
+        switch (location.toLowerCase()) {
+            case "village": return Locations.Village;
+            case "lake": return Locations.Lake;
+            case "mountain": return Locations.Mountain;
+            case "desert": return Locations.Desert;
+            case "swamp": return Locations.Swamp;
+            case "fracture": return Locations.Fracture;
+            case "lair": return Locations.Lair;
+            default: return null;
+        }
+    }
+    public Enemy spawnEnemy() {
+        Enemy[] enemies = getEnemies(playerRef.location);
+        int allEnemy = enemies.length - 2; // All enemies minus the boss
+        
+        int enemyIdx = getRandomInt(allEnemy); // selects random enemy
+        return enemies[enemyIdx];
+    }
+
+    public Enemy spawnBoss() {
+        Enemy[] enemies = getEnemies(playerRef.location);
+        int bossIdx = enemies.length - 1; // Boss is always the last enemy in the array
+        return enemies[bossIdx];
     }
 
     public void updateEnemyBar(String name, int H, int A, int D) {
@@ -313,7 +341,20 @@ public class Menu {
 
                 bgMusic = new Audio("mushroom_music.wav");
                 bgMusic.command(1);
+
+                // maybe spawn an enemy??? its a gamble for sure
+                if(enemyRef == null) {
+                    int chance = 25; // 25% chance to see an enemy
+                    if(getRandomInt(100) < chance) {
+                        Enemy enemy = spawnEnemy();
+                        enemyRef = enemy;
+                        updateEnemyBar(enemyRef.name, enemyRef.health, enemyRef.attack, enemyRef.defense);
+                        writeText("Attack" + enemyRef.name, 0);
+                    }
+                }
+
                 writeText(theStory.getEvent(1, 100), 0);
+                terminal.setText(null);
                 break;
 
             default:
@@ -390,8 +431,8 @@ public class Menu {
 
         main.writeText("The Silver Slayer [Beta v1.0]\n\nWelcome " + main.playerRef.name + ".\nYou are at the Gate.\nBegin by typing 'enter'", 0);
 
-        main.enemyRef = new Enemy("The Silver Slayer", Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE);
-        main.updateEnemyBar(main.enemyRef.name, main.enemyRef.health, main.enemyRef.attack, main.enemyRef.defense);
+        // main.enemyRef = new Enemy("The Silver Slayer", Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE);
+        // main.updateEnemyBar(main.enemyRef.name, main.enemyRef.health, main.enemyRef.attack, main.enemyRef.defense);
 
         main.playerRef.changeStats(0, 0, 0); // to get sidebar to update for the first time
         main.playerRef.addItem(new Item("Paper Hat", ItemType.Armor, "A carefully folded origami hat.", 1, false));
