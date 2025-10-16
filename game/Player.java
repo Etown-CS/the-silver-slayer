@@ -1,24 +1,83 @@
 public class Player {
 
     private Menu menuRef;
+    private SelectedPlayer character;
     public Item[] inventory = {null, null, null, null, null, null, null, null, null, null};
     public Item currentArmor = null, currentWeapon = null, currentWearable = null;
     public String location, sublocation, name;
     public int health, healthCap, attack, defense, invCap;
 
-    public Player(Menu refToMenu) {
+    public Player(Menu refToMenu, SelectedPlayer character) {
+
+        // set player to selected character
+        this.character = character;
+        setCharacterStats(character);
+
         /* Constructor */
 
-        health = 3;
-        healthCap = 3;
-        attack = 1;
-        defense = 0;
-        invCap = 5;
+        // health = 3;
+        // healthCap = 3;
+        // attack = 1;
+        // defense = 0;
+        // invCap = 5;
 
         location = "Start";
         sublocation = "Gate";
         menuRef = refToMenu;
+    }
 
+    // set stats based on character (all stats are the same for now)
+    private void setCharacterStats(SelectedPlayer character) {
+        switch (character) {
+            case Bitter_Java:
+                name = "Bitter Java";
+                health = 3;
+                healthCap = 3;
+                attack = 1;
+                defense = 0;
+                invCap = 5;
+                break;
+            case Brustel_Sprout:
+                name = "Brustel Sprout";
+                health = 3;
+                healthCap = 3;
+                attack = 1;
+                defense = 0;
+                invCap = 5;
+                break;
+            case Dapper_Python:
+                name = "Dapper Python";
+                health = 3;
+                healthCap = 3;
+                attack = 1;
+                defense = 0;
+                invCap = 5;
+                break;
+            case P_H_Periwinkle:
+                name = "P.H. Periwinkle";
+                health = 3;
+                healthCap = 3;
+                attack = 1;
+                defense = 0;
+                invCap = 5;
+                break;
+            case ReacTor:
+                name = "ReacTor";
+                health = 3;
+                healthCap = 3;
+                attack = 1;
+                defense = 0;
+                invCap = 5;
+                break;
+            case Saea_Quowle:
+                name = "Saea Quowle";
+                health = 3;
+                healthCap = 3;
+                attack = 1;
+                defense = 0;
+                invCap = 5;
+                break;
+        }
     }
 
     public void changeStats(int H, int A, int D) {
@@ -44,7 +103,7 @@ public class Player {
         if (attack < 0) attack = 0;
         if (defense < 0) defense = 0;
 
-        menuRef.updatePlayerBar(health, attack, defense);
+        menuRef.updatePlayerBar(name,health, attack, defense);
 
     }
 

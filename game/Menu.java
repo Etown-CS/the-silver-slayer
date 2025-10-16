@@ -119,8 +119,9 @@ public class Menu {
         theStory = new Story(); // Making it create a "new story" has so much aura
 
         // Player
-        playerRef = new Player(this);
+        playerRef = new Player(this, SelectedPlayer.Bitter_Java);
         playerRef.changeStats(0, 0, 0);
+        updatePlayerBar(playerRef.name, playerRef.health, playerRef.attack, playerRef.defense);
 
         frame.add(panel);
         frame.setLocationRelativeTo(null);
@@ -131,7 +132,7 @@ public class Menu {
 
     }
 
-    public void updatePlayerBar(int H, int A, int D) {
+    public void updatePlayerBar(String name, int H, int A, int D) {
         /*
          * Updates the player's sidebar
          * 
@@ -140,7 +141,7 @@ public class Menu {
          * D: Defense value
          */
 
-        playerBar.setText("PLAYER\n\nHealth: " + H + " / " + playerRef.healthCap + "\nAttack: " + A + "\nDefense: " + D);
+        playerBar.setText("PLAYER\n" + name + "\n\nHealth: " + H + " / " + playerRef.healthCap + "\nAttack: " + A + "\nDefense: " + D);
 
     }
 
@@ -168,6 +169,22 @@ public class Menu {
         if (gameOver) return;
         String[] bits = text.toLowerCase().split(" ");
         switch (bits[0]) {
+
+            case "character":
+                if (bits.length < 2 ) {
+                    writeText("Available characters:\n0: Bitter Java\n1: Brustel Sprout\n2: Dapper Python\n3: P.H. Periwinkle\n4: ReacTor\n5: Saea Quowle\n\nType 'character [int]'", 0);
+                } else {
+                    try {
+                        SelectedPlayer selectedCharacter = SelectedPlayer.values()[Integer.parseInt(bits[1])];
+                        playerRef = new Player(this, selectedCharacter);
+                        playerRef.changeStats(0, 0, 0);
+                        writeText("Character set to " + playerRef.name + "!", 0);
+                    } catch (NumberFormatException ex) {
+                        writeText(bits[1] + " is not a valid character.", 0);
+                    }
+                }
+
+                break;
 
             case "help":
 
@@ -372,7 +389,7 @@ public class Menu {
                 else {
 
                     if (voiceID >= 0) voices[voiceID].command();
-                    if (!gameOver) terminal.append("\n\n" + playerRef.location + "/" + playerRef.sublocation + " > ");
+                    if (!gameOver && playerRef != null) terminal.append("\n\n" + playerRef.location + "/" + playerRef.sublocation + " > ");
                     else terminate();
                     timer.stop();
 
@@ -406,6 +423,7 @@ public class Menu {
         /* Main */
 
         Menu main = new Menu();
+
         main.writeText("The Silver Slayer [Beta v1.0]\n\nYou are at the Gate.\nBegin by typing 'enter'", 0);
 
         main.enemyRef = new Enemy(main, "The Silver Slayer");
