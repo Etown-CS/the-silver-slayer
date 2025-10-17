@@ -9,8 +9,8 @@ public class Story {
     private HashMap<Integer, String> village = new HashMap<>();
     private HashMap<Integer, String> lake = new HashMap<>();
     private HashMap<Integer, String> mountain = new HashMap<>();
-    private HashMap<Integer, String> cave = new HashMap<>();     // Probably doesn't need to be here, but included just in case
-    private HashMap<Integer, String> mine = new HashMap<>();     // Same as previous
+    // private HashMap<Integer, String> cave = new HashMap<>();     // Probably doesn't need to be here, but included just in case
+    // private HashMap<Integer, String> mine = new HashMap<>();     // Same as previous
     private HashMap<Integer, String> desert = new HashMap<>();
     private HashMap<Integer, String> swamp = new HashMap<>();
     private HashMap<Integer, String> fracture = new HashMap<>();
@@ -25,15 +25,29 @@ public class Story {
         events.put(2, village);
         events.put(3, lake);
         events.put(4, mountain);
-        events.put(5, cave);
-        events.put(6, mine);
-        events.put(7, desert);
-        events.put(8, swamp);
-        events.put(9, fracture);
-        events.put(10, lair);
+        events.put(5, desert);
+        events.put(6, swamp);
+        events.put(7, fracture);
+        events.put(8, lair);
 
         // START
         start.put(100, "Song time :D");
+        start.put(110, "epic story event");
+
+        // VILLAGE
+        village.put(200, "village moment");
+        
+        // LAKE
+
+        // MOUNTAIN
+
+        // DESERT
+
+        // SWAMP
+
+        // FRACTURE
+
+        // LAIR
 
     }
 
@@ -45,7 +59,7 @@ public class Story {
          * eventID: A three digit integer referencing the specific event
          */
 
-        return events.get(locationID).get(eventID).toString();
+        return events.get(locationID).get(eventID);
 
     }
     

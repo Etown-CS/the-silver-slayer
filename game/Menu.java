@@ -89,7 +89,6 @@ public class Menu {
 
     private Enemy[] getEnemies(String location) {
 
-        if(location.toLowerCase() == "gate") return null;
         switch (location.toLowerCase()) {
 
             case "village": return Locations.Village;
@@ -373,7 +372,6 @@ public class Menu {
                 }
 
                 writeText(theStory.getEvent(1, 100), 0);
-                //terminal.setText(null);
                 break;
 
             default:
