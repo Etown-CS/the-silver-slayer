@@ -173,6 +173,7 @@ public class Menu {
 
                         int slot = Integer.parseInt(bits[1]);
                         if (slot < 0 || slot >= SelectedPlayer.values().length) writeText(slot + " is not valid.", 0);
+                        else if (characters[slot].health == 0) writeText(characters[slot].name + " is not available.", 0);
                         else {playerRef = characters[slot];
 
                             playerRef.changeStats(0, 0, 0);
