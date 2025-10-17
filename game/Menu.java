@@ -144,13 +144,28 @@ public class Menu {
         String[] bits = text.toLowerCase().split(" ");
         switch (bits[0]) {
 
+            case "characters":
             case "character":
 
-                if (bits.length < 2 ) {
+                if (bits.length < 2) {
 
-                    String chars = "Available characters:\n\n";
-                    for (int c = 0; c < SelectedPlayer.values().length; c++) chars += characters[c].name + "\n";
-                    writeText(chars + "\n" + SelectedPlayer.values().length + " characters available.", 0);
+                    String chars = "Characters:\n\n";
+                    int alive = 0;
+
+                    for (int c = 0; c < SelectedPlayer.values().length; c++) {
+
+                        chars += c + ": ";
+
+                        if (characters[c].health != 0) {
+
+                            chars += characters[c].name + "\n";
+                            alive++;
+
+                        } else chars += "...\n";
+
+                    }
+
+                    writeText(chars + "\n" + alive + " characters available.", 0);
                     
                 } else {
 

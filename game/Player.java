@@ -6,7 +6,6 @@ public class Player {
     public Item currentArmor = null, currentWeapon = null, currentWearable = null;
     public String location, sublocation, name;
     public int health, healthCap, attack, defense, invCap;
-    public boolean defeated;
 
     public Player(Menu refToMenu, SelectedPlayer character) {
         /* Constructor */
@@ -18,7 +17,6 @@ public class Player {
         location = "Start";
         sublocation = "Gate";
         menuRef = refToMenu;
-        defeated = false;
 
     }
 
@@ -123,7 +121,6 @@ public class Player {
         else if (health <= 0) {
 
             health = 0;
-            defeated = true;
             menuRef.gameOver = true;
 
         }
