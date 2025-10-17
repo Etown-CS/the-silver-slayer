@@ -2,16 +2,18 @@ public class Enemy {
 
     public String name;
     public int health, attack, defense;
-    public boolean defeated;
+    private int healthDefault, attackDefault, defenseDefault;
     
     public Enemy(String enemyName, int h, int a, int d) {
         /* Constructor */
 
         name = enemyName;
         health = h;
+        healthDefault = h;
         attack = a;
+        attackDefault = a;
         defense = d;
-        defeated = false;
+        defenseDefault = d;
 
     }
 
@@ -28,13 +30,7 @@ public class Enemy {
         attack += A;
         defense += D;
 
-        if (health <= 0) {
-
-            health = 0;
-            defeated = true;
-
-        }
-
+        if (health < 0) health = 0;
         if (attack < 0) attack = 0;
         if (defense < 0) defense = 0;
 
@@ -51,6 +47,14 @@ public class Enemy {
         if (dmg < 1) dmg = 1;
         changeStats(-dmg, 0, 0);
         return dmg;
+
+    }
+
+    public void reset() {
+
+        health = healthDefault;
+        attack = attackDefault;
+        defense = defenseDefault;
 
     }
     

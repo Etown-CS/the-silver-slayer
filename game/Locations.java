@@ -109,10 +109,10 @@ public class Locations {
         {
             new Enemy("Polychromatic Flower", 9, 9, 0),
             new Enemy("Figment", 1, 0, 0),
-            new Enemy("Glitch", -1, -1, -1),
+            new Enemy("Glitch", 1, 1, 1),
             new Enemy("Memory", 15, 1, 0),
             new Enemy("Packet", 5, 5, 2),
-            new Enemy("DISCOMBOBULATOR-INATOR", 100, 100, 100)
+            new Enemy("DISCOMBOBU-INATOR", 100, 100, 100)
         };
         
     public static final Enemy[] Lair = 

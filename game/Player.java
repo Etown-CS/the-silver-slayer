@@ -26,6 +26,7 @@ public class Player {
     private void setCharacterStats(SelectedPlayer character) {
 
         switch (character) {
+
             case Bitter_Java:
                 name = "Bitter Java";
                 health = 3;
@@ -82,6 +83,7 @@ public class Player {
                 defense = 0;
                 invCap = 5;
                 break;
+                
         }
 
     }

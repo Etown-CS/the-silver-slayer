@@ -88,8 +88,10 @@ public class Menu {
     }
 
     private Enemy[] getEnemies(String location) {
-        if(location == "Gate") return null;
+
+        if(location.toLowerCase() == "gate") return null;
         switch (location.toLowerCase()) {
+
             case "village": return Locations.Village;
             case "lake": return Locations.Lake;
             case "mountain": return Locations.Mountain;
@@ -98,19 +100,24 @@ public class Menu {
             case "fracture": return Locations.Fracture;
             case "lair": return Locations.Lair;
             default: return null;
+
         }
+
     }
+
     public Enemy spawnEnemy() {
+
         Enemy[] enemies = getEnemies(playerRef.location);
-        int allEnemy = enemies.length - 2; // All enemies (not the boss)
-        int enemyIdx = getRandomInt(allEnemy); // selects random enemy
-        return enemies[enemyIdx];
+        if (enemies != null) return enemies[r.nextInt(enemies.length - 2)];
+        else return null;
+
     }
 
     public Enemy spawnBoss() {
+
         Enemy[] enemies = getEnemies(playerRef.location);
-        int bossIdx = enemies.length - 1; // Boss is always the last enemy in the array
-        return enemies[bossIdx];
+        return enemies[enemies.length - 1]; // Boss is always the last enemy in the array
+        
     }
 
     public void updateEnemyBar(String name, int H, int A, int D) {
@@ -268,9 +275,11 @@ public class Menu {
                     int atkdmg = enemyRef.getAttacked(playerRef.attack);
                     updateEnemyBar(enemyRef.name, enemyRef.health, enemyRef.attack, enemyRef.defense);
                     
-                    if (enemyRef.defeated) {
+                    if (enemyRef.health == 0) {
 
+                        damageSFX.command(2);
                         writeText("Attacked " + enemyRef.name + " for " + atkdmg + " damage!\n" + enemyRef.name + " has been defeated.", 0);
+                        enemyRef.reset();
                         enemyRef = null;
                         enemyBar.setText("ENEMY");
                         
@@ -291,7 +300,7 @@ public class Menu {
                 if (enemyRef == null) writeText("There's nothing to run from.", 0);
                 else {
 
-                    writeText("You fled from " + enemyRef.name + ".\n" + FLEE_STRINGS[getRandomInt(FLEE_STRINGS.length)], 0);
+                    writeText("You fled from " + enemyRef.name + ".\n" + FLEE_STRINGS[r.nextInt(FLEE_STRINGS.length)], 0);
                     enemyRef = null;
                     enemyBar.setText("ENEMY");
                     // TODO: Make it a percent chance to escape and/or take damage
@@ -310,7 +319,7 @@ public class Menu {
 
                 if (bits.length < 2) {
 
-                    frame.setTitle(TITLE_STRINGS[getRandomInt(TITLE_STRINGS.length)]);
+                    frame.setTitle(TITLE_STRINGS[r.nextInt(TITLE_STRINGS.length)]);
                     writeText("Rerolled title!", 0);
 
                 } else {
@@ -338,22 +347,33 @@ public class Menu {
 
             case "enter":
 
+                if (bgMusic != null) bgMusic.command(0);
                 bgMusic = new Audio("mushroom_music.wav");
                 bgMusic.command(1);
+                playerRef.location = "Village";
 
                 // maybe spawn an enemy??? its a gamble for sure
-                if(enemyRef == null) {
+                if (enemyRef == null) {
+
                     int chance = 25; // 25% chance to see an enemy
-                    if(getRandomInt(100) < chance) {
+                    System.out.println("Attempting to spawn enemy with chance: " + chance);
+
+                    if (r.nextInt(100) < chance) {
+
                         Enemy enemy = spawnEnemy();
-                        enemyRef = enemy;
-                        updateEnemyBar(enemyRef.name, enemyRef.health, enemyRef.attack, enemyRef.defense);
-                        writeText("Attack" + enemyRef.name, 0);
+                        if (enemy != null) {
+
+                            enemyRef = enemy;
+                            updateEnemyBar(enemyRef.name, enemyRef.health, enemyRef.attack, enemyRef.defense);
+
+                        } else System.out.println("Did not spawn anything.");
+
                     }
+
                 }
 
                 writeText(theStory.getEvent(1, 100), 0);
-                terminal.setText(null);
+                //terminal.setText(null);
                 break;
 
             default:
@@ -416,12 +436,9 @@ public class Menu {
         if (bgMusic != null) bgMusic.command(0);
         panel.remove(inputField);
         frame.setTitle("Game Over");
-        JOptionPane.showMessageDialog(panel, "You have been terminated.", GAME_OVERS[getRandomInt(GAME_OVERS.length)], JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(panel, "You have been terminated.", GAME_OVERS[r.nextInt(GAME_OVERS.length)], JOptionPane.ERROR_MESSAGE);
         
     }
-
-    public int getRandomInt() {return r.nextInt();}                 // Return a random integer
-    public int getRandomInt(int bound) {return r.nextInt(bound);}   // Return a random integer between 0 and bound - 1
     
     public static void main(String[] args) {
         /* Main */
@@ -429,17 +446,7 @@ public class Menu {
         Menu main = new Menu();
 
         main.writeText("The Silver Slayer [Beta v1.0]\n\nWelcome " + main.playerRef.name + ".\nYou are at the Gate.\nBegin by typing 'enter'", 0);
-
-        // main.enemyRef = new Enemy("The Silver Slayer", Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE);
-        // main.updateEnemyBar(main.enemyRef.name, main.enemyRef.health, main.enemyRef.attack, main.enemyRef.defense);
-
         main.playerRef.changeStats(0, 0, 0); // to get sidebar to update for the first time
-        main.playerRef.addItem(new Item("Paper Hat", ItemType.Armor, "A carefully folded origami hat.", 1, false));
-        main.playerRef.addItem(new Item("Golden Apple", ItemType.Health, "A normal apple, but encased in gold.", -3, true));
-        main.playerRef.addItem(new Item("Pebble", ItemType.Junk, "It's a small, white pebble.", 0, false));
-        main.playerRef.addItem(new Item("BBQ Bacon Burger", ItemType.Health, "BBQ. Bacon. Burger.", 5, true));
-        main.playerRef.addItem(new Item("Comically Large Spoon", ItemType.Weapon, "A spoon of impressive size.", 5, false));
-
         main.theStory = new Story(); // Making it create a "new story" has so much aura
 
     }
