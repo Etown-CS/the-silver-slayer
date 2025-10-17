@@ -130,7 +130,7 @@ public class Menu {
          * D: Defense value
          */
 
-        enemyBar.setText("ENEMY\n\n" + name + "\n\nHealth: " + H + "\nAttack: " + A + "\nDefense: " + D);
+        enemyBar.setText("ENEMY\n" + name + "\n\nHealth: " + H + "\nAttack: " + A + "\nDefense: " + D);
 
     }
 
