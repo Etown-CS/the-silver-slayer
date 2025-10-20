@@ -51,7 +51,8 @@ public class Menu {
                                             "Microwave be like 'mmmmmm BEEP BEEP BEEP BEEP'", "-inf < x < inf", 
                                             "As I write this, it's 1:30pm on Friday, October 3rd, 2025", "[J]ohn, [A]sher, and [M]artin... JAM", 
                                             "Why am I writing these?", "Silksong is out!", "I ate my toothbrush :(", "o _ o", "get rekt", 
-                                            "Low on magenta!", "Strings 🙏", "WORK is a dish best served NO", "jk jk............ unless?"};
+                                            "Low on magenta!", "Strings 🙏", "WORK is a dish best served NO", "jk jk............ unless?",
+                                            "Remember to cave"};
     private final String[] FLEE_STRINGS = {"You can't run forever.", "You got away... for now."};
     private final String[] GAME_OVERS = {"How unfortunate", "That's gonna leave a mark", "Better luck some time!", "oof", "bruh.mp3",
                                             "Process killed"};
@@ -596,6 +597,8 @@ public class Menu {
 
         // Terminal
         terminal = new JTextArea("", 1, 30);
+        terminal.setLineWrap(true);
+        terminal.setWrapStyleWord(true);
         terminal.setEditable(false);
         terminal.setBackground(Color.BLACK);
         terminal.setForeground(Color.GREEN);

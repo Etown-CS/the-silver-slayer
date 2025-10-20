@@ -31,7 +31,7 @@ public class Story {
         events.put(8, lair);
 
         // START
-        start.put(100, "Song time :D");
+        start.put(100, "You step up to the gate. Any lock has long since worn away, and you're able to push the gate open with little resistance. The doors swing wide with a long, metallic screech, and you step through onto the path that leads to the village.");
         start.put(110, "epic story event");
 
         // VILLAGE
