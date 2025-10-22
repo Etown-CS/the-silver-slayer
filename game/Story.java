@@ -38,6 +38,7 @@ public class Story {
         village.put(200, "village moment");
         
         // LAKE
+        lake.put(300, "literally just a lake");
 
         // MOUNTAIN
 
