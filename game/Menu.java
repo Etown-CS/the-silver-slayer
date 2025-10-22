@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.util.Random;
+import java.util.concurrent.Flow;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 
@@ -19,7 +20,7 @@ public class Menu {
     private JTextField inputField;
 
     // Character selection screen
-    private JFrame playerScreen = new JFrame();
+    private JFrame playerScreen;
     private JButton[] characterButtons = new JButton[SelectedPlayer.values().length];
 
     // Text
@@ -169,12 +170,6 @@ public class Menu {
             }
 
         });
-
-        playerScreen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        playerScreen.setLayout(new FlowLayout());
-        playerScreen.setSize(300, 300);
-        playerScreen.setLocationRelativeTo(null);
-        for (int c = 0; c < SelectedPlayer.values().length; c++) playerScreen.add(characterButtons[c]);
         
         timer = new Timer(0, null);
         init();
@@ -288,9 +283,8 @@ public class Menu {
             case "characters":
             case "character":
 
-                mainframe.setVisible(false);
-                playerScreen.setVisible(true);
-                writeText("", -1);
+                playerSelect();
+                writeText("Swapping!", -1);
                 break;
 
             case "ls":
@@ -603,6 +597,19 @@ public class Menu {
         // Final
         mainframe.add(panel);
         mainframe.setTitle(TITLE_STRINGS[r.nextInt(TITLE_STRINGS.length)]);
+        playerSelect();
+
+    }
+
+    private void playerSelect() {
+
+        mainframe.setVisible(false);
+        playerScreen = new JFrame();
+        playerScreen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        playerScreen.setLayout(new FlowLayout());
+        playerScreen.setSize(300, 300);
+        playerScreen.setLocationRelativeTo(null);
+        for (int c = 0; c < SelectedPlayer.values().length; c++) if (players[c].health > 0) playerScreen.add(characterButtons[c]);
         playerScreen.setVisible(true);
 
     }
