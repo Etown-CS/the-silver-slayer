@@ -9,29 +9,31 @@ import java.time.format.DateTimeFormatter;
 
 public class Menu {
 
-    // Core
-    private JFrame frame;
-    private JPanel panel;
+    // Display
+    private JFrame mainframe = new JFrame();
+    private JPanel panel = new JPanel();
     private JTextArea terminal;
     private JTextArea playerBar;
     private JTextArea enemyBar;
     private JScrollPane scrollPane;
     private JTextField inputField;
 
+    // Character selection screen
+    private JFrame playerScreen = new JFrame();
+    private JButton[] characterButtons = new JButton[SelectedPlayer.values().length];
+
     // Text
-    private Font gameFont;
+    private final Font gameFont = new Font("Cascadia Mono", Font.PLAIN, 20);;
     private Timer timer;
     private int characterIndex;
-    private boolean wait;
 
     // Elements
-    private Random r;
+    private Random r = new Random();
     private Story theStory;
-    private Player[] characters;
+    private Player[] players = new Player[SelectedPlayer.values().length];;
     public Player playerRef;
     public Enemy enemyRef;
-    public Locations locs;
-    public boolean gameOver;
+    public boolean gameOver = false;
 
     // Sounds
     private Audio[] voices = {new Audio("blip.wav")};
@@ -53,25 +55,129 @@ public class Menu {
                                             "Why am I writing these?", "Silksong is out!", "I ate my toothbrush :(", "o _ o", "get rekt", 
                                             "Low on magenta!", "Strings 🙏", "WORK is a dish best served NO", "jk jk............ unless?",
                                             "Remember to cave"};
-    private final String[] FLEE_STRINGS = {"You can't run forever.", "You got away... for now."};
+    private final String[] FLEE_STRINGS = {"You can't run forever.", "You got away... for now.", "You'll be back."};
     private final String[] GAME_OVERS = {"How unfortunate", "That's gonna leave a mark", "Better luck some time!", "oof", "bruh.mp3",
                                             "Process killed"};
 
     public Menu() {
         /* Constructor */
 
-        r = new Random();
-        gameFont = new Font("Cascadia Mono", Font.PLAIN, 20);
-        gameOver = false;
-        wait = true;
+        mainframe.setTitle(TITLE_STRINGS[0]);
+        mainframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        // Frame itself
-        frame = new JFrame(TITLE_STRINGS[0]);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        characterButtons[0] = new JButton("Bitter Java");
+        characterButtons[0].addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+                playerRef = players[0];
+                playerScreen.setVisible(false);
+                mainframe.setVisible(true);
+                updatePlayerBar(playerRef.name, playerRef.health, playerRef.attack, playerRef.defense);
 
-        // Display
-        panel = new JPanel();
-        init(this);
+            }
+
+        });
+
+        characterButtons[1] = new JButton("Brustel Sprout");
+        characterButtons[1].addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+                playerRef = players[1];
+                playerScreen.setVisible(false);
+                mainframe.setVisible(true);
+                updatePlayerBar(playerRef.name, playerRef.health, playerRef.attack, playerRef.defense);
+
+            }
+
+        });
+
+        characterButtons[2] = new JButton("C--");
+        characterButtons[2].addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+                playerRef = players[2];
+                playerScreen.setVisible(false);
+                mainframe.setVisible(true);
+                updatePlayerBar(playerRef.name, playerRef.health, playerRef.attack, playerRef.defense);
+
+            }
+
+        });
+
+        characterButtons[3] = new JButton("Dapper Python");
+        characterButtons[3].addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+                playerRef = players[3];
+                playerScreen.setVisible(false);
+                mainframe.setVisible(true);
+                updatePlayerBar(playerRef.name, playerRef.health, playerRef.attack, playerRef.defense);
+
+            }
+
+        });
+
+        characterButtons[4] = new JButton("P. H. Periwinkle");
+        characterButtons[4].addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+                playerRef = players[4];
+                playerScreen.setVisible(false);
+                mainframe.setVisible(true);
+                updatePlayerBar(playerRef.name, playerRef.health, playerRef.attack, playerRef.defense);
+
+            }
+
+        });
+
+        characterButtons[5] = new JButton("ReacTor");
+        characterButtons[5].addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+                playerRef = players[5];
+                playerScreen.setVisible(false);
+                mainframe.setVisible(true);
+                updatePlayerBar(playerRef.name, playerRef.health, playerRef.attack, playerRef.defense);
+
+            }
+
+        });
+
+        characterButtons[6] = new JButton("Saea Quowle");
+        characterButtons[6].addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+                playerRef = players[6];
+                playerScreen.setVisible(false);
+                mainframe.setVisible(true);
+                updatePlayerBar(playerRef.name, playerRef.health, playerRef.attack, playerRef.defense);
+
+            }
+
+        });
+
+        playerScreen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        playerScreen.setLayout(new FlowLayout());
+        playerScreen.setSize(300, 300);
+        playerScreen.setLocationRelativeTo(null);
+        for (int c = 0; c < SelectedPlayer.values().length; c++) playerScreen.add(characterButtons[c]);
+        
+        timer = new Timer(0, null);
+        init();
 
     }
 
@@ -145,67 +251,46 @@ public class Menu {
         String[] bits = text.toLowerCase().split(" ");
         switch (bits[0]) {
 
-            case "characters":
-            case "character":
+            // STORY COMMANDS
 
-                if (bits.length < 2) {
+            case "enter":
 
-                    String chars = "Characters:\n\n";
-                    int alive = 0;
+                if (bgMusic != null) bgMusic.command(0);
+                bgMusic = new Audio("mushroom_music.wav");
+                bgMusic.command(1);
+                playerRef.location = "Village";
 
-                    for (int c = 0; c < SelectedPlayer.values().length; c++) {
+                // maybe spawn an enemy??? its a gamble for sure
+                if (enemyRef == null) {
 
-                        chars += c + ": ";
+                    int chance = 25; // 25% chance to see an enemy
+                    System.out.println("Attempting to spawn enemy with chance: " + chance);
 
-                        if (characters[c].health != 0) {
+                    if (r.nextInt(100) < chance) {
 
-                            chars += characters[c].name + "\n";
-                            alive++;
+                        Enemy enemy = spawnEnemy();
+                        if (enemy != null) {
 
-                        } else chars += "...\n";
+                            enemyRef = enemy;
+                            updateEnemyBar(enemyRef.name, enemyRef.health, enemyRef.attack, enemyRef.defense);
 
-                    }
-
-                    writeText(chars + "\n" + alive + " characters available.", 0);
-                    
-                } else {
-
-                    try {
-
-                        int slot = Integer.parseInt(bits[1]);
-                        if (slot < 0 || slot >= SelectedPlayer.values().length) writeText(slot + " is not valid.", 0);
-                        else if (characters[slot].health == 0) writeText(characters[slot].name + " is not available.", 0);
-                        else {playerRef = characters[slot];
-
-                            playerRef.changeStats(0, 0, 0);
-                            writeText("Character set to " + playerRef.name + "!", 0);
-                            
-                        }
-
-                    } catch (NumberFormatException ex) {
-
-                        writeText(bits[1] + " is not a valid character.", 0);
+                        } else System.out.println("Did not spawn anything.");
 
                     }
 
                 }
 
+                writeText(theStory.getEvent(1, 100), 0);
                 break;
 
-            case "help":
+            // GAMEPLAY COMMANDS
 
-                writeText("GENERAL\nclear: Clear screen\nexit / quit: Quit the game.\nsettings: Modify game settings\ntitle [int]: Display a random title or specifiy\n\nINVENTORY\ndesc / describe: Show an inventory item's description\ndrop (int): Drop an item\ninv / inventory / ls: Display inventory\nuse (int): Use an inventory item\n\nCOMBAT\natk / attack: Attack the current enemy\nflee: Run away", 0);
-                break;
+            case "characters":
+            case "character":
 
-            case "quit":
-            case "exit":
-
-                frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
-                break;
-
-            case "settings":
-
-                writeText("TODO: Options", 0);
+                mainframe.setVisible(false);
+                playerScreen.setVisible(true);
+                writeText("", -1);
                 break;
 
             case "ls":
@@ -325,6 +410,24 @@ public class Menu {
 
                 break;
 
+            // GENERAL COMMANDS
+
+            case "help":
+
+                writeText("GENERAL\nclear: Clear screen\nexit / quit: Quit the game.\nsettings: Modify game settings\ntitle [int]: Display a random title or specifiy\n\nINVENTORY\ndesc / describe: Show an inventory item's description\ndrop (int): Drop an item\ninv / inventory / ls: Display inventory\nuse (int): Use an inventory item\n\nCOMBAT\natk / attack: Attack the current enemy\nflee: Run away", 0);
+                break;
+
+            case "quit":
+            case "exit":
+
+                mainframe.dispatchEvent(new WindowEvent(mainframe, WindowEvent.WINDOW_CLOSING));
+                break;
+
+            case "settings":
+
+                writeText("TODO: Options", 0);
+                break;
+
             case "clear":
 
                 terminal.setText(null);
@@ -335,7 +438,7 @@ public class Menu {
 
                 if (bits.length < 2) {
 
-                    frame.setTitle(TITLE_STRINGS[r.nextInt(TITLE_STRINGS.length)]);
+                    mainframe.setTitle(TITLE_STRINGS[r.nextInt(TITLE_STRINGS.length)]);
                     writeText("Rerolled title!", 0);
 
                 } else {
@@ -346,7 +449,7 @@ public class Menu {
                         if (slot < 0 || slot > TITLE_STRINGS.length - 1) writeText(slot + " is out of range.", 0);
                         else {
 
-                            frame.setTitle(TITLE_STRINGS[slot]);
+                            mainframe.setTitle(TITLE_STRINGS[slot]);
                             writeText("Updated title!", 0);
 
                         }
@@ -359,36 +462,6 @@ public class Menu {
 
                 }
 
-                break;
-
-            case "enter":
-
-                if (bgMusic != null) bgMusic.command(0);
-                bgMusic = new Audio("mushroom_music.wav");
-                bgMusic.command(1);
-                playerRef.location = "Village";
-
-                // maybe spawn an enemy??? its a gamble for sure
-                if (enemyRef == null) {
-
-                    int chance = 25; // 25% chance to see an enemy
-                    System.out.println("Attempting to spawn enemy with chance: " + chance);
-
-                    if (r.nextInt(100) < chance) {
-
-                        Enemy enemy = spawnEnemy();
-                        if (enemy != null) {
-
-                            enemyRef = enemy;
-                            updateEnemyBar(enemyRef.name, enemyRef.health, enemyRef.attack, enemyRef.defense);
-
-                        } else System.out.println("Did not spawn anything.");
-
-                    }
-
-                }
-
-                writeText(theStory.getEvent(1, 100), 0);
                 break;
 
             default:
@@ -429,7 +502,7 @@ public class Menu {
 
                     if (voiceID >= 0) voices[voiceID].command();
                     if (!gameOver && playerRef != null) terminal.append("\n\n" + playerRef.location + "/" + playerRef.sublocation + " > ");
-                    else terminate();
+                    else if (!gameOver) terminal.append("\n\nStart/Gate>");
                     timer.stop();
 
                 }
@@ -450,7 +523,7 @@ public class Menu {
 
         if (bgMusic != null) bgMusic.command(0);
         panel.remove(inputField);
-        frame.setTitle("Game Over");
+        mainframe.setTitle("Game Over");
         JOptionPane.showMessageDialog(panel, "You have been terminated.", GAME_OVERS[r.nextInt(GAME_OVERS.length)], JOptionPane.ERROR_MESSAGE);
         
     }
@@ -459,141 +532,23 @@ public class Menu {
         /* Main */
 
         Menu main = new Menu();
-
-        main.writeText("The Silver Slayer [Beta v1.0]\n\nWelcome " + main.playerRef.name + ".\nYou are at the Gate.\nBegin by typing 'enter'", 0);
-        main.playerRef.changeStats(0, 0, 0); // to get sidebar to update for the first time
         main.theStory = new Story(); // Making it create a "new story" has so much aura
+        main.writeText("The Silver Slayer [Beta v1.0]\n\nWelcome\nYou are at the Gate.\nBegin by typing 'enter'", 0);
 
     }
 
-    private void init(Menu self) {
+    private void init() {
         /*
          * Sets up the game & UI
          */
 
         // Prep playable characters
-        characters = new Player[SelectedPlayer.values().length];
-        for (int c = 0; c < SelectedPlayer.values().length; c++) characters[c] = new Player(this, SelectedPlayer.values()[c]);
+        for (int c = 0; c < SelectedPlayer.values().length; c++) players[c] = new Player(this, SelectedPlayer.values()[c]);
 
-        // Character select buttons
-        JButton javaButton = new JButton("Bitter Java");
-        javaButton.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                
-                playerRef = characters[0];
-                wait = false;
-
-            }
-            
-        });
-
-        JButton rustButton = new JButton("Brustel Sprout");
-        rustButton.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                
-                playerRef = characters[1];
-                wait = false;
-
-            }
-            
-        });
-        
-        JButton cButton = new JButton("C--");
-        cButton.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                
-                playerRef = characters[2];
-                wait = false;
-
-            }
-            
-        });
-        
-        JButton pythonButton = new JButton("Dapper Python");
-        pythonButton.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                playerRef = characters[3];
-                wait = false;
-
-            }
-            
-        });
-
-        JButton phpButton = new JButton("P. H. Periwinkle");
-        phpButton.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                
-                playerRef = characters[1];playerRef = characters[4];
-                wait = false;
-
-            }
-            
-        });
-
-        JButton reactButton = new JButton("ReacTor");
-        reactButton.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                
-                playerRef = characters[5];
-                wait = false;
-
-            }
-            
-        });
-
-        JButton sqlButton = new JButton("Saea Quowle");
-        sqlButton.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                
-                playerRef = characters[6];
-                wait = false;
-
-            }
-            
-        });
-
-        panel.add(javaButton);
-        panel.add(rustButton);
-        panel.add(cButton);
-        panel.add(pythonButton);
-        panel.add(phpButton);
-        panel.add(reactButton);
-        panel.add(sqlButton);
-
-        frame.setSize(300, 300);
-        frame.add(panel);
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-        while (wait) {System.out.print("");} // TODO: Find line that does less but still works
-
-        // Reset frame
-        frame.setVisible(false);
-        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-
-        // Clear buttons
-        panel.remove(javaButton);
-        panel.remove(rustButton);
-        panel.remove(cButton);
-        panel.remove(pythonButton);
-        panel.remove(phpButton);
-        panel.remove(reactButton);
-        panel.remove(sqlButton);
-        panel.setLayout(new BorderLayout());
+        // UI Base
+        mainframe.setLocationRelativeTo(null);
+        mainframe.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        panel = new JPanel();
 
         // Terminal
         terminal = new JTextArea("", 1, 30);
@@ -603,7 +558,6 @@ public class Menu {
         terminal.setBackground(Color.BLACK);
         terminal.setForeground(Color.GREEN);
         terminal.setFont(gameFont);
-
         scrollPane = new JScrollPane(terminal);
 
         // Right (player's) sidebar
@@ -640,18 +594,16 @@ public class Menu {
         });
 
         // Layout
+        panel.setLayout(new BorderLayout());
         panel.add(inputField, BorderLayout.SOUTH);
         panel.add(scrollPane, BorderLayout.CENTER);
         panel.add(playerBar, BorderLayout.EAST);
         panel.add(enemyBar, BorderLayout.WEST);
 
         // Final
-        frame.setTitle(TITLE_STRINGS[r.nextInt(TITLE_STRINGS.length)]);
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-
-        // Automatically clicks on input field
-        inputField.requestFocusInWindow();
+        mainframe.add(panel);
+        mainframe.setTitle(TITLE_STRINGS[r.nextInt(TITLE_STRINGS.length)]);
+        playerScreen.setVisible(true);
 
     }
 
