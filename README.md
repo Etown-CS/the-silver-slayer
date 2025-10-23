@@ -20,11 +20,20 @@ FOR LINUX:
 
 [//]: # (If possible, list the actual commands you used to install these, so the reader can just cut-n-paste the commands and get everything setup. You only need to add instructions for the OS you are using.)
 
-## Setup
-
-[//]: # (Here you list all the one-time things the developer needs to do after cloning your repo. Sometimes there is no need for this section, but some apps require some first-time configuration from the developer, for example: setting up a database for running your webapp locally.)
+[//]: # (## Setup\nHere you list all the one-time things the developer needs to do after cloning your repo. Sometimes there is no need for this section, but some apps require some first-time configuration from the developer, for example: setting up a database for running your webapp locally.)
 
 ## Running
+For the Windows/Java portions, create an executable JAR using Java's compiler:
+```
+javac Menu.java
+jar cfe tss.jar Menu Menu.class
+java -jar tss.jar
+```
+For Linux/C, use GCC to create an executable binary via the provided Makefile:
+```
+make cave
+make run
+```
 
 [//]: # (Specify the commands for a developer to run the app from the cloned repo.)
 
