@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include "player.h"
 
 #define RED     "\x1b[31m"
 #define GREEN   "\x1b[32m"
