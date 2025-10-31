@@ -1,6 +1,4 @@
 import java.util.HashMap;
-import java.awt.*;
-import java.swing.*;
 
 public class Story {
 
@@ -11,7 +9,7 @@ public class Story {
     private HashMap<Integer, String> village = new HashMap<>();
     private HashMap<Integer, String> lake = new HashMap<>();
     private HashMap<Integer, String> mountain = new HashMap<>();
-    // private HashMap<Integer, String> cave = new HashMap<>();     // Probably doesn't need to be here, but included just in case
+    // private HashMap<Integer, String> cave = new HashMap<>();     // Probably doesn't need to be here
     // private HashMap<Integer, String> mine = new HashMap<>();     // Same as previous
     private HashMap<Integer, String> desert = new HashMap<>();
     private HashMap<Integer, String> swamp = new HashMap<>();
@@ -35,12 +33,7 @@ public class Story {
         events.put(8, lair);
 
         // START
-        start.put(110, "You step up to the gate. Any lock has long since worn away, and you're able to push the gate open with little resistance. The doors swing wide with a long, metallic screech, and you step through onto the path that leads to the village.");
-        start.put(100, "orange.png");
-
-
-
-
+        start.put(100, "You step up to the gate. Any lock has long since worn away, and you're able to push the gate open with little resistance. The doors swing wide with a long, metallic screech, and you step through onto the path that leads to the village.");
 
         // VILLAGE
         village.put(200, "You arrive at the village. Buildings worn from years of neglect and misuse. You don't see any signs of life around. At first glance, it seems like you are alone.");
