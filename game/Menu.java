@@ -4,7 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.util.Random;
-import java.util.concurrent.Flow;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 
@@ -497,6 +496,7 @@ public class Menu {
                     if (voiceID >= 0) voices[voiceID].command();
                     if (!gameOver && playerRef != null) terminal.append("\n\n" + playerRef.location + "/" + playerRef.sublocation + " > ");
                     else if (!gameOver) terminal.append("\n\nStart/Gate>");
+                    update();
                     timer.stop();
 
                 }
@@ -506,6 +506,24 @@ public class Menu {
         });
 
         timer.start();
+
+    }
+
+    private void update() {
+        /*
+         * Runs every time the terminal stops writing text
+         */
+
+        System.out.println("Being update function.");
+
+        int dead = 0;
+        for (int c = 0; c < SelectedPlayer.values().length; c++) {
+
+            if (players[c].health == 0) dead++;
+
+        }
+
+        if (dead == SelectedPlayer.values().length) terminate();
 
     }
 
