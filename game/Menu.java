@@ -188,49 +188,12 @@ public class Menu {
 
     }
 
-    private Enemy[] getEnemies(String location) {
-
-        switch (location.toLowerCase()) {
-
-            case "village": return Locations.Village;
-            case "lake": return Locations.Lake;
-            case "mountain": return Locations.Mountain;
-            case "desert": return Locations.Desert;
-            case "swamp": return Locations.Swamp;
-            case "fracture": return Locations.Fracture;
-            case "lair": return Locations.Lair;
-            default: return null;
-
-        }
-
-    }
-
-    public Enemy spawnEnemy() {
-
-        Enemy[] enemies = getEnemies(playerRef.location);
-        if (enemies != null) return enemies[r.nextInt(enemies.length - 2)];
-        else return null;
-
-    }
-
-    public Enemy spawnBoss() {
-
-        Enemy[] enemies = getEnemies(playerRef.location);
-        return enemies[enemies.length - 1]; // Boss is always the last enemy in the array
-        
-    }
-
-    public void updateEnemyBar(String name, int H, int A, int D) {
+    public void updateEnemyBar() {
         /*
          * Updates the enemy sidebar
-         * 
-         * enemy: A reference to the current enemy
-         * H: Health value
-         * A: Attack value
-         * D: Defense value
          */
 
-        enemyBar.setText("ENEMY\n" + name + "\n\nHealth: " + H + "\nAttack: " + A + "\nDefense: " + D);
+        enemyBar.setText("ENEMY\n" + enemyRef.name + "\n\nHealth: " + enemyRef.health + "\nAttack: " + enemyRef.attack + "\nDefense: " + enemyRef.defense);
 
     }
 
@@ -253,28 +216,8 @@ public class Menu {
                 bgMusic = new Audio("mushroom_music.wav");
                 bgMusic.command(1);
                 playerRef.location = "Village";
-
-                // maybe spawn an enemy??? its a gamble for sure
-                if (enemyRef == null) {
-
-                    int chance = 25; // 25% chance to see an enemy
-                    System.out.println("Attempting to spawn enemy with chance: " + chance);
-
-                    if (r.nextInt(100) < chance) {
-
-                        Enemy enemy = spawnEnemy();
-                        if (enemy != null) {
-
-                            enemyRef = enemy;
-                            updateEnemyBar(enemyRef.name, enemyRef.health, enemyRef.attack, enemyRef.defense);
-
-                        } else System.out.println("Did not spawn anything.");
-
-                    }
-
-                }
-
-                writeText(theStory.getEvent(1, 100), 0);
+                playerRef.sublocation = "Center";
+                writeText(theStory.getEvent(1, 0), 0);
                 break;
 
             // GAMEPLAY COMMANDS
@@ -367,7 +310,7 @@ public class Menu {
                 else {
 
                     int atkdmg = enemyRef.getAttacked(playerRef.attack);
-                    updateEnemyBar(enemyRef.name, enemyRef.health, enemyRef.attack, enemyRef.defense);
+                    updateEnemyBar();
                     
                     if (enemyRef.health == 0) {
 
@@ -521,16 +464,25 @@ public class Menu {
          * Runs every time the terminal stops writing text
          */
 
-        System.out.println("Being update function.");
+        if (playerRef == null) return;
+        else if (playerRef.health == 0) {
 
-        int dead = 0;
-        for (int c = 0; c < SelectedPlayer.values().length; c++) {
+            int dead = 0;
+            for (int c = 0; c < SelectedPlayer.values().length; c++) {
 
-            if (players[c].health == 0) dead++;
+                if (players[c].health == 0) dead++;
+
+            }
+
+            if (dead == SelectedPlayer.values().length) terminate();
+            else playerSelect();
+
+        } else if (enemyRef == null) {
+
+            enemyRef = Locations.spawnEnemy(r, 100, playerRef.location);
+            if (enemyRef != null) updateEnemyBar();
 
         }
-
-        if (dead == SelectedPlayer.values().length) terminate();
 
     }
 
@@ -540,6 +492,7 @@ public class Menu {
          * Remove the inputField and displays a game over message
          */
 
+        gameOver = true;
         if (bgMusic != null) bgMusic.command(0);
         panel.remove(inputField);
         mainframe.setTitle("Game Over");

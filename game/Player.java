@@ -118,13 +118,7 @@ public class Player {
         defense += D;
 
         if (health > healthCap) health = healthCap;
-        else if (health <= 0) {
-
-            health = 0;
-            menuRef.gameOver = true;
-
-        }
-
+        else if (health < 0) health = 0;
         if (attack < 0) attack = 0;
         if (defense < 0) defense = 0;
 

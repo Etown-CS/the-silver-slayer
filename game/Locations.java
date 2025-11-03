@@ -1,3 +1,5 @@
+import java.util.Random;
+
 public class Locations {
 
     public static final Enemy[] Village = 
@@ -130,5 +132,46 @@ public class Locations {
             new Enemy("Worm", 4, 1, 5),
             new Enemy("The Silver Slayer", 999, 999, 999)
         };
+
+    public static Enemy spawnEnemy(Random r, int chance, String location) {
+        
+        if (r.nextInt(100) > chance) return null;
+        switch (location) {
+
+            case "Village":
+
+                return Village[r.nextInt(Village.length)];
+
+            case "Lake":
+
+                return Lake[r.nextInt(Lake.length)];
+
+            case "Mountain":
+
+                return Mountain[r.nextInt(Mountain.length)];
+
+            case "Desert":
+
+                return Desert[r.nextInt(Desert.length)];
+
+            case "Swamp":
+
+                return Swamp[r.nextInt(Swamp.length)];
+
+            case "Fracture":
+
+                return Fracture[r.nextInt(Fracture.length)];
+
+            case "Lair":
+
+                return Lair[r.nextInt(Lair.length)];
+
+            default:
+
+                return null;
+
+        }
+
+    }
 
 }
