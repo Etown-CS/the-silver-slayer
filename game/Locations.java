@@ -133,38 +133,45 @@ public class Locations {
             new Enemy("The Silver Slayer", 999, 999, 999)
         };
 
-    public static Enemy spawnEnemy(Random r, int chance, String location) {
+    public static Enemy spawnEnemy(Random r, int chance, String location, boolean boss) {
         
         if (r.nextInt(100) > chance) return null;
         switch (location) {
 
             case "Village":
 
-                return Village[r.nextInt(Village.length)];
+                if (boss) return Village[Village.length - 1];
+                else return Village[r.nextInt(Village.length - 1)];
 
             case "Lake":
 
-                return Lake[r.nextInt(Lake.length)];
+                if (boss) return Lake[Lake.length - 1];
+                else return Lake[r.nextInt(Lake.length - 1)];
 
             case "Mountain":
 
-                return Mountain[r.nextInt(Mountain.length)];
+                if (boss) return Mountain[Mountain.length - 1];
+                else return Mountain[r.nextInt(Mountain.length - 1)];
 
             case "Desert":
 
-                return Desert[r.nextInt(Desert.length)];
+                if (boss) return Desert[Desert.length - 1];
+                else return Desert[r.nextInt(Desert.length - 1)];
 
             case "Swamp":
 
-                return Swamp[r.nextInt(Swamp.length)];
+                if (boss) return Swamp[Swamp.length - 1];
+                else return Swamp[r.nextInt(Swamp.length - 1)];
 
             case "Fracture":
 
-                return Fracture[r.nextInt(Fracture.length)];
+                if (boss) return Fracture[Fracture.length - 1];
+                else return Fracture[r.nextInt(Fracture.length - 1)];
 
             case "Lair":
 
-                return Lair[r.nextInt(Lair.length)];
+                if (boss) return Lair[Lair.length - 1];
+                else return Lair[r.nextInt(Lair.length - 1)];
 
             default:
 
