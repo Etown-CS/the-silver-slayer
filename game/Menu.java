@@ -4,19 +4,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.util.Random;
-import java.time.*;
-import java.time.format.DateTimeFormatter;
 
 public class Menu {
 
     // Display
     private JFrame mainframe = new JFrame();
     private JPanel panel = new JPanel();
-    private JTextArea terminal;
-    private JTextArea playerBar;
-    private JTextArea enemyBar;
+    private JTextArea terminal = new JTextArea("", 1, 30);;
+    private JTextArea playerBar = new JTextArea("", 1, 10);;
+    private JTextArea enemyBar = new JTextArea("ENEMY", 1, 10);;
     private JScrollPane scrollPane;
-    private JTextField inputField;
+    private JTextField inputField = new JTextField();
 
     // Character selection screen
     private JFrame playerScreen;
@@ -24,7 +22,7 @@ public class Menu {
 
     // Text
     private final Font gameFont = new Font("Cascadia Mono", Font.PLAIN, 20);;
-    private Timer timer;
+    private Timer timer = new Timer(0, null);
     private int characterIndex;
 
     // Elements
@@ -33,36 +31,19 @@ public class Menu {
     private Player[] players = new Player[SelectedPlayer.values().length];;
     public Player playerRef;
     public Enemy enemyRef;
-    public boolean gameOver = false;
+    private boolean gameOver = false;
 
     // Sounds
     private Audio[] voices = {new Audio("blip.wav")};
     private Audio damageSFX = new Audio("damage.wav");
     private Audio bgMusic;
 
-    // Date and Time
-    private DateTimeFormatter dateTime = DateTimeFormatter.ofPattern("HH:mm:ss 'on' E, MMM dd yyyy");
-
     // Options
     private int textDelay = 5;
-
-    // Storage
-    private final String[] TITLE_STRINGS = {"Silver Slayer RPG", "Also try Terraria!", "Also try Minecraft!", "THE FOG IS COMING", 
-                                            "There may be an egg", "It's " + LocalDateTime.now().format(dateTime) + " right now", 
-                                            "here come dat boi", "JOHN WAS HERE", "The name is Gus... Amon Gus", "water bottle 😭", 
-                                            "Microwave be like 'mmmmmm BEEP BEEP BEEP BEEP'", "-inf < x < inf", 
-                                            "As I write this, it's 1:30pm on Friday, October 3rd, 2025", "[J]ohn, [A]sher, and [M]artin... JAM", 
-                                            "Why am I writing these?", "Silksong is out!", "I ate my toothbrush :(", "o _ o", "get rekt", 
-                                            "Low on magenta!", "Strings 🙏", "WORK is a dish best served NO", "jk jk............ unless?",
-                                            "Remember to cave"};
-    private final String[] FLEE_STRINGS = {"You can't run forever.", "You got away... for now.", "You'll be back."};
-    private final String[] GAME_OVERS = {"How unfortunate", "That's gonna leave a mark", "Better luck some time!", "oof", "bruh.mp3",
-                                            "Process killed"};
 
     public Menu() {
         /* Constructor */
 
-        mainframe.setTitle(TITLE_STRINGS[0]);
         mainframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         characterButtons[0] = new JButton("Bitter Java");
@@ -74,7 +55,7 @@ public class Menu {
                 playerRef = players[0];
                 playerScreen.setVisible(false);
                 mainframe.setVisible(true);
-                updatePlayerBar(playerRef.name, playerRef.health, playerRef.attack, playerRef.defense);
+                updatePlayerBar();
 
             }
 
@@ -89,7 +70,7 @@ public class Menu {
                 playerRef = players[1];
                 playerScreen.setVisible(false);
                 mainframe.setVisible(true);
-                updatePlayerBar(playerRef.name, playerRef.health, playerRef.attack, playerRef.defense);
+                updatePlayerBar();
 
             }
 
@@ -104,7 +85,7 @@ public class Menu {
                 playerRef = players[2];
                 playerScreen.setVisible(false);
                 mainframe.setVisible(true);
-                updatePlayerBar(playerRef.name, playerRef.health, playerRef.attack, playerRef.defense);
+                updatePlayerBar();
 
             }
 
@@ -119,7 +100,7 @@ public class Menu {
                 playerRef = players[3];
                 playerScreen.setVisible(false);
                 mainframe.setVisible(true);
-                updatePlayerBar(playerRef.name, playerRef.health, playerRef.attack, playerRef.defense);
+                updatePlayerBar();
 
             }
 
@@ -134,7 +115,7 @@ public class Menu {
                 playerRef = players[4];
                 playerScreen.setVisible(false);
                 mainframe.setVisible(true);
-                updatePlayerBar(playerRef.name, playerRef.health, playerRef.attack, playerRef.defense);
+                updatePlayerBar();
 
             }
 
@@ -149,7 +130,7 @@ public class Menu {
                 playerRef = players[5];
                 playerScreen.setVisible(false);
                 mainframe.setVisible(true);
-                updatePlayerBar(playerRef.name, playerRef.health, playerRef.attack, playerRef.defense);
+                updatePlayerBar();
 
             }
 
@@ -164,27 +145,22 @@ public class Menu {
                 playerRef = players[6];
                 playerScreen.setVisible(false);
                 mainframe.setVisible(true);
-                updatePlayerBar(playerRef.name, playerRef.health, playerRef.attack, playerRef.defense);
+                updatePlayerBar();
 
             }
 
         });
         
-        timer = new Timer(0, null);
         init();
 
     }
 
-    public void updatePlayerBar(String name, int H, int A, int D) {
+    public void updatePlayerBar() {
         /*
          * Updates the player's sidebar
-         * 
-         * H: Health value
-         * A: Attack value
-         * D: Defense value
          */
 
-        playerBar.setText("PLAYER\n\n" + playerRef.name + "\n\nHealth: " + H + " / " + playerRef.healthCap + "\nAttack: " + A + "\nDefense: " + D);
+        playerBar.setText("PLAYER\n\n" + playerRef.name + "\n\nHealth: " + playerRef.health + " / " + playerRef.healthCap + "\nAttack: " + playerRef.attack + "\nDefense: " + playerRef.defense);
 
     }
 
@@ -339,7 +315,7 @@ public class Menu {
                     int chance = 75; // 75% chance to flee unharmed, 25% chance to take damage while fleeing
 
                     if (r.nextInt(100) < chance) {
-                        writeText("You fled from " + enemyRef.name + ".\n" + FLEE_STRINGS[r.nextInt(FLEE_STRINGS.length)], 0);
+                        writeText("You fled from " + enemyRef.name + ".\n" + theStory.FLEE_STRINGS[r.nextInt(theStory.FLEE_STRINGS.length)], 0);
                         enemyRef = null;
                         enemyBar.setText("ENEMY");
                     } else {
@@ -381,7 +357,7 @@ public class Menu {
 
                 if (bits.length < 2) {
 
-                    mainframe.setTitle(TITLE_STRINGS[r.nextInt(TITLE_STRINGS.length)]);
+                    mainframe.setTitle(theStory.TITLE_STRINGS[r.nextInt(theStory.TITLE_STRINGS.length)]);
                     writeText("Rerolled title!", 0);
 
                 } else {
@@ -389,10 +365,10 @@ public class Menu {
                     try {
 
                         int slot = Integer.parseInt(bits[1]);
-                        if (slot < 0 || slot > TITLE_STRINGS.length - 1) writeText(slot + " is out of range.", 0);
+                        if (slot < 0 || slot > theStory.TITLE_STRINGS.length - 1) writeText(slot + " is out of range.", 0);
                         else {
 
-                            mainframe.setTitle(TITLE_STRINGS[slot]);
+                            mainframe.setTitle(theStory.TITLE_STRINGS[slot]);
                             writeText("Updated title!", 0);
 
                         }
@@ -489,14 +465,14 @@ public class Menu {
     public void terminate() {
         /*
          * Ends the game
-         * Remove the inputField and displays a game over message
+         * Removes the inputField and displays a game over message
          */
 
         gameOver = true;
         if (bgMusic != null) bgMusic.command(0);
         panel.remove(inputField);
         mainframe.setTitle("Game Over");
-        JOptionPane.showMessageDialog(panel, "You have been terminated.", GAME_OVERS[r.nextInt(GAME_OVERS.length)], JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(panel, "You have been terminated.", theStory.GAME_OVERS[r.nextInt(theStory.GAME_OVERS.length)], JOptionPane.ERROR_MESSAGE);
         
     }
     
@@ -505,7 +481,23 @@ public class Menu {
 
         Menu main = new Menu();
         main.theStory = new Story(); // Making it create a "new story" has so much aura
-        main.writeText("The Silver Slayer [Beta v1.0]\n\nWelcome\nYou are at the Gate.\nBegin by typing 'enter'", 0);
+        main.writeText("The Silver Slayer [Beta v1.0]\n\nWelcome\nYou are at the Gate.\nBegin by typing 'enter'", -1);
+
+    }
+
+    private void playerSelect() {
+        /*
+         * Shows a menu with buttons for available characters
+         */
+
+        mainframe.setVisible(false);
+        playerScreen = new JFrame();
+        playerScreen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        playerScreen.setLayout(new FlowLayout());
+        playerScreen.setSize(300, 300);
+        playerScreen.setLocationRelativeTo(null);
+        for (int c = 0; c < SelectedPlayer.values().length; c++) if (players[c].health > 0) playerScreen.add(characterButtons[c]);
+        playerScreen.setVisible(true);
 
     }
 
@@ -520,10 +512,8 @@ public class Menu {
         // UI Base
         mainframe.setLocationRelativeTo(null);
         mainframe.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        panel = new JPanel();
 
         // Terminal
-        terminal = new JTextArea("", 1, 30);
         terminal.setLineWrap(true);
         terminal.setWrapStyleWord(true);
         terminal.setEditable(false);
@@ -533,21 +523,18 @@ public class Menu {
         scrollPane = new JScrollPane(terminal);
 
         // Right (player's) sidebar
-        playerBar = new JTextArea("", 1, 10);
         playerBar.setFont(gameFont);
         playerBar.setEditable(false); // make player stats not editable
         playerBar.setBackground(Color.BLACK);
         playerBar.setForeground(Color.GREEN);
 
         // Left (enemy's) sidebar
-        enemyBar = new JTextArea("ENEMY", 1, 10);
         enemyBar.setFont(gameFont);
         enemyBar.setEditable(false);
         enemyBar.setBackground(Color.BLACK);
         enemyBar.setForeground(Color.GREEN);
 
         // Input
-        inputField = new JTextField();
         inputField.setBackground(Color.BLACK);
         inputField.setForeground(Color.GREEN);
         inputField.setFont(gameFont);
@@ -574,21 +561,8 @@ public class Menu {
 
         // Final
         mainframe.add(panel);
-        mainframe.setTitle(TITLE_STRINGS[r.nextInt(TITLE_STRINGS.length)]);
+        mainframe.setTitle(theStory.TITLE_STRINGS[r.nextInt(theStory.TITLE_STRINGS.length)]);
         playerSelect();
-
-    }
-
-    private void playerSelect() {
-
-        mainframe.setVisible(false);
-        playerScreen = new JFrame();
-        playerScreen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        playerScreen.setLayout(new FlowLayout());
-        playerScreen.setSize(300, 300);
-        playerScreen.setLocationRelativeTo(null);
-        for (int c = 0; c < SelectedPlayer.values().length; c++) if (players[c].health > 0) playerScreen.add(characterButtons[c]);
-        playerScreen.setVisible(true);
 
     }
 

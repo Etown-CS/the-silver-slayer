@@ -122,7 +122,7 @@ public class Player {
         if (attack < 0) attack = 0;
         if (defense < 0) defense = 0;
 
-        menuRef.updatePlayerBar(name,health, attack, defense);
+        menuRef.updatePlayerBar();
 
     }
 

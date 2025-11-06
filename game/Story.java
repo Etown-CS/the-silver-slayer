@@ -17,7 +17,16 @@ public class Story {
     private HashMap<Integer, String> lair = new HashMap<>();
     private HashMap<Integer, HashMap<Integer, String>> events = new HashMap<Integer, HashMap<Integer, String>>();
 
-
+    public final String[] TITLE_STRINGS = {"Silver Slayer RPG", "Also try Terraria!", "Also try Minecraft!", "THE FOG IS COMING", 
+                                            "There may be an egg", "here come dat boi", "JOHN WAS HERE", "The name is Gus... Amon Gus", "water bottle", 
+                                            "Microwave be like 'mmmmmm BEEP BEEP BEEP BEEP'", "-inf < x < inf", 
+                                            "As I write this, it's 1:30pm on Friday, October 3rd, 2025", "[J]ohn, [A]sher, and [M]artin... JAM", 
+                                            "Why am I writing these?", "Silksong is out!", "I ate my toothbrush :(", "o _ o", "get rekt", 
+                                            "Low on magenta!", "Strings", "WORK is a dish best served NO", "jk jk............ unless?",
+                                            "Remember to cave"};
+    public final String[] FLEE_STRINGS = {"You can't run forever.", "You got away... for now.", "You'll be back."};
+    public final String[] GAME_OVERS = {"How unfortunate", "That's gonna leave a mark", "Better luck some time!", "oof", "bruh.mp3",
+                                            "Process killed"};
 
     public Story() {
         /* Constructor */
