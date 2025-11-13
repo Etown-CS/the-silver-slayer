@@ -393,11 +393,18 @@ public class Menu {
 
                 if (enemyRef == null) writeText("There's nothing to run from.", 0);
                 else {
+                    int chance = 75; // 75% chance to flee unharmed, 25% chance to take damage while fleeing
 
-                    writeText("You fled from " + enemyRef.name + ".\n" + FLEE_STRINGS[r.nextInt(FLEE_STRINGS.length)], 0);
-                    enemyRef = null;
-                    enemyBar.setText("ENEMY");
-                    // TODO: Make it a percent chance to escape and/or take damage
+                    if (r.nextInt(100) < chance) {
+                        writeText("You fled from " + enemyRef.name + ".\n" + FLEE_STRINGS[r.nextInt(FLEE_STRINGS.length)], 0);
+                        enemyRef = null;
+                        enemyBar.setText("ENEMY");
+                    } else {
+                        writeText("You attempted to flee, but failed!\n" + enemyRef.name + " attacked you for " + playerRef.playerAttacked(enemyRef.attack) + " damage!\n"
+                        + "Luckily you still make it away, only with a wound.", 0);
+                        enemyRef = null;
+                        enemyBar.setText("ENEMY");
+                    }
 
                 }
 
