@@ -27,7 +27,7 @@ public class Menu {
 
     // Elements
     private Random r = new Random();
-    private Story theStory;
+    private Story theStory = new Story(); // Making it create a "new story" has so much aura;
     private Player[] players = new Player[SelectedPlayer.values().length];;
     public Player playerRef;
     public Enemy enemyRef;
@@ -35,8 +35,8 @@ public class Menu {
 
     // Sounds
     private Audio[] voices = {new Audio("blip.wav")};
+    private Audio[] music = {new Audio("mushroom_music.wav")};
     private Audio damageSFX = new Audio("damage.wav");
-    private Audio bgMusic;
 
     // Options
     private int textDelay = 5;
@@ -55,6 +55,7 @@ public class Menu {
                 playerRef = players[0];
                 playerScreen.setVisible(false);
                 mainframe.setVisible(true);
+                inputField.requestFocus();
                 updatePlayerBar();
 
             }
@@ -70,6 +71,7 @@ public class Menu {
                 playerRef = players[1];
                 playerScreen.setVisible(false);
                 mainframe.setVisible(true);
+                inputField.requestFocus();
                 updatePlayerBar();
 
             }
@@ -85,6 +87,7 @@ public class Menu {
                 playerRef = players[2];
                 playerScreen.setVisible(false);
                 mainframe.setVisible(true);
+                inputField.requestFocus();
                 updatePlayerBar();
 
             }
@@ -100,6 +103,7 @@ public class Menu {
                 playerRef = players[3];
                 playerScreen.setVisible(false);
                 mainframe.setVisible(true);
+                inputField.requestFocus();
                 updatePlayerBar();
 
             }
@@ -115,6 +119,7 @@ public class Menu {
                 playerRef = players[4];
                 playerScreen.setVisible(false);
                 mainframe.setVisible(true);
+                inputField.requestFocus();
                 updatePlayerBar();
 
             }
@@ -130,6 +135,7 @@ public class Menu {
                 playerRef = players[5];
                 playerScreen.setVisible(false);
                 mainframe.setVisible(true);
+                inputField.requestFocus();
                 updatePlayerBar();
 
             }
@@ -145,6 +151,7 @@ public class Menu {
                 playerRef = players[6];
                 playerScreen.setVisible(false);
                 mainframe.setVisible(true);
+                inputField.requestFocus();
                 updatePlayerBar();
 
             }
@@ -188,9 +195,6 @@ public class Menu {
 
             case "enter":
 
-                if (bgMusic != null) bgMusic.command(0);
-                bgMusic = new Audio("mushroom_music.wav");
-                bgMusic.command(1);
                 playerRef.location = "Village";
                 playerRef.sublocation = "Center";
                 writeText(theStory.getEvent(1, 0), 0);
@@ -343,6 +347,9 @@ public class Menu {
                 break;
 
             case "settings":
+            case "setting":
+            case "options":
+            case "option":
 
                 writeText("TODO: Options", 0);
                 break;
@@ -440,7 +447,7 @@ public class Menu {
          * Runs every time the terminal stops writing text
          */
 
-        if (playerRef == null) return;
+        if (gameOver || playerRef == null) return;
         else if (playerRef.health == 0) {
 
             int dead = 0;
@@ -464,12 +471,10 @@ public class Menu {
 
     public void terminate() {
         /*
-         * Ends the game
          * Removes the inputField and displays a game over message
          */
 
         gameOver = true;
-        if (bgMusic != null) bgMusic.command(0);
         panel.remove(inputField);
         mainframe.setTitle("Game Over");
         JOptionPane.showMessageDialog(panel, "You have been terminated.", theStory.GAME_OVERS[r.nextInt(theStory.GAME_OVERS.length)], JOptionPane.ERROR_MESSAGE);
@@ -480,7 +485,6 @@ public class Menu {
         /* Main */
 
         Menu main = new Menu();
-        main.theStory = new Story(); // Making it create a "new story" has so much aura
         main.writeText("The Silver Slayer [Beta v1.0]\n\nWelcome\nYou are at the Gate.\nBegin by typing 'enter'", -1);
 
     }
