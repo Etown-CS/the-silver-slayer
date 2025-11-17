@@ -56,6 +56,8 @@ public class Story {
         // VILLAGE
         village.put(200, "You arrive at the village. Buildings worn from years of neglect and misuse. You don't see any signs of life around. At first glance, it seems like you are alone.");
         village.put(210, "A particular house catches your eye. It seems less worn then the rest of the buildings, so you decide to take a closer look. You go inside.");
+        village.put(211, "The house appears to be completely furnished. Nothing is moved it makes you wonder if there are people still living here. You look at the kitchen table to see a fully cooked meal. The scary part is that you can still see steam coming off the food. On the table is a Silver Spoon. You want to pick it up.");
+        village.put(212, "You pick up the Silver Spoon.");
         village.put(220, "The village graveyard is vast, with many gravestones in perfect rows. You decide to explore.");
         village.put(230, "In the center of the village there is a well. Must have been the water source for everyone. You decide to take a look inside.");
 
