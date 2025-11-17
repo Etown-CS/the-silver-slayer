@@ -4,8 +4,8 @@ public class Player {
     public SelectedPlayer character;
     public Item[] inventory = {null, null, null, null, null, null, null, null, null, null};
     public Item currentArmor = null, currentWeapon = null, currentWearable = null;
-    public String location, sublocation, name;
-    public int health, healthCap, attack, defense, invCap;
+    public String name;
+    public int health, healthCap, attack, defense, invCap, location, sublocation;
 
     public Player(Menu refToMenu, SelectedPlayer character) {
         /* Constructor */
@@ -14,8 +14,8 @@ public class Player {
         this.character = character;
         setCharacterStats(character);
 
-        location = "Start";
-        sublocation = "Gate";
+        location = 1;
+        sublocation = 1;
         menuRef = refToMenu;
 
     }

@@ -133,42 +133,42 @@ public class Locations {
             new Enemy("The Silver Slayer", 999, 999, 999)
         };
 
-    public static Enemy spawnEnemy(Random r, int chance, String location, boolean boss) {
+    public static Enemy spawnEnemy(Random r, int chance, int location, boolean boss) {
         
         if (r.nextInt(100) > chance) return null;
         switch (location) {
 
-            case "Village":
+            case 2:
 
                 if (boss) return Village[Village.length - 1];
                 else return Village[r.nextInt(Village.length - 1)];
 
-            case "Lake":
+            case 3:
 
                 if (boss) return Lake[Lake.length - 1];
                 else return Lake[r.nextInt(Lake.length - 1)];
 
-            case "Mountain":
+            case 4:
 
                 if (boss) return Mountain[Mountain.length - 1];
                 else return Mountain[r.nextInt(Mountain.length - 1)];
 
-            case "Desert":
+            case 5:
 
                 if (boss) return Desert[Desert.length - 1];
                 else return Desert[r.nextInt(Desert.length - 1)];
 
-            case "Swamp":
+            case 6:
 
                 if (boss) return Swamp[Swamp.length - 1];
                 else return Swamp[r.nextInt(Swamp.length - 1)];
 
-            case "Fracture":
+            case 7:
 
                 if (boss) return Fracture[Fracture.length - 1];
                 else return Fracture[r.nextInt(Fracture.length - 1)];
 
-            case "Lair":
+            case 8:
 
                 if (boss) return Lair[Lair.length - 1];
                 else return Lair[r.nextInt(Lair.length - 1)];

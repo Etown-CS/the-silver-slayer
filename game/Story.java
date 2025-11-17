@@ -5,6 +5,20 @@ public class Story {
     // The idea for this class is to store all the story elements here
     // This way they won't get in the way of the code
 
+    public final String[] locations = {null, "Start", "Village", "Lake", "Mountain", "Desert", "Swamp", "Fracture", "Lair"};
+
+
+    /*
+     * STRUCTURE
+     * 
+     * Every major location has its own HashMap.
+     * Each HashMap consists of an event ID and then the event itself.
+     * Events ending in 0 are the event that occurs when first entering somewhere.
+     * Events ending in 1 are what happens when you run look.
+     * Similarly, events ending in 2 are the search events.
+     * 
+     */
+
     private HashMap<Integer, String> start = new HashMap<>();
     private HashMap<Integer, String> village = new HashMap<>();
     private HashMap<Integer, String> lake = new HashMap<>();
@@ -23,8 +37,7 @@ public class Story {
                                             "Why am I writing these?", "Silksong is out!", "I ate my toothbrush", "o _ o", "get rekt", 
                                             "Low on magenta!", "Strings", "jk jk... unless?", "Remember to cave"};
     public final String[] FLEE_STRINGS = {"You can't run forever.", "You got away... for now.", "You'll be back."};
-    public final String[] GAME_OVERS = {"How unfortunate", "That's gonna leave a mark", "Better luck some time!", "oof", "bruh.mp3",
-                                            "Process killed"};
+    public final String[] GAME_OVERS = {"How unfortunate", "That's gonna leave a mark", "Better luck some time!", "oof", "bruh.mp3", "Process killed"};
 
     public Story() {
         /* Constructor */
@@ -85,6 +98,46 @@ public class Story {
          */
 
         return events.get(locationID).get(eventID);
+
+    }
+
+    public String getLookEvent(int loc, int sub) {
+        /*
+         * Get look event for current location
+         * 
+         * loc: Location ID
+         * sub: Sublocation ID
+         */
+
+        return getLSEvent(loc, sub, true);
+
+    }
+
+    public String getSearchEvent(int l, int s) {
+        /*
+         * Get search event for current location
+         * 
+         * loc: Location ID
+         * sub: Sublocation ID
+         */
+
+        return getLSEvent(l, s, false);
+
+    }
+
+    private String getLSEvent(int l, int s, boolean look) {
+        /*
+         * Mathematically derives the look or search event key for any location/sublocation combination,
+         *      then returns the event.
+         *      Does not get called directly.
+         * 
+         * l: location
+         * s: sublocation
+         * look: [true] for look, [false] for search
+         */
+
+        if (look) return getEvent(l * 100, l * 100 + s * 10 + 1);
+        else return getEvent(l * 100, l * 100 + s * 10 + 2);
 
     }
     

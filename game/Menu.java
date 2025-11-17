@@ -35,7 +35,7 @@ public class Menu {
 
     // Sounds
     private Audio[] voices = {new Audio("blip.wav")};
-    private Audio[] music = {new Audio("mushroom_music.wav")};
+    //private Audio[] music = {new Audio("mushroom_music.wav")};
     private Audio damageSFX = new Audio("damage.wav");
 
     // Options
@@ -195,9 +195,19 @@ public class Menu {
 
             case "enter":
 
-                playerRef.location = "Village";
-                playerRef.sublocation = "Center";
+                playerRef.location = 2;
+                playerRef.sublocation = 0;
                 writeText(theStory.getEvent(1, 0), 0);
+                break;
+
+            case "look":
+
+                writeText(theStory.getLookEvent(playerRef.location, playerRef.sublocation), 0);
+                break;
+
+            case "search":
+
+                writeText(theStory.getSearchEvent(playerRef.location, playerRef.sublocation), 0);
                 break;
 
             // GAMEPLAY COMMANDS
@@ -427,8 +437,7 @@ public class Menu {
                 else {
 
                     if (voiceID >= 0) voices[voiceID].command();
-                    if (!gameOver && playerRef != null) terminal.append("\n\n" + playerRef.location + "/" + playerRef.sublocation + " > ");
-                    else if (!gameOver) terminal.append("\n\nStart/Gate>");
+                    if (!gameOver) terminal.append("\n\n" + theStory.locations[playerRef.location] + "> ");
                     update();
                     timer.stop();
 
@@ -485,7 +494,7 @@ public class Menu {
         /* Main */
 
         Menu main = new Menu();
-        main.writeText("The Silver Slayer [Beta v1.0]\n\nWelcome\nYou are at the Gate.\nBegin by typing 'enter'", -1);
+        main.terminal.setText("The Silver Slayer [Beta v1.0]\n\nWelcome\nYou are at the Gate.\nBegin by typing 'enter'\n\nStart/Gate> ");
 
     }
 
