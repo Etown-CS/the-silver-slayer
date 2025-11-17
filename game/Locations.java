@@ -2,6 +2,14 @@ import java.util.Random;
 
 public class Locations {
 
+    public static final String[] locations = {null, "Start", "Village", "Lake", "Mountain", "Desert", "Swamp", "Fracture", "Lair"};
+    public static final String[][] sublocations = {
+        null,
+        {"Gate"},
+        {"Center", "House", "Graveyard", "Well"},
+        {"c", "d"}
+    };
+
     public static final Enemy[] Village = 
         {
             new Enemy("Bug", 3, 1, 0),

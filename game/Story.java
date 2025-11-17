@@ -5,9 +5,6 @@ public class Story {
     // The idea for this class is to store all the story elements here
     // This way they won't get in the way of the code
 
-    public final String[] locations = {null, "Start", "Village", "Lake", "Mountain", "Desert", "Swamp", "Fracture", "Lair"};
-
-
     /*
      * STRUCTURE
      * 

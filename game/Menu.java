@@ -437,7 +437,7 @@ public class Menu {
                 else {
 
                     if (voiceID >= 0) voices[voiceID].command();
-                    if (!gameOver) terminal.append("\n\n" + theStory.locations[Player.location] + "> ");
+                    if (!gameOver) terminal.append("\n\n" + Locations.locations[Player.location] + '/' + Locations.sublocations[Player.location][Player.sublocation] + "> ");
                     update();
                     timer.stop();
 
