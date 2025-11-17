@@ -55,35 +55,62 @@ public class Story {
 
         // VILLAGE
         village.put(200, "You arrive at the village. Buildings worn from years of neglect and misuse. You don't see any signs of life around. At first glance, it seems like you are alone.");
+        
         village.put(210, "A particular house catches your eye. It seems less worn then the rest of the buildings, so you decide to take a closer look. You go inside.");
         village.put(211, "The house appears to be completely furnished. Nothing is moved it makes you wonder if there are people still living here. You look at the kitchen table to see a fully cooked meal. The scary part is that you can still see steam coming off the food. On the table is a Silver Spoon. You want to pick it up.");
         village.put(212, "You pick up the Silver Spoon.");
+
         village.put(220, "The village graveyard is vast, with many gravestones in perfect rows. You decide to explore.");
+        village.put(221, "Walking up to the gravestones, you begin to read the names on them. Some names you may recognize, but who is Smitty Werbenjagermanjenson?");
+        village.put(222, "You find nothing of value.");
+
         village.put(230, "In the center of the village there is a well. Must have been the water source for everyone. You decide to take a look inside.");
+        village.put(231, "A bucket is sitting at the bottom of this dry well. Thats what they must have used to retrieve the water.");
 
         // LAKE
         lake.put(300, "You voyage to a great lake. The water is completely still, but yet you can see strange looking creatures moving under the surface");
+
         lake.put(310, "You have stumbled upon a dock. This would be a good place to fish, but for what?");
+        lake.put(311, "You see a tackle box on the dock.");
+        lake.put(312, "You find goggles in the tackle box. You also notice a weird smell coming from it.");
+
+        lake.put(320, "You decide to take a swim! You dive into the water.");
+        lake.put(321, "Luckily you're wearing goggles, so you begin to look around. At the bottom of the lake, you see the enterance to a cave, but you are to nervous to look any further. You then get out of the water.");
+
+        lake.put(330, "Time to Phish!"); // phishing minigame
+
+        
+
 
         // MOUNTAIN
         mountain.put(400, "You arrive the base of a mountain. A long, steep path looks like it makes it way to the peak, but you cant see the top from here.");
 
         // DESERT
         desert.put(500, "You travel to the desert. The heat is almost unbearable. In front of you are dunes that go on for what seems like forever.");
+
         desert.put(510, "You walk to one of the many large dunes. You decide to look around.");
-        desert.put(520, "Beside one of the dunes, you notice a town, and decide to check it out.");
+        desert.put(511, "Once you're on top of the dune, you are able to see an oasis with a town nearby.");
+
+        desert.put(520, "You decide to walk to the town and check it out.");
+        desert.put(521, "In the town you see a bazaar and go inside.");
+        desert.put(522, "You see a bar in the town and decide to go into it. Maybe someone in there will have some advice.");
+
         desert.put(530, "A small well is not far from you. Though looking inside, you see it is completely dry.");
+
 
         // SWAMP
         swamp.put(600, "You make your way to a swamp. The air is humid. Your feet sink into the soft mud as you walk. Erie sounds come from within the swamp, but you cant tell what is making the noise.");
 
         // FRACTURE
         fracture.put(700, "You have entered the fracture. The landscape doesn't look real. The ground is cracked and broken. Looking into these cracks in the ground, you see strange shapes that can only be described as supernatural. The sky seems to be constantly changing color.");
+
         fracture.put(710, "You notice the lights in the sky are leading somewhere, somewhere dark, even evil. You decide to follow them.");
+        
         fracture.put(720, "Big secret");
 
         // LAIR
         lair.put(800, "Crossing a rickety old bridge, you arrive at the lair. The air is thick with smoke. You only can describe this place as the underworld. Nothing good happens here. Across the bridge you see an onmious building, like a castle, but evil. You decide to go inside.");
+        
         lair.put(810, "You see a door that seems to enter some kind of throne room. Loud roars are coming from inside. Whatever is in there, knows your here, and plans to change that very soon. Holding your breath, you open the door and step inside.");
 
     }
