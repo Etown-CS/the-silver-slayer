@@ -5,14 +5,15 @@ public class Player {
     public Item[] inventory = {null, null, null, null, null, null, null, null, null, null};
     public Item currentArmor = null, currentWeapon = null, currentWearable = null;
     public String name;
-    public int health, healthCap, attack, defense, invCap, location, sublocation;
+    public int health, healthCap, attack, defense = 0, invCap = 5;
+    public static int location, sublocation;
 
-    public Player(Menu refToMenu, SelectedPlayer character) {
+    public Player(Menu refToMenu, SelectedPlayer c) {
         /* Constructor */
 
         // set player to selected character
-        this.character = character;
-        setCharacterStats(character);
+        character = c;
+        setInitialCharacterStats(c);
 
         location = 1;
         sublocation = 1;
@@ -20,8 +21,12 @@ public class Player {
 
     }
 
-    // set stats based on character (all stats are the same for now)
-    private void setCharacterStats(SelectedPlayer character) {
+    private void setInitialCharacterStats(SelectedPlayer character) {
+        /*
+         * Set initial stats
+         * 
+         * character: Which playable character
+         */
 
         switch (character) {
 
@@ -31,19 +36,15 @@ public class Player {
                 health = 3;
                 healthCap = 3;
                 attack = 1;
-                defense = 0;
-                invCap = 5;
                 addItem(new Item("Dregs", ItemType.Health, "The remnants of making a hot drink.", 1, true));
                 break;
 
             case Brustel_Sprout:
 
                 name = "Brustel Sprout";
-                health = 5;
+                health = 3;
                 healthCap = 5;
                 attack = 1;
-                defense = 0;
-                invCap = 5;
                 addItem(new Item("Sprout", ItemType.Health, "An extra sprout!", 2, true));
                 break;
 
@@ -53,8 +54,6 @@ public class Player {
                 health = 3;
                 healthCap = 3;
                 attack = 2;
-                defense = 0;
-                invCap = 5;
                 addItem(new Item("Copper Shortsword", ItemType.Weapon, "A small, short sword made of a weak metal.", 1, false));
                 break;
 
@@ -64,8 +63,6 @@ public class Player {
                 health = 2;
                 healthCap = 2;
                 attack = 3;
-                defense = 0;
-                invCap = 5;
                 addItem(new Item("Fang", ItemType.Weapon, "It fell out.", 1, false));
                 break;
 
@@ -75,28 +72,24 @@ public class Player {
                 health = 4;
                 healthCap = 4;
                 attack = 1;
-                defense = 1;
-                invCap = 5;
                 addItem(new Item("Old Book", ItemType.Armor, "It has no pages left.", 1, false));
                 break;
 
             case ReacTor:
+
                 name = "ReacTor";
                 health = 3;
                 healthCap = 3;
                 attack = 1;
-                defense = 2;
-                invCap = 5;
                 addItem(new Item("Depleted Rod", ItemType.Armor, "An empty fuel rod. It's large enough to put an arm through.", 1, false));
                 break;
+
             case Saea_Quowle:
 
                 name = "Saea Quowle";
                 health = 1;
                 healthCap = 1;
                 attack = 5;
-                defense = 0;
-                invCap = 5;
                 addItem(new Item("Needle", ItemType.Weapon, "A weapon often used by foreign kingdoms.", 1, false));
                 break;
 
