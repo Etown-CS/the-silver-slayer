@@ -1,7 +1,13 @@
-item* initItem(char* itemName,int ItemType,char* desc,int statValChange,int consumedOnUse);
-
+typedef enum 
+{
+    Unassigned, Junk, Health, Armor, Weapon, Wearable
+} Type;
 typedef struct{
-    int type;
-    char name[15], description[100];
+    Type type;
+    char name[32], description[100];
     int magnitude,consumeable;
 } item;
+
+
+
+item initItem(char* itemName,Type ItemType,char* desc,int statValChange,int consumedOnUse);
