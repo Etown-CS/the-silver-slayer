@@ -5,7 +5,7 @@ public class Locations {
     public static final String[] locations = {null, "Start", "Village", "Lake", "Mountain", "Desert", "Swamp", "Fracture", "Lair"};
     public static final String[][] sublocations = {
         null,
-        {"Gate"},
+        {null, "Gate"},
         {"Center", "House", "Graveyard", "Well"},
         {"c", "d"}
     };

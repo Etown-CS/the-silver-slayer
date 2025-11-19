@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 import java.util.Random;
 
 public class Menu {
@@ -27,6 +28,7 @@ public class Menu {
 
     // Elements
     private Random r = new Random();
+    private Save save;
     private Story theStory = new Story(); // Making it create a "new story" has so much aura;
     private Player[] players = new Player[SelectedPlayer.values().length];;
     public Player playerRef;
@@ -298,7 +300,7 @@ public class Menu {
 
                 if (enemyRef == null) writeText("There's nothing here...", 0);
                 else {
-
+                    // TODO: Bosses should have different logic probably
                     int atkdmg = enemyRef.getAttacked(playerRef.attack);
                     updateEnemyBar();
                     
@@ -476,6 +478,18 @@ public class Menu {
 
         }
 
+        try {
+
+            save.saveGame(players, playerRef);
+
+        } catch (IOException ex) {
+
+            System.out.println("FATAL: Failed to access save file!");
+            JOptionPane.showMessageDialog(null, ex, "MISSING SAVE", JOptionPane.ERROR_MESSAGE);
+            System.exit(1);
+
+        }
+
     }
 
     public void terminate() {
@@ -494,6 +508,19 @@ public class Menu {
         /* Main */
 
         Menu main = new Menu();
+
+        try {
+
+            main.save = new Save();
+
+        } catch (IOException ex) {
+
+            System.out.println("FATAL: Failed to access save file!");
+            JOptionPane.showMessageDialog(null, ex, "MISSING SAVE", JOptionPane.ERROR_MESSAGE);
+            System.exit(1);
+
+        }
+
         main.terminal.setText("The Silver Slayer [Beta v1.0]\n\nWelcome\nYou are at the Gate.\nBegin by typing 'enter'\n\nStart/Gate> ");
 
     }
