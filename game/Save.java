@@ -4,7 +4,6 @@ import java.io.RandomAccessFile;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
 import java.nio.channels.OverlappingFileLockException;
-
 import javax.swing.JOptionPane;
 
 public class Save {
@@ -15,6 +14,7 @@ public class Save {
     boolean isSaving = false, loaded = false;
 
     public Save() throws FileNotFoundException, IOException {
+        /* Constructor */
 
         saveFile = new RandomAccessFile("game/data/tss.txt", "rw");
         fc = saveFile.getChannel();
@@ -39,7 +39,8 @@ public class Save {
         /*
          * Save the game
          * 
-         * p: Array of players
+         * all: Array of all players
+         * p: Active player
          */
 
         if (!isSaving) {
@@ -104,7 +105,8 @@ public class Save {
         /*
          * Save and then close files in preparation for quit
          * 
-         * p: Array of players
+         * all: Array of all players
+         * p: Active player
          */
 
         saveGame(all, p);

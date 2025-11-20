@@ -333,7 +333,7 @@ public class Menu {
 
             case "flee":
 
-                if (enemyRef == null) writeText("There's nothing to run from.", 0);
+                if (enemyRef == null) writeText("There's nothing to run from (yet).", 0);
                 else {
 
                     // 75% chance to flee unharmed; 25% chance to take damage while fleeing
@@ -366,7 +366,18 @@ public class Menu {
             case "quit":
             case "exit":
 
-                mainframe.dispatchEvent(new WindowEvent(mainframe, WindowEvent.WINDOW_CLOSING));
+                try {
+
+                    save.saveQuit(players, playerRef);
+                    mainframe.dispatchEvent(new WindowEvent(mainframe, WindowEvent.WINDOW_CLOSING));
+
+                } catch (IOException ex) {
+
+                    JOptionPane.showMessageDialog(null, "Failed saving game!\nTrying again.", "FATAL", JOptionPane.ERROR_MESSAGE);
+                    writeText("Attempting save... if no error shows after this, then it should be good.", -1);
+
+                }
+
                 break;
 
             case "settings":
