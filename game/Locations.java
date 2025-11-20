@@ -7,7 +7,12 @@ public class Locations {
         null,
         {null, "Gate"},
         {"Center", "House", "Graveyard", "Well"},
-        {"c", "d"}
+        {"Shore", "Dock", "Water"},
+        {"Base"},
+        {"Plain", "Dune", "Town", "Well"},
+        {"Entry"},
+        {"LOST", "BLINDED", "HIDDEN"},
+        {"Gate", "Throne"}
     };
 
     public static final Enemy[] Village = 
@@ -140,6 +145,8 @@ public class Locations {
             new Enemy("Worm", 4, 1, 5),
             new Enemy("The Silver Slayer", 999, 999, 999)
         };
+
+    public static final Enemy[][] enemyIndex = {null, Village, Lake, Mountain, Desert, Swamp, Fracture, Lair};
 
     public static Enemy spawnEnemy(Random r, int chance, int location, boolean boss) {
         

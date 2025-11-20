@@ -33,7 +33,7 @@ public class Menu {
     private Player[] players = new Player[SelectedPlayer.values().length];;
     public Player playerRef;
     public Enemy enemyRef;
-    private boolean gameOver = false;
+    private boolean bossfight = false, gameOver = false;
 
     // Sounds
     private Audio[] voices = {new Audio("blip.wav")};
@@ -300,23 +300,38 @@ public class Menu {
 
                 if (enemyRef == null) writeText("There's nothing here...", 0);
                 else {
-                    // TODO: Bosses should have different logic probably
+
                     int atkdmg = enemyRef.getAttacked(playerRef.attack);
                     updateEnemyBar();
                     
-                    if (enemyRef.health == 0) {
+                    if (bossfight) {
 
-                        damageSFX.command(2);
-                        writeText("Attacked " + enemyRef.name + " for " + atkdmg + " damage!\n" + enemyRef.name + " has been defeated.", 0);
-                        enemyRef.reset();
-                        enemyRef = null;
-                        enemyBar.setText("ENEMY");
-                        
+                        if (enemyRef.health == 0) {
+
+                            damageSFX.command(2);
+                            writeText("Attacked " + enemyRef.name + " for " + atkdmg + " damage!\n" + theStory.BOSS_DEFEATED[Player.location], 0);
+                            enemyRef = null;
+                            enemyBar.setText("ENEMY");
+
+                        }
+
                     } else {
+                        
+                        if (enemyRef.health == 0) {
 
-                        damageSFX.command(2);
-                        writeText("Attacked " + enemyRef.name + " for " + atkdmg + " damage!                    \n\n" + enemyRef.name + " attacks you for " + playerRef.playerAttacked(enemyRef.attack) + " damage!", 0);
-                        // there are 20 spaces in the line above
+                            damageSFX.command(2);
+                            writeText("Attacked " + enemyRef.name + " for " + atkdmg + " damage!\n" + enemyRef.name + " has been defeated.", 0);
+                            enemyRef.reset();
+                            enemyRef = null;
+                            enemyBar.setText("ENEMY");
+                            
+                        } else {
+
+                            damageSFX.command(2);
+                            writeText("Attacked " + enemyRef.name + " for " + atkdmg + " damage!                    \n\n" + enemyRef.name + " attacks you for " + playerRef.playerAttacked(enemyRef.attack) + " damage!", 0);
+                            // there are 20 spaces in the line above
+
+                        }
 
                     }
                     
@@ -521,6 +536,7 @@ public class Menu {
 
         }
 
+        if (!main.save.loaded) return;
         main.terminal.setText("The Silver Slayer [Beta v1.0]\n\nWelcome\nYou are at the Gate.\nBegin by typing 'enter'\n\nStart/Gate> ");
 
     }

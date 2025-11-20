@@ -14,14 +14,15 @@ public class Story {
      * Events ending in 1 are what happens when you run look.
      * Similarly, events ending in 2 are the search events.
      * 
+     * Cave & Mine are omitted here because they're implemented exclusively in C
+     * Also, this allows for us to use 3 digit locations IDs.
+     * 
      */
 
     private HashMap<Integer, String> start = new HashMap<>();
     private HashMap<Integer, String> village = new HashMap<>();
     private HashMap<Integer, String> lake = new HashMap<>();
     private HashMap<Integer, String> mountain = new HashMap<>();
-    // private HashMap<Integer, String> cave = new HashMap<>();     // Probably doesn't need to be here
-    // private HashMap<Integer, String> mine = new HashMap<>();     // Same as previous
     private HashMap<Integer, String> desert = new HashMap<>();
     private HashMap<Integer, String> swamp = new HashMap<>();
     private HashMap<Integer, String> fracture = new HashMap<>();
@@ -34,6 +35,7 @@ public class Story {
                                             "Why am I writing these?", "Silksong is out!", "I ate my toothbrush", "o _ o", "get rekt", 
                                             "Low on magenta!", "Strings", "jk jk... unless?", "Remember to cave"};
     public final String[] FLEE_STRINGS = {"You can't run forever.", "You got away... for now.", "You'll be back."};
+    public final String[] BOSS_DEFEATED = {"The Guardian has fallen. The first of many."};
     public final String[] GAME_OVERS = {"How unfortunate", "That's gonna leave a mark", "Better luck some time!", "oof", "bruh.mp3", "Process killed"};
 
     public Story() {
