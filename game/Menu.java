@@ -304,34 +304,26 @@ public class Menu {
                     int atkdmg = enemyRef.getAttacked(playerRef.attack);
                     updateEnemyBar();
                     
-                    if (bossfight) {
+                    if (bossfight && enemyRef.health == 0) {
 
-                        if (enemyRef.health == 0) {
+                        damageSFX.command(2);
+                        writeText("Attacked " + enemyRef.name + " for " + atkdmg + " damage!\n" + theStory.BOSS_DEFEATED[Player.location], 0);
+                        enemyRef = null;
+                        enemyBar.setText("ENEMY");
 
-                            damageSFX.command(2);
-                            writeText("Attacked " + enemyRef.name + " for " + atkdmg + " damage!\n" + theStory.BOSS_DEFEATED[Player.location], 0);
-                            enemyRef = null;
-                            enemyBar.setText("ENEMY");
+                    } else if (enemyRef.health == 0) {
 
-                        }
+                        damageSFX.command(2);
+                        writeText("Attacked " + enemyRef.name + " for " + atkdmg + " damage!\n" + enemyRef.name + " has been defeated.", 0);
+                        enemyRef.reset();
+                        enemyRef = null;
+                        enemyBar.setText("ENEMY");
 
                     } else {
-                        
-                        if (enemyRef.health == 0) {
 
-                            damageSFX.command(2);
-                            writeText("Attacked " + enemyRef.name + " for " + atkdmg + " damage!\n" + enemyRef.name + " has been defeated.", 0);
-                            enemyRef.reset();
-                            enemyRef = null;
-                            enemyBar.setText("ENEMY");
-                            
-                        } else {
-
-                            damageSFX.command(2);
-                            writeText("Attacked " + enemyRef.name + " for " + atkdmg + " damage!                    \n\n" + enemyRef.name + " attacks you for " + playerRef.playerAttacked(enemyRef.attack) + " damage!", 0);
-                            // there are 20 spaces in the line above
-
-                        }
+                        damageSFX.command(2);
+                        writeText("Attacked " + enemyRef.name + " for " + atkdmg + " damage!                    \n\n" + enemyRef.name + " attacks you for " + playerRef.playerAttacked(enemyRef.attack) + " damage!", 0);
+                        // there are 20 spaces in the line above
 
                     }
                     
@@ -343,17 +335,21 @@ public class Menu {
 
                 if (enemyRef == null) writeText("There's nothing to run from.", 0);
                 else {
-                    int chance = 75; // 75% chance to flee unharmed, 25% chance to take damage while fleeing
 
-                    if (r.nextInt(100) < chance) {
+                    // 75% chance to flee unharmed; 25% chance to take damage while fleeing
+                    if (r.nextInt(100) < 75) {
+
                         writeText("You fled from " + enemyRef.name + ".\n" + theStory.FLEE_STRINGS[r.nextInt(theStory.FLEE_STRINGS.length)], 0);
                         enemyRef = null;
                         enemyBar.setText("ENEMY");
+
                     } else {
+
                         writeText("You attempted to flee, but failed!\n" + enemyRef.name + " attacked you for " + playerRef.playerAttacked(enemyRef.attack) + " damage!\n"
                         + "Luckily you still make it away, only with a wound.", 0);
                         enemyRef = null;
                         enemyBar.setText("ENEMY");
+                        
                     }
 
                 }
