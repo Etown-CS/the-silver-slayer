@@ -199,7 +199,7 @@ public class Menu {
 
                 Player.location = 2;
                 Player.sublocation = 0;
-                writeText(theStory.getEvent(1, 0), 0);
+                writeText(theStory.getEvent(2, 200), 0);
                 break;
 
             case "look":
@@ -212,10 +212,17 @@ public class Menu {
                 writeText(theStory.getSearchEvent(Player.location, Player.sublocation), 0);
                 break;
 
+            case "goto":
+
+                writeText("TODO: Go somewhere", -1);
+                break;
+
             // GAMEPLAY COMMANDS
 
             case "characters":
             case "character":
+            case "chars":
+            case "char":
 
                 playerSelect();
                 writeText("Swapping!", -1);

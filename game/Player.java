@@ -183,7 +183,8 @@ public class Player {
 
         }
 
-        return inv + "\n(" + count + " items total)";
+        if (count == 0) return "Your inventory is empty!";
+        else return inv + "\n(" + count + " items total)";
 
     }
 
