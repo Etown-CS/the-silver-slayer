@@ -24,13 +24,18 @@
 void printWaterText(char* inputText,int percentage,int newline);
 int handleCommand(char* input);
 void printInv(player* mc);
+void printBattleText(player* mc,enemy * enm);
+void roundOfAttack(player* mc,enemy * enm);
 int waterlvl=1;
 player mainChar;
+enemy hannibal;
+int battlemode=1;
 
 int main()
 {
     char startText[]="The Silver Slayer [c alpha v1.0]\n\n You enter the caves. \n\n";
-    char consoleText[32]="Cave/Entryway>";
+    char consoleText[]="Cave/Entryway>";
+    char battleText[] = ""; 
     char inputText[256];
     printf("\033[2J \033[1;1H");
     printWaterText(startText,waterlvl,1);
@@ -42,14 +47,21 @@ int main()
     mainChar.healthCap=10;
     mainChar.invCap=10;
     mainChar.inventory[0] = initItem("Golden Frying Pan",Weapon,"Epic beyond compare",99,1);
-
+    hannibal= * createEnemy("Groundhog",10,1,1);
 
     while(1)
     {
+        if(battlemode)
+        {
+            printBattleText(&mainChar,&hannibal);
+        }
         printWaterText(consoleText,waterlvl,0);
         fgets(inputText,256,stdin);
         //printf("%s",inputText);
+        if(battlemode)
+            printf("\033[2J \033[1;1H");
         handleCommand(inputText);
+        
         if(waterlvl>100)
         {
             handleCommand("clear\n");
@@ -57,7 +69,9 @@ int main()
             printWaterText("Respawn   Main Menu",waterlvl,1);
             break;
         }
-        waterlvl+=10;
+        if(!battlemode)
+            waterlvl+=10;
+        
     }
 
 
@@ -74,6 +88,14 @@ int handleCommand(char* input)
         printInv(&mainChar);
     else if(!strcmp(input,"clear\n"))
         printf("\033[2J \033[1;1H");
+    else if(!strcmp(input,"flee\n"))
+    {
+        printWaterText("You run in discrace",waterlvl,1);
+        printf("\033[2J \033[1;1H");
+        battlemode=0;
+    }
+    else if(!strcmp(input,"atk\n")||!strcmp(input,"attack\n"))
+        roundOfAttack(&mainChar,&hannibal);
     else
     {
         printWaterText("Invalid input: ",waterlvl,0);
@@ -117,8 +139,23 @@ void printInv(player* mc)
     int buffersize=32;
     for(int i=0;i<mc->invCap;i++)
     {
-        snprintf(buffer,32,"Slot[%d]: %s",i,mc->inventory[i].name);
+        snprintf(buffer,buffersize,"Slot[%d]: %s",i,mc->inventory[i].name);
         printWaterText(buffer,waterlvl,1);
     }
     
+}
+
+void printBattleText(player* mc,enemy * enm)
+{
+    char buffer[128];
+    int buffersize=128;
+    snprintf(buffer,buffersize,"\n%s\nHealth: %d/%d\nAttack: %d\nDefense: %d\n","c--",mc->health,mc->healthCap,mc->attack,mc->defense);
+    printWaterText(buffer,waterlvl,1);
+    snprintf(buffer,buffersize,"%s\nHealth: %d/%d\nAttack: %d\nDefense: %d\n",enm->name,enm->health,enm->healthDefault,enm->attack,enm->defense);
+    printWaterText(buffer,waterlvl,1);
+}
+
+void roundOfAttack(player* mc,enemy * enm)
+{
+    getAttacked(enm,mc->attack);
 }
