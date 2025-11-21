@@ -268,5 +268,12 @@ public class Player {
         return dmg;
 
     }
+
+    public String travel(String dest) {
+
+        //TODO: Go somewhere
+        return "in progress";
+
+    }
     
 }

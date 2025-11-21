@@ -52,8 +52,15 @@ public class Story {
         events.put(8, lair);
 
         // START
-        start.put(0, "test event");
-        start.put(100, "You step up to the gate. Any lock has long since worn away, and you're able to push the gate open with little resistance. The doors swing wide with a long, metallic screech, and you step through onto the path that leads to the village.");
+        start.put(100, "start base event (test event)");
+        start.put(101, "You stand in an empty field of verdant grass. The path you came from trails away behind you, and ahead, a dark, iron gate stands waiting.");
+        start.put(102, "The endless expanse of green grass extends to the horizons, while the gate ahead waits patiently.");
+
+        start.put(110, "You step up to the gate. You're able to push the gate open with little resistance. The doors swing wide with a long, metallic screech.");
+        start.put(111, "The gate is old and weathered. Any locks have long since worn away.");
+        start.put(112, "A small, metal box rests against the nearby wall. There's an unassuming keyhole in the center.");
+        start.put(113, "You attempt to pry the box open, but it remains sealed. You're not getting into this without either special tools or the original key.");
+        start.put(114, "open the box");
 
         // VILLAGE
         village.put(200, "You arrive at the village. Buildings worn from years of neglect and misuse. You don't see any signs of life around. At first glance, it seems like you are alone.");

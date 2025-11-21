@@ -216,7 +216,14 @@ public class Menu {
 
             case "goto":
 
-                writeText("TODO: Go somewhere", -1);
+                if (bits.length < 2) {
+
+                    String places = "Available locations:\n";
+                    for (int c = 0; c < Locations.sublocations[Player.location].length; c++) places += Locations.sublocations[Player.location][c] + ' ';
+                    writeText(places, 0);
+
+                } else writeText(playerRef.travel(bits[1].toLowerCase()), 0);
+
                 break;
 
             // GAMEPLAY COMMANDS
