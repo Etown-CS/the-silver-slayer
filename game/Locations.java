@@ -5,13 +5,13 @@ public class Locations {
     public static final String[] locations = {null, "Start", "Village", "Lake", "Mountain", "Desert", "Swamp", "Fracture", "Lair"};
     public static final String[][] sublocations = {
         null,
-        {null, "Gate"},
+        {"Field", "Gate"},
         {"Center", "House", "Graveyard", "Well"},
         {"Shore", "Dock", "Water"},
         {"Base"},
         {"Plain", "Dune", "Town", "Well"},
         {"Entry"},
-        {"LOST", "BLINDED", "HIDDEN"},
+        {"???", "Edge", "Mirrors"},
         {"Gate", "Throne"}
     };
 

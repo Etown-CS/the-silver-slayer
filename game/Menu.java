@@ -2,6 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.util.Random;
@@ -551,7 +553,7 @@ public class Menu {
         }
 
         if (!main.save.loaded) return;
-        main.terminal.setText("The Silver Slayer [Beta v1.0]\n\nWelcome\nYou are at the Gate.\nBegin by typing 'enter'\n\nStart/Gate> ");
+        main.terminal.setText("The Silver Slayer [Beta v1.0]\n\nWelcome\nYou are at the Gate.\nBegin by typing 'enter'\n\n" + Locations.locations[1] + '/' + Locations.sublocations[1][0] + "> ");
 
     }
 
@@ -591,6 +593,17 @@ public class Menu {
         terminal.setForeground(Color.GREEN);
         terminal.setFont(gameFont);
         scrollPane = new JScrollPane(terminal);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {
+
+            @Override
+            public void adjustmentValueChanged(AdjustmentEvent e) {
+                
+                e.getAdjustable().setValue(e.getAdjustable().getMaximum());
+
+            }
+
+        });
 
         // Right (player's) sidebar
         playerBar.setFont(gameFont);
@@ -612,7 +625,7 @@ public class Menu {
         inputField.setHorizontalAlignment(JTextField.CENTER);
         inputField.addActionListener((ActionEvent e) -> {
 
-            if (!timer.isRunning()) {
+            if (!timer.isRunning() && inputField.getText().length() > 0) {
 
                 terminal.append(inputField.getText() + "\n\n");
                 readInput(inputField.getText());

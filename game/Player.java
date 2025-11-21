@@ -16,7 +16,7 @@ public class Player {
         setInitialCharacterStats(c);
 
         location = 1;
-        sublocation = 1;
+        sublocation = 0;
         menuRef = refToMenu;
 
     }
