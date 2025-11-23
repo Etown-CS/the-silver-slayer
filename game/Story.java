@@ -6,18 +6,18 @@ public class Story {
     // This way they won't get in the way of the code
 
     /*
-     * STRUCTURE
-     * 
-     * Every major location has its own HashMap.
-     * Each HashMap consists of an event ID and then the event itself.
-     * Events ending in 0 are the event that occurs when first entering somewhere.
-     * Events ending in 1 are what happens when you run look.
-     * Similarly, events ending in 2 are the search events.
-     * 
-     * Cave & Mine are omitted here because they're implemented exclusively in C
-     * Also, this allows for us to use 3 digit locations IDs.
-     * 
-     */
+    * STRUCTURE
+    * 
+    * Every major location has its own HashMap.
+    * Each HashMap consists of an event ID and then the event itself.
+    * Events ending in 0 are the event that occurs when first entering somewhere.
+    * Events ending in 1 are what happens when you run look.
+    * Similarly, events ending in 2 are the search events.
+    * 
+    * Cave & Mine are omitted here because they're implemented exclusively in C
+    * Also, this allows for us to use 3 digit locations IDs.
+    * 
+    */
 
     private HashMap<Integer, String> start = new HashMap<>();
     private HashMap<Integer, String> village = new HashMap<>();
@@ -133,55 +133,57 @@ public class Story {
 
     }
 
-    public String getEvent(int locationID, int eventID) {
+    private String getExactEvent(int locationID, int eventID) {
         /*
-         * Get a story event
-         * 
-         * locationID: The ID of the location to pull the event from
-         * eventID: A three digit integer referencing the specific event
-         */
+        * Get a specific story event
+        * 
+        * locationID: The ID of the location to pull the event from
+        * eventID: A three digit integer referencing the specific event
+        */
 
         return events.get(locationID).get(eventID);
 
     }
 
+    private int genEventKey(int l, int s, int offset) {
+
+        return l * 100 + s * 10 + offset;
+
+    }
+
+    public String getBaseEvent(int loc, int sub) {
+        /*
+        * Get the base event (XX0) for provided location
+        * 
+        * loc: Location ID
+        * sub: Sublocation ID
+        */
+
+        return getExactEvent(loc, genEventKey(loc, sub, 0));
+
+    }
+
     public String getLookEvent(int loc, int sub) {
         /*
-         * Get look event for current location
+        * Get look event for provided location
+        * 
+        * loc: Location ID
+        * sub: Sublocation ID
+        */
+
+        return getExactEvent(loc, genEventKey(loc, sub, 1));
+
+    }
+
+    public String getSearchEvent(int loc, int sub) {
+        /*
+         * Get search event for provided location
          * 
          * loc: Location ID
          * sub: Sublocation ID
          */
 
-        return getLSEvent(loc, sub, true);
-
-    }
-
-    public String getSearchEvent(int l, int s) {
-        /*
-         * Get search event for current location
-         * 
-         * loc: Location ID
-         * sub: Sublocation ID
-         */
-
-        return getLSEvent(l, s, false);
-
-    }
-
-    private String getLSEvent(int l, int s, boolean look) {
-        /*
-         * Mathematically derives the look or search event key for any location/sublocation combination,
-         *      then returns the event.
-         *      Does not get called directly.
-         * 
-         * l: location
-         * s: sublocation
-         * look: [true] for look, [false] for search
-         */
-
-        if (look) return getEvent(l, l * 100 + s * 10 + 1);
-        else return getEvent(l, l * 100 + s * 10 + 2);
+        return getExactEvent(loc, genEventKey(loc, sub, 2));
 
     }
     

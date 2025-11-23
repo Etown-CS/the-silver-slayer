@@ -269,10 +269,10 @@ public class Player {
 
     }
 
-    public String travel(String dest) {
+    public boolean travel(String dest) {
 
-        //TODO: Go somewhere
-        return "in progress";
+        return true;
+        //TODO: THIS IS MOST LIKELY GONNA BE A NIGHTMARE
 
     }
     
