@@ -270,9 +270,154 @@ public class Player {
     }
 
     public boolean travel(String dest) {
+        /*
+        * Travel to wherever, if you can from where you're at
+        * 
+        * dest: Destination name
+        */
 
-        return true;
-        //TODO: THIS IS MOST LIKELY GONNA BE A NIGHTMARE
+        switch (location) {
+
+            case 1:
+
+                switch (dest) {
+
+                    case "field":
+
+                        sublocation = 0;
+                        return true;
+
+                    case "gate":
+
+                        sublocation = 1;
+                        return true;
+
+                    case "village":
+
+                        if (sublocation != 1) break;
+                        location = 2;
+                        sublocation = 0;
+                        return true;
+
+                }
+
+                break;
+
+            case 2:
+
+                switch (dest) {
+
+                    case "center":
+
+                        sublocation = 0;
+                        return true;
+
+                    case "house":
+
+                        if (sublocation == 2) break;
+                        sublocation = 1;
+                        return true;
+
+                    case "graveyard":
+
+                        if (sublocation != 0) break;
+                        sublocation = 2;
+                        return true;
+
+                    case "well":
+
+                        if (sublocation == 2) break;
+                        sublocation = 3;
+                        return true;
+
+                    case "start":
+
+                        if (sublocation != 0) break;
+                        location = 1;
+                        sublocation = 1;
+                        return true;
+
+                    case "lake":
+
+                        if (sublocation != 0) break;
+                        location = 3;
+                        sublocation = 0;
+                        return true;
+
+                }
+
+            case 3:
+
+                switch (dest) {
+
+                    case "shore":
+
+                        sublocation = 0;
+                        return true;
+
+                    case "dock":
+
+                        if (sublocation != 0) break;
+                        sublocation = 1;
+                        return true;
+
+                    case "water":
+
+                        if (sublocation != 1) break;
+                        sublocation = 2;
+                        return true;
+
+                    case "a": //TODO: Name this place
+
+                        if (sublocation != 0) break;
+                        sublocation = 3;
+                        return true;
+
+                }
+            
+            case 4:
+
+                switch (dest) {
+
+
+
+                }
+
+            case 5:
+
+                switch (dest) {
+
+                    
+
+                }
+
+            case 6:
+
+                switch (dest) {
+
+                    
+
+                }
+
+            case 7:
+
+                switch (dest) {
+
+                    
+
+                }
+
+            case 8:
+
+                switch (dest) {
+
+                    
+
+                }
+
+        }
+
+        return false;
 
     }
     

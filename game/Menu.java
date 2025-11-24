@@ -199,9 +199,8 @@ public class Menu {
 
             case "enter":
 
-                Player.location = 2;
-                Player.sublocation = 0;
-                writeText(theStory.getBaseEvent(2, 200), 0);
+                //TODO: Enter
+                writeText("TODO: Enter", 0);
                 break;
 
             case "look":
@@ -223,7 +222,7 @@ public class Menu {
                     writeText(places, 0);
 
                 } else if (playerRef.travel(bits[1].toLowerCase())) writeText(theStory.getBaseEvent(Player.location, Player.sublocation), 0);
-                else writeText("invalid", -1);
+                else writeText("You can't get there from here, if there even exists.", 0);
 
                 break;
 
