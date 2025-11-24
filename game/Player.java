@@ -379,7 +379,7 @@ public class Player {
 
                 switch (dest) {
 
-
+                    //TODO: Mountain
 
                 }
 
@@ -387,7 +387,24 @@ public class Player {
 
                 switch (dest) {
 
-                    
+                    case "dune":
+                    case "dunes":
+
+                        if (sublocation != 0) break;
+                        sublocation = 1;
+                        return true;
+
+                    case "town":
+
+                        if (sublocation > 2) break;
+                        sublocation = 2;
+                        return true;
+
+                    case "well":
+
+                        if (sublocation >= 2) break;
+                        sublocation = 3;
+                        return true;
 
                 }
 
@@ -395,7 +412,7 @@ public class Player {
 
                 switch (dest) {
 
-                    
+                    //TODO: Swamp
 
                 }
 
@@ -403,7 +420,23 @@ public class Player {
 
                 switch (dest) {
 
-                    
+                    case "edge":
+
+                        if (sublocation != 0) break;
+                        sublocation = 1;
+                        return true;
+
+                    case "mirrors":
+
+                        if (sublocation != 0) break;
+                        sublocation = 2;
+                        return true;
+
+                    case "b": //TODO: Name this place
+
+                        if (sublocation != 0) break;
+                        sublocation = 3;
+                        return true;
 
                 }
 
@@ -411,7 +444,13 @@ public class Player {
 
                 switch (dest) {
 
-                    
+                    case "throne":
+
+                        if (sublocation != 0) break;
+                        sublocation = 1;
+                        return true;
+
+                    //TODO: Anywhere else?
 
                 }
 

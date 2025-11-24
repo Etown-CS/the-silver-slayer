@@ -146,7 +146,7 @@ public class Locations {
             new Enemy("The Silver Slayer", 999, 999, 999)
         };
 
-    public static final Enemy[][] enemyIndex = {null, Village, Lake, Mountain, Desert, Swamp, Fracture, Lair};
+    public static final Enemy[][] enemyIndex = {null, null, Village, Lake, Mountain, Desert, Swamp, Fracture, Lair};
 
     public static Enemy spawnEnemy(Random r, int chance, int location, boolean boss) {
         

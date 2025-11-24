@@ -215,10 +215,18 @@ public class Menu {
 
             case "goto":
 
+                if (enemyRef != null) {
+
+                    writeText("You're in combat!", 0);
+                    break;
+
+                }
+
                 if (bits.length < 2) {
 
                     String places = "Available locations:\n";
                     for (int c = 0; c < Locations.sublocations[Player.location].length; c++) places += Locations.sublocations[Player.location][c] + ' ';
+                    //TODO: Add available major locations to goto output
                     writeText(places, 0);
 
                 } else if (playerRef.travel(bits[1].toLowerCase())) writeText(theStory.getBaseEvent(Player.location, Player.sublocation), 0);
@@ -635,7 +643,7 @@ public class Menu {
             if (!timer.isRunning() && inputField.getText().length() > 0) {
 
                 terminal.append(inputField.getText() + "\n\n");
-                readInput(inputField.getText());
+                readInput(inputField.getText().strip());
                 inputField.setText(null);
 
             }

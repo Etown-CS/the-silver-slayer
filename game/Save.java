@@ -87,7 +87,7 @@ public class Save {
 
             // Boss data
             saveFile.writeChars("BOSSES\n");
-            for (int c = 1; c < Locations.locations.length - 1; c++) {
+            for (int c = 2; c < Locations.locations.length - 1; c++) {
 
                 if (Locations.enemyIndex[c][Locations.enemyIndex[c].length - 1].health == 0) saveFile.writeChars("\tLocation" + c + ":X\n");
                 else saveFile.writeChars("\tLocation" + c + ":_\n");
