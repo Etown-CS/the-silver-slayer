@@ -344,6 +344,13 @@ public class Player {
                         sublocation = 0;
                         return true;
 
+                    case "mountain":
+
+                        if (sublocation != 0) break;
+                        location = 4;
+                        sublocation = 0;
+                        return true;
+
                 }
 
             case 3:
@@ -371,6 +378,13 @@ public class Player {
 
                         if (sublocation != 0) break;
                         sublocation = 3;
+                        return true;
+
+                    case "village":
+
+                        if (sublocation != 0) break;
+                        location = 2;
+                        sublocation = 0;
                         return true;
 
                 }

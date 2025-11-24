@@ -148,51 +148,12 @@ public class Locations {
 
     public static final Enemy[][] enemyIndex = {null, null, Village, Lake, Mountain, Desert, Swamp, Fracture, Lair};
 
-    public static Enemy spawnEnemy(Random r, int chance, int location, boolean boss) {
+    public static Enemy spawnEnemy(Random r, int location, boolean boss) {
         
-        if (r.nextInt(100) > chance) return null;
-        switch (location) {
-
-            case 2:
-
-                if (boss) return Village[Village.length - 1];
-                else return Village[r.nextInt(Village.length - 1)];
-
-            case 3:
-
-                if (boss) return Lake[Lake.length - 1];
-                else return Lake[r.nextInt(Lake.length - 1)];
-
-            case 4:
-
-                if (boss) return Mountain[Mountain.length - 1];
-                else return Mountain[r.nextInt(Mountain.length - 1)];
-
-            case 5:
-
-                if (boss) return Desert[Desert.length - 1];
-                else return Desert[r.nextInt(Desert.length - 1)];
-
-            case 6:
-
-                if (boss) return Swamp[Swamp.length - 1];
-                else return Swamp[r.nextInt(Swamp.length - 1)];
-
-            case 7:
-
-                if (boss) return Fracture[Fracture.length - 1];
-                else return Fracture[r.nextInt(Fracture.length - 1)];
-
-            case 8:
-
-                if (boss) return Lair[Lair.length - 1];
-                else return Lair[r.nextInt(Lair.length - 1)];
-
-            default:
-
-                return null;
-
-        }
+        if (r.nextInt(100) > (location - 1) * 10) return null;
+        
+        if (boss) return enemyIndex[location][enemyIndex[location].length - 1];
+        else return enemyIndex[location][r.nextInt(enemyIndex[location].length - 1)];
 
     }
 

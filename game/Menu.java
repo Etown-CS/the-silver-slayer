@@ -519,7 +519,7 @@ public class Menu {
 
         } else if (enemyRef == null) {
 
-            enemyRef = Locations.spawnEnemy(r, 100, Player.location, false);
+            enemyRef = Locations.spawnEnemy(r, Player.location, false);
             if (enemyRef != null) updateEnemyBar();
 
         }
