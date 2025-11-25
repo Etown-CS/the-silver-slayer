@@ -112,24 +112,22 @@ public class Story {
 
         // FRACTURE
         fracture.put(700, "You have entered the fracture. The landscape doesn't seem real. The ground is cracked and broken. Looking into these cracks in the ground, you see strange shapes that can only be described as supernatural. The sky seems to be constantly changing color.");
-        fracture.put(701, "");
-        fracture.put(702, "");
 
         fracture.put(710, "You notice the lights in the sky are leading somewhere, somewhere dark, even evil. You decide to follow them.");
-        fracture.put(711, "");
-        fracture.put(712, "");
+        fracture.put(711, "While following the mysterious path, you found your way to the Edge. It seems as though this is the end of the world. An invisible wall prevents you from moving any further. Looking past the wall, there is an infinite series of floating islands that you will never be able to reach.");
 
         fracture.put(720, "Big secret");
-        fracture.put(721, "");
-        fracture.put(722, "");
+        fracture.put(721, "You are questioning why you are afraid considering you've already defeated the Silver Slayer. A wave of terror washes over you as you hear Evil Larry's meow.");
 
-        // Edge (reveal next)
-        // Mirrors
+        fracture.put(730, "A building in the distance catches your eye. It is completely black, a void color. You decide to check it out.");
+        fracture.put(731, "Inside the building all you see is yourself... forever. This building is full of a complex series of mirrors. Good luck finding your way out.");
 
         // LAIR
         lair.put(800, "Crossing a rickety old bridge, you arrive at the lair. The air is thick with smoke. You only can describe this place as the underworld. Nothing good happens here. Across the bridge you see an onmious building, like a castle, but evil. You decide to go inside.");
         
         lair.put(810, "You see a door that seems to enter some kind of throne room. Loud roars are coming from inside. Whatever is in there, knows your here, and plans to change that very soon. Holding your breath, you open the door and step inside.");
+
+        lair.put(820, "Congratulations on defeating the Silver Slayer! You now have access to the Silver Sword, but there is still more adventure to be had.");
 
     }
 
