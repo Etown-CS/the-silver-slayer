@@ -387,6 +387,12 @@ public class Player {
                         sublocation = 0;
                         return true;
 
+                    case "cave":
+
+                        if (sublocation != 1) break;
+                        sublocation = 4;
+                        return true;
+
                 }
             
             case 4:
@@ -433,6 +439,11 @@ public class Player {
             case 7:
 
                 switch (dest) {
+
+                    case "c": //TODO: Name this place
+
+                        sublocation = 0;
+                        return true;
 
                     case "edge":
 
