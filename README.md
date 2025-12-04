@@ -38,7 +38,40 @@ The game is mostly run in java, with a small section of it run in C
 
 #### Gameplay
 
-The Silver Slayer game will 
+The Silver Slayer game is a text-based RPG in which the player travels through multiple different areas discovering locations, items, and faces enemies. The main goal of this game is to get to the Lair, this is the location of the final boss (The Silver Slayer). Even though the main goal of this game is to beat this boss, the adventure doesn't stop there. After defeating The Silver Slayer, the player can traverse to past location and discover even more.
+
+The commands for the Java game:
+- look:
+    - looks in a location
+- search:
+    - searches for items
+- enter OR goto:
+    - enters locations
+- characters OR character OR chars OR char:
+    - lets the player pick a different character
+- ls OR inv OR inventory:
+    - displays the players inventory
+- desc OR describe:
+    - describes an item
+- use:
+    - uses an item
+- drop:
+    - drops an item
+- atk OR attack:
+    - attacks the enemy
+- flee:
+    - attempts to run from the enemy
+- help:
+    - displays help options
+- quit OR exit:
+    - closes the game
+- settings OR setting OR options OR option:
+    - displays settings
+- clear:
+    - clears the terminal
+- title:
+    - changes the title message
+
 
 #### Major Levels
 
