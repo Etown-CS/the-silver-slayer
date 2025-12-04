@@ -4,13 +4,13 @@ import java.io.RandomAccessFile;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
 import java.nio.channels.OverlappingFileLockException;
-import javax.swing.JOptionPane;
 
 public class Save {
 
-    RandomAccessFile saveFile;
-    FileChannel fc;
-    FileLock lock;
+    private RandomAccessFile saveFile;
+    private FileChannel fc;
+    private FileLock lock;
+    private String key = "SILVER", alphabet = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890:_' \t\n";
     boolean isSaving = false, loaded = false;
 
     public Save() throws FileNotFoundException, IOException {
@@ -27,9 +27,7 @@ public class Save {
         } catch (OverlappingFileLockException ex) {
 
             saveFile.close();
-            fc.close();
-            JOptionPane.showMessageDialog(null, "Save file is open elsewhere.", "FATAL", JOptionPane.ERROR_MESSAGE);
-            
+            fc.close();         
 
         }
 
@@ -46,38 +44,39 @@ public class Save {
         if (!isSaving) {
 
             isSaving = true;
+            String contents = "";
 
             // Reset file
             fc.truncate(0);
             saveFile.seek(0);
 
             // Players' data
-            saveFile.writeChars("PLAYERS\n");
-            saveFile.writeChars("\tactive:'" + p.name + "'\n");
-            saveFile.writeChars("\tlocation:" + Player.location + '\n');
-            saveFile.writeChars("\tsublocation:" + Player.sublocation + '\n');
+            contents += "PLAYERS\n";
+            contents += "\tactive:'" + p.name + "'\n";
+            contents += "\tlocation:" + Player.location + '\n';
+            contents += "\tsublocation:" + Player.sublocation + '\n';
 
             for (int c = 0; c < all.length; c++) {
                 
                 // General stats
-                saveFile.writeChars("\tname:'" + all[c].name + "'\n");
-                saveFile.writeChars("\t\thp:" + all[c].health + '\n');
-                saveFile.writeChars("\t\thp_cap:" + all[c].healthCap + '\n');
-                saveFile.writeChars("\t\tatk:" + all[c].attack + '\n');
-                saveFile.writeChars("\t\tdef:" + all[c].defense + '\n');
-                saveFile.writeChars("\t\tinvcap:" + all[c].invCap + '\n');
+                contents += "\tname:'" + all[c].name + "'\n";
+                contents += "\t\thp:" + all[c].health + '\n';
+                contents += "\t\thp_cap:" + all[c].healthCap + '\n';
+                contents += "\t\tatk:" + all[c].attack + '\n';
+                contents += "\t\tdef:" + all[c].defense + '\n';
+                contents += "\t\tinvcap:" + all[c].invCap + '\n';
                 
                 // Inventory
                 for (int i = 0; i < all[c].inventory.length; i++) {
 
-                    if (all[c].inventory[i] == null) saveFile.writeChars("\t\titem" + i + ":\n");
+                    if (all[c].inventory[i] == null) contents += "\t\titem" + i + ":\n";
                     else {
 
-                        saveFile.writeChars("\t\titem" + i + ':' + all[c].inventory[i].name);
-                        if (all[c].inventory[i] == all[c].currentArmor) saveFile.writeChars("*Armor*");
-                        else if (all[c].inventory[i] == all[c].currentWeapon) saveFile.writeChars("*Weapon*");
-                        else if (all[c].inventory[i] == all[c].currentWearable) saveFile.writeChars("*Wearable*");
-                        saveFile.writeChar('\n');
+                        contents += "\t\titem" + i + ':' + all[c].inventory[i].name;
+                        if (all[c].inventory[i] == all[c].currentArmor) contents += "*Armor*";
+                        else if (all[c].inventory[i] == all[c].currentWeapon) contents += "*Weapon*";
+                        else if (all[c].inventory[i] == all[c].currentWearable) contents += "*Wearable*";
+                        contents += '\n';
 
                     }
 
@@ -86,14 +85,15 @@ public class Save {
             }
 
             // Boss data
-            saveFile.writeChars("BOSSES\n");
+            contents += "BOSSES\n";
             for (int c = 2; c < Locations.locations.length - 1; c++) {
 
-                if (Locations.enemyIndex[c][Locations.enemyIndex[c].length - 1].health == 0) saveFile.writeChars("\tLocation" + c + ":X\n");
-                else saveFile.writeChars("\tLocation" + c + ":_\n");
+                if (Locations.enemyIndex[c][Locations.enemyIndex[c].length - 1].health == 0) contents += "\tLocation" + c + ":X\n";
+                else contents += "\tLocation" + c + ":_\n";
 
             }
 
+            saveFile.writeChars(encrypt(contents));
             isSaving = false;
             return true;
             
@@ -113,6 +113,56 @@ public class Save {
         lock.release();
         saveFile.close();
         fc.close();
+
+    }
+
+    private String encrypt(String contents) {
+
+        String result = "";
+        int pos = 0;
+
+        for (char c : contents.toCharArray()) {
+
+            char k = key.charAt(pos % key.length());
+            int cIdx = alphabet.indexOf(c);
+            int kIdx = alphabet.indexOf(k);
+
+            if (cIdx >= 0) {
+
+                if (kIdx >= 0) result += alphabet.charAt((cIdx + kIdx + 1) % alphabet.length());
+                pos++;
+
+            } else result += c;
+
+        }
+
+        return result;
+
+    }
+
+    private String decrypt(String contents) {
+
+        String result = "";
+        int pos = 0;
+
+        for (char c : contents.toCharArray()) {
+
+            char k = key.charAt(pos % key.length());
+            int cIdx = alphabet.indexOf(c);
+            int kIdx = alphabet.indexOf(k);
+
+            if (cIdx >= 0) {
+
+                int nIdx = cIdx - kIdx - 1;
+                if (nIdx < 0) nIdx = alphabet.length() + nIdx;
+                if (kIdx >= 0) result += alphabet.charAt(nIdx);
+                pos++;
+
+            } else result += c;
+
+        }
+
+        return result;
 
     }
     
