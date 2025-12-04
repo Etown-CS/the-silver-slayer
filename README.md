@@ -34,7 +34,17 @@ we have no API's that we are using to run this.
 ### The Silver Slayer Cybersecurity Game
 The Silver Slayer, is a game that is meant to teach new aspiring cybersecurity students what the basic kinds of attacks there are, how to use them for red team activities and how to guard against them. It is made in the style of a rpg game that is mostly text based, and will run on multiple computers in the homelab. this might be in project #2, but it is not unimportant and will be an excelent training program to go along with the homelab.
 #### Tech Stack
-The game is mostly run in java, with a small section of it run in C
+The game is mostly run in java, with a small section of it run in C  
+
+#### Gameplay
+
+The Silver Slayer game will 
+
+#### Major Levels
+
+EntryWay
+
+#### Cybersecurity Concepts
 
 #### Running the game locally
 
