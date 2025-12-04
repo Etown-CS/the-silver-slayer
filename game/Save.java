@@ -10,7 +10,7 @@ public class Save {
     private RandomAccessFile saveFile;
     private FileChannel fc;
     private FileLock lock;
-    private String key = "SILVER", alphabet = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890:_' \t\n";
+    private String key = "SILVERY", alphabet = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890:_' \t\n";
     boolean isSaving = false, loaded = false;
 
     public Save() throws FileNotFoundException, IOException {
@@ -27,7 +27,8 @@ public class Save {
         } catch (OverlappingFileLockException ex) {
 
             saveFile.close();
-            fc.close();         
+            fc.close();
+            System.out.println("FATAL: Save file is locked!");
 
         }
 

@@ -197,12 +197,6 @@ public class Menu {
 
             // STORY COMMANDS
 
-            case "enter":
-
-                //TODO: Enter
-                writeText("TODO: Enter", 0);
-                break;
-
             case "look":
 
                 writeText(theStory.getLookEvent(Player.location, Player.sublocation), 0);
@@ -213,6 +207,7 @@ public class Menu {
                 writeText(theStory.getSearchEvent(Player.location, Player.sublocation), 0);
                 break;
 
+            case "enter":
             case "goto":
 
                 if (enemyRef != null) {
@@ -387,6 +382,28 @@ public class Menu {
                 writeText("GENERAL\nclear: Clear screen\nexit / quit: Quit the game.\nsettings: Modify game settings\ntitle [int]: Display a random title or specifiy\n\nINVENTORY\ndesc / describe: Show an inventory item's description\ndrop (int): Drop an item\ninv / inventory / ls: Display inventory\nuse (int): Use an inventory item\n\nCOMBAT\natk / attack: Attack the current enemy\nflee: Run away", 0);
                 break;
 
+            case "save":
+
+                if (enemyRef == null) {
+
+                    try {
+
+                        save.saveGame(players, playerRef);
+
+                    } catch (IOException ex) {
+
+                        System.out.println("FATAL: Failed to access save file!");
+                        JOptionPane.showMessageDialog(null, ex, "BROKEN SAVE", JOptionPane.ERROR_MESSAGE);
+                        System.exit(1);
+
+                    }
+
+                    writeText("Game saved.", 0);
+
+                } else writeText("Cannot save during combat!", 0);
+
+                break;
+
             case "quit":
             case "exit":
 
@@ -524,18 +541,6 @@ public class Menu {
 
         }
 
-        try {
-
-            save.saveGame(players, playerRef);
-
-        } catch (IOException ex) {
-
-            System.out.println("FATAL: Failed to access save file!");
-            JOptionPane.showMessageDialog(null, ex, "MISSING SAVE", JOptionPane.ERROR_MESSAGE);
-            System.exit(1);
-
-        }
-
     }
 
     public void terminate() {
@@ -568,7 +573,7 @@ public class Menu {
         }
 
         if (!main.save.loaded) return;
-        main.terminal.setText("The Silver Slayer [Beta v1.0]\n\nWelcome\nYou are at the Gate.\nBegin by typing 'enter'\n\n" + Locations.locations[1] + '/' + Locations.sublocations[1][0] + "> ");
+        main.terminal.setText("The Silver Slayer [Beta v0.1]\n\nWelcome\nYou are at the Gate.\nBegin by typing 'enter'\n\n" + Locations.locations[1] + '/' + Locations.sublocations[1][0] + "> ");
 
     }
 

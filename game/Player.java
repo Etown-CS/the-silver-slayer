@@ -374,9 +374,9 @@ public class Player {
                         sublocation = 2;
                         return true;
 
-                    case "a": //TODO: Name this place
+                    case "entry":
 
-                        if (sublocation != 0) break;
+                        if (sublocation == 2) break;
                         sublocation = 3;
                         return true;
 
@@ -440,7 +440,7 @@ public class Player {
 
                 switch (dest) {
 
-                    case "c": //TODO: Name this place
+                    case "wasteland":
 
                         sublocation = 0;
                         return true;
@@ -457,7 +457,7 @@ public class Player {
                         sublocation = 2;
                         return true;
 
-                    case "b": //TODO: Name this place
+                    case "i<3_tss_123":
 
                         if (sublocation != 0) break;
                         sublocation = 3;
@@ -474,8 +474,6 @@ public class Player {
                         if (sublocation != 0) break;
                         sublocation = 1;
                         return true;
-
-                    //TODO: Anywhere else?
 
                 }
 
