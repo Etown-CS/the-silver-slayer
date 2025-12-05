@@ -82,17 +82,24 @@ public class Story {
         // LAKE
         lake.put(300, "You voyage to a great lake. The water is completely still, but yet you can see strange looking creatures moving under the surface");
 
-        lake.put(310, "You have stumbled upon a dock. This would be a good place to fish, but for what?");
+        lake.put(310, "You have stumbled upon a dock. This could be a good place to phish, but for what?");
         lake.put(311, "You see a tackle box on the dock.");
         lake.put(312, "You find goggles in the tackle box. You also notice a weird smell coming from it.");
+        lake.put(313, "fih");
 
         lake.put(320, "You decide to take a swim! You dive into the water.");
         lake.put(321, "Luckily you're wearing goggles, so you begin to look around. At the bottom of the lake, you see the enterance to a cave, but you are to nervous to look any further. You then get out of the water.");
 
-        lake.put(330, "Time to Phish!"); // phishing minigame
+        lake.put(330, "Cave entrance??");
 
         // MOUNTAIN
         mountain.put(400, "You arrive the base of a mountain. A long, steep path looks like it makes it way to the peak, but you cant see the top from here.");
+
+        mountain.put(410, "path");
+
+        mountain.put(420, "oracle");
+
+        mountain.put(430, "peak");
 
         // DESERT
         desert.put(500, "You travel to the desert. The heat is almost unbearable. In front of you are dunes that go on for what seems like forever.");
@@ -106,9 +113,12 @@ public class Story {
 
         desert.put(530, "A small well is not far from you. Though looking inside, you see it is completely dry.");
 
-
         // SWAMP
         swamp.put(600, "You make your way to a swamp. The air is humid. Your feet sink into the soft mud as you walk. Erie sounds come from within the swamp, but you cant tell what is making the noise.");
+
+        swamp.put(610, "wetland");
+
+        swamp.put(620, "woodland");
 
         // FRACTURE
         fracture.put(700, "You have entered the fracture. The landscape doesn't seem real. The ground is cracked and broken. Looking into these cracks in the ground, you see strange shapes that can only be described as supernatural. The sky seems to be constantly changing color.");
@@ -125,9 +135,13 @@ public class Story {
         // LAIR
         lair.put(800, "Crossing a rickety old bridge, you arrive at the lair. The air is thick with smoke. You only can describe this place as the underworld. Nothing good happens here. Across the bridge you see an onmious building, like a castle, but evil. You decide to go inside.");
         
-        lair.put(810, "You see a door that seems to enter some kind of throne room. Loud roars are coming from inside. Whatever is in there, knows your here, and plans to change that very soon. Holding your breath, you open the door and step inside.");
+        lair.put(810, "outskirts");
 
-        lair.put(820, "Congratulations on defeating the Silver Slayer! You now have access to the Silver Sword, but there is still more adventure to be had.");
+        lair.put(820, "castle");
+        lair.put(821, "You see a door that seems to enter some kind of throne room. Loud roars are coming from inside. Whatever is in there, knows your here, and plans to change that very soon. Holding your breath, you open the door and step inside.");
+
+        lair.put(830, "throne room :o");
+        lair.put(831, "Congratulations on defeating the Silver Slayer! You now have access to the Silver Sword, but there is still more adventure to be had.");
 
     }
 

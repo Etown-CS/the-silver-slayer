@@ -36,6 +36,7 @@ public class Menu {
     public Player playerRef;
     public Enemy enemyRef;
     private boolean bossfight = false, gameOver = false;
+    private int spawnCooldown;
 
     // Sounds
     private Audio[] voices = {new Audio("blip.wav")};
@@ -199,11 +200,13 @@ public class Menu {
 
             case "look":
 
+                spawnCooldown--;
                 writeText(theStory.getLookEvent(Player.location, Player.sublocation), 0);
                 break;
 
             case "search":
 
+                spawnCooldown--;
                 writeText(theStory.getSearchEvent(Player.location, Player.sublocation), 0);
                 break;
 
@@ -224,8 +227,12 @@ public class Menu {
                     //TODO: Add available major locations to goto output
                     writeText(places, 0);
 
-                } else if (playerRef.travel(bits[1].toLowerCase())) writeText(theStory.getBaseEvent(Player.location, Player.sublocation), 0);
-                else writeText("You can't get there from here, if there even exists.", 0);
+                } else if (playerRef.travel(bits[1].toLowerCase())) {
+                    
+                    spawnCooldown--;
+                    writeText(theStory.getBaseEvent(Player.location, Player.sublocation), 0);
+
+                } else writeText("You can't get there from here, if there even exists.", 0);
 
                 break;
 
@@ -534,12 +541,14 @@ public class Menu {
             if (dead == SelectedPlayer.values().length) terminate();
             else playerSelect();
 
-        } else if (enemyRef == null) {
+        } else if (enemyRef == null && spawnCooldown <= 0) {
 
             enemyRef = Locations.spawnEnemy(r, Player.location, false);
             if (enemyRef != null) updateEnemyBar();
+            spawnCooldown = 5;
 
         }
+        //TODO: Potential issue where spawncooldown can reach negative interger limit
 
     }
 

@@ -275,7 +275,7 @@ public class Player {
         * 
         * dest: Destination name
         */
-
+        
         switch (location) {
 
             case 1:
@@ -353,6 +353,8 @@ public class Player {
 
                 }
 
+                break;
+
             case 3:
 
                 switch (dest) {
@@ -387,25 +389,65 @@ public class Player {
                         sublocation = 0;
                         return true;
 
-                    case "cave":
-
-                        if (sublocation != 1) break;
-                        sublocation = 4;
-                        return true;
-
                 }
+
+                break;
             
             case 4:
 
                 switch (dest) {
 
-                    //TODO: Mountain
+                    case "base":
+
+                        if (sublocation > 1) break;
+                        sublocation = 0;
+                        return true;
+
+                    case "path":
+
+                        if (sublocation == 3) break;
+                        sublocation = 1;
+                        return true;
+
+                    case "oracle":
+
+                        if (sublocation < 1) break;
+                        sublocation = 2;
+                        return true;
+
+                    case "peak":
+
+                        if (sublocation < 2) break;
+                        sublocation = 3;
+                        return true;
+
+                    case "village":
+
+                        if (sublocation != 0) break;
+                        location = 2;
+                        sublocation = 0;
+                        return true;
+
+                    case "desert":
+
+                        if (sublocation != 1) break;
+                        location = 5;
+                        sublocation = 0;
+                        return true;
 
                 }
+
+                break;
 
             case 5:
 
                 switch (dest) {
+
+                    case "plain":
+                    case "plains":
+
+                        sublocation = 0;
+                        return true;
 
                     case "dune":
                     case "dunes":
@@ -422,19 +464,67 @@ public class Player {
 
                     case "well":
 
-                        if (sublocation >= 2) break;
+                        if (sublocation == 2) break;
                         sublocation = 3;
                         return true;
 
+                    case "mountain":
+
+                        if (sublocation != 0) break;
+                        location = 4;
+                        sublocation = 1; // Yes this is 1
+                        return true;
+
+                    case "swamp":
+
+                        if (sublocation != 1) break;
+                        location = 6;
+                        sublocation = 0;
+                        return true;
+
                 }
+
+                break;
 
             case 6:
 
                 switch (dest) {
 
-                    //TODO: Swamp
+                    case "mudpit":
+                    case "mudpits":
+
+                        sublocation = 0;
+                        return true;
+
+                    case "wetland":
+                    case "wetlands":
+
+                        sublocation = 1;
+                        return true;
+
+                    case "woodland":
+                    case "woodlands":
+
+                        sublocation = 2;
+                        return true;
+
+                    case "desert":
+
+                        if (sublocation != 0) break;
+                        location = 5;
+                        sublocation = 0;
+                        return true;
+
+                    case "lair":
+
+                        if (sublocation == 0) break;
+                        location = 8;
+                        sublocation = 0;
+                        return true;
 
                 }
+
+                break;
 
             case 7:
 
@@ -463,19 +553,62 @@ public class Player {
                         sublocation = 3;
                         return true;
 
+                    case "mountain":
+
+                        if (sublocation > 1) break;
+                        location = 4;
+                        sublocation = 3;
+                        return true;
+
+                    case "lair":
+
+                        if (sublocation > 1) break;
+                        location = 8;
+                        sublocation = 0;
+                        return true;
+
                 }
+
+                break;
 
             case 8:
 
                 switch (dest) {
 
-                    case "throne":
+                    case "gate":
 
-                        if (sublocation != 0) break;
+                        if (sublocation > 1) break;
+                        sublocation = 0;
+                        return true;
+
+                    case "outskirts":
+
+                        if (sublocation == 3) break;
                         sublocation = 1;
                         return true;
 
+                    case "castle":
+
+                        if (sublocation != 1) break;
+                        sublocation = 2;
+                        return true;
+
+                    case "throne":
+
+                        if (sublocation < 2) break;
+                        sublocation = 3;
+                        return true;
+
+                    case "swamp":
+
+                        if (sublocation != 0) break;
+                        location = 6;
+                        sublocation = 0;
+                        return true;
+
                 }
+
+                break;
 
         }
 
