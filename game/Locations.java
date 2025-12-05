@@ -120,9 +120,9 @@ public class Locations {
     public static final Enemy[][] enemyIndex = {null, null, Village, Lake, Mountain, Desert, Swamp, Fracture, Lair};
 
     public static Enemy spawnEnemy(Random r, int location, boolean boss) {
-
+    
         if (boss) return enemyIndex[location][enemyIndex[location].length - 1];
-        else if (r.nextInt(100) > (location - 1) * 10) return enemyIndex[location][r.nextInt(enemyIndex[location].length - 1)];
+        else if (r.nextInt(100) < (location - 1) * 10) return enemyIndex[location][r.nextInt(enemyIndex[location].length - 1)];
         else return null;
 
     }

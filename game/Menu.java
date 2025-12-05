@@ -36,7 +36,7 @@ public class Menu {
     public Player playerRef;
     public Enemy enemyRef;
     private boolean bossfight = false, gameOver = false;
-    private int spawnCooldown;
+    private byte spawnCooldown = 0;
 
     // Sounds
     private Audio[] voices = {new Audio("blip.wav")};
@@ -228,9 +228,26 @@ public class Menu {
                     writeText(places, 0);
 
                 } else if (playerRef.travel(bits[1].toLowerCase())) {
-                    
-                    spawnCooldown--;
-                    writeText(theStory.getBaseEvent(Player.location, Player.sublocation), 0);
+
+                    switch (Player.location) {
+
+                        case 8:
+
+                            if (Player.sublocation == 3) {
+
+                                enemyRef = Locations.spawnEnemy(r, 8, true);
+                                updateEnemyBar();
+
+                            }
+
+                            // do not break
+
+                        default:
+
+                            spawnCooldown--;
+                            writeText(theStory.getBaseEvent(Player.location, Player.sublocation), 0);
+
+                    }
 
                 } else writeText("You can't get there from here, if there even exists.", 0);
 
@@ -541,14 +558,14 @@ public class Menu {
             if (dead == SelectedPlayer.values().length) terminate();
             else playerSelect();
 
-        } else if (enemyRef == null && spawnCooldown <= 0) {
+        } else if (enemyRef == null && spawnCooldown <= 0 && Player.location >= 2) {
 
             enemyRef = Locations.spawnEnemy(r, Player.location, false);
             if (enemyRef != null) updateEnemyBar();
             spawnCooldown = 5;
 
         }
-        //TODO: Potential issue where spawncooldown can reach negative interger limit
+        //TODO: Theoretical issue where spawncooldown can reach negative byte limit
 
     }
 
@@ -595,7 +612,7 @@ public class Menu {
         playerScreen = new JFrame();
         playerScreen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         playerScreen.setLayout(new FlowLayout());
-        playerScreen.setSize(300, 300);
+        playerScreen.setExtendedState(JFrame.MAXIMIZED_BOTH);
         playerScreen.setLocationRelativeTo(null);
         for (int c = 0; c < SelectedPlayer.values().length; c++) if (players[c].health > 0) playerScreen.add(characterButtons[c]);
         playerScreen.setVisible(true);
