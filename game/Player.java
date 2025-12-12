@@ -615,5 +615,11 @@ public class Player {
         return false;
 
     }
+
+    public static String getAvailablePlaces() {
+
+        return "wip";
+
+    }
     
 }

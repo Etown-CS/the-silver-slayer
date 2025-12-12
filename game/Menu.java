@@ -40,7 +40,7 @@ public class Menu {
 
     // Sounds
     private Audio[] voices = {new Audio("blip.wav")};
-    //private Audio[] music = {new Audio("mushroom_music.wav")};
+    private Audio[] music = {new Audio("mushroom_music.wav"), new Audio("boss_battle_loop.wav")};
     private Audio damageSFX = new Audio("damage.wav");
 
     // Options
@@ -213,21 +213,9 @@ public class Menu {
             case "enter":
             case "goto":
 
-                if (enemyRef != null) {
-
-                    writeText("You're in combat!", 0);
-                    break;
-
-                }
-
-                if (bits.length < 2) {
-
-                    String places = "Available locations:\n";
-                    for (int c = 0; c < Locations.sublocations[Player.location].length; c++) places += Locations.sublocations[Player.location][c] + ' ';
-                    //TODO: Add available major locations to goto output
-                    writeText(places, 0);
-
-                } else if (playerRef.travel(bits[1].toLowerCase())) {
+                if (enemyRef != null) writeText("You're in combat!", 0);
+                else if (bits.length < 2) writeText(Player.getAvailablePlaces(), 0);
+                else if (playerRef.travel(bits[1].toLowerCase())) {
 
                     switch (Player.location) {
 
@@ -237,20 +225,20 @@ public class Menu {
 
                                 enemyRef = Locations.spawnEnemy(r, 8, true);
                                 updateEnemyBar();
+                                music[1].command(1);
 
                             }
 
-                            // do not break
+                            // do not break here
 
                         default:
 
-                            spawnCooldown--;
+                            if (enemyRef == null) spawnCooldown--;
                             writeText(theStory.getBaseEvent(Player.location, Player.sublocation), 0);
 
                     }
 
                 } else writeText("You can't get there from here, if there even exists.", 0);
-
                 break;
 
             // GAMEPLAY COMMANDS
