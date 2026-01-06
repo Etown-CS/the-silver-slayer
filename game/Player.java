@@ -618,7 +618,27 @@ public class Player {
 
     public static String getAvailablePlaces() {
 
-        return "wip";
+        String places = "";
+
+        switch (location) {
+
+            case 1:
+
+                if (sublocation == 0) places += Locations.sublocations[1][1];
+                else places += Locations.sublocations[1][0] + " | " + Locations.locations[2].toUpperCase();
+                break;
+
+            case 2:
+
+                if (sublocation == 0) places += Locations.sublocations[2][1] + " | " + Locations.sublocations[2][2] + " | " + Locations.sublocations[2][3] + " | " + Locations.locations[1].toUpperCase() + " | " + Locations.locations[3].toUpperCase() + " | " + Locations.locations[4].toUpperCase();
+                else if (sublocation == 1) places += Locations.sublocations[2][0] + " | " + Locations.sublocations[2][3];
+                else if (sublocation == 2) places += Locations.sublocations[2][0];
+                else places += Locations.sublocations[2][0] + " | " + Locations.sublocations[2][1];
+                break;
+
+        }
+
+        return places;
 
     }
     
