@@ -162,8 +162,28 @@ public class Menu {
             }
 
         });
+
+        try {
+
+            save = new Save();
+
+        } catch (IOException ex) {
+
+            System.out.println("FATAL: Failed to access save file!");
+            JOptionPane.showMessageDialog(null, ex, "MISSING SAVE", JOptionPane.ERROR_MESSAGE);
+            System.exit(1);
+
+        }
+
+        if (!save.loaded) {
+
+            JOptionPane.showMessageDialog(null, "Failed to load save file!", "BAD SAVE", JOptionPane.ERROR_MESSAGE);
+            System.exit(1);
+
+        }
         
         init();
+        terminal.setText("The Silver Slayer [Beta v0.1]\n\nWelcome\nYou are at the Gate.\nBegin by typing 'enter'\n\n" + Locations.locations[1] + '/' + Locations.sublocations[1][0] + "> ");
 
     }
 
@@ -568,28 +588,6 @@ public class Menu {
         JOptionPane.showMessageDialog(panel, "You have been terminated.", theStory.GAME_OVERS[r.nextInt(theStory.GAME_OVERS.length)], JOptionPane.ERROR_MESSAGE);
         
     }
-    
-    public static void main(String[] args) {
-        /* Main */
-
-        Menu main = new Menu();
-
-        try {
-
-            main.save = new Save();
-
-        } catch (IOException ex) {
-
-            System.out.println("FATAL: Failed to access save file!");
-            JOptionPane.showMessageDialog(null, ex, "MISSING SAVE", JOptionPane.ERROR_MESSAGE);
-            System.exit(1);
-
-        }
-
-        if (!main.save.loaded) return;
-        main.terminal.setText("The Silver Slayer [Beta v0.1]\n\nWelcome\nYou are at the Gate.\nBegin by typing 'enter'\n\n" + Locations.locations[1] + '/' + Locations.sublocations[1][0] + "> ");
-
-    }
 
     private void playerSelect() {
         /*
@@ -600,7 +598,7 @@ public class Menu {
         playerScreen = new JFrame();
         playerScreen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         playerScreen.setLayout(new FlowLayout());
-        playerScreen.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        playerScreen.setSize(new Dimension(640, 480));
         playerScreen.setLocationRelativeTo(null);
         for (int c = 0; c < SelectedPlayer.values().length; c++) if (players[c].health > 0) playerScreen.add(characterButtons[c]);
         playerScreen.setVisible(true);
