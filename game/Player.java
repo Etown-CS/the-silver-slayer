@@ -167,24 +167,29 @@ public class Player {
          * Print out entirety of player's inventory
          */
 
-        String inv = "";
+        StringBuilder inv = new StringBuilder(32);
         int count = 0;
 
         for (int c = 0; c < invCap; c++) {
 
             if (inventory[c] != null) {
 
-                inv += "Slot " + c + ": " + inventory[c].name;
-                if (inventory[c] == currentArmor || inventory[c] == currentWeapon || inventory[c] == currentWearable) inv += " *";
-                inv += "\n";
+                inv.append("Slot " + c + ": " + inventory[c].name);
+                if (inventory[c] == currentArmor || inventory[c] == currentWeapon || inventory[c] == currentWearable) inv.append(" *");
+                inv.append("\n");
                 count++;
 
-            } else inv += "Slot " + c + ": \n";
+            } else inv.append("Slot " + c + ": \n");
 
         }
 
         if (count == 0) return "Your inventory is empty!";
-        else return inv + "\n(" + count + " items total)";
+        else {
+
+            inv.append("\n(" + count + " items total)");
+            return inv.toString();
+
+        }
 
     }
 
@@ -618,27 +623,32 @@ public class Player {
 
     public static String getAvailablePlaces() {
 
-        String places = "";
+        StringBuilder places = new StringBuilder(64);
 
         switch (location) {
 
             case 1:
 
-                if (sublocation == 0) places += Locations.sublocations[1][1];
-                else places += Locations.sublocations[1][0] + " | " + Locations.locations[2].toUpperCase();
+                if (sublocation == 0) places.append(Locations.sublocations[1][1]);
+                else places.append(Locations.sublocations[1][0] + " | " + Locations.locations[2].toUpperCase());
                 break;
 
             case 2:
 
-                if (sublocation == 0) places += Locations.sublocations[2][1] + " | " + Locations.sublocations[2][2] + " | " + Locations.sublocations[2][3] + " | " + Locations.locations[1].toUpperCase() + " | " + Locations.locations[3].toUpperCase() + " | " + Locations.locations[4].toUpperCase();
-                else if (sublocation == 1) places += Locations.sublocations[2][0] + " | " + Locations.sublocations[2][3];
-                else if (sublocation == 2) places += Locations.sublocations[2][0];
-                else places += Locations.sublocations[2][0] + " | " + Locations.sublocations[2][1];
+                if (sublocation == 0) places.append(Locations.sublocations[2][1] + " | " + Locations.sublocations[2][2] + " | " + Locations.sublocations[2][3] + " | " + Locations.locations[1].toUpperCase() + " | " + Locations.locations[3].toUpperCase() + " | " + Locations.locations[4].toUpperCase());
+                else if (sublocation == 1) places.append(Locations.sublocations[2][0] + " | " + Locations.sublocations[2][3]);
+                else if (sublocation == 2) places.append(Locations.sublocations[2][0]);
+                else places.append(Locations.sublocations[2][0] + " | " + Locations.sublocations[2][1]);
+                break;
+
+            default:
+
+                places.append("Well that's a problem!");
                 break;
 
         }
 
-        return places;
+        return places.toString();
 
     }
     

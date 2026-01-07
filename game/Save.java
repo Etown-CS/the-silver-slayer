@@ -45,7 +45,7 @@ public class Save {
         if (!isSaving) {
 
             isSaving = true;
-            StringBuilder contents = new StringBuilder(0);
+            StringBuilder contents = new StringBuilder(1024);
 
             // Reset file
             fc.truncate(0);
@@ -119,7 +119,7 @@ public class Save {
 
     private String encrypt(String contents) {
 
-        StringBuilder result = new StringBuilder(0);
+        StringBuilder result = new StringBuilder(1024);
         int pos = 0;
 
         for (char c : contents.toCharArray()) {
@@ -144,7 +144,7 @@ public class Save {
 
     private String decrypt(String contents) {
 
-        StringBuilder result = new StringBuilder(0);
+        StringBuilder result = new StringBuilder(1024);
         int pos = 0;
 
         for (char c : contents.toCharArray()) {
