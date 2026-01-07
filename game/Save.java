@@ -45,39 +45,39 @@ public class Save {
         if (!isSaving) {
 
             isSaving = true;
-            String contents = "";
+            StringBuilder contents = new StringBuilder(0);
 
             // Reset file
             fc.truncate(0);
             saveFile.seek(0);
 
             // Players' data
-            contents += "PLAYERS\n";
-            contents += "\tactive:'" + p.name + "'\n";
-            contents += "\tlocation:" + Player.location + '\n';
-            contents += "\tsublocation:" + Player.sublocation + '\n';
+            contents.append("PLAYERS\n");
+            contents.append("\tactive:'" + p.name + "'\n");
+            contents.append("\tlocation:" + Player.location + '\n');
+            contents.append("\tsublocation:" + Player.sublocation + '\n');
 
             for (int c = 0; c < all.length; c++) {
                 
                 // General stats
-                contents += "\tname:'" + all[c].name + "'\n";
-                contents += "\t\thp:" + all[c].health + '\n';
-                contents += "\t\thp_cap:" + all[c].healthCap + '\n';
-                contents += "\t\tatk:" + all[c].attack + '\n';
-                contents += "\t\tdef:" + all[c].defense + '\n';
-                contents += "\t\tinvcap:" + all[c].invCap + '\n';
+                contents.append("\tname:'" + all[c].name + "'\n");
+                contents.append("\t\thp:" + all[c].health + '\n');
+                contents.append("\t\thp_cap:" + all[c].healthCap + '\n');
+                contents.append("\t\tatk:" + all[c].attack + '\n');
+                contents.append("\t\tdef:" + all[c].defense + '\n');
+                contents.append("\t\tinvcap:" + all[c].invCap + '\n');
                 
                 // Inventory
                 for (int i = 0; i < all[c].inventory.length; i++) {
 
-                    if (all[c].inventory[i] == null) contents += "\t\titem" + i + ":\n";
+                    if (all[c].inventory[i] == null) contents.append("\t\titem" + i + ":\n");
                     else {
 
-                        contents += "\t\titem" + i + ':' + all[c].inventory[i].name;
-                        if (all[c].inventory[i] == all[c].currentArmor) contents += "*Armor*";
-                        else if (all[c].inventory[i] == all[c].currentWeapon) contents += "*Weapon*";
-                        else if (all[c].inventory[i] == all[c].currentWearable) contents += "*Wearable*";
-                        contents += '\n';
+                        contents.append("\t\titem" + i + ':' + all[c].inventory[i].name);
+                        if (all[c].inventory[i] == all[c].currentArmor) contents.append("*Armor*");
+                        else if (all[c].inventory[i] == all[c].currentWeapon) contents.append("*Weapon*");
+                        else if (all[c].inventory[i] == all[c].currentWearable) contents.append("*Wearable*");
+                        contents.append('\n');
 
                     }
 
@@ -86,15 +86,15 @@ public class Save {
             }
 
             // Boss data
-            contents += "BOSSES\n";
+            contents.append("BOSSES\n");
             for (int c = 2; c < Locations.locations.length - 1; c++) {
 
-                if (Locations.enemyIndex[c][Locations.enemyIndex[c].length - 1].health == 0) contents += "\tLocation" + c + ":X\n";
-                else contents += "\tLocation" + c + ":_\n";
+                if (Locations.enemyIndex[c][Locations.enemyIndex[c].length - 1].health == 0) contents.append("\tLocation" + c + ":X\n");
+                else contents.append("\tLocation" + c + ":_\n");
 
             }
 
-            saveFile.writeChars(encrypt(contents));
+            saveFile.writeChars(encrypt(contents.toString()));
             isSaving = false;
             return true;
             
@@ -119,7 +119,7 @@ public class Save {
 
     private String encrypt(String contents) {
 
-        String result = "";
+        StringBuilder result = new StringBuilder(0);
         int pos = 0;
 
         for (char c : contents.toCharArray()) {
@@ -130,20 +130,21 @@ public class Save {
 
             if (cIdx >= 0) {
 
-                if (kIdx >= 0) result += alphabet.charAt((cIdx + kIdx + 1) % alphabet.length());
+                if (kIdx >= 0) result.append(alphabet.charAt((cIdx + kIdx + 1) % alphabet.length()));
                 pos++;
 
-            } else result += c;
+            } else result.append(c);
 
         }
 
-        return result;
+        System.out.println(decrypt(result.toString()));
+        return result.toString();
 
     }
 
     private String decrypt(String contents) {
 
-        String result = "";
+        StringBuilder result = new StringBuilder(0);
         int pos = 0;
 
         for (char c : contents.toCharArray()) {
@@ -156,14 +157,14 @@ public class Save {
 
                 int nIdx = cIdx - kIdx - 1;
                 if (nIdx < 0) nIdx = alphabet.length() + nIdx;
-                if (kIdx >= 0) result += alphabet.charAt(nIdx);
+                if (kIdx >= 0) result.append(alphabet.charAt(nIdx));
                 pos++;
 
-            } else result += c;
+            } else result.append(c);
 
         }
 
-        return result;
+        return result.toString();
 
     }
     
