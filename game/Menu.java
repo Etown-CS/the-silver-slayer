@@ -36,7 +36,6 @@ public class Menu {
     public Player playerRef;
     public Enemy enemyRef;
     private boolean bossfight = false, gameOver = false;
-    private byte spawnCooldown = 0;
 
     // Sounds
     private Audio[] voices = {new Audio("blip.wav")};
@@ -220,13 +219,11 @@ public class Menu {
 
             case "look":
 
-                spawnCooldown--;
                 writeText(theStory.getLookEvent(Player.location, Player.sublocation), 0);
                 break;
 
             case "search":
 
-                spawnCooldown--;
                 writeText(theStory.getSearchEvent(Player.location, Player.sublocation), 0);
                 break;
 
@@ -253,7 +250,13 @@ public class Menu {
 
                         default:
 
-                            if (enemyRef == null) spawnCooldown--;
+                            if (enemyRef == null && Player.location >= 2) {
+
+                                enemyRef = Locations.spawnEnemy(r, Player.location, false);
+                                if (enemyRef != null) updateEnemyBar();
+                            
+                            }
+                            
                             writeText(theStory.getBaseEvent(Player.location, Player.sublocation), 0);
 
                     }
@@ -557,23 +560,11 @@ public class Menu {
         else if (playerRef.health == 0) {
 
             int dead = 0;
-            for (int c = 0; c < SelectedPlayer.values().length; c++) {
-
-                if (players[c].health == 0) dead++;
-
-            }
-
+            for (int c = 0; c < SelectedPlayer.values().length; c++) if (players[c].health == 0) dead++;
             if (dead == SelectedPlayer.values().length) terminate();
             else playerSelect();
 
-        } else if (enemyRef == null && spawnCooldown <= 0 && Player.location >= 2) {
-
-            enemyRef = Locations.spawnEnemy(r, Player.location, false);
-            if (enemyRef != null) updateEnemyBar();
-            spawnCooldown = 5;
-
         }
-        //TODO: Theoretical issue where spawncooldown can reach negative byte limit
 
     }
 
