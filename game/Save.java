@@ -62,7 +62,7 @@ public class Save {
                 // General stats
                 contents.append("\tname:'" + all[c].name + "'\n");
                 contents.append("\t\thp:" + all[c].health + '\n');
-                contents.append("\t\thp_cap:" + all[c].healthCap + '\n');
+                contents.append("\t\thp_cap:" + all[c].healthDefault + '\n');
                 contents.append("\t\tatk:" + all[c].attack + '\n');
                 contents.append("\t\tdef:" + all[c].defense + '\n');
                 contents.append("\t\tinvcap:" + all[c].invCap + '\n');

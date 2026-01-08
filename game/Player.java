@@ -1,121 +1,70 @@
-public class Player {
+public class Player extends Entity {
 
-    private Menu menuRef;
-    public SelectedPlayer character;
     public Item[] inventory = {null, null, null, null, null, null, null, null, null, null};
     public Item currentArmor = null, currentWeapon = null, currentWearable = null;
-    public String name;
-    public int health, healthCap, attack, defense = 0, invCap = 5;
-    public static int location, sublocation;
+    public int invCap = 5;
 
-    public Player(Menu refToMenu, SelectedPlayer c) {
+    public static final String[] names = {"Bitter Java", "Brustel Sprout", "C--", "Dapper Python", "P. H. Periwinkle", "ReacTor", "Saea Quowle"};
+    public static int location = 1, sublocation = 0;
+
+    public Player(String title) {
         /* Constructor */
 
-        // set player to selected character
-        character = c;
-        setInitialCharacterStats(c);
+        name = title;
+        switch (name) {
 
-        location = 1;
-        sublocation = 0;
-        menuRef = refToMenu;
+            case "Bitter Java":
 
-    }
-
-    private void setInitialCharacterStats(SelectedPlayer character) {
-        /*
-         * Set initial stats
-         * 
-         * character: Which playable character
-         */
-
-        switch (character) {
-
-            case Bitter_Java:
-
-                name = "Bitter Java";
-                health = 3;
-                healthCap = 3;
+                healthDefault = 4;
                 attack = 1;
                 break;
 
-            case Brustel_Sprout:
+            case "Brustel Sprout":
 
-                name = "Brustel Sprout";
-                health = 3;
-                healthCap = 6;
+                healthDefault = 5;
                 attack = 1;
                 break;
 
-            case C__:
+            case "C--":
 
-                name = "C--";
-                health = 2;
-                healthCap = 3;
+                healthDefault = 3;
                 attack = 2;
                 break;
 
-            case Dapper_Python:
+            case "Dapper Python":
 
-                name = "Dapper Python";
-                health = 2;
-                healthCap = 2;
+                healthDefault = 3;
                 attack = 3;
                 break;
 
-            case P_H_Periwinkle:
+            case "P. H. Periwinkle":
 
-                name = "P. H. Periwinkle";
-                health = 4;
-                healthCap = 4;
+                healthDefault = 4;
                 attack = 1;
                 break;
 
-            case ReacTor:
+            case "ReacTor":
 
-                name = "ReacTor";
-                health = 3;
-                healthCap = 3;
+                healthDefault = 6;
                 attack = 1;
                 break;
 
-            case Saea_Quowle:
+            case "Saea Quowle":
 
-                name = "Saea Quowle";
-                health = 1;
-                healthCap = 2;
+                healthDefault = 1;
                 attack = 4;
                 break;
 
         }
 
-    }
-
-    public void changeStats(int H, int A, int D) {
-        /*
-         * Change player stats
-         * 
-         * H: Mod health
-         * A: Mod attack
-         * D: Mod defense
-         */
-
-        health += H;
-        attack += A;
-        defense += D;
-
-        if (health > healthCap) health = healthCap;
-        else if (health < 0) health = 0;
-        if (attack < 0) attack = 0;
-        if (defense < 0) defense = 0;
-
-        menuRef.updatePlayerBar();
+        health = healthDefault;
 
     }
 
     public int addItem(Item item) {
         /*
          * Add an item to the player's inventory
-         * Returns the number of the slot the item was placed in, or -1 if the inventory is full
+         * Returns the number of the slot the item was placed in, or -1 if inventory is full
          * 
          * item: The item to be added
          */
@@ -254,23 +203,6 @@ public class Player {
         
         if (inventory[slot].consumable) inventory[slot] = null;
         return msg;
-
-    }
-
-    public int playerAttacked(int dmg) {
-        /*
-         * Use this to deal damage to the player
-         * Minimum damage taken cannot be <1
-         * 
-         * dmg: Incoming damage amount
-         */
-
-        // TODO: Dodge chance? Maybe an item does this
-
-        dmg = dmg - defense;
-        if (dmg < 1) dmg = 1;
-        changeStats(-dmg, 0, 0);
-        return dmg;
 
     }
 
@@ -640,6 +572,20 @@ public class Player {
                 else if (sublocation == 2) places.append(Locations.sublocations[2][0]);
                 else places.append(Locations.sublocations[2][0] + " | " + Locations.sublocations[2][1]);
                 break;
+
+            case 3:
+
+                if (sublocation == 0) places.append(Locations.sublocations[3][1] + " | " + Locations.sublocations[3][3] + " | " + Locations.locations[2].toUpperCase());
+
+            case 4:
+
+            case 5:
+
+            case 6:
+
+            case 7:
+
+            case 8:
 
             default:
 

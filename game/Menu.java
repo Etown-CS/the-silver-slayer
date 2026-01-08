@@ -21,7 +21,7 @@ public class Menu {
 
     // Character selection screen
     private JFrame playerScreen;
-    private JButton[] characterButtons = new JButton[SelectedPlayer.values().length];
+    private JButton[] characterButtons = new JButton[Player.names.length];
 
     // Text
     private final Font gameFont = new Font("Cascadia Mono", Font.PLAIN, 20);;
@@ -32,7 +32,7 @@ public class Menu {
     private Random r = new Random();
     private Save save;
     private Story theStory = new Story(); // Making it create a "new story" has so much aura;
-    private Player[] players = new Player[SelectedPlayer.values().length];;
+    private Player[] players = new Player[Player.names.length];
     public Player playerRef;
     public Enemy enemyRef;
     private boolean bossfight = false, gameOver = false;
@@ -191,7 +191,7 @@ public class Menu {
          * Updates the player's sidebar
          */
 
-        playerBar.setText("PLAYER\n\n" + playerRef.name + "\n\nHealth: " + playerRef.health + " / " + playerRef.healthCap + "\nAttack: " + playerRef.attack + "\nDefense: " + playerRef.defense);
+        playerBar.setText("PLAYER\n\n" + playerRef.name + "\n\nHealth: " + playerRef.health + " / " + playerRef.healthDefault + "\nAttack: " + playerRef.attack + "\nDefense: " + playerRef.defense);
 
     }
 
@@ -376,7 +376,7 @@ public class Menu {
                     } else {
 
                         damageSFX.command(2);
-                        writeText("Attacked " + enemyRef.name + " for " + atkdmg + " damage!                    \n\n" + enemyRef.name + " attacks you for " + playerRef.playerAttacked(enemyRef.attack) + " damage!", 0);
+                        writeText("Attacked " + enemyRef.name + " for " + atkdmg + " damage!                    \n\n" + enemyRef.name + " attacks you for " + playerRef.getAttacked(enemyRef.attack) + " damage!", 0);
                         // there are 20 spaces in the line above
 
                     }
@@ -399,7 +399,7 @@ public class Menu {
 
                     } else {
 
-                        writeText("You attempted to flee, but failed!\n" + enemyRef.name + " attacked you for " + playerRef.playerAttacked(enemyRef.attack) + " damage!\n"
+                        writeText("You attempted to flee, but failed!\n" + enemyRef.name + " attacked you for " + playerRef.getAttacked(enemyRef.attack) + " damage!\n"
                         + "Luckily you still make it away, only with a wound.", 0);
                         enemyRef = null;
                         enemyBar.setText("ENEMY");
@@ -560,8 +560,8 @@ public class Menu {
         else if (playerRef.health == 0) {
 
             int dead = 0;
-            for (int c = 0; c < SelectedPlayer.values().length; c++) if (players[c].health == 0) dead++;
-            if (dead == SelectedPlayer.values().length) terminate();
+            for (int c = 0; c < Player.names.length; c++) if (players[c].health == 0) dead++;
+            if (dead == Player.names.length) terminate();
             else playerSelect();
 
         }
@@ -591,18 +591,18 @@ public class Menu {
         playerScreen.setLayout(new FlowLayout());
         playerScreen.setSize(new Dimension(640, 480));
         playerScreen.setLocationRelativeTo(null);
-        for (int c = 0; c < SelectedPlayer.values().length; c++) if (players[c].health > 0) playerScreen.add(characterButtons[c]);
+        for (int c = 0; c < Player.names.length; c++) if (players[c].health > 0) playerScreen.add(characterButtons[c]);
         playerScreen.setVisible(true);
 
     }
 
     private void init() {
         /*
-         * Sets up the game & UI
-         */
+        * Sets up the game & UI
+        */
 
         // Prep playable characters
-        for (int c = 0; c < SelectedPlayer.values().length; c++) players[c] = new Player(this, SelectedPlayer.values()[c]);
+        for (int c = 0; c < Player.names.length; c++) players[c] = new Player(Player.names[c]);
 
         // UI Base
         mainframe.setLocationRelativeTo(null);
