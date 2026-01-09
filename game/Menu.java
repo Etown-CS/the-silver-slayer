@@ -24,143 +24,50 @@ public class Menu {
     private JButton[] characterButtons = new JButton[Player.names.length];
 
     // Text
-    private final Font gameFont = new Font("Cascadia Mono", Font.PLAIN, 20);;
     private Timer timer = new Timer(0, null);
     private int characterIndex;
 
     // Elements
     private Random r = new Random();
     private Save save;
-    private Story theStory = new Story(); // Making it create a "new story" has so much aura;
+    private Story theStory = new Story(); // Making it create a "new story" has so much aura
     private Player[] players = new Player[Player.names.length];
-    public Player playerRef;
-    public Enemy enemyRef;
-    private boolean bossfight = false, gameOver = false;
+    private Player playerRef;
+    private Enemy enemyRef;
+    private boolean gameOver = false;
 
     // Sounds
     private Audio[] voices = {new Audio("blip.wav")};
     private Audio[] music = {new Audio("mushroom_music.wav"), new Audio("boss_battle_loop.wav")};
     private Audio damageSFX = new Audio("damage.wav");
 
-    // Options
-    private int textDelay = 5;
-
+    private byte counter; // This is here so it can be used in the ActionListerner creations below
     public Menu() {
         /* Constructor */
 
         mainframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        characterButtons[0] = new JButton("Bitter Java");
-        characterButtons[0].addActionListener(new ActionListener() {
-            
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        for (counter = 0; counter < Player.names.length; counter++) {
+
+            characterButtons[counter] = new JButton(Player.names[counter]);
+            characterButtons[counter].addActionListener(new ActionListener() {
+
+                byte pNum = counter;
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+                    playerRef = players[pNum];
+                    playerScreen.setVisible(false);
+                    mainframe.setVisible(true);
+                    inputField.requestFocus();
+                    updatePlayerBar();
+
+                }
                 
-                playerRef = players[0];
-                playerScreen.setVisible(false);
-                mainframe.setVisible(true);
-                inputField.requestFocus();
-                updatePlayerBar();
+            });
 
-            }
-
-        });
-
-        characterButtons[1] = new JButton("Brustel Sprout");
-        characterButtons[1].addActionListener(new ActionListener() {
-            
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                
-                playerRef = players[1];
-                playerScreen.setVisible(false);
-                mainframe.setVisible(true);
-                inputField.requestFocus();
-                updatePlayerBar();
-
-            }
-
-        });
-
-        characterButtons[2] = new JButton("C--");
-        characterButtons[2].addActionListener(new ActionListener() {
-            
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                
-                playerRef = players[2];
-                playerScreen.setVisible(false);
-                mainframe.setVisible(true);
-                inputField.requestFocus();
-                updatePlayerBar();
-
-            }
-
-        });
-
-        characterButtons[3] = new JButton("Dapper Python");
-        characterButtons[3].addActionListener(new ActionListener() {
-            
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                
-                playerRef = players[3];
-                playerScreen.setVisible(false);
-                mainframe.setVisible(true);
-                inputField.requestFocus();
-                updatePlayerBar();
-
-            }
-
-        });
-
-        characterButtons[4] = new JButton("P. H. Periwinkle");
-        characterButtons[4].addActionListener(new ActionListener() {
-            
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                
-                playerRef = players[4];
-                playerScreen.setVisible(false);
-                mainframe.setVisible(true);
-                inputField.requestFocus();
-                updatePlayerBar();
-
-            }
-
-        });
-
-        characterButtons[5] = new JButton("ReacTor");
-        characterButtons[5].addActionListener(new ActionListener() {
-            
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                
-                playerRef = players[5];
-                playerScreen.setVisible(false);
-                mainframe.setVisible(true);
-                inputField.requestFocus();
-                updatePlayerBar();
-
-            }
-
-        });
-
-        characterButtons[6] = new JButton("Saea Quowle");
-        characterButtons[6].addActionListener(new ActionListener() {
-            
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                
-                playerRef = players[6];
-                playerScreen.setVisible(false);
-                mainframe.setVisible(true);
-                inputField.requestFocus();
-                updatePlayerBar();
-
-            }
-
-        });
+        }
 
         try {
 
@@ -180,8 +87,9 @@ public class Menu {
             System.exit(1);
 
         }
-        
-        init();
+
+        for (int c = 0; c < Player.names.length; c++) players[c] = new Player(Player.names[c]);
+        setupUI();
         terminal.setText("The Silver Slayer [Beta v0.1]\n\nWelcome\nYou are at the Gate.\nBegin by typing 'enter'\n\n" + Locations.locations[1] + '/' + Locations.sublocations[1][0] + "> ");
 
     }
@@ -228,6 +136,9 @@ public class Menu {
                 break;
 
             case "enter":
+
+                //TODO: Expansion of enter
+
             case "goto":
 
                 if (enemyRef != null) writeText("You're in combat!", 0);
@@ -246,7 +157,7 @@ public class Menu {
 
                             }
 
-                            // do not break here
+                            // no break here
 
                         default:
 
@@ -358,7 +269,7 @@ public class Menu {
                     int atkdmg = enemyRef.getAttacked(playerRef.attack);
                     updateEnemyBar();
                     
-                    if (bossfight && enemyRef.health == 0) {
+                    if (enemyRef.isBoss && enemyRef.health == 0) {
 
                         damageSFX.command(2);
                         writeText("Attacked " + enemyRef.name + " for " + atkdmg + " damage!\n" + theStory.BOSS_DEFEATED[Player.location], 0);
@@ -528,7 +439,7 @@ public class Menu {
         if (voiceID >= 0) voices[voiceID].command(1);
         characterIndex = 0;
 
-        timer = new Timer(textDelay, new AbstractAction() {
+        timer = new Timer(5, new AbstractAction() {
             
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -596,16 +507,13 @@ public class Menu {
 
     }
 
-    private void init() {
+    private void setupUI() {
         /*
-        * Sets up the game & UI
+        * Sets up the game UI
         */
 
-        // Prep playable characters
-        for (int c = 0; c < Player.names.length; c++) players[c] = new Player(Player.names[c]);
-
         // UI Base
-        mainframe.setLocationRelativeTo(null);
+        final Font gameFont = new Font("Cascadia Mono", Font.PLAIN, 20);
         mainframe.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
         // Terminal
@@ -628,13 +536,13 @@ public class Menu {
 
         });
 
-        // Right (player's) sidebar
+        // Player (right) sidebar
         playerBar.setFont(gameFont);
         playerBar.setEditable(false); // make player stats not editable
         playerBar.setBackground(Color.BLACK);
         playerBar.setForeground(Color.GREEN);
 
-        // Left (enemy's) sidebar
+        // Enemy (left) sidebar
         enemyBar.setFont(gameFont);
         enemyBar.setEditable(false);
         enemyBar.setBackground(Color.BLACK);
@@ -664,6 +572,7 @@ public class Menu {
         panel.add(scrollPane, BorderLayout.CENTER);
         panel.add(playerBar, BorderLayout.EAST);
         panel.add(enemyBar, BorderLayout.WEST);
+        //TODO: Swap sidebars?
 
         // Final
         mainframe.add(panel);

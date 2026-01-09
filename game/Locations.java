@@ -22,7 +22,7 @@ public class Locations {
             new Enemy("Rat", 1, 3, 0),
             new Enemy("Red Flower", 3, 3, 0),
             new Enemy("Scavenger", 8, 0, 0),
-            new Enemy("First Guardian", 10, 3, 2)
+            new Enemy("First Guardian", 10, 3, 2, true)
         };
         
     public static final Enemy[] Lake = 
@@ -36,7 +36,7 @@ public class Locations {
             new Enemy("Waterlogged", 7, 3, 4),
             new Enemy("PISMPE", 2, 0, 0),
             new Enemy("Thief", 10, 3, 3),
-            new Enemy("The Big One", 30, 3, 1)
+            new Enemy("The Big One", 30, 3, 1, true)
         };
         
     public static final Enemy[] Mountain = 
@@ -54,7 +54,7 @@ public class Locations {
             new Enemy("Banshee", 9, 9, 1),
             new Enemy("Faceless", 6, 1, 5),
             new Enemy("Thief", 10, 3, 3),
-            new Enemy("Abominable Snowball", 40, 4, 4)
+            new Enemy("Abominable Snowball", 40, 4, 4, true)
         };
         
     public static final Enemy[] Desert = 
@@ -70,7 +70,7 @@ public class Locations {
             new Enemy("PISMPE", 2, 0, 0),
             new Enemy("Flashbang", 3, 7, 1),
             new Enemy("Thief", 10, 3, 3),
-            new Enemy("Firewall", 60, 10, 5)
+            new Enemy("Firewall", 60, 10, 5, true)
         };
         
     public static final Enemy[] Swamp = 
@@ -88,7 +88,7 @@ public class Locations {
             new Enemy("Flashbang", 3, 7, 1),
             new Enemy("Thief", 10, 3, 3),
             new Enemy("Worm", 4, 1, 5),
-            new Enemy("Mudgulper", 30, 10, 10)
+            new Enemy("Mudgulper", 30, 10, 10, true)
         };
         
     public static final Enemy[] Fracture = 
@@ -98,7 +98,7 @@ public class Locations {
             new Enemy("Glitch", 1, 1, 1),
             new Enemy("Memory", 15, 1, 0),
             new Enemy("Packet", 5, 5, 2),
-            new Enemy("DISCOMBOBU-INATOR", 100, 100, 100)
+            new Enemy("DISCOMBOBU-INATOR", 100, 100, 100, true)
         };
         
     public static final Enemy[] Lair = 
@@ -114,7 +114,7 @@ public class Locations {
             new Enemy("RAT", 6, 10, 0),
             new Enemy("Wirefiend", 5, 5, 3),
             new Enemy("Worm", 4, 1, 5),
-            new Enemy("The Silver Slayer", 999, 999, 999)
+            new Enemy("The Silver Slayer", 999, 999, 999, true)
         };
 
     public static final Enemy[][] enemyIndex = {null, null, Village, Lake, Mountain, Desert, Swamp, Fracture, Lair};
