@@ -1,6 +1,7 @@
 # Manually added
 game/data/tss.txt
 **/.DS_Store
+.vscode/
 
 # Logs
 logs
