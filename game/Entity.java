@@ -1,4 +1,4 @@
-public class Entity {
+public class Entity extends TheSilverSlayer {
 
     public String name;
     public int health, attack, defense;
@@ -35,6 +35,15 @@ public class Entity {
         if (dmg < 1) dmg = 1;
         changeStats(-dmg, 0, 0);
         return dmg;
+
+    }
+
+    public boolean flee(int chance) {
+        /*
+        * Attempt to flee from battle
+        */
+
+        return r.nextInt(100) < chance;
 
     }
 

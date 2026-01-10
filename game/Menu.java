@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -6,9 +7,8 @@ import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
-import java.util.Random;
 
-public class Menu {
+public class Menu extends TheSilverSlayer {
 
     // Display
     private JFrame mainframe = new JFrame();
@@ -30,7 +30,6 @@ public class Menu {
     private int characterIndex;
 
     // Elements
-    private Random r = new Random();
     private Save save;
     private Story theStory = new Story(); // Making it create a "new story" has so much aura
     private Player[] players = new Player[Player.names.length];
@@ -110,7 +109,7 @@ public class Menu {
          * Updates the enemy sidebar
          */
 
-        enemyBar.setText("ENEMY\n" + enemyRef.name + "\n\nHealth: " + enemyRef.health + "\nAttack: " + enemyRef.attack + "\nDefense: " + enemyRef.defense);
+        if (enemyRef != null) enemyBar.setText("ENEMY\n" + enemyRef.name + "\n\nHealth: " + enemyRef.health + "\nAttack: " + enemyRef.attack + "\nDefense: " + enemyRef.defense);
 
     }
 
@@ -153,8 +152,7 @@ public class Menu {
 
                             if (Player.sublocation == 3) {
 
-                                enemyRef = Locations.spawnEnemy(r, 8, true);
-                                updateEnemyBar();
+                                enemyRef = Locations.spawnEnemy(8, true);
                                 music[1].command(1);
 
                             }
@@ -163,13 +161,7 @@ public class Menu {
 
                         default:
 
-                            if (enemyRef == null && Player.location >= 2) {
-
-                                enemyRef = Locations.spawnEnemy(r, Player.location, false);
-                                if (enemyRef != null) updateEnemyBar();
-                            
-                            }
-                            
+                            if (enemyRef == null && Player.location >= 2) enemyRef = Locations.spawnEnemy(Player.location, false);
                             writeText(theStory.getBaseEvent(Player.location, Player.sublocation), 0);
 
                     }
@@ -269,12 +261,11 @@ public class Menu {
                 else {
 
                     int atkdmg = enemyRef.getAttacked(playerRef.attack);
-                    updateEnemyBar();
                     
                     if (enemyRef.isBoss && enemyRef.health == 0) {
 
                         damageSFX.command(2);
-                        writeText("Attacked " + enemyRef.name + " for " + atkdmg + " damage!\n" + theStory.BOSS_DEFEATED[Player.location], 0);
+                        writeText("Attacked " + enemyRef.name + " for " + atkdmg + " damage!\n" + Story.BOSS_DEFEATED[Player.location], 0);
                         enemyRef = null;
                         enemyBar.setText("ENEMY");
 
@@ -304,20 +295,16 @@ public class Menu {
                 else {
 
                     // 75% chance to flee unharmed; 25% chance to take damage while fleeing
-                    if (r.nextInt(100) < 75) {
+                    if (playerRef.flee(50)) {
 
-                        writeText("You fled from " + enemyRef.name + ".\n" + theStory.FLEE_STRINGS[r.nextInt(theStory.FLEE_STRINGS.length)], 0);
+                        if (playerRef.flee(75)) writeText("You fled from " + enemyRef.name + '\n' + Story.FLEE_STRINGS[r.nextInt(Story.FLEE_STRINGS.length)], 0);
+                        else writeText("You fled from " + enemyRef.name + ", but not unscathed.\nReceived " + playerRef.getAttacked(enemyRef.attack) + " damage!", 0);
+
+                        enemyRef.reset();
                         enemyRef = null;
                         enemyBar.setText("ENEMY");
 
-                    } else {
-
-                        writeText("You attempted to flee, but failed!\n" + enemyRef.name + " attacked you for " + playerRef.getAttacked(enemyRef.attack) + " damage!\n"
-                        + "Luckily you still make it away, only with a wound.", 0);
-                        enemyRef = null;
-                        enemyBar.setText("ENEMY");
-                        
-                    }
+                    } else writeText("You attempted to flee, but failed!\n" + enemyRef.name + " attacked you for " + playerRef.getAttacked(enemyRef.attack) + " damage!\n", 0);
 
                 }
 
@@ -387,7 +374,7 @@ public class Menu {
 
                 if (bits.length < 2) {
 
-                    mainframe.setTitle(theStory.TITLE_STRINGS[r.nextInt(theStory.TITLE_STRINGS.length)]);
+                    mainframe.setTitle(Story.TITLE_STRINGS[r.nextInt(Story.TITLE_STRINGS.length)]);
                     writeText("Rerolled title!", 0);
 
                 } else {
@@ -395,10 +382,10 @@ public class Menu {
                     try {
 
                         int slot = Integer.parseInt(bits[1]);
-                        if (slot < 0 || slot > theStory.TITLE_STRINGS.length - 1) writeText(slot + " is out of range.", 0);
+                        if (slot < 0 || slot > Story.TITLE_STRINGS.length - 1) writeText(slot + " is out of range.", 0);
                         else {
 
-                            mainframe.setTitle(theStory.TITLE_STRINGS[slot]);
+                            mainframe.setTitle(Story.TITLE_STRINGS[slot]);
                             writeText("Updated title!", 0);
 
                         }
@@ -468,6 +455,9 @@ public class Menu {
          * Runs every time the terminal stops writing text
          */
 
+        updatePlayerBar();
+        updateEnemyBar();
+
         if (gameOver) return;
         if (playerRef.health == 0) {
 
@@ -488,7 +478,7 @@ public class Menu {
         gameOver = true;
         terminalPanel.remove(inputField);
         mainframe.setTitle("Game Over");
-        JOptionPane.showMessageDialog(terminalPanel, "You have been terminated.", theStory.GAME_OVERS[r.nextInt(theStory.GAME_OVERS.length)], JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(terminalPanel, "You have been terminated.", Story.GAME_OVERS[r.nextInt(Story.GAME_OVERS.length)], JOptionPane.ERROR_MESSAGE);
         
     }
 
@@ -530,6 +520,7 @@ public class Menu {
 
         // Scroll
         scrollPane = new JScrollPane(terminalScreen);
+        scrollPane.setBorder(BorderFactory.createEmptyBorder());
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {
 
@@ -547,12 +538,14 @@ public class Menu {
         playerBar.setEditable(false); // make player stats not editable
         playerBar.setBackground(Color.BLACK);
         playerBar.setForeground(Color.GREEN);
+        playerBar.setBorder(new LineBorder(Color.GREEN, 1));
 
         // Enemy (right) sidebar
         enemyBar.setFont(gameFont);
         enemyBar.setEditable(false);
         enemyBar.setBackground(Color.BLACK);
         enemyBar.setForeground(Color.GREEN);
+        enemyBar.setBorder(new LineBorder(Color.GREEN, 1));
 
         // Input
         inputField.setBackground(Color.BLACK);
@@ -578,10 +571,9 @@ public class Menu {
         terminalPanel.add(scrollPane, BorderLayout.CENTER);
         mainframe.add(playerBar, BorderLayout.WEST);
         mainframe.add(enemyBar, BorderLayout.EAST);
-        //TODO: Swap sidebars?
 
         // Final
-        mainframe.setTitle(theStory.TITLE_STRINGS[r.nextInt(theStory.TITLE_STRINGS.length)]);
+        mainframe.setTitle(Story.TITLE_STRINGS[0]);
         mainframe.setVisible(true);
         playerSelect();
 
