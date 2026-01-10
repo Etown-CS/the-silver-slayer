@@ -12,15 +12,17 @@ public class Menu {
 
     // Display
     private JFrame mainframe = new JFrame();
-    private JPanel panel = new JPanel();
-    private JTextArea terminal = new JTextArea("", 1, 30);;
+    private CardLayout cards = new CardLayout();
+    private JPanel basePanel = new JPanel();
+    private JPanel terminalPanel = new JPanel();
+    private JTextArea terminalScreen = new JTextArea("", 1, 30);;
     private JTextArea playerBar = new JTextArea("", 1, 10);;
     private JTextArea enemyBar = new JTextArea("ENEMY", 1, 10);;
     private JScrollPane scrollPane;
     private JTextField inputField = new JTextField();
 
     // Character selection screen
-    private JFrame playerScreen;
+    private JPanel charsPanel = new JPanel();
     private JButton[] characterButtons = new JButton[Player.names.length];
 
     // Text
@@ -58,9 +60,9 @@ public class Menu {
                 public void actionPerformed(ActionEvent e) {
 
                     playerRef = players[pNum];
-                    playerScreen.setVisible(false);
-                    mainframe.setVisible(true);
-                    inputField.requestFocus();
+                    cards.next(basePanel);
+                    charsPanel.removeAll();
+                    inputField.requestFocusInWindow();
                     updatePlayerBar();
 
                 }
@@ -90,7 +92,7 @@ public class Menu {
 
         for (int c = 0; c < Player.names.length; c++) players[c] = new Player(Player.names[c]);
         setupUI();
-        terminal.setText("The Silver Slayer [Beta v0.1]\n\nWelcome\nYou are at the Gate.\nBegin by typing 'enter'\n\n" + Locations.locations[1] + '/' + Locations.sublocations[1][0] + "> ");
+        terminalScreen.setText("The Silver Slayer [Beta v0.1]\n\nWelcome\nYou are at the Gate.\nBegin by typing 'enter'\n\n" + Locations.locations[1] + '/' + Locations.sublocations[1][0] + "> ");
 
     }
 
@@ -377,7 +379,7 @@ public class Menu {
 
             case "clear":
 
-                terminal.setText(null);
+                terminalScreen.setText(null);
                 writeText("The Silver Slayer [Beta v1.0]", -1);
                 break;
 
@@ -435,20 +437,17 @@ public class Menu {
             return;
 
         }
-        
-        if (voiceID >= 0) voices[voiceID].command(1);
-        characterIndex = 0;
 
         timer = new Timer(5, new AbstractAction() {
             
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                if (characterIndex < text.length()) terminal.append(String.valueOf(text.charAt(characterIndex++)));
+                if (characterIndex < text.length()) terminalScreen.append(String.valueOf(text.charAt(characterIndex++)));
                 else {
 
                     if (voiceID >= 0) voices[voiceID].command();
-                    if (!gameOver) terminal.append("\n\n" + Locations.locations[Player.location] + '/' + Locations.sublocations[Player.location][Player.sublocation] + "> ");
+                    if (!gameOver) terminalScreen.append("\n\n" + Locations.locations[Player.location] + '/' + Locations.sublocations[Player.location][Player.sublocation] + "> ");
                     update();
                     timer.stop();
 
@@ -458,6 +457,8 @@ public class Menu {
 
         });
 
+        if (voiceID >= 0) voices[voiceID].command(1);
+        characterIndex = 0;
         timer.start();
 
     }
@@ -467,8 +468,8 @@ public class Menu {
          * Runs every time the terminal stops writing text
          */
 
-        if (gameOver || playerRef == null) return;
-        else if (playerRef.health == 0) {
+        if (gameOver) return;
+        if (playerRef.health == 0) {
 
             int dead = 0;
             for (int c = 0; c < Player.names.length; c++) if (players[c].health == 0) dead++;
@@ -485,26 +486,20 @@ public class Menu {
          */
 
         gameOver = true;
-        panel.remove(inputField);
+        terminalPanel.remove(inputField);
         mainframe.setTitle("Game Over");
-        JOptionPane.showMessageDialog(panel, "You have been terminated.", theStory.GAME_OVERS[r.nextInt(theStory.GAME_OVERS.length)], JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(terminalPanel, "You have been terminated.", theStory.GAME_OVERS[r.nextInt(theStory.GAME_OVERS.length)], JOptionPane.ERROR_MESSAGE);
         
     }
 
     private void playerSelect() {
         /*
-         * Shows a menu with buttons for available characters
-         */
-
-        mainframe.setVisible(false);
-        playerScreen = new JFrame();
-        playerScreen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        playerScreen.setLayout(new FlowLayout());
-        playerScreen.setSize(new Dimension(640, 480));
-        playerScreen.setLocationRelativeTo(null);
-        for (int c = 0; c < Player.names.length; c++) if (players[c].health > 0) playerScreen.add(characterButtons[c]);
-        playerScreen.setVisible(true);
-
+        * Shows a menu with buttons for available characters
+        */
+        
+        for (int c = 0; c < Player.names.length; c++) if (players[c].health > 0) charsPanel.add(characterButtons[c]);
+        cards.next(basePanel);
+        
     }
 
     private void setupUI() {
@@ -515,15 +510,26 @@ public class Menu {
         // UI Base
         final Font gameFont = new Font("Cascadia Mono", Font.PLAIN, 20);
         mainframe.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        mainframe.setLayout(new BorderLayout());
+        mainframe.add(basePanel, BorderLayout.CENTER);
+        basePanel.setLayout(cards);
+        basePanel.add(terminalPanel);
+        basePanel.add(charsPanel);
 
         // Terminal
-        terminal.setLineWrap(true);
-        terminal.setWrapStyleWord(true);
-        terminal.setEditable(false);
-        terminal.setBackground(Color.BLACK);
-        terminal.setForeground(Color.GREEN);
-        terminal.setFont(gameFont);
-        scrollPane = new JScrollPane(terminal);
+        terminalScreen.setLineWrap(true);
+        terminalScreen.setWrapStyleWord(true);
+        terminalScreen.setEditable(false);
+        terminalScreen.setBackground(Color.BLACK);
+        terminalScreen.setForeground(Color.GREEN);
+        terminalScreen.setFont(gameFont);
+
+        // Character selection
+        charsPanel.setLayout(new FlowLayout());
+        charsPanel.setBackground(Color.BLACK);
+
+        // Scroll
+        scrollPane = new JScrollPane(terminalScreen);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {
 
@@ -536,13 +542,13 @@ public class Menu {
 
         });
 
-        // Player (right) sidebar
+        // Player (left) sidebar
         playerBar.setFont(gameFont);
         playerBar.setEditable(false); // make player stats not editable
         playerBar.setBackground(Color.BLACK);
         playerBar.setForeground(Color.GREEN);
 
-        // Enemy (left) sidebar
+        // Enemy (right) sidebar
         enemyBar.setFont(gameFont);
         enemyBar.setEditable(false);
         enemyBar.setBackground(Color.BLACK);
@@ -558,7 +564,7 @@ public class Menu {
 
             if (!timer.isRunning() && inputField.getText().length() > 0) {
 
-                terminal.append(inputField.getText() + "\n\n");
+                terminalScreen.append(inputField.getText() + "\n\n");
                 readInput(inputField.getText().strip());
                 inputField.setText(null);
 
@@ -567,16 +573,16 @@ public class Menu {
         });
 
         // Layout
-        panel.setLayout(new BorderLayout());
-        panel.add(inputField, BorderLayout.SOUTH);
-        panel.add(scrollPane, BorderLayout.CENTER);
-        panel.add(playerBar, BorderLayout.EAST);
-        panel.add(enemyBar, BorderLayout.WEST);
+        terminalPanel.setLayout(new BorderLayout());
+        terminalPanel.add(inputField, BorderLayout.SOUTH);
+        terminalPanel.add(scrollPane, BorderLayout.CENTER);
+        mainframe.add(playerBar, BorderLayout.WEST);
+        mainframe.add(enemyBar, BorderLayout.EAST);
         //TODO: Swap sidebars?
 
         // Final
-        mainframe.add(panel);
         mainframe.setTitle(theStory.TITLE_STRINGS[r.nextInt(theStory.TITLE_STRINGS.length)]);
+        mainframe.setVisible(true);
         playerSelect();
 
     }
