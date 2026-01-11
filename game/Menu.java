@@ -102,7 +102,7 @@ public class Menu {
          * Updates the player's sidebar
          */
 
-        playerBar.setText("PLAYER\n\n" + playerRef.name + "\n\nHealth: " + playerRef.health + " / " + playerRef.healthDefault + "\nAttack: " + playerRef.attack + "\nDefense: " + playerRef.defense);
+        playerBar.setText(playerRef.name.toUpperCase() + "\n\nHealth: " + playerRef.health + " / " + playerRef.healthDefault + "\nAttack: " + playerRef.attack + "\nDefense: " + playerRef.defense + "\n\nInventory\n" + playerRef.listItems());
 
     }
 
@@ -180,13 +180,6 @@ public class Menu {
 
                 playerSelect();
                 writeText("Swapping!", -1);
-                break;
-
-            case "ls":
-            case "inv":
-            case "inventory":
-
-                writeText(playerRef.listItems(), 0);
                 break;
 
             case "desc":
@@ -316,7 +309,7 @@ public class Menu {
 
             case "help":
 
-                writeText("GENERAL\nclear: Clear screen\nexit / quit: Quit the game.\nsettings: Modify game settings\ntitle [int]: Display a random title or specifiy\n\nINVENTORY\ndesc / describe: Show an inventory item's description\ndrop (int): Drop an item\ninv / inventory / ls: Display inventory\nuse (int): Use an inventory item\n\nCOMBAT\natk / attack: Attack the current enemy\nflee: Run away", 0);
+                writeText("GENERAL\nclear: Clear screen\nexit / quit: Quit the game.\nsettings: Modify game settings\ntitle [int]: Display a random title or specifiy\n\nINVENTORY\ndesc / describe: Show an inventory item's description\ndrop (int): Drop an item\nuse (int): Use an inventory item\n\nCOMBAT\natk / attack: Attack the current enemy\nflee: Run away", 0);
                 break;
 
             case "save":

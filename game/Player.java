@@ -58,6 +58,7 @@ public class Player extends Entity {
         }
 
         health = healthDefault;
+        inventory[0] = new Item("rock", ItemType.Junk, "a rock", 0, false);
 
     }
 
@@ -117,7 +118,6 @@ public class Player extends Entity {
          */
 
         StringBuilder inv = new StringBuilder(32);
-        int count = 0;
 
         for (int c = 0; c < invCap; c++) {
 
@@ -126,19 +126,12 @@ public class Player extends Entity {
                 inv.append("Slot " + c + ": " + inventory[c].name);
                 if (inventory[c] == currentArmor || inventory[c] == currentWeapon || inventory[c] == currentWearable) inv.append(" *");
                 inv.append("\n");
-                count++;
 
             } else inv.append("Slot " + c + ": \n");
 
         }
 
-        if (count == 0) return "Your inventory is empty!";
-        else {
-
-            inv.append("\n(" + count + " items total)");
-            return inv.toString();
-
-        }
+        return inv.toString();
 
     }
 
