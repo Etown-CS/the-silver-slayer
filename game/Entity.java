@@ -1,5 +1,8 @@
-public class Entity extends TheSilverSlayer {
+import java.util.Random;
 
+public class Entity {
+
+    protected Random r = new Random();
     public String name;
     public int health, attack, defense;
     public int healthDefault, attackDefault, defenseDefault;

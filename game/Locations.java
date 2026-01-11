@@ -1,4 +1,8 @@
-public class Locations extends TheSilverSlayer {
+import java.util.Random;
+
+public class Locations {
+
+    private static Random r = new Random();
 
     public static final String[] locations = {null, "Start", "Village", "Lake", "Mountain", "Desert", "Swamp", "Fracture", "Lair"};
     public static final String[][] sublocations = {
