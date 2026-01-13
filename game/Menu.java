@@ -138,7 +138,14 @@ public class Menu {
                 else writeText(theStory.getSearchEvent(Player.location, Player.sublocation), 0);
                 break;
 
-            //case "enter":
+            case "pickup":
+            case "get":
+
+                // TODO be able to pick up items
+                
+                break;
+
+            // case "enter":
 
                 //TODO: Expansion of enter
 
