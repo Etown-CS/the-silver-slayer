@@ -122,6 +122,12 @@ public class Locations {
     public static final Enemy[][] enemyIndex = {null, null, Village, Lake, Mountain, Desert, Swamp, Fracture, Lair};
 
     public static Enemy spawnEnemy(int location, boolean boss) {
+        /*
+        * Attempt to spawn an enemy.
+        *
+        * location: Current player location ID
+        * boss: Whether to spawn a boss (will always succeed)
+        */
     
         if (boss) return enemyIndex[location][enemyIndex[location].length - 1];
         else if (r.nextInt(100) < (location - 1) * 10) return enemyIndex[location][r.nextInt(enemyIndex[location].length - 1)];

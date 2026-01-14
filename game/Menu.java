@@ -63,8 +63,8 @@ public class Menu {
                     playerRef = players[pNum];
                     cards.next(basePanel);
                     charsPanel.removeAll();
+                    writeText("Swapped to " + playerRef.name, 0);
                     inputField.requestFocusInWindow();
-                    updatePlayerBar();
 
                 }
                 
@@ -97,24 +97,6 @@ public class Menu {
 
     }
 
-    public void updatePlayerBar() {
-        /*
-         * Updates the player's sidebar
-         */
-
-        playerBar.setText(playerRef.name.toUpperCase() + "\n\nHealth: " + playerRef.health + " / " + playerRef.healthDefault + "\nAttack: " + playerRef.attack + "\nDefense: " + playerRef.defense + "\n\nInventory\n" + playerRef.listItems());
-
-    }
-
-    public void updateEnemyBar() {
-        /*
-         * Updates the enemy sidebar
-         */
-
-        if (enemyRef != null) enemyBar.setText("ENEMY\n" + enemyRef.name + "\n\nHealth: " + enemyRef.health + "\nAttack: " + enemyRef.attack + "\nDefense: " + enemyRef.defense);
-
-    }
-
     private void readInput(String text) {
         /*
          * Called whenever the player enters text
@@ -138,7 +120,7 @@ public class Menu {
                 writeText(theStory.getSearchEvent(Player.location, Player.sublocation), 0);
                 break;
 
-            case "enter":
+            //case "enter":
 
                 //TODO: Expansion of enter
 
@@ -179,7 +161,6 @@ public class Menu {
             case "char":
 
                 playerSelect();
-                writeText("Swapping!", -1);
                 break;
 
             case "desc":
@@ -309,7 +290,7 @@ public class Menu {
 
             case "help":
 
-                writeText("GENERAL\nclear: Clear screen\nexit / quit: Quit the game.\nsettings: Modify game settings\ntitle [int]: Display a random title or specifiy\n\nINVENTORY\ndesc / describe: Show an inventory item's description\ndrop (int): Drop an item\nuse (int): Use an inventory item\n\nCOMBAT\natk / attack: Attack the current enemy\nflee: Run away", 0);
+                writeText("GENERAL\nclear: Clear screen\nexit / quit: Quit the game.\ntitle [int]: Display a random title or specifiy\n\nINVENTORY\ndesc / describe: Show an inventory item's description\ndrop (int): Drop an item\nuse (int): Use an inventory item\n\nCOMBAT\natk / attack: Attack the current enemy\nflee: Run away", 0);
                 break;
 
             case "save":
@@ -344,20 +325,22 @@ public class Menu {
 
                 } catch (IOException ex) {
 
-                    JOptionPane.showMessageDialog(null, "Failed saving game!\nTrying again.", "FATAL", JOptionPane.ERROR_MESSAGE);
-                    writeText("Attempting save... if no error shows after this, then it should be good.", -1);
+                    JOptionPane.showMessageDialog(null, "Failed saving game!", "FATAL", JOptionPane.ERROR_MESSAGE);
+                    writeText("Try again.", -1);
 
                 }
 
                 break;
 
-            case "settings":
+            /*case "settings":
             case "setting":
             case "options":
             case "option":
 
-                writeText("TODO: Options", 0);
-                break;
+                writeText("Options", 0);
+                break;*/
+
+                //TODO: Settings?
 
             case "clear":
 
@@ -404,7 +387,7 @@ public class Menu {
 
     }
 
-    public void writeText(final String text, int voiceID) {
+    private void writeText(final String text, int voiceID) {
         /*
         * Uses the typewriter effect to print text to the screen
         * SHOULD TYPICALLY ONLY BE CALLED FROM readInput()
@@ -450,22 +433,22 @@ public class Menu {
          * Runs every time the terminal stops writing text
          */
 
-        updatePlayerBar();
-        updateEnemyBar();
+        playerBar.setText(playerRef.name.toUpperCase() + "\n\nHealth: " + playerRef.health + " / " + playerRef.healthDefault + "\nAttack: " + playerRef.attack + "\nDefense: " + playerRef.defense + "\n\nInventory\n" + playerRef.listItems());
+        if (enemyRef != null) enemyBar.setText("ENEMY\n" + enemyRef.name + "\n\nHealth: " + enemyRef.health + "\nAttack: " + enemyRef.attack + "\nDefense: " + enemyRef.defense);
 
         if (gameOver) return;
         if (playerRef.health == 0) {
 
-            int dead = 0;
-            for (int c = 0; c < Player.names.length; c++) if (players[c].health == 0) dead++;
-            if (dead == Player.names.length) terminate();
+            byte numDown = 0;
+            for (byte c = 0; c < Player.names.length; c++) if (players[c].health == 0) numDown++;
+            if (numDown == Player.names.length) terminate();
             else playerSelect();
 
         }
 
     }
 
-    public void terminate() {
+    private void terminate() {
         /*
          * Removes the inputField and displays a game over message
          */

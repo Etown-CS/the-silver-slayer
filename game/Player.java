@@ -1,10 +1,9 @@
 public class Player extends Entity {
 
+    public static final String[] names = {"Bitter Java", "Brustel Sprout", "C--", "Dapper Python", "P. H. Periwinkle", "ReacTor", "Saea Quowle"};
     public Item[] inventory = {null, null, null, null, null, null, null, null, null, null};
     public Item currentArmor = null, currentWeapon = null, currentWearable = null;
     public int invCap = 5;
-
-    public static final String[] names = {"Bitter Java", "Brustel Sprout", "C--", "Dapper Python", "P. H. Periwinkle", "ReacTor", "Saea Quowle"};
     public static int location = 1, sublocation = 0;
 
     public Player(String title) {
@@ -58,17 +57,16 @@ public class Player extends Entity {
         }
 
         health = healthDefault;
-        inventory[0] = new Item("rock", ItemType.Junk, "a rock", 0, false);
 
     }
 
     public int addItem(Item item) {
         /*
-         * Add an item to the player's inventory
-         * Returns the number of the slot the item was placed in, or -1 if inventory is full
-         * 
-         * item: The item to be added
-         */
+        * Add an item to the player's inventory
+        * Returns the number of the slot the item was placed in, or -1 if inventory is full
+        * 
+        * item: The item to be added
+        */
 
         for (int c = 0; c < invCap; c++) {
 
@@ -87,10 +85,10 @@ public class Player extends Entity {
 
     public String removeItem(int slot) {
         /*
-         * Remove an item from the players inventory
-         * 
-         * slot: The inventory slot to clear
-         */
+        * Remove an item from the player's inventory
+        * 
+        * slot: The inventory slot to clear
+        */
 
         if (inventory[slot] == null) return null;
         String tmp = inventory[slot].name;
@@ -104,6 +102,10 @@ public class Player extends Entity {
 
             changeStats(0, -currentWeapon.magnitude, 0);
             currentWeapon = null;
+
+        } else if (inventory[slot] == currentWearable) {
+
+            currentWearable = null;
 
         }
 
@@ -119,7 +121,7 @@ public class Player extends Entity {
 
         StringBuilder inv = new StringBuilder(32);
 
-        for (int c = 0; c < invCap; c++) {
+        for (byte c = 0; c < invCap; c++) {
 
             if (inventory[c] != null) {
 
@@ -202,6 +204,7 @@ public class Player extends Entity {
     public boolean travel(String dest) {
         /*
         * Travel to wherever, if you can from where you're at
+        * Monstrous method
         * 
         * dest: Destination name
         */

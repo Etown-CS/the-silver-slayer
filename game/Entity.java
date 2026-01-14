@@ -4,12 +4,11 @@ public class Entity {
 
     protected Random r = new Random();
     public String name;
-    public int health, attack, defense;
-    public int healthDefault, attackDefault, defenseDefault;
+    public int health, attack, defense, healthDefault, attackDefault, defenseDefault;
 
     public void changeStats(int H, int A, int D) {
         /*
-         * Change player stats
+         * Change entity's stats
          * 
          * H: Mod health
          * A: Mod attack
@@ -22,6 +21,7 @@ public class Entity {
 
         if (health > healthDefault) health = healthDefault;
         else if (health < 0) health = 0;
+
         if (attack < 0) attack = 0;
         if (defense < 0) defense = 0;
 
@@ -29,7 +29,7 @@ public class Entity {
 
     public int getAttacked(int dmg) {
         /*
-         * Use getAttacked to deal damage to this enemy
+         * Use getAttacked to deal damage to this entity
          * 
          * dmg: Incoming damage value
          */
