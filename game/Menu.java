@@ -37,7 +37,7 @@ public class Menu {
     private Player[] players = new Player[Player.names.length];
     private Player playerRef;
     private Enemy enemyRef;
-    private boolean gameOver = false;
+    private boolean enemyTurn = false, gameOver = false;
 
     // Sounds
     private Audio[] voices = {new Audio("blip.wav")};
@@ -111,13 +111,14 @@ public class Menu {
             // STORY COMMANDS
 
             case "look":
-
-                writeText(theStory.getLookEvent(Player.location, Player.sublocation), 0);
+                if (enemyRef != null) writeText("You're in combat!", 0);
+                else writeText(theStory.getLookEvent(Player.location, Player.sublocation), 0);
                 break;
 
             case "search":
 
-                writeText(theStory.getSearchEvent(Player.location, Player.sublocation), 0);
+                if (enemyRef != null) writeText("You're in combat!", 0);
+                else writeText(theStory.getSearchEvent(Player.location, Player.sublocation), 0);
                 break;
 
             //case "enter":
@@ -160,6 +161,7 @@ public class Menu {
             case "chars":
             case "char":
 
+                enemyTurn = true;
                 playerSelect();
                 break;
 
@@ -235,29 +237,26 @@ public class Menu {
 
                 if (enemyRef == null) writeText("There's nothing here...", 0);
                 else {
-
-                    int atkdmg = enemyRef.getAttacked(playerRef.attack);
                     
-                    if (enemyRef.isBoss && enemyRef.health == 0) {
+                    int atkdmg = enemyRef.getAttacked(playerRef.attack);
+                    damageSFX.command(2);
 
-                        damageSFX.command(2);
-                        writeText("Attacked " + enemyRef.name + " for " + atkdmg + " damage!\n" + Story.BOSS_DEFEATED[Player.location], 0);
+                    if (enemyRef.health == 0) {
+
+                        if (enemyRef.isBoss) writeText("Attacked " + enemyRef.name + " for " + atkdmg + " damage!\n" + Story.BOSS_DEFEATED[Player.location], 0);
+                        else {
+
+                            writeText("Attacked " + enemyRef.name + " for " + atkdmg + " damage!\n" + enemyRef.name + " has been defeated.", 0);
+                            enemyRef.reset();
+
+                        }
+
                         enemyRef = null;
-                        enemyBar.setText("ENEMY");
-
-                    } else if (enemyRef.health == 0) {
-
-                        damageSFX.command(2);
-                        writeText("Attacked " + enemyRef.name + " for " + atkdmg + " damage!\n" + enemyRef.name + " has been defeated.", 0);
-                        enemyRef.reset();
-                        enemyRef = null;
-                        enemyBar.setText("ENEMY");
 
                     } else {
 
-                        damageSFX.command(2);
-                        writeText("Attacked " + enemyRef.name + " for " + atkdmg + " damage!                    \n\n" + enemyRef.name + " attacks you for " + playerRef.getAttacked(enemyRef.attack) + " damage!", 0);
-                        // there are 20 spaces in the line above
+                        writeText("Attacked " + enemyRef.name + " for " + atkdmg + " damage!", 0);
+                        enemyTurn = true;
 
                     }
                     
@@ -278,11 +277,34 @@ public class Menu {
 
                         enemyRef.reset();
                         enemyRef = null;
-                        enemyBar.setText("ENEMY");
 
-                    } else writeText("You attempted to flee, but failed!\n" + enemyRef.name + " attacked you for " + playerRef.getAttacked(enemyRef.attack) + " damage!\n", 0);
+                    } else {
+
+                        writeText("You attempted to flee, but failed!", 0);
+                        enemyTurn = true;
+
+                    }
 
                 }
+
+                break;
+
+            case "pass":
+
+                writeText("You bide your time...", 0);
+                enemyTurn = true;
+                break;
+
+            case "spawn":
+
+                if (bits.length < 2) writeText("spawn what", -1);
+                else if (enemyRef == null) {
+
+                    for (Enemy e : Locations.enemyIndex[Player.location]) if (e.name.toLowerCase().equals(bits[1])) enemyRef = e;
+                    if (enemyRef == null) writeText("Failed to spawn that.", -1);
+                    else writeText("Spawned that.", -1);
+
+                } else writeText("There's already an enemy", -1);
 
                 break;
 
@@ -290,7 +312,8 @@ public class Menu {
 
             case "help":
 
-                writeText("GENERAL\nclear: Clear screen\nexit / quit: Quit the game.\ntitle [int]: Display a random title or specifiy\n\nINVENTORY\ndesc / describe: Show an inventory item's description\ndrop (int): Drop an item\nuse (int): Use an inventory item\n\nCOMBAT\natk / attack: Attack the current enemy\nflee: Run away", 0);
+                if (enemyRef.name.equals("The Silver Slayer")) writeText("There's no help for you now.", 0);
+                else writeText("GENERAL\nclear: Clear screen\nexit / quit: Quit the game.\ntitle [int]: Display a random title or specifiy\n\nINVENTORY\ndesc / describe: Show an inventory item's description\ndrop (int): Drop an item\nuse (int): Use an inventory item\n\nCOMBAT\natk / attack: Attack the current enemy\nflee: Run away", 0);
                 break;
 
             case "save":
@@ -318,18 +341,7 @@ public class Menu {
             case "quit":
             case "exit":
 
-                try {
-
-                    save.saveQuit(players, playerRef);
-                    mainframe.dispatchEvent(new WindowEvent(mainframe, WindowEvent.WINDOW_CLOSING));
-
-                } catch (IOException ex) {
-
-                    JOptionPane.showMessageDialog(null, "Failed saving game!", "FATAL", JOptionPane.ERROR_MESSAGE);
-                    writeText("Try again.", -1);
-
-                }
-
+                mainframe.dispatchEvent(new WindowEvent(mainframe, WindowEvent.WINDOW_CLOSING));
                 break;
 
             /*case "settings":
@@ -396,9 +408,25 @@ public class Menu {
         * voiceID: ID for the sound to be played (use 0 for default or negative for silent)
         */
 
+        while (timer.isRunning()) {
+
+                System.out.println("Waiting...");
+
+                try {
+
+                    Thread.sleep(100);
+
+                } catch (InterruptedException ex) {
+                    
+                    ex.printStackTrace();
+
+                }
+
+            }
+
         if (timer != null && timer.isRunning()) {
 
-            System.out.println("WARN: Attempt to call writeText whilst timer is still active.");
+            System.out.println("WARN: Attempt to call writeText whilst timer is still active.\n" + text);
             return;
 
         }
@@ -413,8 +441,8 @@ public class Menu {
 
                     if (voiceID >= 0) voices[voiceID].command();
                     if (!gameOver) terminalScreen.append("\n\n" + Locations.locations[Player.location] + '/' + Locations.sublocations[Player.location][Player.sublocation] + "> ");
-                    update();
                     timer.stop();
+                    update();
 
                 }
 
@@ -430,19 +458,56 @@ public class Menu {
 
     private void update() {
         /*
-         * Runs every time the terminal stops writing text
-         */
+        * Runs every time the terminal stops writing text
+        */
 
         playerBar.setText(playerRef.name.toUpperCase() + "\n\nHealth: " + playerRef.health + " / " + playerRef.healthDefault + "\nAttack: " + playerRef.attack + "\nDefense: " + playerRef.defense + "\n\nInventory\n" + playerRef.listItems());
         if (enemyRef != null) enemyBar.setText("ENEMY\n" + enemyRef.name + "\n\nHealth: " + enemyRef.health + "\nAttack: " + enemyRef.attack + "\nDefense: " + enemyRef.defense);
+        else enemyBar.setText(null);
 
-        if (gameOver) return;
-        if (playerRef.health == 0) {
+        if (enemyRef != null && enemyTurn) {
 
-            byte numDown = 0;
-            for (byte c = 0; c < Player.names.length; c++) if (players[c].health == 0) numDown++;
-            if (numDown == Player.names.length) terminate();
-            else playerSelect();
+            StringBuilder msg = new StringBuilder(64);
+            msg.append(enemyRef.name + " attacks you for " + playerRef.getAttacked(enemyRef.attack) + " damage!");
+
+            // Enemy ability
+            switch (enemyRef.name) {
+
+                case "Flashbang":
+
+                    if (r.nextInt(100) < 300) {
+
+                        if (r.nextBoolean()) {
+
+                            playerRef.statuses.put("blinded", 3);
+                            msg.append("\nFlashbang blinds you!");
+
+                        } else {
+
+                            //TODO: 4:3 resolution
+                            msg.append("\nFlashbang distorts your vision!");
+
+                        }
+
+                    }
+
+            }
+
+            enemyTurn = false;
+            writeText(msg.toString(), 0);
+
+        } else {
+
+            enemyTurn = false;
+            if (gameOver) return;
+            if (playerRef.health == 0) {
+
+                byte numDown = 0;
+                for (byte c = 0; c < Player.names.length; c++) if (players[c].health == 0) numDown++;
+                if (numDown == Player.names.length) terminate();
+                else playerSelect();
+
+            }
 
         }
 
@@ -554,6 +619,50 @@ public class Menu {
         mainframe.setTitle(Story.TITLE_STRINGS[0]);
         mainframe.setVisible(true);
         playerSelect();
+
+        // Wait
+        while (playerRef == null) {
+
+            try {
+
+                Thread.sleep(1000);
+
+            } catch (InterruptedException ex) {
+                
+                ex.printStackTrace();
+
+            }
+
+        }
+
+        mainframe.setTitle(Story.TITLE_STRINGS[r.nextInt(Story.TITLE_STRINGS.length)]);
+
+        // Background UI Service
+        new Thread(() -> {
+
+            while (true) {
+
+                if (playerRef.statuses.get("blinded") > 0) {
+
+                    terminalScreen.setBackground(Color.WHITE);
+                    playerBar.setBackground(Color.WHITE);
+                    enemyBar.setBackground(Color.WHITE);
+                    inputField.setBackground(Color.WHITE);
+                    charsPanel.setBackground(Color.WHITE);
+
+                } else {
+
+                    terminalScreen.setBackground(Color.BLACK);
+                    playerBar.setBackground(Color.BLACK);
+                    enemyBar.setBackground(Color.BLACK);
+                    inputField.setBackground(Color.BLACK);
+                    charsPanel.setBackground(Color.BLACK);
+                    
+                }
+
+            }
+
+        }).start();
 
     }
 

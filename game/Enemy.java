@@ -15,6 +15,9 @@ public class Enemy extends Entity {
         defenseDefault = d;
         isBoss = boss;
 
+        statuses.put("poisoned", 0);
+        statuses.put("blinded", 0);
+
     }
     
 }

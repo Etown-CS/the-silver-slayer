@@ -117,8 +117,11 @@ public class Story {
         swamp.put(600, "You make your way to a swamp. The air is humid. Your feet sink into the soft mud as you walk. Erie sounds come from within the swamp, but you cant tell what is making the noise.");
 
         swamp.put(610, "wetland");
-
+        swamp.put(611, "The ground here is more liquid than solid. Ripples echo across the fetid pools, and you can see the shadows of those that lurk beneath.");
+        swamp.put(612, "Digging into the mud is a fruitless endeavor, and sticking your hands randomly into the water probably isn't a good idea. If there's anything to find here, it's too well hidden.");
         swamp.put(620, "woodland");
+        swamp.put(621, "The horizon is obscured by dense willows and hanging vines. Pools of sludge are scattered throughout the forest.");
+        swamp.put(622, "There are a wide variety of plants to be found, some of which yield fruit."); //TODO: fruit
 
         // FRACTURE
         fracture.put(700, "You have entered the fracture. The landscape doesn't seem real. The ground is cracked and broken. Looking into these cracks in the ground, you see strange shapes that can only be described as supernatural. The sky seems to be constantly changing color.");

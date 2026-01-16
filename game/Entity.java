@@ -1,8 +1,10 @@
+import java.util.HashMap;
 import java.util.Random;
 
 public class Entity {
 
     protected Random r = new Random();
+    public HashMap<String, Integer> statuses = new HashMap<String, Integer>();
     public String name;
     public int health, attack, defense, healthDefault, attackDefault, defenseDefault;
 
