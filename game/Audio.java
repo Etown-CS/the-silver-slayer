@@ -5,6 +5,7 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
+import java.util.Random;
 
 public class Audio {
 
@@ -66,6 +67,51 @@ public class Audio {
 
         clip.stop();
         clip.close();
+
+    }
+
+    public static void music() {
+
+        Random r = new Random();
+        Audio[] backMusic = {new Audio("mushroom_music.wav")};
+        Audio[] bossMusic = {new Audio("boss_battle_loop.wav")};
+        
+        new Thread(() -> {
+
+            Audio active;
+            while (true) {
+                
+                try {
+
+                    Thread.sleep(r.nextInt(5000, 30000));
+
+                } catch (InterruptedException ex) {
+                    
+                    ex.printStackTrace();
+
+                }
+                
+                active = backMusic[r.nextInt(backMusic.length)];
+                active.command(2);
+                Log.logData("Playing song: " + active.filePath.substring(11));
+
+                while (active.clip.isActive()) {
+
+                    try {
+
+                        Thread.sleep(1000);
+                        
+                    } catch (InterruptedException ex) {
+                        
+                        ex.printStackTrace();
+
+                    }
+
+                }
+
+            }
+
+        }).start();;
 
     }
     

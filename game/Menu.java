@@ -312,7 +312,7 @@ public class Menu {
 
             case "help":
 
-                if (enemyRef.name.equals("The Silver Slayer")) writeText("There's no help for you now.", 0);
+                if (enemyRef != null && enemyRef.name.equals("The Silver Slayer")) writeText("There's no help for you now.", 0);
                 else writeText("GENERAL\nclear: Clear screen\nexit / quit: Quit the game.\ntitle [int]: Display a random title or specifiy\n\nINVENTORY\ndesc / describe: Show an inventory item's description\ndrop (int): Drop an item\nuse (int): Use an inventory item\n\nCOMBAT\natk / attack: Attack the current enemy\nflee: Run away", 0);
                 break;
 
@@ -341,6 +341,8 @@ public class Menu {
             case "quit":
             case "exit":
 
+                Log.logData("Shutting down. Goodbye!");
+                Log.closeLog();
                 mainframe.dispatchEvent(new WindowEvent(mainframe, WindowEvent.WINDOW_CLOSING));
                 break;
 
@@ -461,8 +463,8 @@ public class Menu {
         * Runs every time the terminal stops writing text
         */
 
-        playerBar.setText(playerRef.name.toUpperCase() + "\n\nHealth: " + playerRef.health + " / " + playerRef.healthDefault + "\nAttack: " + playerRef.attack + "\nDefense: " + playerRef.defense + "\n\nInventory\n" + playerRef.listItems());
-        if (enemyRef != null) enemyBar.setText("ENEMY\n" + enemyRef.name + "\n\nHealth: " + enemyRef.health + "\nAttack: " + enemyRef.attack + "\nDefense: " + enemyRef.defense);
+        playerBar.setText(playerRef.name + "\n\nHealth: " + playerRef.health + " / " + playerRef.healthDefault + "\nAttack: " + playerRef.attack + "\nDefense: " + playerRef.defense + "\n\nInventory\n" + playerRef.listItems());
+        if (enemyRef != null) enemyBar.setText(enemyRef.name + "\n\nHealth: " + enemyRef.health + "\nAttack: " + enemyRef.attack + "\nDefense: " + enemyRef.defense);
         else enemyBar.setText(null);
 
         if (enemyRef != null && enemyTurn) {
@@ -598,13 +600,28 @@ public class Menu {
         inputField.setHorizontalAlignment(JTextField.CENTER);
         inputField.addActionListener((ActionEvent e) -> {
 
-            if (!timer.isRunning() && inputField.getText().length() > 0) {
+            String entered = "";
+            boolean empty = false;
 
-                terminalScreen.append(inputField.getText() + "\n\n");
-                readInput(inputField.getText().strip());
-                inputField.setText(null);
+            try {
+
+                entered = inputField.getText().strip();
+                if (entered.length() == 0) empty = true;
+
+            } catch (NullPointerException ex) {
+
+                empty = true;
 
             }
+
+            if (!empty) {
+
+                Log.logData("Player enters: " + entered);
+                terminalScreen.append(entered + "\n\n");
+                readInput(entered);
+                inputField.setText(null);
+
+            } else Log.logData("Player entered empty input");
 
         });
 
@@ -642,7 +659,7 @@ public class Menu {
 
             while (true) {
 
-                if (playerRef.statuses.get("blinded") > 0) {
+                if (playerRef.statuses.get("blinded") > 0 && terminalScreen.getBackground() != Color.WHITE) {
 
                     terminalScreen.setBackground(Color.WHITE);
                     playerBar.setBackground(Color.WHITE);
@@ -650,7 +667,7 @@ public class Menu {
                     inputField.setBackground(Color.WHITE);
                     charsPanel.setBackground(Color.WHITE);
 
-                } else {
+                } else if (terminalScreen.getBackground() != Color.BLACK) {
 
                     terminalScreen.setBackground(Color.BLACK);
                     playerBar.setBackground(Color.BLACK);
