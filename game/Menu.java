@@ -40,9 +40,9 @@ public class Menu {
     private boolean enemyTurn = false, gameOver = false;
 
     // Sounds
-    private Audio[] voices = {new Audio("blip.wav")};
-    private Audio[] music = {new Audio("mushroom_music.wav"), new Audio("boss_battle_loop.wav")};
-    private Audio damageSFX = new Audio("damage.wav");
+    private Audio[] voices = {new Audio("blip")};
+    private Audio[] music = {new Audio("mushroom_music"), new Audio("boss_battle_loop")};
+    private Audio damageSFX = new Audio("damage");
 
     private byte counter; // This is here so it can be used in the ActionListerner creations below
     public Menu() {
@@ -63,7 +63,7 @@ public class Menu {
                     playerRef = players[pNum];
                     cards.next(basePanel);
                     charsPanel.removeAll();
-                    writeText("Swapped to " + playerRef.name, 0);
+                    writeText("Selected " + playerRef.name, 0);
                     inputField.requestFocusInWindow();
 
                 }
@@ -93,7 +93,6 @@ public class Menu {
 
         for (int c = 0; c < Player.names.length; c++) players[c] = new Player(Player.names[c]);
         setupUI();
-        terminalScreen.setText("The Silver Slayer [Beta v0.1]\n\nWelcome\nYou are at the Gate.\nBegin by typing 'enter'\n\n" + Locations.locations[1] + '/' + Locations.sublocations[1][0] + "> ");
 
     }
 
@@ -106,10 +105,28 @@ public class Menu {
 
         if (gameOver) return;
         String[] bits = text.toLowerCase().split(" ");
+
+        if (playerRef == null) {
+
+            if (bits[0].equals("whoami")) {
+
+                playerSelect();
+                return;
+
+            } else {
+
+                terminalScreen.append("Begin by typing 'whoami'\n\n" + Locations.locations[1] + '/' + Locations.sublocations[1][0] + "> ");
+                return;
+
+            }
+
+        }
+
         switch (bits[0]) {
 
             // STORY COMMANDS
 
+            case "ls":
             case "look":
                 if (enemyRef != null) writeText("You're in combat!", 0);
                 else writeText(theStory.getLookEvent(Player.location, Player.sublocation), 0);
@@ -156,6 +173,7 @@ public class Menu {
 
             // GAMEPLAY COMMANDS
 
+            case "whoami":
             case "characters":
             case "character":
             case "chars":
@@ -507,7 +525,12 @@ public class Menu {
                 byte numDown = 0;
                 for (byte c = 0; c < Player.names.length; c++) if (players[c].health == 0) numDown++;
                 if (numDown == Player.names.length) terminate();
-                else playerSelect();
+                else {
+
+                    playerSelect();
+                    playerBar.setText(playerRef.name + "\n\nHealth: " + playerRef.health + " / " + playerRef.healthDefault + "\nAttack: " + playerRef.attack + "\nDefense: " + playerRef.defense + "\n\nInventory\n" + playerRef.listItems());
+
+                }
 
             }
 
@@ -635,7 +658,8 @@ public class Menu {
         // Final
         mainframe.setTitle(Story.TITLE_STRINGS[0]);
         mainframe.setVisible(true);
-        playerSelect();
+        inputField.requestFocus();
+        terminalScreen.setText("The Silver Slayer [Beta v0.1]\n\nWelcome\nBegin by typing 'whoami'\n\n" + Locations.locations[1] + '/' + Locations.sublocations[1][0] + "> ");
 
         // Wait
         while (playerRef == null) {

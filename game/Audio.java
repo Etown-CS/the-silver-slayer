@@ -15,19 +15,20 @@ public class Audio {
 
     public Audio (String fileName) {
 
-        filePath = "game/sound/" + fileName;
+        filePath = "game/sound/" + fileName + ".wav";
 
     }
 
     public void command() {command(0);}
     public void command(int cmd) {
         /*
-         * Function for managing an instance of Audio
-         * 
-         * id: The command to be executed
-         *      1: Play the sound
-         *      Default: Stop the sound
-         */
+        * Function for managing an instance of Audio
+        * 
+        * id: The command to be executed
+        *      1: Play the sound and loop
+        *      2: Play the sound once
+        *      Default: Stop the sound
+        */
 
         switch (cmd) {
 
@@ -73,8 +74,7 @@ public class Audio {
     public static void music() {
 
         Random r = new Random();
-        Audio[] backMusic = {new Audio("mushroom_music.wav")};
-        Audio[] bossMusic = {new Audio("boss_battle_loop.wav")};
+        Audio[] backMusic = {new Audio("mushroom_music"), new Audio("retro_music"), new Audio("garden_music"), new Audio("game_seamless_music")};
         
         new Thread(() -> {
 
@@ -83,7 +83,7 @@ public class Audio {
                 
                 try {
 
-                    Thread.sleep(r.nextInt(5000, 30000));
+                    Thread.sleep(r.nextInt(1, 100));
 
                 } catch (InterruptedException ex) {
                     
@@ -111,7 +111,7 @@ public class Audio {
 
             }
 
-        }).start();;
+        }).start();
 
     }
     
