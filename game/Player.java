@@ -537,7 +537,7 @@ public class Player extends Entity {
                         sublocation = 0;
                         return true;
 
-                    case "outskirts":
+                    case "village":
 
                         if (sublocation == 3) break;
                         sublocation = 1;

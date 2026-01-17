@@ -95,13 +95,13 @@ public class Audio {
 
         Random r = new Random();
         Audio[] startMusic = {new Audio("music_start0")},
-                villageMusic = {new Audio("music_village0")},
-                lakeMusic = {},
-                mountainMusic = {new Audio("music_mountain0")},
-                desertMusic = {},
-                swampMusic = {new Audio("music_swamp0")},
-                fractureMusic = {new Audio("music_fracture0")},
-                lairMusic = {};
+                villageMusic = {new Audio("music_village0"), new Audio("music_village1")},
+                lakeMusic = {new Audio("music_lake0")},
+                mountainMusic = {new Audio("music_mountain0"), new Audio("music_mountain1")},
+                desertMusic = {new Audio("music_desert0")},
+                swampMusic = {new Audio("music_swamp0"), new Audio("music_swamp1")},
+                fractureMusic = {new Audio("music_fracture0"), new Audio("music_fracture1")},
+                lairMusic = {new Audio("music_lair0")};
 
         HashMap<Integer, Audio[]> music = new HashMap<Integer, Audio[]>();
         music.put(1, startMusic);
