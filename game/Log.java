@@ -9,6 +9,7 @@ public class Log {
     private static RandomAccessFile logFile;
     private static FileChannel fc;
     private static FileLock lock = null;
+    private static long timer;
 
     public static boolean setupLog() {
 
@@ -18,6 +19,9 @@ public class Log {
             fc = logFile.getChannel();
             fc.truncate(0);
             logFile.seek(0);
+
+            timer = System.currentTimeMillis();
+            if (!logData("-= The Silver Slayer v0.1-beta =-\nStart time: " + timer)) return false;
 
         } catch (IOException ex) {
 
@@ -57,6 +61,8 @@ public class Log {
     }
 
     public static void closeLog() {
+
+        logData("Session time: " + (System.currentTimeMillis() - timer));
 
         try {
 

@@ -10,13 +10,6 @@ public class TheSilverSlayer {
 
         }
 
-        if (!Log.logData("-= The Silver Slayer v0.1-beta =-")) {
-
-            System.out.println("ERROR: Immediately failed to write to log!");
-            return;
-
-        }
-
         new Thread(() -> {
 
             Audio.music();
