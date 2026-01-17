@@ -232,6 +232,7 @@ public class Player extends Entity {
                         if (sublocation != 1) break;
                         location = 2;
                         sublocation = 0;
+                        Audio.activeBG.command();
                         return true;
 
                 }
@@ -270,6 +271,7 @@ public class Player extends Entity {
                         if (sublocation != 0) break;
                         location = 1;
                         sublocation = 1;
+                        Audio.activeBG.command();
                         return true;
 
                     case "lake":
@@ -277,6 +279,7 @@ public class Player extends Entity {
                         if (sublocation != 0) break;
                         location = 3;
                         sublocation = 0;
+                        Audio.activeBG.command();
                         return true;
 
                     case "mountain":
@@ -284,6 +287,7 @@ public class Player extends Entity {
                         if (sublocation != 0) break;
                         location = 4;
                         sublocation = 0;
+                        Audio.activeBG.command();
                         return true;
 
                 }
@@ -322,6 +326,7 @@ public class Player extends Entity {
                         if (sublocation != 0) break;
                         location = 2;
                         sublocation = 0;
+                        Audio.activeBG.command();
                         return true;
 
                 }
@@ -361,6 +366,7 @@ public class Player extends Entity {
                         if (sublocation != 0) break;
                         location = 2;
                         sublocation = 0;
+                        Audio.activeBG.command();
                         return true;
 
                     case "desert":
@@ -368,6 +374,15 @@ public class Player extends Entity {
                         if (sublocation != 1) break;
                         location = 5;
                         sublocation = 0;
+                        Audio.activeBG.command();
+                        return true;
+
+                    case "fracture":
+
+                        if (sublocation != 1) break;
+                        location = 7;
+                        sublocation = 0;
+                        Audio.activeBG.command();
                         return true;
 
                 }
@@ -408,6 +423,7 @@ public class Player extends Entity {
                         if (sublocation != 0) break;
                         location = 4;
                         sublocation = 1; // Yes this is 1
+                        Audio.activeBG.command();
                         return true;
 
                     case "swamp":
@@ -415,6 +431,7 @@ public class Player extends Entity {
                         if (sublocation != 1) break;
                         location = 6;
                         sublocation = 0;
+                        Audio.activeBG.command();
                         return true;
 
                 }
@@ -448,6 +465,7 @@ public class Player extends Entity {
                         if (sublocation != 0) break;
                         location = 5;
                         sublocation = 0;
+                        Audio.activeBG.command();
                         return true;
 
                     case "lair":
@@ -455,6 +473,7 @@ public class Player extends Entity {
                         if (sublocation == 0) break;
                         location = 8;
                         sublocation = 0;
+                        Audio.activeBG.command();
                         return true;
 
                 }
@@ -493,6 +512,7 @@ public class Player extends Entity {
                         if (sublocation > 1) break;
                         location = 4;
                         sublocation = 3;
+                        Audio.activeBG.command();
                         return true;
 
                     case "lair":
@@ -500,6 +520,7 @@ public class Player extends Entity {
                         if (sublocation > 1) break;
                         location = 8;
                         sublocation = 0;
+                        Audio.activeBG.command();
                         return true;
 
                 }
@@ -539,6 +560,7 @@ public class Player extends Entity {
                         if (sublocation != 0) break;
                         location = 6;
                         sublocation = 0;
+                        Audio.activeBG.command();
                         return true;
 
                 }

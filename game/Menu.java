@@ -41,7 +41,6 @@ public class Menu {
 
     // Sounds
     private Audio[] voices = {new Audio("blip")};
-    private Audio[] music = {new Audio("mushroom_music"), new Audio("boss_battle_loop")};
     private Audio damageSFX = new Audio("damage");
 
     private byte counter; // This is here so it can be used in the ActionListerner creations below
@@ -155,7 +154,7 @@ public class Menu {
                             if (Player.sublocation == 3) {
 
                                 enemyRef = Locations.spawnEnemy(8, true);
-                                music[1].command(1);
+                                // TODO: Bring back boss music
 
                             }
 

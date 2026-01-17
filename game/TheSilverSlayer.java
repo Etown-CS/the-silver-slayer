@@ -17,7 +17,11 @@ public class TheSilverSlayer {
 
         }
 
-        Audio.music();
+        new Thread(() -> {
+
+            Audio.music();
+
+        }).start();
         Log.logData("Initialized BG music thread.");
 
         @SuppressWarnings("unused")
