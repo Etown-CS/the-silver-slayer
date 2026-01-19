@@ -124,10 +124,14 @@ public class Audio {
                 Log.logData("WARN: BG Music sleep was interrupted.");
 
             }
-            
-            activeBG = music.get(Player.location)[r.nextInt(music.get(Player.location).length)];
-            activeBG.command(2);
-            Log.logData("Playing song: " + activeBG.filePath.substring(11));
+
+            if (!Player.inBossfight) {
+
+                activeBG = music.get(Player.location)[r.nextInt(music.get(Player.location).length)];
+                activeBG.command(2);
+                Log.logData("Playing song: " + activeBG.filePath.substring(11));
+
+            } else Log.logData("Skipping BG music because bossfight is active.");
 
             while (activeBG.clip.isActive()) {
 

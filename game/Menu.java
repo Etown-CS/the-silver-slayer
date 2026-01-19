@@ -41,6 +41,7 @@ public class Menu {
 
     // Sounds
     private Audio[] voices = {new Audio("blip")};
+    private Audio[] bossTracks = {null, null, null, null, null, null, null, null, new Audio("boss_battle_loop")};
     private Audio damageSFX = new Audio("damage");
 
     private byte counter; // This is here so it can be used in the ActionListerner creations below
@@ -154,7 +155,7 @@ public class Menu {
                             if (Player.sublocation == 3) {
 
                                 enemyRef = Locations.spawnEnemy(8, true);
-                                // TODO: Bring back boss music
+                                bossTracks[8].command(1);
 
                             }
 
@@ -481,8 +482,25 @@ public class Menu {
         */
 
         playerBar.setText(playerRef.name + "\n\nHealth: " + playerRef.health + " / " + playerRef.healthDefault + "\nAttack: " + playerRef.attack + "\nDefense: " + playerRef.defense + "\n\nInventory\n" + playerRef.listItems());
-        if (enemyRef != null) enemyBar.setText(enemyRef.name + "\n\nHealth: " + enemyRef.health + "\nAttack: " + enemyRef.attack + "\nDefense: " + enemyRef.defense);
-        else enemyBar.setText(null);
+        if (enemyRef != null) {
+
+            Player.inCombat = true;
+            if (enemyRef.isBoss) {
+
+                Player.inBossfight = true;
+                Audio.activeBG.command();
+
+            }
+            
+            enemyBar.setText(enemyRef.name + "\n\nHealth: " + enemyRef.health + "\nAttack: " + enemyRef.attack + "\nDefense: " + enemyRef.defense);
+
+        } else {
+
+            Player.inCombat = false;
+            Player.inBossfight = false;
+            enemyBar.setText(null);
+
+        }
 
         if (enemyRef != null && enemyTurn) {
 
@@ -675,9 +693,10 @@ public class Menu {
 
         }
 
+        // Randomize title
         mainframe.setTitle(Story.TITLE_STRINGS[r.nextInt(Story.TITLE_STRINGS.length)]);
 
-        // Background UI Service
+        // Background service
         new Thread(() -> {
 
             while (true) {
@@ -698,6 +717,16 @@ public class Menu {
                     inputField.setBackground(Color.BLACK);
                     charsPanel.setBackground(Color.BLACK);
                     
+                }
+
+                try {
+
+                    Thread.sleep(100);
+
+                } catch (InterruptedException ex) {
+
+                    Log.logData("WARN: Background UI service wait was interrupted");
+
                 }
 
             }

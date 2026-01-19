@@ -5,6 +5,7 @@ public class Player extends Entity {
     public Item currentArmor = null, currentWeapon = null, currentWearable = null;
     public int invCap = 5;
     public static int location = 1, sublocation = 0;
+    public static boolean inCombat = false, inBossfight = false;
 
     public Player(String title) {
         /* Constructor */
