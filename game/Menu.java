@@ -292,12 +292,12 @@ public class Menu {
             case "flee":
 
                 if (enemyRef == null) writeText("There's nothing to run from (yet).", 0);
+                else if (enemyRef == Locations.enemyIndex[8][Locations.enemyIndex[8].length - 1]) writeText("You either win, or you don't ever leave.", 0);
                 else {
 
-                    // 75% chance to flee unharmed; 25% chance to take damage while fleeing
-                    if (playerRef.flee(50)) {
+                    if (playerRef.flee(65)) {
 
-                        if (playerRef.flee(75)) writeText("You fled from " + enemyRef.name + '\n' + Story.FLEE_STRINGS[r.nextInt(Story.FLEE_STRINGS.length)], 0);
+                        if (playerRef.flee(80)) writeText("You fled from " + enemyRef.name + '\n' + Story.FLEE_STRINGS[r.nextInt(Story.FLEE_STRINGS.length)], 0);
                         else writeText("You fled from " + enemyRef.name + ", but not unscathed.\nReceived " + playerRef.getAttacked(enemyRef.attack) + " damage!", 0);
 
                         enemyRef.reset();
