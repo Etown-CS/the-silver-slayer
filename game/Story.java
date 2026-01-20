@@ -139,9 +139,11 @@ public class Story {
         fracture.put(731, "Inside the building all you see is yourself... forever. This building is full of a complex series of mirrors. Good luck finding your way out.");
 
         // LAIR
-        lair.put(800, "Crossing a rickety old bridge, you arrive at the lair. The air is thick with smoke. You only can describe this place as the underworld. Nothing good happens here. Across the bridge you see an onmious building, like a castle, but evil. You decide to go inside.");
+        lair.put(800, "Crossing a rickety old bridge, you arrive at the lair. The air is thick with smoke. You only can describe this place as the underworld. Nothing good happens here. Across the bridge you see an onmious building, like a castle, but evil. Around the castle are fields of dead trees. Its looks like there was once a lot of life here.");
         
-        lair.put(810, "outskirts");
+        lair.put(810, "Exploring the outskirts around the lair, you see a small shack that catches you eye.");
+        lair.put(811, "You enter the shack. Inside you see a chest that looks like it hasn't been opened in years. You want to look inside.");
+        lair.put(812, "You open the chest and are shocked by whats inside.");
 
         lair.put(820, "castle");
         lair.put(821, "You see a door that seems to enter some kind of throne room. Loud roars are coming from inside. Whatever is in there, knows your here, and plans to change that very soon. Holding your breath, you open the door and step inside.");
