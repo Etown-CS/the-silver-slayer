@@ -93,13 +93,16 @@ public class Story {
         lake.put(330, "Cave entrance??");
 
         // MOUNTAIN
-        mountain.put(400, "You arrive the base of a mountain. A long, steep path looks like it makes it way to the peak, but you cant see the top from here.");
+        mountain.put(400, "You arrive the base of a mountain. A long, steep path looks like it makes it way to the peak, but you cant see the top from here due to the winter storm.");
 
-        mountain.put(410, "path");
+        mountain.put(410, "As you travel up the mountain, you see a globe of light surrounding what seems to be a person meditating. You should check it out.");
 
-        mountain.put(420, "oracle");
+        mountain.put(420, "As you approach the figure, you see a man in robes. You feel a dark magic coming off of him. He looks towards you as you get closer");
+        mountain.put(421, "You ask the man, 'Who are you? What are you doing here?'");
+        mountain.put(422, "The man says, 'I am the Oracle, keeper of knowledge. I am studying dark magic. If you wish, I can enchant your weapon to help you defeat what comes.'"); // maybe increase weapon damage, or maybe increase attack power?
 
-        mountain.put(430, "peak");
+        mountain.put(430, "You have made it to the peak of the mountain.");
+        mountain.put(431, "You look at the vast landscape from the top of this mountain. In the distance, you can see a desert to left, and a swamp to the right.");
 
         // DESERT
         desert.put(500, "You travel to the desert. The heat is almost unbearable. In front of you are dunes that go on for what seems like forever.");
