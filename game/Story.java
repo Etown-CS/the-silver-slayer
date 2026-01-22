@@ -37,6 +37,7 @@ public class Story {
     private HashMap<Integer, String> fracture = new HashMap<>();
     private HashMap<Integer, String> lair = new HashMap<>();
     private HashMap<Integer, HashMap<Integer, String>> events = new HashMap<Integer, HashMap<Integer, String>>();
+    private boolean[][] eventsSeen;
 
     public Story() {
         /* Constructor */
@@ -81,6 +82,8 @@ public class Story {
 
         // LAKE
         lake.put(300, "You voyage to a great lake. The water is completely still, but yet you can see strange looking creatures moving under the surface");
+        lake.put(301, "look");
+        lake.put(302, "search");
 
         lake.put(310, "You have stumbled upon a dock. This could be a good place to phish, but for what?");
         lake.put(311, "You see a tackle box on the dock.");
@@ -89,13 +92,20 @@ public class Story {
 
         lake.put(320, "You decide to take a swim! You dive into the water.");
         lake.put(321, "Luckily you're wearing goggles, so you begin to look around. At the bottom of the lake, you see the enterance to a cave, but you are to nervous to look any further. You then get out of the water.");
+        lake.put(322, "search");
 
         lake.put(330, "Cave entrance??");
+        lake.put(331, "look");
+        lake.put(332, "search");
 
         // MOUNTAIN
         mountain.put(400, "You arrive the base of a mountain. A long, steep path looks like it makes it way to the peak, but you cant see the top from here due to the winter storm.");
+        mountain.put(401, "look");
+        mountain.put(402, "search");
 
         mountain.put(410, "As you travel up the mountain, you see a globe of light surrounding what seems to be a person meditating. You should check it out.");
+        mountain.put(411, "look");
+        mountain.put(412, "search");
 
         mountain.put(420, "As you approach the figure, you see a man in robes. You feel a dark magic coming off of him. He looks towards you as you get closer");
         mountain.put(421, "You ask the man, 'Who are you? What are you doing here?'");
@@ -103,53 +113,75 @@ public class Story {
 
         mountain.put(430, "You have made it to the peak of the mountain.");
         mountain.put(431, "You look at the vast landscape from the top of this mountain. In the distance, you can see a desert to left, and a swamp to the right.");
+        mountain.put(432, "search");
 
         // DESERT
         desert.put(500, "You travel to the desert. The heat is almost unbearable. In front of you are dunes that go on for what seems like forever.");
+        desert.put(501, "look");
+        desert.put(502, "search");
 
         desert.put(510, "You walk to one of the many large dunes. You decide to look around.");
         desert.put(511, "Once you're on top of the dune, you are able to see an oasis with a town nearby.");
+        desert.put(512, "search");
 
         desert.put(520, "You decide to walk to the town and check it out.");
         desert.put(521, "In the town you see a bazaar and go inside.");
         desert.put(522, "You see a bar in the town and decide to go into it. Maybe someone in there will have some advice.");
 
         desert.put(530, "A small well is not far from you. Though looking inside, you see it is completely dry.");
+        desert.put(531, "look");
+        desert.put(532, "search");
 
         // SWAMP
         swamp.put(600, "You make your way to a swamp. The air is humid. Your feet sink into the soft mud as you walk. Erie sounds come from within the swamp, but you cant tell what is making the noise.");
+        swamp.put(601, "look");
+        swamp.put(602, "search");
 
         swamp.put(610, "wetland");
         swamp.put(611, "The ground here is more liquid than solid. Ripples echo across the fetid pools, and you can see the shadows of those that lurk beneath.");
         swamp.put(612, "Digging into the mud is a fruitless endeavor, and sticking your hands randomly into the water probably isn't a good idea. If there's anything to find here, it's too well hidden.");
+        
         swamp.put(620, "woodland");
         swamp.put(621, "The horizon is obscured by dense willows and hanging vines. Pools of sludge are scattered throughout the forest.");
         swamp.put(622, "There are a wide variety of plants to be found, some of which yield fruit."); //TODO: fruit
 
         // FRACTURE
         fracture.put(700, "You have entered the fracture. The landscape doesn't seem real. The ground is cracked and broken. Looking into these cracks in the ground, you see strange shapes that can only be described as supernatural. The sky seems to be constantly changing color.");
+        fracture.put(701, "look");
+        fracture.put(702, "search");
 
         fracture.put(710, "You notice the lights in the sky are leading somewhere, somewhere dark, even evil. You decide to follow them.");
         fracture.put(711, "While following the mysterious path, you found your way to the Edge. It seems as though this is the end of the world. An invisible wall prevents you from moving any further. Looking past the wall, there is an infinite series of floating islands that you will never be able to reach.");
+        fracture.put(712, "search");
 
         fracture.put(720, "Big secret");
-        fracture.put(721, "You are questioning why you are afraid considering you've already defeated the Silver Slayer. A wave of terror washes over you as you hear Evil Larry's meow.");
+        fracture.put(721, "You are questioning why you are afraid considering you've already defeated the Silver Slayer. A wave of terror washes over you as you hear [redacted]");
+        fracture.put(722, "search");
 
         fracture.put(730, "A building in the distance catches your eye. It is completely black, a void color. You decide to check it out.");
         fracture.put(731, "Inside the building all you see is yourself... forever. This building is full of a complex series of mirrors. Good luck finding your way out.");
+        fracture.put(732, "search");
 
         // LAIR
         lair.put(800, "Crossing a rickety old bridge, you arrive at the lair. The air is thick with smoke. You only can describe this place as the underworld. Nothing good happens here. Across the bridge you see an onmious building, like a castle, but evil. Around the castle are fields of dead trees. Its looks like there was once a lot of life here.");
-        
+        lair.put(801, "look");
+        lair.put(802, "search");
+
         lair.put(810, "Exploring the outskirts around the lair, you see a small shack that catches you eye.");
         lair.put(811, "You enter the shack. Inside you see a chest that looks like it hasn't been opened in years. You want to look inside.");
         lair.put(812, "You open the chest and are shocked by whats inside.");
 
         lair.put(820, "castle");
         lair.put(821, "You see a door that seems to enter some kind of throne room. Loud roars are coming from inside. Whatever is in there, knows your here, and plans to change that very soon. Holding your breath, you open the door and step inside.");
+        lair.put(822, "search");
 
         lair.put(830, "throne room :o");
-        lair.put(831, "Congratulations on defeating the Silver Slayer! You now have access to the Silver Sword, but there is still more adventure to be had.");
+        lair.put(831, "look");
+        lair.put(832, "search");
+        lair.put(833, "Congratulations on defeating the Silver Slayer! You now have access to the Silver Sword, but there is still more adventure to be had.");
+
+        eventsSeen = new boolean[8][100];
+        for (int c = 0; c < eventsSeen.length; c++) for (int c2 = 0; c2 < eventsSeen[c].length; c2++) eventsSeen[c][c2] = false;
 
     }
 
@@ -161,6 +193,7 @@ public class Story {
         * eventID: A three digit integer referencing the specific event
         */
 
+        eventsSeen[(eventID - 1) / 100][eventID % 100] = true;
         return events.get(locationID).get(eventID);
 
     }
@@ -204,6 +237,12 @@ public class Story {
          */
 
         return getExactEvent(loc, genEventKey(loc, sub, 2));
+
+    }
+
+    public boolean wasEventSeen(int eventID) {
+
+        return eventsSeen[(eventID - 1) / 100][eventID % 100];
 
     }
     
