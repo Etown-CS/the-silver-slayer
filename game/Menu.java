@@ -90,7 +90,7 @@ public class Menu {
             System.exit(1);
 
         }
-
+        
         for (int c = 0; c < Player.names.length; c++) players[c] = new Player(Player.names[c]);
         setupUI();
 
@@ -112,6 +112,12 @@ public class Menu {
 
                 playerSelect();
                 return;
+
+            } else if (bits[0].equals("exit") || bits[0].equals("quit")) {
+
+                Log.logData("Shutting down. Goodbye!");
+                Log.closeLog();
+                mainframe.dispatchEvent(new WindowEvent(mainframe, WindowEvent.WINDOW_CLOSING));
 
             } else {
 
@@ -178,6 +184,34 @@ public class Menu {
                 } else writeText("You can't get there from here, if there even exists.", 0);
                 break;
 
+            case "unlock":
+
+                if (enemyRef != null) writeText("You're in combat!", 0);
+                else if (bits.length < 2) writeText("Specify the code after 'unlock'!", 0);
+                else {
+
+                    if (Player.location == 1 && Player.sublocation == 1) {
+
+                        if (bits[1].equals("yeah nice try im not uploading the actual code") || Player.gates[0]) {
+
+                            writeText(theStory.getUnlockEvent(1, 1), 0);
+                            if (!Player.gates[0]) {
+
+                                Player.gates[0] = true;
+                                theStory.start.put(110, "You step up to the gate. The iron doors stand open, and an old lock rests on the ground nearby.");
+                                theStory.start.put(111, "The gate is old an weathered.");
+                                theStory.start.put(113, "This lock is open already.");
+
+                            }
+
+                        } else writeText("The lock doesn't react, and the gate remains closed.", 0);
+
+                    }
+
+                }
+
+                break;
+ 
             // GAMEPLAY COMMANDS
 
             case "whoami":
@@ -716,7 +750,7 @@ public class Menu {
                     inputField.setBackground(Color.WHITE);
                     charsPanel.setBackground(Color.WHITE);
 
-                } else if (terminalScreen.getBackground() != Color.BLACK) {
+                } else if (playerRef.statuses.get("blinded") <= 0 && terminalScreen.getBackground() != Color.BLACK) {
 
                     terminalScreen.setBackground(Color.BLACK);
                     playerBar.setBackground(Color.BLACK);

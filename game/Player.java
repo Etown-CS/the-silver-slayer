@@ -2,6 +2,7 @@ public class Player extends Entity {
 
     public static final String[] names = {"Bitter Java", "Brustel Sprout", "C--", "Dapper Python", "P. H. Periwinkle", "ReacTor", "Saea Quowle"};
     public Item[] inventory = {null, null, null, null, null, null, null, null, null, null};
+    public static boolean[] gates = {false};
     public Item currentArmor = null, currentWeapon = null, currentWearable = null;
     public int invCap = 5;
     public static int location = 1, sublocation = 0;
@@ -33,8 +34,8 @@ public class Player extends Entity {
 
             case "Dapper Python":
 
-                healthDefault = 3;
-                attack = 3;
+                healthDefault = 300;
+                attack = 30;
                 break;
 
             case "P. H. Periwinkle":
@@ -230,7 +231,7 @@ public class Player extends Entity {
 
                     case "village":
 
-                        if (sublocation != 1) break;
+                        if (sublocation != 1 || !gates[0]) break;
                         location = 2;
                         sublocation = 0;
                         Audio.activeBG.command();

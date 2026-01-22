@@ -28,15 +28,16 @@ public class Story {
     public static final String[] BOSS_DEFEATED = {null, null, "The Guardian has fallen. The first of many."};
     public static final String[] GAME_OVERS = {"How unfortunate", "That's gonna leave a mark", "Better luck some time!", "oof", "bruh.mp3", "Process killed"};
 
-    private HashMap<Integer, String> start = new HashMap<>();
-    private HashMap<Integer, String> village = new HashMap<>();
-    private HashMap<Integer, String> lake = new HashMap<>();
-    private HashMap<Integer, String> mountain = new HashMap<>();
-    private HashMap<Integer, String> desert = new HashMap<>();
-    private HashMap<Integer, String> swamp = new HashMap<>();
-    private HashMap<Integer, String> fracture = new HashMap<>();
-    private HashMap<Integer, String> lair = new HashMap<>();
-    private HashMap<Integer, HashMap<Integer, String>> events = new HashMap<Integer, HashMap<Integer, String>>();
+    public HashMap<Integer, String> start = new HashMap<>();
+    public HashMap<Integer, String> village = new HashMap<>();
+    public HashMap<Integer, String> lake = new HashMap<>();
+    public HashMap<Integer, String> mountain = new HashMap<>();
+    public HashMap<Integer, String> desert = new HashMap<>();
+    public HashMap<Integer, String> swamp = new HashMap<>();
+    public HashMap<Integer, String> fracture = new HashMap<>();
+    public HashMap<Integer, String> lair = new HashMap<>();
+    public HashMap<Integer, HashMap<Integer, String>> events = new HashMap<Integer, HashMap<Integer, String>>();
+    
     private boolean[][] eventsSeen;
 
     public Story() {
@@ -53,15 +54,19 @@ public class Story {
         events.put(8, lair);
 
         // START
-        start.put(100, "start base event (test event)");
+        start.put(100, "Where it all began.");
         start.put(101, "You stand in an empty field of verdant grass. The path you came from trails away behind you, and ahead, a dark, iron gate stands waiting.");
         start.put(102, "The endless expanse of green grass extends to the horizons, while the gate ahead waits patiently.");
 
-        start.put(110, "You step up to the gate. You're able to push the gate open with little resistance. The doors swing wide with a long, metallic screech.");
-        start.put(111, "The gate is old and weathered. Any locks have long since worn away.");
+        start.put(110, "You step up to the gate. Despite the lack of travelers, it's locked. A rusted, yet entirely solid padlock still hangs on a chain wrapped between the two doors.\n\n(Tip: Use 'unlock [code]' to try the lock!)");
+        start.put(111, "The gate is old and weathered. The lock features eight numerical combination wheels, and there's an interesting inscription etched into the bottom:\n\nODM5MjczNTQ=");
         start.put(112, "A small, metal box rests against the nearby wall. There's an unassuming keyhole in the center.");
-        start.put(113, "You attempt to pry the box open, but it remains sealed. You're not getting into this without either special tools or the original key.");
-        start.put(114, "open the box");
+        start.put(113, "The lock clicks open, and the chain falls to the ground. The path forward is open to you.");
+
+        start.put(117, "You're able to push the gate open with little resistance. The doors swing wide with a long, metallic screech.");
+
+        start.put(118, "You attempt to pry the box open, but it remains sealed. You're not getting into this without either special tools or the original key.");
+        start.put(119, "open the box");
 
         // VILLAGE
         village.put(200, "You arrive at the village. Buildings worn from years of neglect and misuse. You don't see any signs of life around. At first glance, it seems like you are alone.");
@@ -147,7 +152,7 @@ public class Story {
 
         // FRACTURE
         fracture.put(700, "You have entered the fracture. The landscape doesn't seem real. The ground is cracked and broken. Looking into these cracks in the ground, you see strange shapes that can only be described as supernatural. The sky seems to be constantly changing color.");
-        fracture.put(701, "look");
+        fracture.put(701, "The colors cry. The sounds simmer. Spending time here is painful. What could have caused this?");
         fracture.put(702, "search");
 
         fracture.put(710, "You notice the lights in the sky are leading somewhere, somewhere dark, even evil. You decide to follow them.");
@@ -193,7 +198,7 @@ public class Story {
         * eventID: A three digit integer referencing the specific event
         */
 
-        eventsSeen[(eventID - 1) / 100][eventID % 100] = true;
+        eventsSeen[(locationID - 1) / 100][eventID % 100] = true;
         return events.get(locationID).get(eventID);
 
     }
@@ -230,13 +235,25 @@ public class Story {
 
     public String getSearchEvent(int loc, int sub) {
         /*
-         * Get search event for provided location
-         * 
-         * loc: Location ID
-         * sub: Sublocation ID
-         */
+        * Get search event for provided location
+        * 
+        * loc: Location ID
+        * sub: Sublocation ID
+        */
 
         return getExactEvent(loc, genEventKey(loc, sub, 2));
+
+    }
+
+    public String getUnlockEvent(int loc, int sub) {
+        /*
+        * Get unlock event for provided location
+        * 
+        * loc: Location ID
+        * sub: Sublocation ID
+        */
+
+        return getExactEvent(loc, genEventKey(loc, sub, 3));
 
     }
 
