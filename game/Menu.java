@@ -192,9 +192,9 @@ public class Menu {
 
                     if (Player.location == 1 && Player.sublocation == 1) {
 
-                        if (bits[1].equals("yeah nice try im not uploading the actual code") || Player.gates[0]) {
+                        if (bits[1].equals("a") || Player.gates[0]) {
 
-                            writeText(theStory.getUnlockEvent(1, 1), 0);
+                            writeText(theStory.getUnlockEvent(1, 1, true), 0);
                             if (!Player.gates[0]) {
 
                                 Player.gates[0] = true;
@@ -204,7 +204,7 @@ public class Menu {
 
                             }
 
-                        } else writeText("The lock doesn't react, and the gate remains closed.", 0);
+                        } else writeText(theStory.getUnlockEvent(1, 1, false), 0);
 
                     }
 
