@@ -8,6 +8,18 @@ public class Entity {
     public String name;
     public int health, attack, defense, healthDefault, attackDefault, defenseDefault;
 
+    protected void initStatuses() {
+
+        statuses.put("poison", 0);      // Damage over time
+        statuses.put("fire", 0);        // High damage over time
+        statuses.put("strength", 0);    // Increases attack
+        statuses.put("weak", 0);        // Reduces attack
+        statuses.put("daze", 0);        // Garbles text
+        statuses.put("blind", 0);       // Activates light mode
+        statuses.put("doom", 0);        // Unstoppable stats drain
+
+    }
+
     public void changeStats(int H, int A, int D) {
         /*
          * Change entity's stats

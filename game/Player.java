@@ -59,8 +59,7 @@ public class Player extends Entity {
         }
 
         health = healthDefault;
-        statuses.put("poisoned", 0);
-        statuses.put("blinded", 0);
+        initStatuses();
 
     }
 

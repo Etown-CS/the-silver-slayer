@@ -245,9 +245,9 @@ public class Menu {
                             if (!Player.gates[0]) {
 
                                 Player.gates[0] = true;
-                                theStory.start.put(110, "You step up to the gate. The iron doors stand open, and an old lock rests on the ground nearby.");
-                                theStory.start.put(111, "The gate is old an weathered.");
-                                theStory.start.put(113, "This lock is open already.");
+                                theStory.updateEvent(1, 110, "You step up to the gate. The iron doors stand open, and an old lock rests on the ground nearby.");
+                                theStory.updateEvent(1, 111, "The gate is old an weathered.");
+                                theStory.updateEvent(1, 113, "This lock is open already.");
 
                             }
 
@@ -615,6 +615,12 @@ public class Menu {
                         }
 
                     }
+
+                    break;
+
+                case "Figment":
+
+                    break;
 
             }
 
