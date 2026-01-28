@@ -1,16 +1,18 @@
 public class Player extends Entity {
 
     public static final String[] names = {"Bitter Java", "Brustel Sprout", "C--", "Dapper Python", "P. H. Periwinkle", "ReacTor", "Saea Quowle"};
+    
+    private static Story theStory;
     public Item[] inventory = {null, null, null, null, null, null, null, null, null, null};
-    public static boolean[] gates = {false};
     public Item currentArmor = null, currentWeapon = null, currentWearable = null;
     public int invCap = 5;
     public static int location = 1, sublocation = 0;
     public static boolean inCombat = false, inBossfight = false;
 
-    public Player(String title) {
+    public Player(String title, Story story) {
         /* Constructor */
 
+        theStory = story;
         name = title;
         switch (name) {
 
@@ -34,8 +36,8 @@ public class Player extends Entity {
 
             case "Dapper Python":
 
-                healthDefault = 300;
-                attack = 30;
+                healthDefault = 2;
+                attack = 3;
                 break;
 
             case "P. H. Periwinkle":
@@ -115,6 +117,18 @@ public class Player extends Entity {
         inventory[slot] = null;
         return tmp;
         
+    }
+
+    public boolean hasItem(String itemName) {
+        /*
+        * Performs a linear search on player inventory
+        *
+        * itemName: The name of the item being searched for
+        */
+
+        for (Item i : inventory) if (i.name.equals(itemName)) return true;
+        return false;
+
     }
 
     public String listItems() {
@@ -230,7 +244,7 @@ public class Player extends Entity {
 
                     case "village":
 
-                        if (sublocation != 1 || !gates[0]) break;
+                        if (sublocation != 1 || theStory.wasEventSeen(113)) break;
                         location = 2;
                         sublocation = 0;
                         Audio.activeBG.command();

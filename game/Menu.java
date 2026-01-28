@@ -51,8 +51,6 @@ public class Menu {
     private boolean magicKey = false;
     private boolean silverSword = false;
 
-
-
     public Menu() {
         /* Constructor */
 
@@ -99,7 +97,7 @@ public class Menu {
 
         }
         
-        for (int c = 0; c < Player.names.length; c++) players[c] = new Player(Player.names[c]);
+        for (int c = 0; c < Player.names.length; c++) players[c] = new Player(Player.names[c], theStory);
         setupUI();
 
     }
@@ -241,17 +239,24 @@ public class Menu {
                 */
 
                 if (enemyRef != null) writeText("You're in combat!", 0);
-                else if (bits.length < 2) writeText("Specify the code after 'unlock'!", 0);
+                else if (bits.length < 2) writeText("Specify the code or item after 'unlock'!", 0);
                 else {
 
-                    if (Player.location == 1 && Player.sublocation == 1) {
+                    if (Player.location == 1 && Player.sublocation == 0) {
 
-                        if (bits[1].equals("83927354") || Player.gates[0]) {
+                        if (bits[1].equals("a") && playerRef.hasItem("a")) {
+
+                            writeText(theStory.getUnlockEvent(1, 0, true), 0);
+                            
+                        } else writeText(theStory.getUnlockEvent(1, 0, false), 0);
+
+                    } else if (Player.location == 1 && Player.sublocation == 1) {
+
+                        if (bits[1].equals("83927354") || theStory.wasEventSeen(113)) {
 
                             writeText(theStory.getUnlockEvent(1, 1, true), 0);
-                            if (!Player.gates[0]) {
+                            if (!theStory.wasEventSeen(113)) {
 
-                                Player.gates[0] = true;
                                 theStory.updateEvent(1, 110, "You step up to the gate. The iron doors stand open, and an old lock rests on the ground nearby.");
                                 theStory.updateEvent(1, 111, "The gate is old and weathered.");
                                 theStory.updateEvent(1, 113, "This lock is open already.");
@@ -741,7 +746,7 @@ public class Menu {
 
                     if (r.nextBoolean()) {
 
-                        msg.append("It fades as quickly as it came...");
+                        msg.append("\nIt fades as quickly as it came...");
                         enemyRef.reset();
                         enemyRef = null;
 
@@ -755,6 +760,8 @@ public class Menu {
 
                     }
 
+                    break;
+
                 case "Mimic":
 
                     // TODO: Mimic ability
@@ -767,7 +774,25 @@ public class Menu {
 
                 case "RAT":
 
-                    
+                    // TODO: RAT ability
+                    break;
+
+                case "Scavenger":
+
+                    if (r.nextBoolean() && enemyRef.flee(50)) {
+
+                        enemyRef.reset();
+                        enemyRef = null;
+                        msg.append("\nScavenger wasted no time.\nScavenger has fled!");
+
+                    }
+
+                    break;
+
+                case "Scrambler":
+
+                    // TODO: Scrambler ability
+                    break;
 
                 case "Worm":
 
@@ -778,6 +803,8 @@ public class Menu {
 
                     }
 
+                    break;
+
             }
 
             enemyTurn = false;
@@ -787,7 +814,7 @@ public class Menu {
 
             enemyTurn = false;
             if (gameOver) return;
-            if (playerRef.health == 0) {
+            else if (playerRef.health == 0) {
 
                 byte numDown = 0;
                 for (byte c = 0; c < Player.names.length; c++) if (players[c].health == 0) numDown++;

@@ -57,15 +57,15 @@ public class Story {
 
         // Field
         start.put(100, "Where it all began.");
-        start.put(101, "You stand in an empty field of verdant grass. The path you came from trails away behind you, and ahead, a dark, iron gate stands waiting. The endless expanse of green grass extends to the horizons, while the gate waits patiently.");
-        start.put(102, "A wooden signpost stands nearby. The text has long since worn away. At its base sits a small, metal box crate. A silver-lined keyhole rests front and center.");
+        start.put(101, "You stand in an empty field of verdant grass. The path you came from trails away behind, and ahead, a dark, iron gate stands waiting. The endless expanse of green grass extends to the horizon, while the gate waits patiently.");
+        start.put(102, "A wooden signpost stands nearby. The text has long since worn away. At its base sits a small, metal box crate. A silver-lined keyhole resides front and center.");
         start.put(103, "OPENED THE BOX");
         start.put(104, "You attempt to pry the box open, but it remains sealed. You're not getting into this without either special tools or the original key.");
 
         // Gate
         start.put(110, "You step up to the gate. Despite the lack of travelers, it's locked. A rusted, yet entirely solid padlock still hangs on a chain wrapped between the two doors.\n\n(Tip: Use 'unlock [code]' to try the lock!)");
         start.put(111, "The gate is old and weathered. The lock features eight numerical combination wheels, and there's an interesting inscription etched into the bottom:\n\nODM5MjczNTQ=");
-        start.put(112, "search");
+        start.put(112, "There's nothing to be found in the nearby vicinity. Nothing seems to have been disturbed prior to your arrival.");
         start.put(113, "The lock clicks open, the chain falls to the ground, and you're able to push the gate open with little resistance. The doors swing wide with a long, metallic screech. The path forward is open to you.");
         start.put(114, "The lock is unresponsive.");
 
@@ -292,6 +292,13 @@ public class Story {
     }
 
     private int genEventKey(int l, int s, int offset) {
+        /*
+        * Mathematically determines an exact event ID based on location and an offset value
+        * 
+        * l: location ID
+        * s: sublocation ID
+        * offset: Offset from zero
+        */
 
         return l * 100 + s * 10 + offset;
 
@@ -311,7 +318,7 @@ public class Story {
 
     public String getLookEvent(int loc, int sub) {
         /*
-        * Get look event for provided location
+        * Get look event (XX1) for provided location
         * 
         * loc: Location ID
         * sub: Sublocation ID
@@ -323,7 +330,7 @@ public class Story {
 
     public String getSearchEvent(int loc, int sub) {
         /*
-        * Get search event for provided location
+        * Get search event (XX2) for provided location
         * 
         * loc: Location ID
         * sub: Sublocation ID
@@ -335,10 +342,11 @@ public class Story {
 
     public String getUnlockEvent(int loc, int sub, boolean unlocked) {
         /*
-        * Get unlock event for provided location
+        * Get [failed] unlock event (XX3 or XX4) for provided location
         * 
         * loc: Location ID
         * sub: Sublocation ID
+        * unlocked: Whether or not the attempted unlock was successful
         */
 
         if (unlocked) return getExactEvent(loc, genEventKey(loc, sub, 3));
@@ -347,12 +355,24 @@ public class Story {
     }
 
     public boolean wasEventSeen(int eventID) {
+        /*
+        * Reports whether a specific event has been seen
+        *
+        * eventID: The ID of the event
+        */
 
         return eventsSeen[(eventID - 1) / 100][eventID % 100];
 
     }
 
     public void updateEvent(int loc, int eventID, String content) {
+        /*
+        * Used to dynamically change an event.
+        * 
+        * loc: Location ID
+        * eventID: The exact ID of the event to be changed
+        * content: The new event content
+        */
 
         events.get(loc).put(eventID, content);
 
