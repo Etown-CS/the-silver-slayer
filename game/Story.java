@@ -67,6 +67,7 @@ public class Story {
         start.put(111, "The gate is old and weathered. The lock features eight numerical combination wheels, and there's an interesting inscription etched into the bottom:\n\nODM5MjczNTQ=");
         start.put(112, "search");
         start.put(113, "The lock clicks open, the chain falls to the ground, and you're able to push the gate open with little resistance. The doors swing wide with a long, metallic screech. The path forward is open to you.");
+        start.put(114, "The lock is unresponsive.");
 
         // VILLAGE
 

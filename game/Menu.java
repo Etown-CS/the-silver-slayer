@@ -234,20 +234,26 @@ public class Menu {
 
             case "unlock":
 
+                /*
+                *
+                * To anyone reading the source code: You better not be cheating >:(
+                *
+                */
+
                 if (enemyRef != null) writeText("You're in combat!", 0);
                 else if (bits.length < 2) writeText("Specify the code after 'unlock'!", 0);
                 else {
 
                     if (Player.location == 1 && Player.sublocation == 1) {
 
-                        if (bits[1].equals("a") || Player.gates[0]) {
+                        if (bits[1].equals("83927354") || Player.gates[0]) {
 
                             writeText(theStory.getUnlockEvent(1, 1, true), 0);
                             if (!Player.gates[0]) {
 
                                 Player.gates[0] = true;
                                 theStory.updateEvent(1, 110, "You step up to the gate. The iron doors stand open, and an old lock rests on the ground nearby.");
-                                theStory.updateEvent(1, 111, "The gate is old an weathered.");
+                                theStory.updateEvent(1, 111, "The gate is old and weathered.");
                                 theStory.updateEvent(1, 113, "This lock is open already.");
 
                             }
