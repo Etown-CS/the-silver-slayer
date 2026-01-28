@@ -45,6 +45,14 @@ public class Menu {
     private Audio damageSFX = new Audio("damage");
 
     private byte counter; // This is here so it can be used in the ActionListerner creations below
+
+    // Items player can get
+    private boolean silverSpoon = false;
+    private boolean magicKey = false;
+    private boolean silverSword = false;
+
+
+
     public Menu() {
         /* Constructor */
 
@@ -96,6 +104,40 @@ public class Menu {
 
     }
 
+    // Adding items to inventory based on player loc & subloc (used while searching)
+    private String getItems( int loc, int sub) {
+        if (playerRef == null) return null;
+        
+        // Silver Spoon
+        if (!silverSpoon && loc == 2 && sub == 1 && theStory.wasEventSeen(212)) {
+            int invSlot = playerRef.addItem(new Item("Silver Spoon", ItemType.Weapon, "A shiny silver spoon.", 10, false));
+            silverSpoon = true;
+            // If inventory is full
+            if (invSlot == -1) return "Inventory Full";
+            else return "Added the Silver Spoon to slot " + invSlot + ".";
+        }
+
+        // Magic Key
+        if (!magicKey && loc == 8 && sub == 3 && theStory.wasEventSeen(833)) {
+            int invSlot = playerRef.addItem(new Item("Magic Key", ItemType.Unassigned, "A key that opens a mysterious chest", 0, false));
+            magicKey = true;
+            // If inventory is full
+            if (invSlot == -1) return "Inventory Full";
+            else return "Added the Magic Key to slot " + invSlot + ".";
+        }
+
+        // Silver Sword
+        if (!silverSword && loc == 8 && sub == 3 && theStory.wasEventSeen(833)) {
+            int invSlot = playerRef.addItem(new Item("Silver Sword", ItemType.Weapon, "A sharp silver sword", 0, false));
+            silverSword = true;
+            // If inventory is full
+            if (invSlot == -1) return "Inventory Full";
+            else return "Added the Silver Sword to slot " + invSlot + ".";
+        }
+        
+        return null;
+    }
+
     private void readInput(String text) {
         /*
          * Called whenever the player enters text
@@ -141,15 +183,20 @@ public class Menu {
             case "search":
 
                 if (enemyRef != null) writeText("You're in combat!", 0);
-                else writeText(theStory.getSearchEvent(Player.location, Player.sublocation), 0);
+                else {
+                    String searchTxt = theStory.getSearchEvent(Player.location, Player.sublocation);
+                    String itemTxt = getItems(Player.location, Player.sublocation);
+                    if (itemTxt != null && !itemTxt.isEmpty()) searchTxt = searchTxt + "\n" + itemTxt;
+                    writeText(searchTxt, 0);
+                }
                 break;
 
-            case "pickup":
-            case "get":
+            // case "pickup":
+            // case "get":
 
-                // TODO be able to pick up items
+            //     Unnecessary; items are automatically added on search
                 
-                break;
+            //     break;
 
             // case "enter":
 
