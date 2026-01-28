@@ -15,8 +15,18 @@ public class Enemy extends Entity {
         defenseDefault = d;
         isBoss = boss;
 
-        statuses.put("poisoned", 0);
-        statuses.put("blinded", 0);
+        switch (name) {
+
+            case "Dat Boi":
+
+                spawnMsg = "\n\nOh shoot here come dat boi";
+                break;
+
+            default:
+
+                spawnMsg = "\n\n" + name + " has spawned!";
+
+        }
 
     }
     

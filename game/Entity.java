@@ -5,7 +5,7 @@ public class Entity {
 
     protected Random r = new Random();
     public HashMap<String, Integer> statuses = new HashMap<String, Integer>();
-    public String name;
+    public String name, spawnMsg;
     public int health, attack, defense, healthDefault, attackDefault, defenseDefault;
 
     protected void initStatuses() {
@@ -16,7 +16,7 @@ public class Entity {
         statuses.put("weak", 0);        // Reduces attack
         statuses.put("daze", 0);        // Garbles text
         statuses.put("blind", 0);       // Activates light mode
-        statuses.put("doom", 0);        // Unstoppable stats drain
+        statuses.put("doom", 0);        // Unstoppable stat drain
 
     }
 

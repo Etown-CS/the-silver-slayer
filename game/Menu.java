@@ -224,7 +224,8 @@ public class Menu {
                         default:
 
                             if (enemyRef == null && Player.location >= 2) enemyRef = Locations.spawnEnemy(Player.location, false);
-                            writeText(theStory.getBaseEvent(Player.location, Player.sublocation), 0);
+                            if (enemyRef != null) writeText(theStory.getBaseEvent(Player.location, Player.sublocation) + enemyRef.spawnMsg, 0);
+                            else writeText(theStory.getBaseEvent(Player.location, Player.sublocation), 0);
 
                     }
 
@@ -598,13 +599,125 @@ public class Menu {
             // Enemy ability
             switch (enemyRef.name) {
 
+                case "Banshee":
+
+                    if (r.nextInt(100) < 50) {
+
+                        if (r.nextBoolean()) {
+
+                            for (int c = 0; c < r.nextInt(1,5); c++) {
+
+                                switch (r.nextInt(5)) {
+
+                                    case 0:
+
+                                        playerRef.addItem(new Item("Trash", ItemType.Junk, "What even is this?", 0, false));
+                                        break;
+
+                                    case 1:
+
+                                        playerRef.addItem(new Item("Waste", ItemType.Junk, "This is just junk.", 0, false));
+                                        break;
+
+                                    case 2:
+
+                                        playerRef.addItem(new Item("Rubbish", ItemType.Junk, "A collection of trash.", 0, false));
+                                        break;
+
+                                    case 3:
+
+                                        playerRef.addItem(new Item("Expired Something", ItemType.Health, "An expired piece of some unknown food.", -1, true));
+                                        break;
+
+                                    case 4:
+
+                                        playerRef.addItem(new Item("Mystery Meat", ItemType.Health, "This could be anything.", c, true));
+                                        break;
+
+                                }
+
+                            }
+
+                            msg.append("\nBanshee spams you with garbage!\nYour inventory gets heavier.");
+
+                        } else {
+
+                            // TODO: Distort UI
+
+                        }
+
+                    }
+
+                    break;
+
+                case "Bot Swarm":
+
+                    enemyRef.changeStats(0, r.nextInt(1, 3), r.nextInt(1, 2));
+                    msg.append("\nThe swarm becomes more powerful!");
+                    break;
+
+                case "Cleanser":
+
+                    enemyRef.changeStats(0, 100, 0);
+                    msg.append("\nCleanser prepares to anihilate you!");
+                    break;
+
+                case "Cyber Scorpion":
+
+                    if (r.nextBoolean()) {
+
+                        playerRef.statuses.put("poison", playerRef.statuses.get("poison") + 1);
+                        msg.append("\nCyber Scorpion poisoned you!");
+
+                    }
+
+                    break;
+
+                case "Faceless":
+
+                    // TODO: Faceless ability
+                    break;
+
+                case "Figment":
+
+                    switch (r.nextInt(4)) {
+
+                        case 0:
+
+                            msg.append("Is it possible for imagination to shimmer? Something is happening.");
+                            break;
+
+                        case 1:
+
+                            msg.append("\nIt's not your memory, but it's sickening nonetheless.\nYou've been poisoned!");
+                            playerRef.statuses.put("poison", playerRef.statuses.get("poison") + 3);
+                            break;
+
+                        case 2:
+
+                            msg.append("You've gome weak at the knees.");
+                            playerRef.statuses.put("weak", playerRef.statuses.get("weak") + 1);
+                            break;
+
+                        case 3:
+
+                            msg.append("A sudden blinding blast of inspiration!");
+                            playerRef.statuses.put("blinded", playerRef.statuses.get("blind") + 1);
+                            enemyRef.reset();
+                            enemyRef = null;
+                            break;
+
+                    }
+
+                    break;
+
                 case "Flashbang":
 
                     if (r.nextInt(100) < 300) {
 
                         if (r.nextBoolean()) {
 
-                            playerRef.statuses.put("blinded", 3);
+                            playerRef.statuses.put("blinded", playerRef.statuses.get("blind") + 1);
                             msg.append("\nFlashbang blinds you!");
 
                         } else {
@@ -618,9 +731,46 @@ public class Menu {
 
                     break;
 
-                case "Figment":
+                case "Memory":
 
+                    if (r.nextBoolean()) {
+
+                        msg.append("It fades as quickly as it came...");
+                        enemyRef.reset();
+                        enemyRef = null;
+
+                    } else {
+
+                        switch (r.nextInt(4)) {
+
+                            // TODO: Memories
+
+                        }
+
+                    }
+
+                case "Mimic":
+
+                    // TODO: Mimic ability
                     break;
+
+                case "PISMPE":
+
+                    // TODO: PISMPE ability
+                    break;
+
+                case "RAT":
+
+                    
+
+                case "Worm":
+
+                    if (r.nextBoolean()) {
+
+                        enemyRef.changeStats(enemyRef.healthDefault, enemyRef.attackDefault, 0);
+                        msg.append("\nThe virus is replicating!");
+
+                    }
 
             }
 
@@ -795,7 +945,7 @@ public class Menu {
 
             while (true) {
 
-                if (playerRef.statuses.get("blinded") > 0 && terminalScreen.getBackground() != Color.WHITE) {
+                if (playerRef.statuses.get("blind") > 0 && terminalScreen.getBackground() != Color.WHITE) {
 
                     terminalScreen.setBackground(Color.WHITE);
                     playerBar.setBackground(Color.WHITE);
@@ -803,7 +953,7 @@ public class Menu {
                     inputField.setBackground(Color.WHITE);
                     charsPanel.setBackground(Color.WHITE);
 
-                } else if (playerRef.statuses.get("blinded") <= 0 && terminalScreen.getBackground() != Color.BLACK) {
+                } else if (playerRef.statuses.get("blind") <= 0 && terminalScreen.getBackground() != Color.BLACK) {
 
                     terminalScreen.setBackground(Color.BLACK);
                     playerBar.setBackground(Color.BLACK);
