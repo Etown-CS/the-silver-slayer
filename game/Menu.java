@@ -103,11 +103,11 @@ public class Menu {
     }
 
     // Adding items to inventory based on player loc & subloc (used while searching)
-    private String getItems( int loc, int sub) {
+    private String getItems() {
         if (playerRef == null) return null;
         
         // Silver Spoon
-        if (!silverSpoon && loc == 2 && sub == 1 && theStory.wasEventSeen(212)) {
+        if (!silverSpoon && Player.location == 2 && Player.sublocation == 1 && !theStory.wasEventSeen(212)) {
             int invSlot = playerRef.addItem(new Item("Silver Spoon", ItemType.Weapon, "A shiny silver spoon.", 10, false));
             silverSpoon = true;
             // If inventory is full
@@ -116,8 +116,8 @@ public class Menu {
         }
 
         // Magic Key
-        if (!magicKey && loc == 8 && sub == 3 && theStory.wasEventSeen(833)) {
-            int invSlot = playerRef.addItem(new Item("Magic Key", ItemType.Unassigned, "A key that opens a mysterious chest", 0, false));
+        if (!magicKey && Player.location == 8 && Player.sublocation == 3 && theStory.wasEventSeen(833)) {
+            int invSlot = playerRef.addItem(new Item("Magic Key", ItemType.Key, "A key that opens a mysterious chest", 0, false));
             magicKey = true;
             // If inventory is full
             if (invSlot == -1) return "Inventory Full";
@@ -125,7 +125,7 @@ public class Menu {
         }
 
         // Silver Sword
-        if (!silverSword && loc == 8 && sub == 3 && theStory.wasEventSeen(833)) {
+        if (!silverSword && Player.location == 8 && Player.sublocation == 3 && theStory.wasEventSeen(833)) {
             int invSlot = playerRef.addItem(new Item("Silver Sword", ItemType.Weapon, "A sharp silver sword", 0, false));
             silverSword = true;
             // If inventory is full
@@ -182,35 +182,30 @@ public class Menu {
 
                 if (enemyRef != null) writeText("You're in combat!", 0);
                 else {
+
                     String searchTxt = theStory.getSearchEvent(Player.location, Player.sublocation);
-                    String itemTxt = getItems(Player.location, Player.sublocation);
+                    String itemTxt = getItems();
                     if (itemTxt != null && !itemTxt.isEmpty()) searchTxt = searchTxt + "\n" + itemTxt;
                     writeText(searchTxt, 0);
+
                 }
                 break;
 
-            // case "pickup":
-            // case "get":
-
-            //     Unnecessary; items are automatically added on search
-                
-            //     break;
-
             // case "enter":
 
-                //TODO: Expansion of enter
+                //TODO: Expansion of enter?
 
             case "goto":
 
                 if (enemyRef != null) writeText("You're in combat!", 0);
-                else if (bits.length < 2) writeText(Player.getAvailablePlaces(), 0);
+                else if (bits.length < 2) writeText("Go where?", 0);
                 else if (playerRef.travel(bits[1].toLowerCase())) {
 
                     switch (Player.location) {
 
                         case 8:
 
-                            if (Player.sublocation == 3) {
+                            if (Player.sublocation == 3 && Locations.Lair[Locations.Lair.length - 1].health > 0) {
 
                                 enemyRef = Locations.spawnEnemy(8, true);
                                 bossTracks[8].command(1);
@@ -431,7 +426,7 @@ public class Menu {
             case "help":
 
                 if (enemyRef != null && enemyRef.name.equals("The Silver Slayer")) writeText("There's no help for you now.", 0);
-                else writeText("GENERAL\nclear: Clear screen\nexit / quit: Quit the game.\ntitle [int]: Display a random title or specifiy\n\nINVENTORY\ndesc / describe: Show an inventory item's description\ndrop (int): Drop an item\nuse (int): Use an inventory item\n\nCOMBAT\natk / attack: Attack the current enemy\nflee: Run away", 0);
+                else writeText(Story.HELP_TEXT, 0);
                 break;
 
             case "save":

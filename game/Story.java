@@ -27,6 +27,9 @@ public class Story {
     public static final String[] FLEE_STRINGS = {"You can't run forever.", "You got away... for now.", "You'll be back."};
     public static final String[] BOSS_DEFEATED = {null, null, "The Guardian has fallen. The first of many."};
     public static final String[] GAME_OVERS = {"How unfortunate", "That's gonna leave a mark", "Better luck some time!", "oof", "bruh.mp3", "Process killed"};
+    public static final String HELP_TEXT = "look / ls: Look around yourself\n" +
+                                            "search: Search your surroundings\n" +
+                                            "";
 
     private HashMap<Integer, String> start = new HashMap<>();
     private HashMap<Integer, String> village = new HashMap<>();
@@ -63,7 +66,7 @@ public class Story {
         start.put(104, "You attempt to pry the box open, but it remains sealed. You're not getting into this without either special tools or the original key.");
 
         // Gate
-        start.put(110, "You step up to the gate. Despite the lack of travelers, it's locked. A rusted, yet entirely solid padlock still hangs on a chain wrapped between the two doors.\n\n(Tip: Use 'unlock [code]' to try the lock!)");
+        start.put(110, "You step up to the gate. Despite the lack of travelers, it's locked. A rusted, yet entirely solid padlock still hangs on a chain wrapped between the two doors.");
         start.put(111, "The gate is old and weathered. The lock features eight numerical combination wheels, and there's an interesting inscription etched into the bottom:\n\nODM5MjczNTQ=");
         start.put(112, "There's nothing to be found in the nearby vicinity. Nothing seems to have been disturbed prior to your arrival.");
         start.put(113, "The lock clicks open, the chain falls to the ground, and you're able to push the gate open with little resistance. The doors swing wide with a long, metallic screech. The path forward is open to you.");

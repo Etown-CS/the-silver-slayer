@@ -142,11 +142,11 @@ public class Player extends Entity {
 
             if (inventory[c] != null) {
 
-                inv.append("Slot " + c + ": " + inventory[c].name);
+                inv.append(c + ": " + inventory[c].name);
                 if (inventory[c] == currentArmor || inventory[c] == currentWeapon || inventory[c] == currentWearable) inv.append(" *");
                 inv.append("\n");
 
-            } else inv.append("Slot " + c + ": \n");
+            } else inv.append(c + ": \n");
 
         }
 
@@ -162,32 +162,32 @@ public class Player extends Entity {
          * slot: The inventory slot of the item to be used
          */
         
-        String msg = "";
+        StringBuilder msg = new StringBuilder(64);
         switch (inventory[slot].type) {
             
             case Unassigned:
             case Junk:
 
-                msg = "You're not too sure what to do with this...";
+                msg.append("You're not too sure what to do with this...");
                 break;
 
             case Health:
 
                 changeStats(inventory[slot].magnitude, 0, 0);
-                msg = "You ate the " + inventory[slot].name + ".\n";
+                msg.append("You ate the " + inventory[slot].name + ".\n");
 
                 // Extra flavor text
                 switch (inventory[slot].name) {
 
                     case "Golden Apple":
 
-                        msg += "Eating gold is not good for you.\n";
+                        msg.append("Eating gold is not good for you.\n");
                         break;
 
                 }
 
-                if (inventory[slot].magnitude >= 0) msg += "+" + inventory[slot].magnitude + " health!";
-                else msg += inventory[slot].magnitude + " health!";
+                if (inventory[slot].magnitude >= 0) msg.append("+" + inventory[slot].magnitude + " health!");
+                else msg.append(inventory[slot].magnitude + " health!");
                 break;
 
             case Armor:
@@ -195,7 +195,7 @@ public class Player extends Entity {
                 if (currentArmor != null) defense -= currentArmor.magnitude;
                 currentArmor = inventory[slot];
                 changeStats(0, 0, inventory[slot].magnitude);
-                msg = "Equipped armor: " + inventory[slot].name;
+                msg.append("Equipped armor: " + inventory[slot].name);
                 break;
 
             case Weapon:
@@ -203,7 +203,7 @@ public class Player extends Entity {
                 if (currentWeapon != null) attack -= currentWeapon.magnitude;
                 currentWeapon = inventory[slot];
                 changeStats(0, inventory[slot].magnitude, 0);
-                msg = "Equipped weapon: " + inventory[slot].name;
+                msg.append("Equipped weapon: " + inventory[slot].name);
                 break;
 
             case Wearable:
@@ -216,7 +216,7 @@ public class Player extends Entity {
         }
         
         if (inventory[slot].consumable) inventory[slot] = null;
-        return msg;
+        return msg.toString();
 
     }
 
@@ -587,51 +587,6 @@ public class Player extends Entity {
         }
 
         return false;
-
-    }
-
-    public static String getAvailablePlaces() {
-
-        StringBuilder places = new StringBuilder(64);
-
-        switch (location) {
-
-            case 1:
-
-                if (sublocation == 0) places.append(Locations.sublocations[1][1]);
-                else places.append(Locations.sublocations[1][0] + " | " + Locations.locations[2].toUpperCase());
-                break;
-
-            case 2:
-
-                if (sublocation == 0) places.append(Locations.sublocations[2][1] + " | " + Locations.sublocations[2][2] + " | " + Locations.sublocations[2][3] + " | " + Locations.locations[1].toUpperCase() + " | " + Locations.locations[3].toUpperCase() + " | " + Locations.locations[4].toUpperCase());
-                else if (sublocation == 1) places.append(Locations.sublocations[2][0] + " | " + Locations.sublocations[2][3]);
-                else if (sublocation == 2) places.append(Locations.sublocations[2][0]);
-                else places.append(Locations.sublocations[2][0] + " | " + Locations.sublocations[2][1]);
-                break;
-
-            case 3:
-
-                if (sublocation == 0) places.append(Locations.sublocations[3][1] + " | " + Locations.sublocations[3][3] + " | " + Locations.locations[2].toUpperCase());
-
-            case 4:
-
-            case 5:
-
-            case 6:
-
-            case 7:
-
-            case 8:
-
-            default:
-
-                places.append("Well that's a problem!");
-                break;
-
-        }
-
-        return places.toString();
 
     }
     
