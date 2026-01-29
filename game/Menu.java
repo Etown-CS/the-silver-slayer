@@ -47,9 +47,7 @@ public class Menu {
     private byte counter; // This is here so it can be used in the ActionListerner creations below
 
     // Items player can get
-    private boolean silverSpoon = false;
-    private boolean magicKey = false;
-    private boolean silverSword = false;
+    private boolean silverSpoon = false, paperHat = false, goggles = false, bitingRing = false, magicKey = false, silverSword = false;
 
     public Menu() {
         /* Constructor */
@@ -102,38 +100,86 @@ public class Menu {
 
     }
 
-    // Adding items to inventory based on player loc & subloc (used while searching)
     private String getItems() {
-        if (playerRef == null) return null;
+        /*
+        * Get an item when searching if there's one to be found
+        * Items marked with a * are unique
+        */
+
+        if (playerRef == null) return "";
         
-        // Silver Spoon
+        // Silver Spoon *
         if (!silverSpoon && Player.location == 2 && Player.sublocation == 1 && !theStory.wasEventSeen(212)) {
-            int invSlot = playerRef.addItem(new Item("Silver Spoon", ItemType.Weapon, "A shiny silver spoon.", 10, false));
+            int invSlot = playerRef.addItem(new Item("Silver Spoon", ItemType.Weapon, "A shiny, silver spoon.", 1, false));
             silverSpoon = true;
             // If inventory is full
-            if (invSlot == -1) return "Inventory Full";
-            else return "Added the Silver Spoon to slot " + invSlot + ".";
+            if (invSlot == -1) return "\nInventory Full";
+            else return "\nAdded the Silver Spoon to slot " + invSlot + ".";
         }
 
-        // Magic Key
+        // Paper Hat *
+        if (!paperHat && Player.location == 2 && Player.sublocation == 1) {
+
+            int invSlot = playerRef.addItem(new Item("Paper Hat", ItemType.Armor, "An origami paper hat. Adds a point to ~stle~.", 1, false));
+            paperHat = true;
+            if (invSlot < 0) return "\nInventory full.";
+            else return "\nAdded Paper Hat to slot " + invSlot + '!';
+
+        }
+
+        // Rock
+        if (Player.location == 3 && Player.sublocation == 0) {
+
+            int invSlot = playerRef.addItem(new Item("Rock", ItemType.Junk, "A cool rock. Does nothing.", 0, false));
+            if (invSlot < 0) return "\nInventory full.";
+            else return "\nAdded Rock to slot " + invSlot + '!';
+
+        }
+
+        // Goggles *
+        if (!goggles && Player.location == 3 && Player.sublocation == 1) {
+
+            int invSlot = playerRef.addItem(new Item("Goggles", ItemType.Quest, "A pair of purple, plastic swimming goggles. Luckily these don't leak.", 0, false));
+            goggles = true;
+            if (invSlot < 0) return "\nInventory full.";
+            else {
+
+                goggles = true;
+                theStory.updateEvent(3, 321, "Luckily you're wearing goggles, so you begin to look around. At the bottom of the lake, you see the enterance to a cave, but you are too nervous to look any further.");
+                return "\nAdded Goggles to slot " + invSlot + '!';
+
+            }
+
+        }
+
+        // Non-Biting Ring *
+        if (!bitingRing && Player.location == 0 && Player.sublocation == 0) { // TODO: Put this somewhere
+
+            int invSlot = playerRef.addItem(new Item("Non-Biting Ring", ItemType.Armor, "An iron ring with a bloodred gemstone that definitely does not bite.", 1, false));
+            if (invSlot < 0) return "\nInventory full.";
+            else return "\nAdded Non-Biting Ring to slot " + invSlot + '!';
+
+        }
+
+        // Magic Key *
         if (!magicKey && Player.location == 8 && Player.sublocation == 3 && theStory.wasEventSeen(833)) {
             int invSlot = playerRef.addItem(new Item("Magic Key", ItemType.Key, "A key that opens a mysterious chest", 0, false));
             magicKey = true;
             // If inventory is full
-            if (invSlot == -1) return "Inventory Full";
-            else return "Added the Magic Key to slot " + invSlot + ".";
+            if (invSlot == -1) return "\nInventory Full";
+            else return "\nAdded the Magic Key to slot " + invSlot + ".";
         }
 
-        // Silver Sword
+        // Silver Sword *
         if (!silverSword && Player.location == 8 && Player.sublocation == 3 && theStory.wasEventSeen(833)) {
             int invSlot = playerRef.addItem(new Item("Silver Sword", ItemType.Weapon, "A sharp silver sword", 0, false));
             silverSword = true;
             // If inventory is full
-            if (invSlot == -1) return "Inventory Full";
-            else return "Added the Silver Sword to slot " + invSlot + ".";
+            if (invSlot == -1) return "\nInventory Full";
+            else return "\nAdded the Silver Sword to slot " + invSlot + ".";
         }
         
-        return null;
+        return "";
     }
 
     private void readInput(String text) {
@@ -174,6 +220,7 @@ public class Menu {
 
             case "ls":
             case "look":
+
                 if (enemyRef != null) writeText("You're in combat!", 0);
                 else writeText(theStory.getLookEvent(Player.location, Player.sublocation), 0);
                 break;
@@ -181,14 +228,7 @@ public class Menu {
             case "search":
 
                 if (enemyRef != null) writeText("You're in combat!", 0);
-                else {
-
-                    String searchTxt = theStory.getSearchEvent(Player.location, Player.sublocation);
-                    String itemTxt = getItems();
-                    if (itemTxt != null && !itemTxt.isEmpty()) searchTxt = searchTxt + "\n" + itemTxt;
-                    writeText(searchTxt, 0);
-
-                }
+                else writeText(theStory.getSearchEvent(Player.location, Player.sublocation) + getItems(), 0);
                 break;
 
             // case "enter":
@@ -260,7 +300,7 @@ public class Menu {
 
                         } else writeText(theStory.getUnlockEvent(1, 1, false), 0);
 
-                    }
+                    } else writeText("There's nothing to unlock here.", 0);
 
                 }
 
@@ -601,204 +641,208 @@ public class Menu {
 
             StringBuilder msg = new StringBuilder(64);
             msg.append(enemyRef.name + " attacks you for " + playerRef.getAttacked(enemyRef.attack) + " damage!");
-
+            
             // Enemy ability
-            switch (enemyRef.name) {
+            if (playerRef.health > 0) {
+            
+                switch (enemyRef.name) {
 
-                case "Banshee":
+                    case "Banshee":
 
-                    if (r.nextInt(100) < 50) {
+                        if (r.nextInt(100) < 50) {
 
-                        if (r.nextBoolean()) {
+                            if (r.nextBoolean()) {
 
-                            for (int c = 0; c < r.nextInt(1,5); c++) {
+                                for (int c = 0; c < r.nextInt(1,5); c++) {
 
-                                switch (r.nextInt(5)) {
+                                    switch (r.nextInt(5)) {
 
-                                    case 0:
+                                        case 0:
 
-                                        playerRef.addItem(new Item("Trash", ItemType.Junk, "What even is this?", 0, false));
-                                        break;
+                                            playerRef.addItem(new Item("Trash", ItemType.Junk, "What even is this?", 0, false));
+                                            break;
 
-                                    case 1:
+                                        case 1:
 
-                                        playerRef.addItem(new Item("Waste", ItemType.Junk, "This is just junk.", 0, false));
-                                        break;
+                                            playerRef.addItem(new Item("Waste", ItemType.Junk, "This is just junk.", 0, false));
+                                            break;
 
-                                    case 2:
+                                        case 2:
 
-                                        playerRef.addItem(new Item("Rubbish", ItemType.Junk, "A collection of trash.", 0, false));
-                                        break;
+                                            playerRef.addItem(new Item("Rubbish", ItemType.Junk, "A collection of trash.", 0, false));
+                                            break;
 
-                                    case 3:
+                                        case 3:
 
-                                        playerRef.addItem(new Item("Expired Something", ItemType.Health, "An expired piece of some unknown food.", -1, true));
-                                        break;
+                                            playerRef.addItem(new Item("Expired Something", ItemType.Health, "An expired piece of some unknown food.", -1, true));
+                                            break;
 
-                                    case 4:
+                                        case 4:
 
-                                        playerRef.addItem(new Item("Mystery Meat", ItemType.Health, "This could be anything.", c, true));
-                                        break;
+                                            playerRef.addItem(new Item("Mystery Meat", ItemType.Health, "This could be anything.", c, true));
+                                            break;
+
+                                    }
 
                                 }
 
+                                msg.append("\nBanshee spams you with garbage!\nYour inventory gets heavier.");
+
+                            } else {
+
+                                // TODO: Distort UI
+
                             }
-
-                            msg.append("\nBanshee spams you with garbage!\nYour inventory gets heavier.");
-
-                        } else {
-
-                            // TODO: Distort UI
 
                         }
 
-                    }
+                        break;
 
-                    break;
+                    case "Bot Swarm":
 
-                case "Bot Swarm":
+                        enemyRef.changeStats(0, r.nextInt(1, 3), r.nextInt(1, 2));
+                        msg.append("\nThe swarm becomes more powerful!");
+                        break;
 
-                    enemyRef.changeStats(0, r.nextInt(1, 3), r.nextInt(1, 2));
-                    msg.append("\nThe swarm becomes more powerful!");
-                    break;
+                    case "Cleanser":
 
-                case "Cleanser":
+                        enemyRef.changeStats(0, 100, 0);
+                        msg.append("\nCleanser prepares to anihilate you!");
+                        break;
 
-                    enemyRef.changeStats(0, 100, 0);
-                    msg.append("\nCleanser prepares to anihilate you!");
-                    break;
-
-                case "Cyber Scorpion":
-
-                    if (r.nextBoolean()) {
-
-                        playerRef.statuses.put("poison", playerRef.statuses.get("poison") + 1);
-                        msg.append("\nCyber Scorpion poisoned you!");
-
-                    }
-
-                    break;
-
-                case "Faceless":
-
-                    // TODO: Faceless ability
-                    break;
-
-                case "Figment":
-
-                    switch (r.nextInt(4)) {
-
-                        case 0:
-
-                            msg.append("Is it possible for imagination to shimmer? Something is happening.");
-                            break;
-
-                        case 1:
-
-                            msg.append("\nIt's not your memory, but it's sickening nonetheless.\nYou've been poisoned!");
-                            playerRef.statuses.put("poison", playerRef.statuses.get("poison") + 3);
-                            break;
-
-                        case 2:
-
-                            msg.append("You've gome weak at the knees.");
-                            playerRef.statuses.put("weak", playerRef.statuses.get("weak") + 1);
-                            break;
-
-                        case 3:
-
-                            msg.append("A sudden blinding blast of inspiration!");
-                            playerRef.statuses.put("blinded", playerRef.statuses.get("blind") + 1);
-                            enemyRef.reset();
-                            enemyRef = null;
-                            break;
-
-                    }
-
-                    break;
-
-                case "Flashbang":
-
-                    if (r.nextInt(100) < 300) {
+                    case "Cyber Scorpion":
 
                         if (r.nextBoolean()) {
 
-                            playerRef.statuses.put("blinded", playerRef.statuses.get("blind") + 1);
-                            msg.append("\nFlashbang blinds you!");
-
-                        } else {
-
-                            //TODO: 4:3 resolution
-                            msg.append("\nFlashbang distorts your vision!");
+                            playerRef.statuses.put("poison", playerRef.statuses.get("poison") + 1);
+                            msg.append("\nCyber Scorpion poisoned you!");
 
                         }
 
-                    }
+                        break;
 
-                    break;
+                    case "Faceless":
 
-                case "Memory":
+                        // TODO: Faceless ability
+                        break;
 
-                    if (r.nextBoolean()) {
-
-                        msg.append("\nIt fades as quickly as it came...");
-                        enemyRef.reset();
-                        enemyRef = null;
-
-                    } else {
+                    case "Figment":
 
                         switch (r.nextInt(4)) {
 
-                            // TODO: Memories
+                            case 0:
+
+                                msg.append("Is it possible for imagination to shimmer? Something is happening.");
+                                break;
+
+                            case 1:
+
+                                msg.append("\nIt's not your memory, but it's sickening nonetheless.\nYou've been poisoned!");
+                                playerRef.statuses.put("poison", playerRef.statuses.get("poison") + 3);
+                                break;
+
+                            case 2:
+
+                                msg.append("You've gome weak at the knees.");
+                                playerRef.statuses.put("weak", playerRef.statuses.get("weak") + 1);
+                                break;
+
+                            case 3:
+
+                                msg.append("A sudden blinding blast of inspiration!");
+                                playerRef.statuses.put("blinded", playerRef.statuses.get("blind") + 1);
+                                enemyRef.reset();
+                                enemyRef = null;
+                                break;
 
                         }
 
-                    }
+                        break;
 
-                    break;
+                    case "Flashbang":
 
-                case "Mimic":
+                        if (r.nextInt(100) < 300) {
 
-                    // TODO: Mimic ability
-                    break;
+                            if (r.nextBoolean()) {
 
-                case "PISMPE":
+                                playerRef.statuses.put("blinded", playerRef.statuses.get("blind") + 1);
+                                msg.append("\nFlashbang blinds you!");
 
-                    // TODO: PISMPE ability
-                    break;
+                            } else {
 
-                case "RAT":
+                                //TODO: 4:3 resolution
+                                msg.append("\nFlashbang distorts your vision!");
 
-                    // TODO: RAT ability
-                    break;
+                            }
 
-                case "Scavenger":
+                        }
 
-                    if (r.nextBoolean() && enemyRef.flee(50)) {
+                        break;
 
-                        enemyRef.reset();
-                        enemyRef = null;
-                        msg.append("\nScavenger wasted no time.\nScavenger has fled!");
+                    case "Memory":
 
-                    }
+                        if (r.nextBoolean()) {
 
-                    break;
+                            msg.append("\nIt fades as quickly as it came...");
+                            enemyRef.reset();
+                            enemyRef = null;
 
-                case "Scrambler":
+                        } else {
 
-                    // TODO: Scrambler ability
-                    break;
+                            switch (r.nextInt(4)) {
 
-                case "Worm":
+                                // TODO: Memories
 
-                    if (r.nextBoolean()) {
+                            }
 
-                        enemyRef.changeStats(enemyRef.healthDefault, enemyRef.attackDefault, 0);
-                        msg.append("\nThe virus is replicating!");
+                        }
 
-                    }
+                        break;
 
-                    break;
+                    case "Mimic":
+
+                        // TODO: Mimic ability
+                        break;
+
+                    case "PISMPE":
+
+                        // TODO: PISMPE ability
+                        break;
+
+                    case "RAT":
+
+                        // TODO: RAT ability
+                        break;
+
+                    case "Scavenger":
+
+                        if (r.nextBoolean() && enemyRef.flee(50)) {
+
+                            enemyRef.reset();
+                            enemyRef = null;
+                            msg.append("\nScavenger wasted no time.\nScavenger has fled!");
+
+                        }
+
+                        break;
+
+                    case "Scrambler":
+
+                        // TODO: Scrambler ability
+                        break;
+
+                    case "Worm":
+
+                        if (r.nextBoolean()) {
+
+                            enemyRef.changeStats(enemyRef.healthDefault, enemyRef.attackDefault, 0);
+                            msg.append("\nThe virus is replicating!");
+
+                        }
+
+                        break;
+
+                }
 
             }
 

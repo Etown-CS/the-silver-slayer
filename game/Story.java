@@ -29,7 +29,20 @@ public class Story {
     public static final String[] GAME_OVERS = {"How unfortunate", "That's gonna leave a mark", "Better luck some time!", "oof", "bruh.mp3", "Process killed"};
     public static final String HELP_TEXT = "look / ls: Look around yourself\n" +
                                             "search: Search your surroundings\n" +
-                                            "";
+                                            "goto [place]: Travel to a specified location\n" +
+                                            "unlock [code / item]: Unlock something\n" +
+                                            "char / chars / character / chatacters: Select a character\n\n" +
+                                            "desc / describe [slot #]: Describe the item in the specific inventory slot\n" + 
+                                            "use [slot #]: Use an item in the specified inventory slot\n" +
+                                            "drop [slot #]: Drop a specific item\n" + 
+                                            "atk / attack: Attack the current enemy\n" + 
+                                            "flee: Attempt to flee from an ongoing fight\n" + 
+                                            "pass: Do nothing; wait.\n\n" + 
+                                            "help: Display this message\n" + 
+                                            "save: Save your game\n" + 
+                                            "exit / quit: Close the game (save first!)\n" + 
+                                            "clear: Clear the terminal\n" + 
+                                            "title: Change the title message";
 
     private HashMap<Integer, String> start = new HashMap<>();
     private HashMap<Integer, String> village = new HashMap<>();
@@ -61,12 +74,12 @@ public class Story {
         // Field
         start.put(100, "Where it all began.");
         start.put(101, "You stand in an empty field of verdant grass. The path you came from trails away behind, and ahead, a dark, iron gate stands waiting. The endless expanse of green grass extends to the horizon, while the gate waits patiently.");
-        start.put(102, "A wooden signpost stands nearby. The text has long since worn away. At its base sits a small, metal box crate. A silver-lined keyhole resides front and center.");
+        start.put(102, "A wooden signpost stands nearby. The text has long since worn away. At its base sits a small, metal crate. A silver-lined keyhole resides front and center.");
         start.put(103, "OPENED THE BOX");
         start.put(104, "You attempt to pry the box open, but it remains sealed. You're not getting into this without either special tools or the original key.");
 
         // Gate
-        start.put(110, "You step up to the gate. Despite the lack of travelers, it's locked. A rusted, yet entirely solid padlock still hangs on a chain wrapped between the two doors.");
+        start.put(110, "You step up to the gate. Despite the lack of travelers, it's locked. A rusted, yet entirely solid padlock hangs on a chain wrapped between the two doors.");
         start.put(111, "The gate is old and weathered. The lock features eight numerical combination wheels, and there's an interesting inscription etched into the bottom:\n\nODM5MjczNTQ=");
         start.put(112, "There's nothing to be found in the nearby vicinity. Nothing seems to have been disturbed prior to your arrival.");
         start.put(113, "The lock clicks open, the chain falls to the ground, and you're able to push the gate open with little resistance. The doors swing wide with a long, metallic screech. The path forward is open to you.");
@@ -91,7 +104,7 @@ public class Story {
         // Graveyard
         village.put(220, "The village graveyard is vast, with many gravestones in perfect rows. You decide to explore.");
         village.put(221, "Walking up to the gravestones, you begin to read the names on them. Some names you may recognize, but who is Smitty Werbenjagermanjenson?");
-        village.put(222, "You find nothing of value.");
+        village.put(222, "Digging through a graveyard seems like a bad idea for several reasons. However, you do find a paper hat sitting on an unmarked stone. Someone placed this here.");
         village.put(223, "unlock");
         village.put(224, "failed unlock");
 
@@ -105,9 +118,9 @@ public class Story {
         // LAKE
 
         // Shore
-        lake.put(300, "You voyage to a great lake. The water is completely still, but yet you can see strange looking creatures moving under the surface");
-        lake.put(301, "look");
-        lake.put(302, "search");
+        lake.put(300, "You voyage to a great lake. The water is completely still, but you can see strange looking creatures moving underneath the surface.");
+        lake.put(301, "The lake is massive, with smooth water and no islands. A nearby wooden dock has fallen into disrepair, presumably having been abandoned just like the village.");
+        lake.put(302, "Scrounging along the edge of the lake yields a variety of different rocks. One in particular is quite interesting.");
         lake.put(303, "unlock");
         lake.put(304, "failed unlock");
 
@@ -120,7 +133,7 @@ public class Story {
 
         // Water
         lake.put(320, "You decide to take a swim! You dive into the water.");
-        lake.put(321, "Luckily you're wearing goggles, so you begin to look around. At the bottom of the lake, you see the enterance to a cave, but you are to nervous to look any further. You then get out of the water.");
+        lake.put(321, "The lake is deep, and the water is murky. Your vision is too distorted to make anything out.");
         lake.put(322, "search");
         lake.put(323, "unlock");
         lake.put(324, "failed unlock");
