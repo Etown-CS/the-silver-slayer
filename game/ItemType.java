@@ -7,6 +7,6 @@ public enum ItemType {
      * Wearable: An equippable that's neither armor nor weapon.
      */
 
-    Unassigned, Junk, Health, Armor, Weapon, Wearable;
+    Unassigned, Junk, Health, Armor, Weapon, Wearable, Quest, Key;
     
 }

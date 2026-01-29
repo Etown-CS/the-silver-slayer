@@ -207,6 +207,8 @@ public class Player extends Entity {
                 break;
 
             case Wearable:
+            case Quest:
+            case Key:
 
                 // Will likely need manual implemtations for each item
                 break;
