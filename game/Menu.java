@@ -161,6 +161,41 @@ public class Menu {
 
         }
 
+        // Swamp Fruits
+        if (Player.location == 6 && Player.sublocation == 2) {
+
+            int invSlot = 0;
+
+            switch (r.nextInt(4)) {
+
+                case 0:
+
+                    invSlot = playerRef.addItem(new Item("Mottled Swamp Fruit", ItemType.Health, "A mottled fruit from the swamp's woodland.", 3, true));
+                    break;
+
+                case 1:
+
+                    invSlot = playerRef.addItem(new Item("Oblong Swamp Fruit", ItemType.Health, "An oblong fruit from the swamp's woodland.", 2, true));
+                    break;
+
+                case 2:
+
+                    invSlot = playerRef.addItem(new Item("Bulbous Swamp Fruit", ItemType.Health, "A bulbous fruit from the swamp's woodland.", 4, true));
+                    break;
+
+                case 3:
+
+                    invSlot = playerRef.addItem(new Item("Speckled Swamp Fruit", ItemType.Health, "A speckled fruit from the swamp's woodland.", -3, true));
+                    break;
+
+
+            }
+
+            if (invSlot < 0) return "\nInventory full.";
+            else return "\nAdded a fruit to slot " + invSlot + '!';
+
+        }
+
         // Magic Key *
         if (!magicKey && Player.location == 8 && Player.sublocation == 3 && theStory.wasEventSeen(833)) {
             int invSlot = playerRef.addItem(new Item("Magic Key", ItemType.Key, "A key that opens a mysterious chest", 0, false));

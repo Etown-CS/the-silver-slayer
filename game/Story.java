@@ -134,14 +134,14 @@ public class Story {
         // Water
         lake.put(320, "You decide to take a swim! You dive into the water.");
         lake.put(321, "The lake is deep, and the water is murky. Your vision is too distorted to make anything out.");
-        lake.put(322, "search");
+        lake.put(322, "You lake is large and surprisingly clean. There's nothing to be found within its waters. (No, you can't grab a fish.)");
         lake.put(323, "unlock");
         lake.put(324, "failed unlock");
 
         // Entrance
-        lake.put(330, "Cave entrance??");
-        lake.put(331, "look");
-        lake.put(332, "search");
+        lake.put(330, "A dark tunnel leads downwards into the dark. It's difficult to C very far.");
+        lake.put(331, "The cave entrance is surrounded by dense plant life, to the point where you'd never have found it without knowing something was here.");
+        lake.put(332, "There's an excessive amount of plant debris. No one has passed through here in quite some time.");
         lake.put(333, "unlock");
         lake.put(334, "failed unlock");
 
@@ -200,8 +200,8 @@ public class Story {
 
         // Well
         desert.put(530, "A small well is not far from you. Though looking inside, you see it is completely dry.");
-        desert.put(531, "look");
-        desert.put(532, "search");
+        desert.put(531, "The well is the only landmark in this area. What a random structure.");
+        desert.put(532, "This one doesn't even have any water, let alone a bucket.");
         desert.put(533, "unlock");
         desert.put(534, "unlock failed");
 
@@ -215,16 +215,16 @@ public class Story {
         swamp.put(604, "unlock failed");
 
         // Wetland
-        swamp.put(610, "wetland");
-        swamp.put(611, "The ground here is more liquid than solid. Ripples echo across the fetid pools, and you can see the shadows of those that lurk beneath.");
-        swamp.put(612, "Digging into the mud is a fruitless endeavor, and sticking your hands randomly into the water probably isn't a good idea. If there's anything to find here, it's too well hidden.");
+        swamp.put(610, "The ground here is more liquid than solid. Ripples echo across the fetid pools, and you can see the shadows of those that lurk beneath.");
+        swamp.put(611, "Shallow mounds and pools of water stretch across the landscape. The sound of insects is intense.");
+        swamp.put(612, "Digging into the mud is a fruitless endeavor, and sticking your hands randomly into the brackish water probably isn't a good idea. If there's anything to find here, it's too well hidden.");
         swamp.put(613, "unlock");
         swamp.put(614, "unlock failed");
 
         // Woodland
-        swamp.put(620, "woodland");
+        swamp.put(620, "A dark, dense forest. An ominous mist lingers on the ground, making it difficult to see what you're stepping in to.");
         swamp.put(621, "The horizon is obscured by dense willows and hanging vines. Pools of sludge are scattered throughout the forest.");
-        swamp.put(622, "There are a wide variety of plants to be found, some of which yield fruit."); //TODO: fruit
+        swamp.put(622, "There are a wide variety of plants to be found, some of which yield fruit. These may or may not be safe to eat.");
         swamp.put(623, "unlock");
         swamp.put(624, "unlock failed");
 
