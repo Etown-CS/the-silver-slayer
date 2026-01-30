@@ -67,6 +67,7 @@ public class Menu {
                     playerRef = players[pNum];
                     cards.next(basePanel);
                     charsPanel.removeAll();
+                    Log.logData("Player selects character: " + playerRef.name);
                     writeText("Selected " + playerRef.name, 0);
                     inputField.requestFocusInWindow();
 
@@ -226,28 +227,6 @@ public class Menu {
 
         if (gameOver) return;
         String[] bits = text.toLowerCase().split(" ");
-
-        if (playerRef == null) {
-
-            if (bits[0].equals("whoami")) {
-
-                playerSelect();
-                return;
-
-            } else if (bits[0].equals("exit") || bits[0].equals("quit")) {
-
-                Log.logData("Shutting down. Goodbye!");
-                Log.closeLog();
-                mainframe.dispatchEvent(new WindowEvent(mainframe, WindowEvent.WINDOW_CLOSING));
-
-            } else {
-
-                terminalScreen.append("Begin by typing 'whoami'\n\n" + Locations.locations[1] + '/' + Locations.sublocations[1][0] + "> ");
-                return;
-
-            }
-
-        }
 
         switch (bits[0]) {
 
@@ -646,6 +625,7 @@ public class Menu {
 
         });
 
+        Log.logData("Game says: '" + text + "'");
         characterIndex = 0;
         timer.start();
 
@@ -992,7 +972,7 @@ public class Menu {
         inputField.setBackground(Color.BLACK);
         inputField.setForeground(Color.GREEN);
         inputField.setFont(gameFont);
-        inputField.setBorder(BorderFactory.createEmptyBorder()); // removes border from input field
+        inputField.setBorder(new LineBorder(Color.GREEN));
         inputField.setHorizontalAlignment(JTextField.CENTER);
         inputField.addActionListener((ActionEvent e) -> {
 
@@ -1017,7 +997,7 @@ public class Menu {
                 readInput(entered);
                 inputField.setText(null);
 
-            } else Log.logData("Player entered empty input");
+            } else Log.logData("Player attempted to enter nothing");
 
         });
 
@@ -1032,14 +1012,16 @@ public class Menu {
         mainframe.setTitle(Story.TITLE_STRINGS[0]);
         mainframe.setVisible(true);
         inputField.requestFocus();
-        terminalScreen.setText("The Silver Slayer [Beta v0.1]\n\nWelcome\nBegin by typing 'whoami'\n\n" + Locations.locations[1] + '/' + Locations.sublocations[1][0] + "> ");
+        terminalScreen.setText("The Silver Slayer [Beta v0.1]\n\n" + Locations.locations[1] + '/' + Locations.sublocations[1][0] + "> ");
+
+        playerSelect();
 
         // Wait
         while (playerRef == null) {
 
             try {
 
-                Thread.sleep(1000);
+                Thread.sleep(100);
 
             } catch (InterruptedException ex) {
                 
