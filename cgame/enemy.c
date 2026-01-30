@@ -24,7 +24,7 @@ enemy* createEnemy(char* enemyName,int h,int a,int d)
     return ptr;
 }
 
-void changeStats(enemy* enemy,int h,int a,int d)
+void enemyChangeStats(enemy* enemy,int h,int a,int d)
 {
     enemy->attack+=a;
     enemy->defense+=d;
@@ -34,10 +34,10 @@ void changeStats(enemy* enemy,int h,int a,int d)
     if(enemy->defense<0) enemy->defense=0;
 }
 
-int getAttacked(enemy* enemy, int dmg)
+int enemyGetAttacked(enemy* enemy, int dmg)
 {
     dmg=dmg-enemy->defense;
     if(dmg<1) dmg=1;
-    changeStats(enemy,-dmg,0,0);
+    enemyChangeStats(enemy,-dmg,0,0);
     return dmg;
 }

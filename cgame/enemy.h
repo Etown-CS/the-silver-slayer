@@ -8,6 +8,6 @@ typedef struct
 
 enemy* createEnemy(char* enemyName,int h,int a,int d);
 
-void changeStats(enemy* enemy,int h,int a,int d);
+void enemyChangeStats(enemy* enemy,int h,int a,int d);
 
-int getAttacked(enemy* enemy, int dmg);
+int enemyGetAttacked(enemy* enemy, int dmg);

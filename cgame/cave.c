@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include "player.h"
 #include "enemy.h"
+#include "story.h"
 
 #define RED     "\x1b[31m"
 #define GREEN   "\x1b[32m"
@@ -33,13 +34,14 @@ int battlemode=1;
 
 int main()
 {
-    char startText[]="The Silver Slayer [c alpha v1.0]\n\n You enter the caves. \n\n";
+    initStory();
+    char startText[]="The Silver Slayer [c alpha v1.0]\n\n";
     char consoleText[]="Cave/Entryway>";
-    char battleText[] = ""; 
+    char battleText[] = "";
     char inputText[256];
     printf("\033[2J \033[1;1H");
-    printWaterText(startText,waterlvl,1);
-    
+    printWaterText(startText,waterlvl,0);
+    printWaterText(getStoryEvent(0),waterlvl,1);
     
     mainChar.attack=3;
     mainChar.defense=2;
@@ -96,6 +98,8 @@ int handleCommand(char* input)
     }
     else if(!strcmp(input,"atk\n")||!strcmp(input,"attack\n"))
         roundOfAttack(&mainChar,&hannibal);
+    else if(!strcmp(input,"ls\n")||!strcmp(input,"look\n"))
+        printWaterText(getStoryEvent(000),waterlvl,1);
     else
     {
         printWaterText("Invalid input: ",waterlvl,0);
@@ -157,5 +161,5 @@ void printBattleText(player* mc,enemy * enm)
 
 void roundOfAttack(player* mc,enemy * enm)
 {
-    getAttacked(enm,mc->attack);
+    enemyGetAttacked(enm,mc->attack);
 }

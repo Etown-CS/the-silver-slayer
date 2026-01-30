@@ -2,8 +2,8 @@ run: cave
 	./cave
 	make clean
 
-cave: cave.o player.o item.o enemy.o
-	gcc cave.o player.o item.o enemy.o -o cave
+cave: cave.o player.o item.o enemy.o story.o
+	gcc cave.o player.o item.o enemy.o story.o -o cave
 
 cave.o: cave.c
 	gcc -c cave.c
@@ -16,6 +16,9 @@ item.o: item.c
 
 enemy.o: enemy.c
 	gcc -c enemy.c
+
+story.o: story.c
+	gcc -c story.c
 
 clean:
 	rm *.o cave
