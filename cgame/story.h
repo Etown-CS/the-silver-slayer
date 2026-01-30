@@ -1,3 +1,3 @@
-char *Story[200];
+char *Story[201];
 void initStory();
 char * getStoryEvent(int event);
