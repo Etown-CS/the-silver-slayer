@@ -99,9 +99,9 @@ public class Audio {
                 lakeMusic = {new Audio("music_lake0")},
                 mountainMusic = {new Audio("music_mountain0"), new Audio("music_mountain1")},
                 desertMusic = {new Audio("music_desert0")},
-                swampMusic = {new Audio("music_swamp0"), new Audio("music_swamp1")},
+                swampMusic = {new Audio("music_swamp1")}, // swamp0 unused
                 fractureMusic = {new Audio("music_fracture0"), new Audio("music_fracture1")},
-                lairMusic = {new Audio("music_lair0")};
+                lairMusic = {new Audio("music_lair0"), new Audio("music_lair1"), new Audio("music_lair2")};
 
         HashMap<Integer, Audio[]> music = new HashMap<Integer, Audio[]>();
         music.put(1, startMusic);

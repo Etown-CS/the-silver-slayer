@@ -40,9 +40,9 @@ public class Menu {
     private boolean enemyTurn = false, gameOver = false;
 
     // Sounds
-    private Audio[] voices = {new Audio("blip")};
-    private Audio[] bossTracks = {null, null, null, null, null, null, null, null, new Audio("boss_battle_loop")};
-    private Audio damageSFX = new Audio("damage");
+    private Audio[] voices = {new Audio("voice_blip")};
+    private Audio[] bossTracks = {new Audio("boss_village"), new Audio("boss_lake"), new Audio("boss_mountain"), new Audio("boss_desert"), new Audio("boss_swamp"), new Audio("boss_fracture"), new Audio("boss_lair")};
+    private Audio damageSFX = new Audio("sfx_damage");
 
     private byte counter; // This is here so it can be used in the ActionListerner creations below
 
@@ -283,7 +283,7 @@ public class Menu {
                             if (Player.sublocation == 3 && Locations.Lair[Locations.Lair.length - 1].health > 0) {
 
                                 enemyRef = Locations.spawnEnemy(8, true);
-                                bossTracks[8].command(1);
+                                bossTracks[6].command(1);
 
                             }
 
@@ -622,14 +622,20 @@ public class Menu {
         }
 
         timer = new Timer(5, new AbstractAction() {
+
+            int times = 0;
             
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                if (characterIndex < text.length()) terminalScreen.append(String.valueOf(text.charAt(characterIndex++)));
+                if (characterIndex < text.length()) {
+
+                    terminalScreen.append(String.valueOf(text.charAt(characterIndex++)));
+                    if (times++ % 10 == 0) voices[voiceID].command(2);
+
+                }
                 else {
 
-                    if (voiceID >= 0) voices[voiceID].command();
                     if (!gameOver) terminalScreen.append("\n\n" + Locations.locations[Player.location] + '/' + Locations.sublocations[Player.location][Player.sublocation] + "> ");
                     timer.stop();
                     update();
@@ -640,7 +646,6 @@ public class Menu {
 
         });
 
-        if (voiceID >= 0) voices[voiceID].command(1);
         characterIndex = 0;
         timer.start();
 
