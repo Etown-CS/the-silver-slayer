@@ -7,11 +7,11 @@ import java.nio.channels.OverlappingFileLockException;
 
 public class Save {
 
+    private final String key = "SILVERY", alphabet = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890:_ \t\n";
     private RandomAccessFile saveFile;
     private FileChannel fc;
     private FileLock lock;
-    private String key = "SILVERY", alphabet = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890:_' \t\n";
-    boolean isSaving = false, loaded = false;
+    public boolean isSaving = false, loaded = false;
 
     public Save() throws FileNotFoundException, IOException {
         /* Constructor */
@@ -60,7 +60,7 @@ public class Save {
             for (int c = 0; c < all.length; c++) {
                 
                 // General stats
-                contents.append("\tname:'" + all[c].name + "'\n");
+                contents.append("\tname:" + all[c].name + '\n');
                 contents.append("\t\thp:" + all[c].health + '\n');
                 contents.append("\t\thp_cap:" + all[c].healthDefault + '\n');
                 contents.append("\t\tatk:" + all[c].attack + '\n');
@@ -68,15 +68,13 @@ public class Save {
                 contents.append("\t\tinvcap:" + all[c].invCap + '\n');
                 
                 // Inventory
-                for (int i = 0; i < all[c].inventory.length; i++) {
+                for (int i = 0; i < all[c].invCap; i++) {
 
-                    if (all[c].inventory[i] == null) contents.append("\t\titem" + i + ":\n");
+                    if (all[c].inventory[i] == null) contents.append("\t\titem" + i + ":null\n");
                     else {
 
-                        contents.append("\t\titem" + i + ':' + all[c].inventory[i].name);
-                        if (all[c].inventory[i] == all[c].currentArmor) contents.append("*Armor*");
-                        else if (all[c].inventory[i] == all[c].currentWeapon) contents.append("*Weapon*");
-                        else if (all[c].inventory[i] == all[c].currentWearable) contents.append("*Wearable*");
+                        contents.append("\t\titem" + i + ":[" + all[c].inventory[i].name + ',' + all[c].inventory[i].type + ',' +all[c].inventory[i].description + ',' + all[c].inventory[i].magnitude + ',' + all[c].inventory[i].consumable + ']');
+                        if (all[c].inventory[i] == all[c].currentArmor || all[c].inventory[i] == all[c].currentWeapon || all[c].inventory[i] == all[c].currentWearable) contents.append('*');
                         contents.append('\n');
 
                     }
@@ -86,14 +84,15 @@ public class Save {
             }
 
             // Boss data
-            contents.append("BOSSES\n");
-            for (int c = 2; c < Locations.locations.length - 1; c++) {
+            contents.append("BOSSES_BEATEN\n");
+            for (int c = 2; c < Locations.locations.length; c++) {
 
-                if (Locations.enemyIndex[c][Locations.enemyIndex[c].length - 1].health == 0) contents.append("\tLocation" + c + ":X\n");
-                else contents.append("\tLocation" + c + ":_\n");
+                if (Locations.enemyIndex[c][Locations.enemyIndex[c].length - 1].health == 0) contents.append("\tLocation" + c + ":true\n");
+                else contents.append("\tLocation" + c + ":false\n");
 
             }
 
+            //saveFile.writeChars(contents.toString()); // for testing
             saveFile.writeChars(encrypt(contents.toString()));
             isSaving = false;
             return true;
@@ -137,7 +136,6 @@ public class Save {
 
         }
 
-        System.out.println(decrypt(result.toString()));
         return result.toString();
 
     }

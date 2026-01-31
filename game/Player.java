@@ -126,7 +126,7 @@ public class Player extends Entity {
         * itemName: The name of the item being searched for
         */
 
-        for (Item i : inventory) if (i.name.equals(itemName)) return true;
+        for (Item i : inventory) if (i != null && i.name.equals(itemName)) return true;
         return false;
 
     }

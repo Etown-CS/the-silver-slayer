@@ -110,7 +110,7 @@ public class Menu {
         if (playerRef == null) return "";
         
         // Silver Spoon *
-        if (!silverSpoon && Player.location == 2 && Player.sublocation == 1 && !theStory.wasEventSeen(Player.location, 212)) {
+        if (!silverSpoon && Player.location == 2 && Player.sublocation == 1) {
             int invSlot = playerRef.addItem(new Item("Silver Spoon", ItemType.Weapon, "A shiny, silver spoon.", 1, false));
             silverSpoon = true;
             // If inventory is full
@@ -119,9 +119,9 @@ public class Menu {
         }
 
         // Paper Hat *
-        if (!paperHat && Player.location == 2 && Player.sublocation == 1) {
+        if (!paperHat && Player.location == 2 && Player.sublocation == 2) {
 
-            int invSlot = playerRef.addItem(new Item("Paper Hat", ItemType.Armor, "An origami paper hat. Adds a point to ~stle~.", 1, false));
+            int invSlot = playerRef.addItem(new Item("Paper Hat", ItemType.Armor, "An origami paper hat. Adds a point to ~style~.", 1, false));
             paperHat = true;
             if (invSlot < 0) return "\nInventory full.";
             else return "\nAdded Paper Hat to slot " + invSlot + '!';
