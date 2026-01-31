@@ -1,8 +1,8 @@
-import java.util.Random;
+import java.security.SecureRandom;
 
 public class Locations {
 
-    private static Random r = new Random();
+    private static SecureRandom r = new SecureRandom();
 
     public static final String[] locations = {null, "Start", "Village", "Lake", "Mountain", "Desert", "Swamp", "Fracture", "Lair"};
     public static final String[][] sublocations = {

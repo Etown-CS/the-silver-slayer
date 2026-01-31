@@ -1,9 +1,9 @@
 import java.util.HashMap;
-import java.util.Random;
+import java.security.SecureRandom;
 
 public class Entity {
 
-    protected Random r = new Random();
+    protected SecureRandom r = new SecureRandom();
     public HashMap<String, Integer> statuses = new HashMap<String, Integer>();
     public String name, spawnMsg;
     public int health, attack, defense, healthDefault, attackDefault, defenseDefault;

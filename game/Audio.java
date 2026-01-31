@@ -6,7 +6,7 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.util.HashMap;
-import java.util.Random;
+import java.security.SecureRandom;
 
 public class Audio {
 
@@ -93,7 +93,7 @@ public class Audio {
 
     public static void music() {
 
-        Random r = new Random();
+        SecureRandom r = new SecureRandom();
         Audio[] startMusic = {new Audio("music_start0")},
                 villageMusic = {new Audio("music_village0"), new Audio("music_village1")},
                 lakeMusic = {new Audio("music_lake0")},

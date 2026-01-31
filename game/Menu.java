@@ -7,7 +7,7 @@ import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
-import java.util.Random;
+import java.security.SecureRandom;
 
 public class Menu {
 
@@ -31,7 +31,7 @@ public class Menu {
     private int characterIndex;
 
     // Elements
-    private Random r = new Random();
+    private SecureRandom r = new SecureRandom();
     private Save save;
     private Story theStory = new Story(); // Making it create a "new story" has so much aura
     private Player[] players = new Player[Player.names.length];
