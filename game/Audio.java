@@ -94,8 +94,8 @@ public class Audio {
     public static void music() {
 
         SecureRandom r = new SecureRandom();
-        Audio[] startMusic = {new Audio("music_start0")},
-                villageMusic = {new Audio("music_village0"), new Audio("music_village1")},
+        Audio[] startMusic = {new Audio("music_start0"), new Audio("music_start1")},
+                villageMusic = {new Audio("music_village1")},
                 lakeMusic = {new Audio("music_lake0")},
                 mountainMusic = {new Audio("music_mountain0"), new Audio("music_mountain1")},
                 desertMusic = {new Audio("music_desert0")},

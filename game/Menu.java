@@ -245,10 +245,6 @@ public class Menu {
                 else writeText(theStory.getSearchEvent(Player.location, Player.sublocation) + getItems(), 0);
                 break;
 
-            // case "enter":
-
-                //TODO: Expansion of enter?
-
             case "goto":
 
                 if (enemyRef != null) writeText("You're in combat!", 0);
@@ -510,16 +506,6 @@ public class Menu {
                 mainframe.dispatchEvent(new WindowEvent(mainframe, WindowEvent.WINDOW_CLOSING));
                 break;
 
-            /*case "settings":
-            case "setting":
-            case "options":
-            case "option":
-
-                writeText("Options", 0);
-                break;*/
-
-                //TODO: Settings?
-
             case "clear":
 
                 terminalScreen.setText(null);
@@ -710,7 +696,7 @@ public class Menu {
 
                             } else {
 
-                                playerRef.statuses.put("dazed", 3);
+                                playerRef.statuses.put("dazed", playerRef.statuses.get("dazed") + 3);
                                 msg.append("\nBanshee emits an earsplitting shriek!\nYou're dazed!");
 
                             }
@@ -810,9 +796,25 @@ public class Menu {
 
                         } else {
 
-                            switch (r.nextInt(4)) {
+                            switch (r.nextInt(6)) {
 
-                                // TODO: Memories
+                                case 1:
+
+                                    playerRef.statuses.put("dazed", playerRef.statuses.get("dazed") + 3);
+                                    msg.append("\nThe memory is sudden and bursting with emotion!\nYou've been dazed!");
+                                    break;
+
+                                case 3:
+
+                                    playerRef.statuses.put("poison", playerRef.statuses.get("poison") + 5);
+                                    msg.append("\nThe memory is soured and toxic.\nYou've been poisoned!");
+                                    break;
+                                
+                                case 5:
+
+                                    playerRef.statuses.put("fire", playerRef.statuses.get("fire") + 3);
+                                    msg.append("\nThe memory burns!\nYou're on fire!");
+                                    break;
 
                             }
 
@@ -841,7 +843,7 @@ public class Menu {
 
                             enemyRef.reset();
                             enemyRef = null;
-                            msg.append("\nScavenger wasted no time.\nScavenger has fled!");
+                            msg.append("\nScavenger wastes no time.\nScavenger has fled!");
 
                         }
 

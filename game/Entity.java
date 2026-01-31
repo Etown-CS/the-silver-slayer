@@ -9,6 +9,9 @@ public class Entity {
     public int health, attack, defense, healthDefault, attackDefault, defenseDefault;
 
     protected void initStatuses() {
+        /*
+        * Populates statuses map
+        */
 
         statuses.put("poison", 0);      // Damage over time
         statuses.put("fire", 0);        // High damage over time
@@ -16,6 +19,7 @@ public class Entity {
         statuses.put("weak", 0);        // Reduces attack
         statuses.put("dazed", 0);       // Garbles text
         statuses.put("blind", 0);       // Activates light mode
+        statuses.put("known", 0);       // Enemies are stronger
         statuses.put("doom", 0);        // Unstoppable stat drain
 
     }
