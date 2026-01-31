@@ -110,7 +110,7 @@ public class Menu {
         if (playerRef == null) return "";
         
         // Silver Spoon *
-        if (!silverSpoon && Player.location == 2 && Player.sublocation == 1 && !theStory.wasEventSeen(212)) {
+        if (!silverSpoon && Player.location == 2 && Player.sublocation == 1 && !theStory.wasEventSeen(Player.location, 212)) {
             int invSlot = playerRef.addItem(new Item("Silver Spoon", ItemType.Weapon, "A shiny, silver spoon.", 1, false));
             silverSpoon = true;
             // If inventory is full
@@ -198,7 +198,7 @@ public class Menu {
         }
 
         // Magic Key *
-        if (!magicKey && Player.location == 8 && Player.sublocation == 3 && theStory.wasEventSeen(833)) {
+        if (!magicKey && Player.location == 8 && Player.sublocation == 3 && theStory.wasEventSeen(Player.location, 833)) {
             int invSlot = playerRef.addItem(new Item("Magic Key", ItemType.Key, "A key that opens a mysterious chest", 0, false));
             magicKey = true;
             // If inventory is full
@@ -207,7 +207,7 @@ public class Menu {
         }
 
         // Silver Sword *
-        if (!silverSword && Player.location == 8 && Player.sublocation == 3 && theStory.wasEventSeen(833)) {
+        if (!silverSword && Player.location == 8 && Player.sublocation == 3 && theStory.wasEventSeen(Player.location, 833)) {
             int invSlot = playerRef.addItem(new Item("Silver Sword", ItemType.Weapon, "A sharp silver sword", 0, false));
             silverSword = true;
             // If inventory is full
@@ -301,16 +301,13 @@ public class Menu {
 
                     } else if (Player.location == 1 && Player.sublocation == 1) {
 
-                        if (bits[1].equals("83927354") || theStory.wasEventSeen(113)) {
+                        if (bits[1].equals("83927354") || theStory.wasEventSeen(Player.location, 113)) {
 
                             writeText(theStory.getUnlockEvent(1, 1, true), 0);
-                            if (!theStory.wasEventSeen(113)) {
 
-                                theStory.updateEvent(1, 110, "You step up to the gate. The iron doors stand open, and an old lock rests on the ground nearby.");
-                                theStory.updateEvent(1, 111, "The gate is old and weathered.");
-                                theStory.updateEvent(1, 113, "This lock is open already.");
-
-                            }
+                            theStory.updateEvent(1, 110, "You step up to the gate. The iron doors stand open, and an old lock rests on the ground nearby.");
+                            theStory.updateEvent(1, 111, "The gate is old and weathered.");
+                            theStory.updateEvent(1, 113, "This lock is open already.");
 
                         } else writeText(theStory.getUnlockEvent(1, 1, false), 0);
 

@@ -370,18 +370,18 @@ public class Story {
 
     }
 
-    public boolean wasEventSeen(int eventID) {
+    public boolean wasEventSeen(int locationID, int eventID) {
         /*
         * Reports whether a specific event has been seen
         *
         * eventID: The ID of the event
         */
-
-        return eventsSeen[(eventID - 1) / 100][eventID % 100];
+        
+        return eventsSeen[locationID][eventID % 100];
 
     }
 
-    public void updateEvent(int loc, int eventID, String content) {
+    public void updateEvent(int locationID, int eventID, String content) {
         /*
         * Used to dynamically change an event.
         * 
@@ -390,7 +390,7 @@ public class Story {
         * content: The new event content
         */
 
-        events.get(loc).put(eventID, content);
+        events.get(locationID).put(eventID, content);
 
     }
     

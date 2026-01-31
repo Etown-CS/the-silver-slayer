@@ -246,7 +246,7 @@ public class Player extends Entity {
 
                     case "village":
 
-                        if (sublocation != 1 || theStory.wasEventSeen(113)) break;
+                        if (sublocation != 1 || !theStory.wasEventSeen(1, 113)) break;
                         location = 2;
                         sublocation = 0;
                         Audio.activeBG.command();
