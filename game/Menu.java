@@ -42,7 +42,7 @@ public class Menu {
     // Sounds
     private Audio[] voices = {new Audio("voice_blip")};
     private Audio[] bossTracks = {new Audio("boss_village"), new Audio("boss_lake"), new Audio("boss_mountain"), new Audio("boss_desert"), new Audio("boss_swamp"), new Audio("boss_fracture"), new Audio("boss_lair")};
-    private Audio damageSFX = new Audio("sfx_damage");
+    private Audio damageSFX = new Audio("sfx_attack");
 
     private byte counter; // This is here so it can be used in the ActionListerner creations below
 
@@ -602,18 +602,21 @@ public class Menu {
 
         timer = new Timer(5, new AbstractAction() {
 
+            char nextChar;
             int times = 0;
             
             @Override
             public void actionPerformed(ActionEvent e) {
 
                 if (characterIndex < text.length()) {
+                    
+                    nextChar = text.charAt(characterIndex++);
+                    if (Character.isAlphabetic(nextChar) && playerRef.statuses.get("dazed") > 0 && r.nextInt(100) < 2) terminalScreen.append(String.valueOf((char) (r.nextInt(26) + 'a')));
+                    else terminalScreen.append(String.valueOf(nextChar));
 
-                    terminalScreen.append(String.valueOf(text.charAt(characterIndex++)));
-                    if (times++ % 10 == 0) voices[voiceID].command(2);
+                    if (voiceID >= 0 && times++ % 15 == 0) voices[voiceID].command(2);
 
-                }
-                else {
+                } else {
 
                     if (!gameOver) terminalScreen.append("\n\n" + Locations.locations[Player.location] + '/' + Locations.sublocations[Player.location][Player.sublocation] + "> ");
                     timer.stop();
@@ -710,7 +713,8 @@ public class Menu {
 
                             } else {
 
-                                // TODO: Distort UI
+                                playerRef.statuses.put("dazed", 3);
+                                msg.append("\nBanshee emits an earsplitting shriek!\nYou're dazed!");
 
                             }
 

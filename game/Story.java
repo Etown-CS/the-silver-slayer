@@ -301,8 +301,8 @@ public class Story {
         * locationID: The ID of the location to pull the event from
         * eventID: A three digit integer referencing the specific event
         */
-
-        eventsSeen[(locationID - 1) / 100][eventID % 100] = true;
+        
+        eventsSeen[locationID][eventID % 100] = true;
         return events.get(locationID).get(eventID);
 
     }

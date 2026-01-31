@@ -14,7 +14,7 @@ public class Entity {
         statuses.put("fire", 0);        // High damage over time
         statuses.put("strength", 0);    // Increases attack
         statuses.put("weak", 0);        // Reduces attack
-        statuses.put("daze", 0);        // Garbles text
+        statuses.put("dazed", 0);       // Garbles text
         statuses.put("blind", 0);       // Activates light mode
         statuses.put("doom", 0);        // Unstoppable stat drain
 
