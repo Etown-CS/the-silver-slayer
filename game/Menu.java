@@ -153,6 +153,49 @@ public class Menu {
 
         }
 
+        // Mountain path searches
+        if (Player.location == 4 && Player.sublocation == 1 && Player.mountainPathSearches < 6) {
+
+            if (Player.mountainPathSearches == 0) {
+
+                theStory.updateEvent(4, 412, "Attempting to follow the lost path's trail is difficult. You somehow keep ending up back at the signpost, over and over again.");
+                Player.mountainPathSearches++;
+                System.out.println(Player.mountainPathSearches);
+
+            } else if (Player.mountainPathSearches == 1) {
+
+                theStory.updateEvent(4, 412, "It almost feels like you're being pushed away from your destination. The plants and landmarks never seem to repeat, yet you always return to the signpost.");
+                Player.mountainPathSearches++;
+                System.out.println(Player.mountainPathSearches);
+
+            } else if (Player.mountainPathSearches == 2) {
+
+                theStory.updateEvent(4, 412, "The signpost's missing text has reappeared. It reads: \"enough\"");
+                Player.mountainPathSearches++;
+                System.out.println(Player.mountainPathSearches);
+
+            } else if (Player.mountainPathSearches == 3) {
+
+                theStory.updateEvent(4, 412, "Why do you feel so... ill? Give up the search. Give it up. There's nothing to be found.");
+                Player.mountainPathSearches++;
+                System.out.println(Player.mountainPathSearches);
+
+            } else if (Player.mountainPathSearches == 4) {
+
+                theStory.updateEvent(4, 412, "You're not wanted here. This place isn't for you. Let it rest. You don't want their attention.");
+                Player.mountainPathSearches++;
+                System.out.println(Player.mountainPathSearches);
+
+            } else if (Player.mountainPathSearches == 5) {
+
+                theStory.updateEvent(4, 412, "The signpost's missing text has reappeared. It reads: \"Fracture\"");
+                Player.mountainPathSearches++;
+                System.out.println(Player.mountainPathSearches);
+
+            }
+
+        }
+
         // Non-Biting Ring *
         if (!bitingRing && Player.location == 0 && Player.sublocation == 0) { // TODO: Put this somewhere
 

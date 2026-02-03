@@ -6,7 +6,7 @@ public class Player extends Entity {
     public Item[] inventory = {null, null, null, null, null, null, null, null, null, null};
     public Item currentArmor = null, currentWeapon = null, currentWearable = null;
     public int invCap = 5;
-    public static int location = 1, sublocation = 0;
+    public static int location = 1, sublocation = 0, mountainPathSearches = 0;
     public static boolean inCombat = false, inBossfight = false;
 
     public Player(String title, Story story) {
@@ -396,7 +396,7 @@ public class Player extends Entity {
 
                     case "fracture":
 
-                        if (sublocation != 1) break;
+                        if (sublocation != 1 || mountainPathSearches < 6) break;
                         location = 7;
                         sublocation = 0;
                         Audio.activeBG.command();

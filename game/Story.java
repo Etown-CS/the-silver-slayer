@@ -156,8 +156,8 @@ public class Story {
 
         // Path
         mountain.put(410, "As you travel up the mountain, you see a globe of light surrounding what seems to be a person meditating. You should check it out.");
-        mountain.put(411, "look");
-        mountain.put(412, "search");
+        mountain.put(411, "The weathered post marks the location where the path splits into three. It seems one path leads down the back of the mountain towards the desert, another further up the mountain, and the last to... somewhere? The text is scratched away, seemingly intentionally. The path it indicates withers away after only a few steps.");
+        mountain.put(412, "Tufts of coarse grass and hardy, knotted trees dot the surroundings. There's nothing to be found in the immediate vicinity. You could, however, try searching again to find where the missing path used to lead.");
         mountain.put(413, "unlock");
         mountain.put(414, "unlock failed");
 
