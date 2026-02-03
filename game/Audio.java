@@ -1,4 +1,3 @@
-import java.io.File;
 import java.io.IOException;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -17,7 +16,7 @@ public class Audio {
 
     public Audio(String fileName) {
 
-        filePath = "game/sound/" + fileName + ".wav";
+        filePath = "sound/" + fileName + ".wav";
 
     }
 
@@ -57,7 +56,7 @@ public class Audio {
 
         try {
 
-            stream = AudioSystem.getAudioInputStream(new File(filePath).getAbsoluteFile());
+            stream = AudioSystem.getAudioInputStream(getClass().getResource(filePath));
             clip = AudioSystem.getClip();
             clip.open(stream);
 

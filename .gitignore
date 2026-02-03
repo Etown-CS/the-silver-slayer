@@ -1,7 +1,9 @@
 # Manually added
-game/data/
+*.class
 **/.DS_Store
 .vscode/
+game/.classpath
+game/.project
 
 # Logs
 logs

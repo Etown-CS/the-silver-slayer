@@ -15,7 +15,7 @@ public class Log {
 
         try {
 
-            logFile = new RandomAccessFile("game/data/tss_log.txt", "rw");
+            logFile = new RandomAccessFile("tss_log.txt", "rw");
             fc = logFile.getChannel();
             fc.truncate(0);
             logFile.seek(0);
@@ -24,7 +24,8 @@ public class Log {
             if (!logData("-= The Silver Slayer v0.1-beta =-\nStart time: " + timer)) return false;
 
         } catch (IOException ex) {
-
+        	
+        	System.out.println(ex.toString());
             return false;
 
         }
