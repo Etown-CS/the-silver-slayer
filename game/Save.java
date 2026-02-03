@@ -11,26 +11,12 @@ public class Save {
     private RandomAccessFile saveFile;
     private FileChannel fc;
     private FileLock lock;
-    public boolean isSaving = false, loaded = false;
 
     public Save() throws FileNotFoundException, IOException {
         /* Constructor */
 
         saveFile = new RandomAccessFile("tss.txt", "rw");
         fc = saveFile.getChannel();
-
-        try {
-            
-            lock = fc.tryLock();
-            loaded = true;
-
-        } catch (OverlappingFileLockException ex) {
-
-            saveFile.close();
-            fc.close();
-            System.out.println("FATAL: Save file is locked!");
-
-        }
 
     }
 
@@ -42,9 +28,9 @@ public class Save {
          * p: Active player
          */
 
-        if (!isSaving) {
+        try {
 
-            isSaving = true;
+            lock = fc.tryLock();
             StringBuilder contents = new StringBuilder(1024);
 
             // Reset file
@@ -94,10 +80,14 @@ public class Save {
 
             //saveFile.writeChars(contents.toString()); // for testing
             saveFile.writeChars(encrypt(contents.toString()));
-            isSaving = false;
             return true;
             
-        } else return false;
+        } catch (OverlappingFileLockException ex) {
+
+            System.out.println("WARN: Attempted to save while file is locked.");
+            return false;
+
+        }
 
     }
 
@@ -140,7 +130,7 @@ public class Save {
 
     }
 
-    private String decrypt(String contents) {
+    public String decrypt(String contents) {
 
         StringBuilder result = new StringBuilder(1024);
         int pos = 0;

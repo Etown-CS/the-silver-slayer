@@ -88,13 +88,6 @@ public class Menu {
             System.exit(1);
 
         }
-
-        if (!save.loaded) {
-
-            JOptionPane.showMessageDialog(null, "Failed to load save file!", "BAD SAVE", JOptionPane.ERROR_MESSAGE);
-            System.exit(1);
-
-        }
         
         for (int c = 0; c < Player.names.length; c++) players[c] = new Player(Player.names[c], theStory);
         setupUI();
