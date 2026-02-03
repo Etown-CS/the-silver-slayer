@@ -15,44 +15,12 @@ public class Audio {
     public static Audio activeBG;
 
     public Audio(String fileName) {
-
+        
         filePath = "sound/" + fileName + ".wav";
 
     }
 
-    public void command() {command(0);}
-    public void command(int cmd) {
-        /*
-        * Function for managing an instance of Audio
-        * 
-        * id: The command to be executed
-        *      1: Play the sound and loop
-        *      2: Play the sound once
-        *      Default: Stop the sound
-        */
-
-        switch (cmd) {
-
-            case 1:
-
-                play(true);
-                break;
-
-            case 2:
-
-                play(false);
-                break;
-
-            default:
-
-                stop();
-                break;
-
-        }
-
-    }
-
-    private void play(boolean loop) {
+    public void play(boolean loop) {
 
         try {
 
@@ -72,7 +40,7 @@ public class Audio {
 
     }
 
-    private void stop() {
+    public void stop() {
 
         if (clip == null) return;
         clip.stop();
@@ -84,7 +52,7 @@ public class Audio {
 
         } catch (IOException ex) {
             
-            Log.logData("WARN: Failed to close audio stream for " + filePath);
+            Log.logData("WARN: Failed to properly close audio stream: " + filePath);
 
         }
 
@@ -127,8 +95,8 @@ public class Audio {
             if (!Player.inBossfight) {
 
                 activeBG = music.get(Player.location)[r.nextInt(music.get(Player.location).length)];
-                activeBG.command(2);
-                Log.logData("Playing song: " + activeBG.filePath.substring(11));
+                activeBG.play(false);
+                Log.logData("Playing song: " + activeBG.filePath);
 
             } else Log.logData("Skipping BG music because bossfight is active.");
 

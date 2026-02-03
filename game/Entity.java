@@ -10,7 +10,7 @@ public class Entity {
 
     protected void initStatuses() {
         /*
-        * Populates statuses map
+        * Populates status map
         */
 
         statuses.put("poison", 0);      // Damage over time
@@ -27,7 +27,6 @@ public class Entity {
     public void changeStats(int H, int A, int D) {
         /*
          * Change entity's stats
-         * 
          * H: Mod health
          * A: Mod attack
          * D: Mod defense
@@ -48,7 +47,6 @@ public class Entity {
     public int getAttacked(int dmg) {
         /*
          * Use getAttacked to deal damage to this entity
-         * 
          * dmg: Incoming damage value
          */
         
@@ -62,7 +60,7 @@ public class Entity {
     public boolean flee(int chance) {
         /*
         * Attempt to flee from battle
-        * //TODO: Make this more substantial
+        * TODO: Make this more substantial
         */
 
         return r.nextInt(100) < chance;
@@ -71,7 +69,7 @@ public class Entity {
 
     public void reset() {
         /*
-        * Return stats to their initial values
+        * Returns stats to their initial values
         */
 
         health = healthDefault;

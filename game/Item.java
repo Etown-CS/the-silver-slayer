@@ -6,7 +6,6 @@ public class Item {
     public boolean consumable;
 
     public Item(String itemName, ItemType itemType, String desc, int mag, boolean consumedOnUse) {
-        /* Constructor */
 
         name = itemName;
         type = itemType;

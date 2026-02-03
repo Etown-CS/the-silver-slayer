@@ -124,7 +124,6 @@ public class Locations {
     public static Enemy spawnEnemy(int location, boolean boss) {
         /*
         * Attempt to spawn an enemy.
-        *
         * location: Current player location ID
         * boss: Whether to spawn a boss (will always succeed)
         */

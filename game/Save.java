@@ -12,18 +12,25 @@ public class Save {
     private FileChannel fc;
     private FileLock lock;
 
-    public Save() throws FileNotFoundException, IOException {
-        /* Constructor */
+    public Save() {
 
-        saveFile = new RandomAccessFile("tss_save.txt", "rw");
-        fc = saveFile.getChannel();
+        try {
+
+            saveFile = new RandomAccessFile("tss_save.txt", "rw");
+            fc = saveFile.getChannel();
+
+        } catch (FileNotFoundException ex) {
+
+            Log.logData("FATAL: Failed to init save file!");
+            System.exit(1);
+
+        }
 
     }
 
     public boolean saveGame(Player[] all, Player p) throws IOException {
         /*
          * Save the game
-         * 
          * all: Array of all players
          * p: Active player
          */
