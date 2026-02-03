@@ -15,7 +15,7 @@ public class Save {
     public Save() throws FileNotFoundException, IOException {
         /* Constructor */
 
-        saveFile = new RandomAccessFile("tss.txt", "rw");
+        saveFile = new RandomAccessFile("tss_save.txt", "rw");
         fc = saveFile.getChannel();
 
     }

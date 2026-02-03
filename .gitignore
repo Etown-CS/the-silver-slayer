@@ -3,3 +3,5 @@
 .vscode/
 game/.classpath
 game/.project
+tss_log.txt
+tss_save.txt
