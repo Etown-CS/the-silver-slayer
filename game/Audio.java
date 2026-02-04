@@ -4,7 +4,6 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-import java.util.HashMap;
 import java.security.SecureRandom;
 
 public class Audio {
@@ -12,7 +11,7 @@ public class Audio {
     private AudioInputStream stream;
     private Clip clip;
     private String filePath;
-    public static Audio activeBG;
+    public static Audio activeTrack;
 
     public Audio(String fileName) {
         
@@ -58,63 +57,59 @@ public class Audio {
 
     }
 
-    public static void music() {
+    public static void backgroundMusic() {
 
         SecureRandom r = new SecureRandom();
-        Audio[] startMusic = {new Audio("music_start0"), new Audio("music_start1")},
-                villageMusic = {new Audio("music_village1")},
-                lakeMusic = {new Audio("music_lake0")},
-                mountainMusic = {new Audio("music_mountain0"), new Audio("music_mountain1")},
-                desertMusic = {new Audio("music_desert0")},
-                swampMusic = {new Audio("music_swamp1")}, // swamp0 unused
-                fractureMusic = {new Audio("music_fracture0"), new Audio("music_fracture1")},
-                lairMusic = {new Audio("music_lair0"), new Audio("music_lair1"), new Audio("music_lair2")};
+        Audio[][] bgSongs = {
+            {new Audio("music_start0"), new Audio("music_start1")},
+            {new Audio("music_village0")},
+            {new Audio("music_lake0")},
+            {new Audio("music_mountain0"), new Audio("music_mountain1")},
+            {new Audio("music_desert0")},
+            {new Audio("music_swamp0"), new Audio("music_swamp1")},
+            {new Audio("music_fracture0"), new Audio("music_fracture1")},
+            {new Audio("music_lair0"), new Audio("music_lair1")}};
+        
+        Log.logData("Initializing BG music thread.");
+        new Thread(() -> {
 
-        HashMap<Integer, Audio[]> music = new HashMap<Integer, Audio[]>();
-        music.put(1, startMusic);
-        music.put(2, villageMusic);
-        music.put(3, lakeMusic);
-        music.put(4, mountainMusic);
-        music.put(5, desertMusic);
-        music.put(6, swampMusic);
-        music.put(7, fractureMusic);
-        music.put(8, lairMusic);
-
-        while (true) {
-            
-            try {
-
-                Thread.sleep(r.nextInt(1, 100));
-
-            } catch (InterruptedException ex) {
-                
-                Log.logData("WARN: BG Music sleep was interrupted.");
-
-            }
-
-            if (!Player.inBossfight) {
-
-                activeBG = music.get(Player.location)[r.nextInt(music.get(Player.location).length)];
-                activeBG.play(false);
-                Log.logData("Playing song: " + activeBG.filePath);
-
-            } else Log.logData("Skipping BG music because bossfight is active.");
-
-            while (activeBG.clip.isActive()) {
+            while (true) {
 
                 try {
 
-                    Thread.sleep(1000);
-                    
+                    Thread.sleep(r.nextInt(0, 100)); // TODO: Change this in production
+
                 } catch (InterruptedException ex) {
-                    
-                    Log.logData("WARN: Audio sleep while song is active was interrupted.");
+
+                    Log.logData("WARN: Background music delay interrupted.");
+
+                }
+
+                if (!Player.inBossfight) {
+
+                    activeTrack = bgSongs[Player.location - 1][r.nextInt(bgSongs[Player.location - 1].length)];
+                    activeTrack.play(false);
+                    Log.logData("Playing song: " + activeTrack.filePath);
+
+                }
+
+                while (activeTrack.clip.isActive()) {
+
+                    try {
+
+                        Thread.sleep(1000);
+
+                    } catch (InterruptedException ex) {
+
+                        Log.logData("WARN: Background music sleep interrupted.");
+
+                    }
 
                 }
 
             }
 
-        }
+        }).start();
 
     }
     

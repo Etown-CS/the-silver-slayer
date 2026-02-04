@@ -275,6 +275,7 @@ public class Menu {
                             if (Player.sublocation == 3 && Locations.Lair[Locations.Lair.length - 1].health > 0) {
 
                                 enemyRef = Locations.spawnEnemy(8, true);
+                                Audio.activeTrack.stop();
                                 bossTracks[6].play(true);
 
                             }
@@ -416,7 +417,7 @@ public class Menu {
                 else {
                     
                     int atkdmg = enemyRef.getAttacked(playerRef.attack);
-                    damageSFX.stop();
+                    damageSFX.play(false);
 
                     if (enemyRef.health == 0) {
 
@@ -611,7 +612,7 @@ public class Menu {
                     if (Character.isAlphabetic(nextChar) && playerRef.statuses.get("dazed") > 0 && r.nextInt(100) < 2) terminalScreen.append(String.valueOf((char) (r.nextInt(26) + 'a')));
                     else terminalScreen.append(String.valueOf(nextChar));
 
-                    if (voiceID >= 0 && times++ % 15 == 0) voices[voiceID].stop();
+                    if (voiceID >= 0 && times++ % 15 == 0) voices[voiceID].play(false);
 
                 } else {
 
@@ -657,12 +658,7 @@ public class Menu {
         if (enemyRef != null) {
 
             Player.inCombat = true;
-            if (enemyRef.isBoss) {
-
-                Player.inBossfight = true;
-                Audio.activeBG.stop();
-
-            }
+            if (enemyRef.isBoss) Player.inBossfight = true;
             
             enemyBar.setText(enemyRef.name + "\n\nHealth: " + enemyRef.health + "\nAttack: " + enemyRef.attack + "\nDefense: " + enemyRef.defense);
 

@@ -5,17 +5,12 @@ public class TheSilverSlayer {
 
         if (!Log.setupLog()) {
 
-            System.out.println("ERROR: Failed to initialize log file!");
+            System.out.println("FATAL: Failed to initialize log file!");
             return;
 
         }
 
-        new Thread(() -> {
-
-            Audio.music();
-
-        }).start();
-        Log.logData("Initialized BG music thread.");
+        Audio.backgroundMusic();
 
         @SuppressWarnings("unused")
         Menu menu = new Menu();
