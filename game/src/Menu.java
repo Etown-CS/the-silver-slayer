@@ -332,6 +332,12 @@ public class Menu {
                 break;
  
             // GAMEPLAY COMMANDS
+            
+            case "map":
+            	
+            	showImage("orange.png");
+            	writeText("Displaying map.", -1);
+            	break;
 
             case "whoami":
             case "characters":
@@ -688,6 +694,16 @@ public class Menu {
         cards.next(basePanel);
         
     }
+    
+    private void showImage(String file) {
+    	
+    	JFrame imageFrame = new JFrame();
+    	imageFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    	imageFrame.add(new JLabel(new ImageIcon(getClass().getResource("images/" + file))));
+    	imageFrame.pack();
+    	imageFrame.setVisible(true);
+    	
+    }
 
     private void setupUI() {
         /*
@@ -753,7 +769,7 @@ public class Menu {
         inputField.setForeground(Color.GREEN);
         inputField.setBorder(new LineBorder(Color.GREEN));
         inputField.setHorizontalAlignment(JTextField.CENTER);
-        inputField.addActionListener((ActionEvent e) -> {
+        inputField.addActionListener((@SuppressWarnings("unused") ActionEvent e) -> {
 
             String entered = inputField.getText().strip();
             if (!(entered == null || entered.length() == 0)) {
