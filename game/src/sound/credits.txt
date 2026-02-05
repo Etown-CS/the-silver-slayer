@@ -5,11 +5,15 @@ Berlin Town – Synthwave Track for Retrowave and Games by kjartan_abel -- https
 Bosch’s Garden – Mythical Game Music for Fantasy and AI Projects by kjartan_abel -- https://freesound.org/s/647212/ -- License: Attribution 4.0
 Boss Battle Loop #2 by Sirkoto51 -- https://freesound.org/s/367504/ -- License: Attribution 4.0
 Boss Battle Loop #3 by Sirkoto51 -- https://freesound.org/s/443128/ -- License: Attribution 4.0
+music_lake1: Calm synth music.mp3 by ZHRØ -- https://freesound.org/s/636848/ -- License: Attribution 4.0
 Castle Music Loop #1 by Sirkoto51 -- https://freesound.org/s/416632/ -- License: Attribution 4.0
 Chasing the wind - background music loop by Twotrickpony -- https://freesound.org/s/747915/ -- License: Attribution 4.0
+music_desert2: Cowboy Ghost BGM.wav by ChristmasKrumble666 -- https://freesound.org/s/754461/ -- License: Creative Commons 0
 Desolated Field.mp3 by SoundFlakes -- https://freesound.org/s/416984/ -- License: Attribution 4.0
-Mushroom Background Music by Sunsai -- https://freesound.org/s/415804/ -- License: Attribution 4.0
+music_desert1: Egypt Music by TheoJT -- https://freesound.org/s/511198/ -- License: Attribution 4.0
+music_swamp0: Mushroom Background Music by Sunsai -- https://freesound.org/s/415804/ -- License: Attribution 4.0
 NguyệtChâu - Hang Ngầm Dưới Mặt Biển.wav by SieuAmThanh -- https://freesound.org/s/397391/ -- License: Creative Commons 0
+music_fracture2: Ominous Horror Soundtrack by Matio888 -- https://freesound.org/s/793486/ -- License: Attribution 4.0
 Retro/classic game music.wav by ZHRØ -- https://freesound.org/s/668879/ -- License: Attribution 4.0
 Retro Puzzle Music Loop by Sirkoto51 -- https://freesound.org/s/378110/ -- License: Attribution 4.0
 Simple Video Game Music Loop by rotlily -- https://freesound.org/s/733259/ -- License: Creative Commons 0
@@ -21,5 +25,6 @@ Video Game Music Seamless.wav by x1shi -- https://freesound.org/s/685206/ -- Lic
 
 SOUNDS:
 
-Blip_C_06 by cabled_mess -- https://freesound.org/s/350866/ -- License: Creative Commons 0
-Damage by qubodup -- https://freesound.org/s/211634/ -- License: Attribution 4.0
+voice_beep: Blip_C_06 by cabled_mess -- https://freesound.org/s/350866/ -- License: Creative Commons 0
+sfx_attack: Damage by qubodup -- https://freesound.org/s/211634/ -- License: Attribution 4.0
+voice_blip: PongBlipF4.wav by NoiseCollector -- https://freesound.org/s/4359/ -- License: Attribution 3.0
