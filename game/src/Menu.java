@@ -14,16 +14,10 @@ public class Menu {
     // Display
     private JFrame mainframe = new JFrame();
     private CardLayout cards = new CardLayout();
-    private JPanel basePanel = new JPanel();
-    private JPanel terminalPanel = new JPanel();
-    private JTextArea terminalScreen = new JTextArea("", 1, 30);;
-    private JTextArea playerBar = new JTextArea("", 1, 10);;
-    private JTextArea enemyBar = new JTextArea("ENEMY", 1, 10);;
+    private JPanel basePanel = new JPanel(), terminalPanel = new JPanel(), charsPanel = new JPanel();
+    private JTextArea terminalScreen = new JTextArea("", 1, 30), playerBar = new JTextArea("", 1, 10), enemyBar = new JTextArea("ENEMY", 1, 10);;
     private JScrollPane scrollPane;
     private JTextField inputField = new JTextField();
-
-    // Character selection screen
-    private JPanel charsPanel = new JPanel();
     private JButton[] characterButtons = new JButton[Player.names.length];
 
     // Text
@@ -33,27 +27,29 @@ public class Menu {
     // Elements
     private SecureRandom r = new SecureRandom();
     private Save save;
-    private Story theStory = new Story(); // Making it create a "new story" has so much aura
+    private Story theStory;
     private Player[] players = new Player[Player.names.length];
     private Player playerRef;
     private Enemy enemyRef;
     private boolean enemyTurn = false, gameOver = false;
 
+    // Unique items
+    private boolean silverSpoon = false, paperHat = false, goggles = false, bitingRing = false, magicKey = false, silverSword = false;
+
     // Sounds
-    private Audio[] voices = {new Audio("voice_blip")};
+    private Audio[] voices = {new Audio("voice_blip"), new Audio("voice_beep")};
     private Audio[] bossTracks = {new Audio("boss_village"), new Audio("boss_lake"), new Audio("boss_mountain"), new Audio("boss_desert"), new Audio("boss_swamp"), new Audio("boss_fracture"), new Audio("boss_lair")};
     private Audio damageSFX = new Audio("sfx_attack");
 
-    private byte counter; // This is here so it can be used in the ActionListerner creations below
-
-    // Items player can get
-    private boolean silverSpoon = false, paperHat = false, goggles = false, bitingRing = false, magicKey = false, silverSword = false;
+    // This is here so it can be used in the ActionListerner creations below
+    private byte counter;
 
     public Menu() {
-        /* Constructor */
 
-        mainframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        save = new Save();
+        theStory = new Story(); // Making it create a "new story" has so much aura
 
+        for (byte c = 0; c < Player.names.length; c++) players[c] = new Player(Player.names[c], theStory);
         for (counter = 0; counter < Player.names.length; counter++) {
 
             characterButtons[counter] = new JButton(Player.names[counter]);
@@ -67,6 +63,7 @@ public class Menu {
                     playerRef = players[pNum];
                     cards.next(basePanel);
                     charsPanel.removeAll();
+
                     Log.logData("Player selects character: " + playerRef.name);
                     writeText("Selected " + playerRef.name, 0);
                     inputField.requestFocusInWindow();
@@ -77,30 +74,15 @@ public class Menu {
 
         }
 
-        try {
-
-            save = new Save();
-
-        } catch (IOException ex) {
-
-            System.out.println("FATAL: Failed to access save file!");
-            JOptionPane.showMessageDialog(null, ex, "MISSING SAVE", JOptionPane.ERROR_MESSAGE);
-            System.exit(1);
-
-        }
-        
-        for (int c = 0; c < Player.names.length; c++) players[c] = new Player(Player.names[c], theStory);
         setupUI();
 
     }
 
     private String getItems() {
         /*
-        * Get an item when searching if there's one to be found
+        * Get an item when searching, if there's one to be found
         * Items marked with a * are unique
         */
-
-        if (playerRef == null) return "";
         
         // Silver Spoon *
         if (!silverSpoon && Player.location == 2 && Player.sublocation == 1) {
@@ -257,13 +239,12 @@ public class Menu {
     private void readInput(String text) {
         /*
          * Called whenever the player enters text
-         * 
          * text: The String that was submitted
          */
 
         if (gameOver) return;
-        String[] bits = text.toLowerCase().split(" ");
 
+        String[] bits = text.toLowerCase().split(" ");
         switch (bits[0]) {
 
             // STORY COMMANDS
@@ -294,7 +275,8 @@ public class Menu {
                             if (Player.sublocation == 3 && Locations.Lair[Locations.Lair.length - 1].health > 0) {
 
                                 enemyRef = Locations.spawnEnemy(8, true);
-                                bossTracks[6].command(1);
+                                Audio.activeTrack.stop();
+                                bossTracks[6].play(true);
 
                             }
 
@@ -350,6 +332,12 @@ public class Menu {
                 break;
  
             // GAMEPLAY COMMANDS
+            
+            case "map":
+            	
+            	showImage("orange.png");
+            	writeText("Displaying map.", -1);
+            	break;
 
             case "whoami":
             case "characters":
@@ -435,7 +423,7 @@ public class Menu {
                 else {
                     
                     int atkdmg = enemyRef.getAttacked(playerRef.attack);
-                    damageSFX.command(2);
+                    damageSFX.play(false);
 
                     if (enemyRef.health == 0) {
 
@@ -590,32 +578,29 @@ public class Menu {
     private void writeText(final String text, int voiceID) {
         /*
         * Uses the typewriter effect to print text to the screen
-        * SHOULD TYPICALLY ONLY BE CALLED FROM readInput()
-        *
         * text: The text to be written
         * voiceID: ID for the sound to be played (use 0 for default or negative for silent)
         */
 
         while (timer.isRunning()) {
 
-                System.out.println("Waiting...");
-
                 try {
 
+                    Log.logData("writeText is waiting...");
                     Thread.sleep(100);
 
                 } catch (InterruptedException ex) {
                     
-                    ex.printStackTrace();
+                    Log.logData("WARN: writeText wait was interrupted.");
 
                 }
 
             }
 
-        if (timer != null && timer.isRunning()) {
+        if (timer.isRunning()) {
 
-            System.out.println("WARN: Attempt to call writeText whilst timer is still active.\n" + text);
-            return;
+            Log.logData("FATAL: Attempt to start writeText timer while its still active.");
+            System.exit(1);
 
         }
 
@@ -633,7 +618,7 @@ public class Menu {
                     if (Character.isAlphabetic(nextChar) && playerRef.statuses.get("dazed") > 0 && r.nextInt(100) < 2) terminalScreen.append(String.valueOf((char) (r.nextInt(26) + 'a')));
                     else terminalScreen.append(String.valueOf(nextChar));
 
-                    if (voiceID >= 0 && times++ % 15 == 0) voices[voiceID].command(2);
+                    if (voiceID >= 0 && times++ % 15 == 0) voices[voiceID].play(false);
 
                 } else {
 
@@ -647,7 +632,7 @@ public class Menu {
 
         });
 
-        Log.logData("Game says: '" + text + "'");
+        Log.logData("Game says: " + text);
         characterIndex = 0;
         timer.start();
 
@@ -659,17 +644,36 @@ public class Menu {
         */
 
         playerBar.setText(playerRef.name + "\n\nHealth: " + playerRef.health + " / " + playerRef.healthDefault + "\nAttack: " + playerRef.attack + "\nDefense: " + playerRef.defense + "\n\nInventory\n" + playerRef.listItems());
+        
+        if (gameOver) return;
+        else if (playerRef.health == 0) {
+
+            byte numDown = 0;
+            for (byte c = 0; c < Player.names.length; c++) if (players[c].health == 0) numDown++;
+            if (numDown == Player.names.length) {
+
+                gameOver = true;
+                mainframe.setTitle("Game Over");
+                JOptionPane.showMessageDialog(terminalPanel, "You have been terminated.", Story.GAME_OVERS[r.nextInt(Story.GAME_OVERS.length)], JOptionPane.ERROR_MESSAGE);
+                return;
+
+            } else playerSelect();
+
+        }
+        
         if (enemyRef != null) {
 
             Player.inCombat = true;
-            if (enemyRef.isBoss) {
-
-                Player.inBossfight = true;
-                Audio.activeBG.command();
-
-            }
+            if (enemyRef.isBoss) Player.inBossfight = true;
             
             enemyBar.setText(enemyRef.name + "\n\nHealth: " + enemyRef.health + "\nAttack: " + enemyRef.attack + "\nDefense: " + enemyRef.defense);
+
+            if (enemyTurn) {
+
+                enemyTurn = false;
+                writeText(enemyRef.enemyAttack(playerRef), 0);
+
+            }
 
         } else {
 
@@ -679,267 +683,6 @@ public class Menu {
 
         }
 
-        if (enemyRef != null && enemyTurn) {
-
-            StringBuilder msg = new StringBuilder(64);
-            msg.append(enemyRef.name + " attacks you for " + playerRef.getAttacked(enemyRef.attack) + " damage!");
-            
-            // Enemy ability
-            if (playerRef.health > 0) {
-            
-                switch (enemyRef.name) {
-
-                    case "Banshee":
-
-                        if (r.nextInt(100) < 50) {
-
-                            if (r.nextBoolean()) {
-
-                                for (int c = 0; c < r.nextInt(1,5); c++) {
-
-                                    switch (r.nextInt(5)) {
-
-                                        case 0:
-
-                                            playerRef.addItem(new Item("Trash", ItemType.Junk, "What even is this?", 0, false));
-                                            break;
-
-                                        case 1:
-
-                                            playerRef.addItem(new Item("Waste", ItemType.Junk, "This is just junk.", 0, false));
-                                            break;
-
-                                        case 2:
-
-                                            playerRef.addItem(new Item("Rubbish", ItemType.Junk, "A collection of trash.", 0, false));
-                                            break;
-
-                                        case 3:
-
-                                            playerRef.addItem(new Item("Expired Something", ItemType.Health, "An expired piece of some unknown food.", -1, true));
-                                            break;
-
-                                        case 4:
-
-                                            playerRef.addItem(new Item("Mystery Meat", ItemType.Health, "This could be anything.", c, true));
-                                            break;
-
-                                    }
-
-                                }
-
-                                msg.append("\nBanshee spams you with garbage!\nYour inventory gets heavier.");
-
-                            } else {
-
-                                playerRef.statuses.put("dazed", playerRef.statuses.get("dazed") + 3);
-                                msg.append("\nBanshee emits an earsplitting shriek!\nYou're dazed!");
-
-                            }
-
-                        }
-
-                        break;
-
-                    case "Bot Swarm":
-
-                        enemyRef.changeStats(0, r.nextInt(1, 3), r.nextInt(1, 2));
-                        msg.append("\nThe swarm becomes more powerful!");
-                        break;
-
-                    case "Cleanser":
-
-                        enemyRef.changeStats(0, 100, 0);
-                        msg.append("\nCleanser prepares to anihilate you!");
-                        break;
-
-                    case "Cyber Scorpion":
-
-                        if (r.nextBoolean()) {
-
-                            playerRef.statuses.put("poison", playerRef.statuses.get("poison") + 1);
-                            msg.append("\nCyber Scorpion poisoned you!");
-
-                        }
-
-                        break;
-
-                    case "Faceless":
-
-                        // TODO: Faceless ability
-                        break;
-
-                    case "Figment":
-
-                        switch (r.nextInt(4)) {
-
-                            case 0:
-
-                                msg.append("Is it possible for imagination to shimmer? Something is happening.");
-                                break;
-
-                            case 1:
-
-                                msg.append("\nIt's not your memory, but it's sickening nonetheless.\nYou've been poisoned!");
-                                playerRef.statuses.put("poison", playerRef.statuses.get("poison") + 3);
-                                break;
-
-                            case 2:
-
-                                msg.append("You've gome weak at the knees.");
-                                playerRef.statuses.put("weak", playerRef.statuses.get("weak") + 1);
-                                break;
-
-                            case 3:
-
-                                msg.append("A sudden blinding blast of inspiration!");
-                                playerRef.statuses.put("blinded", playerRef.statuses.get("blind") + 1);
-                                enemyRef.reset();
-                                enemyRef = null;
-                                break;
-
-                        }
-
-                        break;
-
-                    case "Flashbang":
-
-                        if (r.nextInt(100) < 300) {
-
-                            if (r.nextBoolean()) {
-
-                                playerRef.statuses.put("blinded", playerRef.statuses.get("blind") + 1);
-                                msg.append("\nFlashbang blinds you!");
-
-                            } else {
-
-                                //TODO: 4:3 resolution
-                                msg.append("\nFlashbang distorts your vision!");
-
-                            }
-
-                        }
-
-                        break;
-
-                    case "Memory":
-
-                        if (r.nextBoolean()) {
-
-                            msg.append("\nIt fades as quickly as it came...");
-                            enemyRef.reset();
-                            enemyRef = null;
-
-                        } else {
-
-                            switch (r.nextInt(6)) {
-
-                                case 1:
-
-                                    playerRef.statuses.put("dazed", playerRef.statuses.get("dazed") + 3);
-                                    msg.append("\nThe memory is sudden and bursting with emotion!\nYou've been dazed!");
-                                    break;
-
-                                case 3:
-
-                                    playerRef.statuses.put("poison", playerRef.statuses.get("poison") + 5);
-                                    msg.append("\nThe memory is soured and toxic.\nYou've been poisoned!");
-                                    break;
-                                
-                                case 5:
-
-                                    playerRef.statuses.put("fire", playerRef.statuses.get("fire") + 3);
-                                    msg.append("\nThe memory burns!\nYou're on fire!");
-                                    break;
-
-                            }
-
-                        }
-
-                        break;
-
-                    case "Mimic":
-
-                        // TODO: Mimic ability
-                        break;
-
-                    case "PISMPE":
-
-                        // TODO: PISMPE ability
-                        break;
-
-                    case "RAT":
-
-                        // TODO: RAT ability
-                        break;
-
-                    case "Scavenger":
-
-                        if (r.nextBoolean() && enemyRef.flee(50)) {
-
-                            enemyRef.reset();
-                            enemyRef = null;
-                            msg.append("\nScavenger wastes no time.\nScavenger has fled!");
-
-                        }
-
-                        break;
-
-                    case "Scrambler":
-
-                        // TODO: Scrambler ability
-                        break;
-
-                    case "Worm":
-
-                        if (r.nextBoolean()) {
-
-                            enemyRef.changeStats(enemyRef.healthDefault, enemyRef.attackDefault, 0);
-                            msg.append("\nThe virus is replicating!");
-
-                        }
-
-                        break;
-
-                }
-
-            }
-
-            enemyTurn = false;
-            writeText(msg.toString(), 0);
-
-        } else {
-
-            enemyTurn = false;
-            if (gameOver) return;
-            else if (playerRef.health == 0) {
-
-                byte numDown = 0;
-                for (byte c = 0; c < Player.names.length; c++) if (players[c].health == 0) numDown++;
-                if (numDown == Player.names.length) terminate();
-                else {
-
-                    playerSelect();
-                    playerBar.setText(playerRef.name + "\n\nHealth: " + playerRef.health + " / " + playerRef.healthDefault + "\nAttack: " + playerRef.attack + "\nDefense: " + playerRef.defense + "\n\nInventory\n" + playerRef.listItems());
-
-                }
-
-            }
-
-        }
-
-    }
-
-    private void terminate() {
-        /*
-         * Removes the inputField and displays a game over message
-         */
-
-        gameOver = true;
-        terminalPanel.remove(inputField);
-        mainframe.setTitle("Game Over");
-        JOptionPane.showMessageDialog(terminalPanel, "You have been terminated.", Story.GAME_OVERS[r.nextInt(Story.GAME_OVERS.length)], JOptionPane.ERROR_MESSAGE);
-        
     }
 
     private void playerSelect() {
@@ -951,6 +694,16 @@ public class Menu {
         cards.next(basePanel);
         
     }
+    
+    private void showImage(String file) {
+    	
+    	JFrame imageFrame = new JFrame();
+    	imageFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    	imageFrame.add(new JLabel(new ImageIcon(getClass().getResource("images/" + file))));
+    	imageFrame.pack();
+    	imageFrame.setVisible(true);
+    	
+    }
 
     private void setupUI() {
         /*
@@ -959,12 +712,19 @@ public class Menu {
 
         // UI Base
         final Font gameFont = new Font("Cascadia Mono", Font.PLAIN, 20);
+
+        mainframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainframe.setExtendedState(JFrame.MAXIMIZED_BOTH);
         mainframe.setLayout(new BorderLayout());
         mainframe.add(basePanel, BorderLayout.CENTER);
+
         basePanel.setLayout(cards);
         basePanel.add(terminalPanel);
         basePanel.add(charsPanel);
+
+        // Character selection screen
+        charsPanel.setLayout(new FlowLayout());
+        charsPanel.setBackground(Color.BLACK);
 
         // Terminal
         terminalScreen.setLineWrap(true);
@@ -973,10 +733,6 @@ public class Menu {
         terminalScreen.setBackground(Color.BLACK);
         terminalScreen.setForeground(Color.GREEN);
         terminalScreen.setFont(gameFont);
-
-        // Character selection
-        charsPanel.setLayout(new FlowLayout());
-        charsPanel.setBackground(Color.BLACK);
 
         // Scroll
         scrollPane = new JScrollPane(terminalScreen);
@@ -995,7 +751,7 @@ public class Menu {
 
         // Player (left) sidebar
         playerBar.setFont(gameFont);
-        playerBar.setEditable(false); // make player stats not editable
+        playerBar.setEditable(false);
         playerBar.setBackground(Color.BLACK);
         playerBar.setForeground(Color.GREEN);
         playerBar.setBorder(new LineBorder(Color.GREEN, 1));
@@ -1008,35 +764,22 @@ public class Menu {
         enemyBar.setBorder(new LineBorder(Color.GREEN, 1));
 
         // Input
+        inputField.setFont(gameFont);
         inputField.setBackground(Color.BLACK);
         inputField.setForeground(Color.GREEN);
-        inputField.setFont(gameFont);
         inputField.setBorder(new LineBorder(Color.GREEN));
         inputField.setHorizontalAlignment(JTextField.CENTER);
-        inputField.addActionListener((ActionEvent e) -> {
+        inputField.addActionListener((@SuppressWarnings("unused") ActionEvent e) -> {
 
-            String entered = "";
-            boolean empty = false;
+            String entered = inputField.getText().strip();
+            if (!(entered == null || entered.length() == 0)) {
 
-            try {
-
-                entered = inputField.getText().strip();
-                if (entered.length() == 0) empty = true;
-
-            } catch (NullPointerException ex) {
-
-                empty = true;
-
-            }
-
-            if (!empty) {
-
-                Log.logData("Player enters: " + entered);
+                Log.logData("Player entered: " + entered);
                 terminalScreen.append(entered + "\n\n");
                 readInput(entered);
                 inputField.setText(null);
 
-            } else Log.logData("Player attempted to enter nothing");
+            }
 
         });
 
@@ -1044,12 +787,14 @@ public class Menu {
         terminalPanel.setLayout(new BorderLayout());
         terminalPanel.add(inputField, BorderLayout.SOUTH);
         terminalPanel.add(scrollPane, BorderLayout.CENTER);
+
         mainframe.add(playerBar, BorderLayout.WEST);
         mainframe.add(enemyBar, BorderLayout.EAST);
 
         // Final
         mainframe.setTitle(Story.TITLE_STRINGS[0]);
         mainframe.setVisible(true);
+        
         inputField.requestFocus();
         terminalScreen.setText("The Silver Slayer [Beta v0.1]\n\n" + Locations.locations[1] + '/' + Locations.sublocations[1][0] + "> ");
 
@@ -1064,7 +809,7 @@ public class Menu {
 
             } catch (InterruptedException ex) {
                 
-                ex.printStackTrace();
+                Log.logData("WARN: Wait while playerRef is null interrupted.");
 
             }
 
@@ -1078,7 +823,7 @@ public class Menu {
 
             while (true) {
 
-                if (playerRef.statuses.get("blind") > 0 && terminalScreen.getBackground() != Color.WHITE) {
+                if (terminalScreen.getBackground() != Color.WHITE && playerRef.statuses.get("blind") > 0) {
 
                     terminalScreen.setBackground(Color.WHITE);
                     playerBar.setBackground(Color.WHITE);
@@ -1086,7 +831,7 @@ public class Menu {
                     inputField.setBackground(Color.WHITE);
                     charsPanel.setBackground(Color.WHITE);
 
-                } else if (playerRef.statuses.get("blind") <= 0 && terminalScreen.getBackground() != Color.BLACK) {
+                } else if (terminalScreen.getBackground() != Color.BLACK && playerRef.statuses.get("blind") <= 0) {
 
                     terminalScreen.setBackground(Color.BLACK);
                     playerBar.setBackground(Color.BLACK);
@@ -1102,7 +847,7 @@ public class Menu {
 
                 } catch (InterruptedException ex) {
 
-                    Log.logData("WARN: Background UI service wait was interrupted");
+                    Log.logData("WARN: Background UI service wait was interrupted.");
 
                 }
 

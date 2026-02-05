@@ -119,18 +119,17 @@ public class Locations {
             new Enemy("The Silver Slayer", 999, 999, 999, true)
         };
 
-    public static final Enemy[][] enemyIndex = {null, null, Village, Lake, Mountain, Desert, Swamp, Fracture, Lair};
+    public static final Enemy[][] enemyIndex = {Village, Lake, Mountain, Desert, Swamp, Fracture, Lair};
 
     public static Enemy spawnEnemy(int location, boolean boss) {
         /*
         * Attempt to spawn an enemy.
-        *
         * location: Current player location ID
         * boss: Whether to spawn a boss (will always succeed)
         */
     
-        if (boss) return enemyIndex[location][enemyIndex[location].length - 1];
-        else if (r.nextInt(100) < (location - 1) * 10) return enemyIndex[location][r.nextInt(enemyIndex[location].length - 1)];
+        if (boss) return enemyIndex[location - 2][enemyIndex[location - 2].length - 1];
+        else if (r.nextInt(100) < location * 10) return enemyIndex[location - 2][r.nextInt(enemyIndex[location - 2].length - 1)];
         else return null;
 
     }

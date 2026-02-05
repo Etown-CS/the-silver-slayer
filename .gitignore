@@ -1,7 +1,8 @@
-*.class
 **/.DS_Store
 .vscode/
+game/.settings/
 game/.classpath
 game/.project
+game/bin/
 tss_log.txt
 tss_save.txt

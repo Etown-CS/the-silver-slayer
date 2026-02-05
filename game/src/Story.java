@@ -2,11 +2,9 @@ import java.util.HashMap;
 
 public class Story {
 
-    // The idea for this class is to store all the story elements here
-    // This way they won't get in the way of the code
-
     /*
-    * STRUCTURE
+    * The idea for this class is to store all the story elements here
+    * This way they won't get in the way of the code
     * 
     * Every major location has its own HashMap.
     * Each HashMap consists of an event ID and then the event itself.
@@ -16,7 +14,6 @@ public class Story {
     * 
     * Cave & Mine are omitted here because they're implemented exclusively in C
     * Also, this allows us to use 3 digit locations IDs.
-    * 
     */
 
     public static final String[] TITLE_STRINGS = {"Silver Slayer RPG", "Also try Terraria!", "Also try Minecraft!", "THE FOG IS COMING", 
@@ -57,7 +54,6 @@ public class Story {
     private boolean[][] eventsSeen;
 
     public Story() {
-        /* Constructor */
 
         // Populating top-level map
         events.put(1, start);
@@ -297,7 +293,6 @@ public class Story {
     private String getExactEvent(int locationID, int eventID) {
         /*
         * Get a specific story event
-        * 
         * locationID: The ID of the location to pull the event from
         * eventID: A three digit integer referencing the specific event
         */
@@ -310,7 +305,6 @@ public class Story {
     private int genEventKey(int l, int s, int offset) {
         /*
         * Mathematically determines an exact event ID based on location and an offset value
-        * 
         * l: location ID
         * s: sublocation ID
         * offset: Offset from zero
@@ -323,7 +317,6 @@ public class Story {
     public String getBaseEvent(int loc, int sub) {
         /*
         * Get the base event (XX0) for provided location
-        * 
         * loc: Location ID
         * sub: Sublocation ID
         */
@@ -335,7 +328,6 @@ public class Story {
     public String getLookEvent(int loc, int sub) {
         /*
         * Get look event (XX1) for provided location
-        * 
         * loc: Location ID
         * sub: Sublocation ID
         */
@@ -347,7 +339,6 @@ public class Story {
     public String getSearchEvent(int loc, int sub) {
         /*
         * Get search event (XX2) for provided location
-        * 
         * loc: Location ID
         * sub: Sublocation ID
         */
@@ -359,7 +350,6 @@ public class Story {
     public String getUnlockEvent(int loc, int sub, boolean unlocked) {
         /*
         * Get [failed] unlock event (XX3 or XX4) for provided location
-        * 
         * loc: Location ID
         * sub: Sublocation ID
         * unlocked: Whether or not the attempted unlock was successful
@@ -373,7 +363,6 @@ public class Story {
     public boolean wasEventSeen(int locationID, int eventID) {
         /*
         * Reports whether a specific event has been seen
-        *
         * eventID: The ID of the event
         */
         
