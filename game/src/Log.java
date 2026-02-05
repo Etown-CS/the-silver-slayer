@@ -11,7 +11,7 @@ public class Log {
     private static FileLock lock = null;
     private static long timer;
 
-    public static boolean setupLog() {
+    public static void setupLog() {
 
         try {
 
@@ -20,17 +20,20 @@ public class Log {
             fc.truncate(0);
             logFile.seek(0);
 
-            timer = System.currentTimeMillis();
-            if (!logData("-= The Silver Slayer v0.1-beta =-\nStart time: " + timer)) return false;
-
         } catch (IOException ex) {
         	
         	System.out.println(ex.toString());
-            return false;
+            System.exit(1);
 
         }
 
-        return true;
+        timer = System.currentTimeMillis();
+        if (!logData("-= The Silver Slayer v0.1-beta =-\nStart time: " + timer)) {
+
+            System.out.println("FATAL: Log hasn't started properly! Is it open somewhere?");
+            System.exit(1);
+
+        }
 
     }
 
@@ -42,6 +45,7 @@ public class Log {
 
         } catch (OverlappingFileLockException | IOException ex) {
 
+            System.out.println(ex.toString());
             return false;
 
         }
