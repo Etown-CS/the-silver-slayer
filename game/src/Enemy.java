@@ -1,6 +1,6 @@
 public class Enemy extends Entity {
 
-    public boolean isBoss;
+    public final boolean isBoss;
 
     public Enemy(String enemyName, int h, int a, int d) {this(enemyName, h, a, d, false);}
     public Enemy(String enemyName, int h, int a, int d, boolean boss) {
@@ -21,11 +21,17 @@ public class Enemy extends Entity {
                 spawnMsg = "\n\nOh shoot here come dat boi!";
                 break;
 
+            case "The Silver Slayer":
+
+                spawnMsg = "\n\n\"Let us begin.\"";
+
             default:
 
                 spawnMsg = "\n\n" + name + " has spawned!";
 
         }
+
+        initStatuses();
 
     }
 
@@ -36,7 +42,8 @@ public class Enemy extends Entity {
         */
 
         StringBuilder msg = new StringBuilder(64);
-        msg.append(name + " attacks for " + target.getAttacked(attack) + " damage!");
+        int atkDmg = (statuses.get("weak") > 0) ? (int) (attack * 0.7) : attack;
+        msg.append(name + " attacks for " + target.getAttacked(atkDmg) + " damage!");
 
         if (target.health > 0) {
 

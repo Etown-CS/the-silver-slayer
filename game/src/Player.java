@@ -10,7 +10,6 @@ public class Player extends Entity {
     public static boolean inCombat = false, inBossfight = false;
 
     public Player(String title, Story story) {
-        /* Constructor */
 
         theStory = story;
         name = title;
@@ -69,7 +68,6 @@ public class Player extends Entity {
         /*
         * Add an item to the player's inventory
         * Returns the number of the slot the item was placed in, or -1 if inventory is full
-        * 
         * item: The item to be added
         */
 
@@ -91,7 +89,6 @@ public class Player extends Entity {
     public String removeItem(int slot) {
         /*
         * Remove an item from the player's inventory
-        * 
         * slot: The inventory slot to clear
         */
 
@@ -100,12 +97,10 @@ public class Player extends Entity {
 
         if (inventory[slot] == currentArmor) {
 
-            changeStats(0, 0, -currentArmor.magnitude);
             currentArmor = null;
 
         } else if (inventory[slot] == currentWeapon) {
 
-            changeStats(0, -currentWeapon.magnitude, 0);
             currentWeapon = null;
 
         } else if (inventory[slot] == currentWearable) {
@@ -122,7 +117,6 @@ public class Player extends Entity {
     public boolean hasItem(String itemName) {
         /*
         * Performs a linear search on player inventory
-        *
         * itemName: The name of the item being searched for
         */
 
@@ -158,7 +152,6 @@ public class Player extends Entity {
         /*
          * Use a particular item.
          * Returns the item's usage message
-         * 
          * slot: The inventory slot of the item to be used
          */
         
@@ -192,17 +185,13 @@ public class Player extends Entity {
 
             case Armor:
 
-                if (currentArmor != null) defense -= currentArmor.magnitude;
                 currentArmor = inventory[slot];
-                changeStats(0, 0, inventory[slot].magnitude);
                 msg.append("Equipped armor: " + inventory[slot].name);
                 break;
 
             case Weapon:
 
-                if (currentWeapon != null) attack -= currentWeapon.magnitude;
                 currentWeapon = inventory[slot];
-                changeStats(0, inventory[slot].magnitude, 0);
                 msg.append("Equipped weapon: " + inventory[slot].name);
                 break;
 
@@ -220,11 +209,24 @@ public class Player extends Entity {
 
     }
 
+    @Override
+    public int getAttacked(int dmg) {
+        /*
+         * Use getAttacked to deal damage to this entity
+         * dmg: Incoming damage value
+         */
+        
+        int n = (currentArmor != null) ? dmg - defense - currentArmor.magnitude : dmg - defense;
+        if (n < 1) n = 1;
+        changeStats(-n, 0, 0);
+        return n;
+
+    }
+
     public boolean travel(String dest) {
         /*
         * Travel to wherever, if you can from where you're at
         * Monstrous method
-        * 
         * dest: Destination name
         */
         

@@ -440,15 +440,18 @@ public class Menu {
                 if (enemyRef == null) writeText("There's nothing here...", 0);
                 else {
                     
-                    int atkdmg = enemyRef.getAttacked(playerRef.attack);
+                    int atkDmg = (playerRef.currentWeapon != null) ? playerRef.attack + playerRef.currentWeapon.magnitude : playerRef.attack;
+                    if (playerRef.statuses.get("weak") > 0) atkDmg *= 0.7;
+                    
+                    int dmgDealt = enemyRef.getAttacked(atkDmg);
                     damageSFX.play(false);
 
                     if (enemyRef.health == 0) {
 
-                        if (enemyRef.isBoss) writeText("Attacked " + enemyRef.name + " for " + atkdmg + " damage!\n" + Story.BOSS_DEFEATED[Player.location], 0);
+                        if (enemyRef.isBoss) writeText("Attacked " + enemyRef.name + " for " + dmgDealt + " damage!\n" + Story.BOSS_DEFEATED[Player.location], 0);
                         else {
 
-                            writeText("Attacked " + enemyRef.name + " for " + atkdmg + " damage!\n" + enemyRef.name + " has been defeated.", 0);
+                            writeText("Attacked " + enemyRef.name + " for " + dmgDealt + " damage!\n" + enemyRef.name + " has been defeated.", 0);
                             enemyRef.reset();
 
                         }
@@ -457,7 +460,7 @@ public class Menu {
 
                     } else {
 
-                        writeText("Attacked " + enemyRef.name + " for " + atkdmg + " damage!", 0);
+                        writeText("Attacked " + enemyRef.name + " for " + dmgDealt + " damage!", 0);
                         enemyTurn = true;
 
                     }
@@ -661,7 +664,9 @@ public class Menu {
         * Runs every time the terminal stops writing text
         */
 
-        playerBar.setText(playerRef.name + "\n\nHealth: " + playerRef.health + " / " + playerRef.healthDefault + "\nAttack: " + playerRef.attack + "\nDefense: " + playerRef.defense + "\n\nInventory\n" + playerRef.listItems());
+        int totalAtk = (playerRef.currentWeapon != null) ? playerRef.attack + playerRef.currentWeapon.magnitude : playerRef.attack;
+        int totalDef = (playerRef.currentArmor != null) ? playerRef.defense + playerRef.currentArmor.magnitude : playerRef.defense;
+        playerBar.setText(playerRef.name + "\n\nHealth: " + playerRef.health + " / " + playerRef.healthDefault + "\nAttack: " + totalAtk + "\nDefense: " + totalDef + "\n\nInventory\n" + playerRef.listItems());
         
         if (gameOver) return;
         else if (playerRef.health == 0) {
@@ -673,13 +678,10 @@ public class Menu {
                 gameOver = true;
                 mainframe.setTitle("Game Over");
                 JOptionPane.showMessageDialog(terminalPanel, "You have been terminated.", Story.GAME_OVERS[r.nextInt(Story.GAME_OVERS.length)], JOptionPane.ERROR_MESSAGE);
-                return;
 
             } else playerSelect();
 
-        }
-        
-        if (enemyRef != null) {
+        } else if (enemyRef != null) {
 
             Player.inCombat = true;
             Player.inBossfight = enemyRef.isBoss;
