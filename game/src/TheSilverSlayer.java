@@ -5,9 +5,7 @@ public class TheSilverSlayer {
 
         Log.setupLog();
         Audio.backgroundMusic();
-
-        @SuppressWarnings("unused")
-        Menu menu = new Menu();
+        new Menu();
 
     }
     

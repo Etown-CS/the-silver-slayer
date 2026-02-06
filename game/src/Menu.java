@@ -34,7 +34,7 @@ public class Menu {
     private boolean enemyTurn = false, gameOver = false;
 
     // Unique items
-    private boolean silverSpoon = false, paperHat = false, goggles = false, bitingRing = false, magicKey = false, silverSword = false;
+    private boolean silverSpoon = false, paperHat = false, goggles = false, bitingRing = false, silverSword = false;
 
     // Sounds
     private Audio[] voices = {new Audio("voice_blip"), new Audio("voice_beep")};
@@ -86,20 +86,29 @@ public class Menu {
         
         // Silver Spoon *
         if (!silverSpoon && Player.location == 2 && Player.sublocation == 1) {
+
             int invSlot = playerRef.addItem(new Item("Silver Spoon", ItemType.Weapon, "A shiny, silver spoon.", 1, false));
-            silverSpoon = true;
-            // If inventory is full
             if (invSlot == -1) return "\nInventory Full";
-            else return "\nAdded the Silver Spoon to slot " + invSlot + ".";
+            else {
+                
+                silverSpoon = true;
+                return "\nAdded Silver Spoon to slot " + invSlot + ".";
+
+            }
+
         }
 
         // Paper Hat *
         if (!paperHat && Player.location == 2 && Player.sublocation == 2) {
 
             int invSlot = playerRef.addItem(new Item("Paper Hat", ItemType.Armor, "An origami paper hat. Adds a point to ~style~.", 1, false));
-            paperHat = true;
             if (invSlot < 0) return "\nInventory full.";
-            else return "\nAdded Paper Hat to slot " + invSlot + '!';
+            else {
+                
+                paperHat = true;
+                return "\nAdded Paper Hat to slot " + invSlot + '!';
+
+            }
 
         }
 
@@ -116,7 +125,6 @@ public class Menu {
         if (!goggles && Player.location == 3 && Player.sublocation == 1) {
 
             int invSlot = playerRef.addItem(new Item("Goggles", ItemType.Quest, "A pair of purple, plastic swimming goggles. Luckily these don't leak.", 0, false));
-            goggles = true;
             if (invSlot < 0) return "\nInventory full.";
             else {
 
@@ -176,7 +184,21 @@ public class Menu {
 
             int invSlot = playerRef.addItem(new Item("Non-Biting Ring", ItemType.Armor, "An iron ring with a bloodred gemstone that definitely does not bite.", 1, false));
             if (invSlot < 0) return "\nInventory full.";
-            else return "\nAdded Non-Biting Ring to slot " + invSlot + '!';
+            else {
+
+                bitingRing = true;
+                return "\nAdded Non-Biting Ring to slot " + invSlot + '!';
+
+            }
+
+        }
+
+        // Cactus Fruit
+        if (Player.location == 5 && (Player.sublocation == 0 || Player.sublocation == 1) && r.nextBoolean()) {
+
+            int invSlot = playerRef.addItem(new Item("Cactus Fruit", ItemType.Health, "A colorful cactus fruit. Pull out the spines first!", 3, true));
+            if (invSlot < 0) return "\nInventory full.";
+            else return "\nAdded a fruit to slot " + invSlot + '!';
 
         }
 
@@ -194,7 +216,7 @@ public class Menu {
 
                 case 1:
 
-                    invSlot = playerRef.addItem(new Item("Oblong Swamp Fruit", ItemType.Health, "An oblong fruit from the swamp's woodland.", 2, true));
+                    invSlot = playerRef.addItem(new Item("Oblong Swamp Fruit", ItemType.Health, "An oblong fruit from the swamp's woodland.", -2, true));
                     break;
 
                 case 2:
@@ -215,22 +237,18 @@ public class Menu {
 
         }
 
-        // Magic Key *
-        if (!magicKey && Player.location == 8 && Player.sublocation == 3 && theStory.wasEventSeen(Player.location, 833)) {
-            int invSlot = playerRef.addItem(new Item("Magic Key", ItemType.Key, "A key that opens a mysterious chest", 0, false));
-            magicKey = true;
-            // If inventory is full
-            if (invSlot == -1) return "\nInventory Full";
-            else return "\nAdded the Magic Key to slot " + invSlot + ".";
-        }
-
         // Silver Sword *
         if (!silverSword && Player.location == 8 && Player.sublocation == 3 && theStory.wasEventSeen(Player.location, 833)) {
-            int invSlot = playerRef.addItem(new Item("Silver Sword", ItemType.Weapon, "A sharp silver sword", 0, false));
-            silverSword = true;
-            // If inventory is full
+
+            int invSlot = playerRef.addItem(new Item("Silver Sword", ItemType.Weapon, "A sharp, silver sword. The blade strangely ridged, and the pattern looks like it was intentionally engraved.", 99, false));
             if (invSlot == -1) return "\nInventory Full";
-            else return "\nAdded the Silver Sword to slot " + invSlot + ".";
+            else {
+                
+                silverSword = true;
+                return "\nAdded the Silver Sword to slot " + invSlot + ".";
+
+            }
+
         }
         
         return "";
@@ -307,7 +325,7 @@ public class Menu {
 
                     if (Player.location == 1 && Player.sublocation == 0) {
 
-                        if (bits[1].equals("a") && playerRef.hasItem("a")) {
+                        if (bits[1].equals("silver") && playerRef.hasItem("Silver Sword")) {
 
                             writeText(theStory.getUnlockEvent(1, 0, true), 0);
                             
@@ -664,8 +682,7 @@ public class Menu {
         if (enemyRef != null) {
 
             Player.inCombat = true;
-            if (enemyRef.isBoss) Player.inBossfight = true;
-            
+            Player.inBossfight = enemyRef.isBoss;
             enemyBar.setText(enemyRef.name + "\n\nHealth: " + enemyRef.health + "\nAttack: " + enemyRef.attack + "\nDefense: " + enemyRef.defense);
 
             if (enemyTurn) {
