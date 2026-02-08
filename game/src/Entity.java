@@ -75,6 +75,7 @@ public class Entity {
         health = healthDefault;
         attack = attackDefault;
         defense = defenseDefault;
+        initStatuses();
 
     }
     

@@ -125,7 +125,7 @@ public class Menu {
         // Goggles *
         if (!goggles && Player.location == 3 && Player.sublocation == 1) {
 
-            int invSlot = playerRef.addItem(new Item("Goggles", ItemType.Quest, "A pair of purple, plastic swimming goggles. Luckily these don't leak.", 0, false));
+            int invSlot = playerRef.addItem(new Item("Goggles", ItemType.Key, "A pair of purple, plastic swimming goggles. Luckily these don't leak.", 0, false));
             if (invSlot < 0) return "\nInventory full.";
             else {
 

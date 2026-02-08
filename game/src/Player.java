@@ -158,7 +158,6 @@ public class Player extends Entity {
         StringBuilder msg = new StringBuilder(64);
         switch (inventory[slot].type) {
             
-            case Unassigned:
             case Junk:
 
                 msg.append("You're not too sure what to do with this...");
@@ -196,7 +195,6 @@ public class Player extends Entity {
                 break;
 
             case Wearable:
-            case Quest:
             case Key:
 
                 // Will likely need manual implemtations for each item

@@ -3,7 +3,6 @@ import java.security.SecureRandom;
 public class Locations {
 
     private static SecureRandom r = new SecureRandom();
-
     public static final String[] locations = {null, "Start", "Village", "Lake", "Mountain", "Desert", "Swamp", "Fracture", "Lair"};
     public static final String[][] sublocations = {
         null,
@@ -16,7 +15,6 @@ public class Locations {
         {"Wasteland", "Edge", "Mirrors", "???"},
         {"Gate", "Village", "Castle", "Throne"}
     };
-
     public static final Enemy[] Village = 
         {
             new Enemy("Bug", 3, 1, 0),
@@ -26,7 +24,6 @@ public class Locations {
             new Enemy("Scavenger", 8, 0, 0),
             new Enemy("First Guardian", 10, 3, 2, true)
         };
-        
     public static final Enemy[] Lake = 
         {
             new Enemy("Bug", 3, 1, 0),
@@ -39,8 +36,7 @@ public class Locations {
             new Enemy("PISMPE", 2, 0, 0),
             new Enemy("Thief", 10, 3, 3),
             new Enemy("The Big One", 30, 3, 1, true)
-        };
-        
+        }; 
     public static final Enemy[] Mountain = 
         {
             new Enemy("Air Cooler", 4, 1, 4),
@@ -58,7 +54,6 @@ public class Locations {
             new Enemy("Thief", 10, 3, 3),
             new Enemy("Abominable Snowball", 40, 4, 4, true)
         };
-        
     public static final Enemy[] Desert = 
         {
             new Enemy("Bug", 3, 1, 0),
@@ -74,7 +69,6 @@ public class Locations {
             new Enemy("Thief", 10, 3, 3),
             new Enemy("Firewall", 60, 10, 5, true)
         };
-        
     public static final Enemy[] Swamp = 
         {
             new Enemy("Blue Flower", 3, 3, 0),
@@ -92,7 +86,6 @@ public class Locations {
             new Enemy("Worm", 4, 1, 5),
             new Enemy("Mudgulper", 30, 10, 10, true)
         };
-        
     public static final Enemy[] Fracture = 
         {
             new Enemy("Polychromatic Flower", 9, 9, 0),
@@ -102,7 +95,6 @@ public class Locations {
             new Enemy("Packet", 5, 5, 2),
             new Enemy("DISCOMBOBU-INATOR", 100, 100, 100, true)
         };
-        
     public static final Enemy[] Lair = 
         {
             new Enemy("Dweller", 10, 4, 3),
@@ -118,7 +110,6 @@ public class Locations {
             new Enemy("Worm", 4, 1, 5),
             new Enemy("The Silver Slayer", 999, 999, 999, true)
         };
-
     public static final Enemy[][] enemyIndex = {Village, Lake, Mountain, Desert, Swamp, Fracture, Lair};
 
     public static Enemy spawnEnemy(int location, boolean boss) {

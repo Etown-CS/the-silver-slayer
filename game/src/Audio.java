@@ -41,17 +41,24 @@ public class Audio {
 
     public void stop() {
 
-        if (clip == null) return;
-        clip.stop();
-        clip.close();
+        if (clip != null) {
 
-        try {
+            clip.stop();
+            clip.close();
 
-            stream.close();
+        }
 
-        } catch (IOException ex) {
-            
-            Log.logData("WARN: Failed to properly close audio stream: " + filePath);
+        if (stream != null) {
+
+            try {
+
+                stream.close();
+
+            } catch (IOException ex) {
+                
+                Log.logData("WARN: Failed to properly close audio stream: " + filePath);
+
+            }
 
         }
 
