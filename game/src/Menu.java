@@ -353,11 +353,11 @@ public class Menu {
             
             case "map":
             	
-            	showImage("orange.png");
+            	showImage("TSS_map.png");
             	writeText("Displaying map.", -1);
             	break;
 
-            case "whoami":
+            case "whami":
             case "characters":
             case "character":
             case "chars":
