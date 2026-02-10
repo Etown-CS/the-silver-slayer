@@ -8,6 +8,7 @@ import java.awt.event.AdjustmentListener;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.security.SecureRandom;
+import java.awt.event.KeyEvent;
 
 public class Menu {
 
@@ -702,6 +703,16 @@ public class Menu {
     	imageFrame.add(new JLabel(new ImageIcon(getClass().getResource("images/" + file))));
     	imageFrame.pack();
     	imageFrame.setVisible(true);
+
+        // closes image when user hits escape key
+        KeyStroke escapeKey = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, false);
+        Action escapeAction = new AbstractAction() {
+            public void actionPerformed(ActionEvent e) {
+                imageFrame.dispose();
+            }
+        };
+        imageFrame.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(escapeKey, "ESCAPE");
+        imageFrame.getRootPane().getActionMap().put("ESCAPE", escapeAction);
     	
     }
 
