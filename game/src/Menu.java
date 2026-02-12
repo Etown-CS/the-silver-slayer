@@ -241,7 +241,7 @@ public class Menu {
         // Silver Sword *
         if (!silverSword && Player.location == 8 && Player.sublocation == 3 && theStory.wasEventSeen(Player.location, 833)) {
 
-            int invSlot = playerRef.addItem(new Item("Silver Sword", ItemType.Weapon, "A sharp, silver sword. The blade strangely ridged, and the pattern looks like it was intentionally engraved.", 99, false));
+            int invSlot = playerRef.addItem(new Item("Silver Sword", ItemType.Weapon, "A sharp, silver sword taken from a mighty foe. The blade is strangely notched, and the pattern appears to be intentionally engraved.", 99, false));
             if (invSlot == -1) return "\nInventory Full";
             else {
                 
