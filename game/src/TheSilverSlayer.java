@@ -3,8 +3,8 @@ public class TheSilverSlayer {
     public static void main(String[] args) {
         /* Main */
     	
-    	Database.makeConnection();
         Log.setupLog();
+    	Database.makeConnection(true);
         Audio.backgroundMusic();
         new Menu();
 

@@ -125,7 +125,7 @@ public class Menu {
         // Goggles *
         if (!goggles && Player.location == 3 && Player.sublocation == 1) {
 
-            int invSlot = playerRef.addItem(new Item("Goggles", ItemType.Key, "A pair of purple, plastic swimming goggles. Luckily these don't leak.", 0, false));
+            int invSlot = playerRef.addItem(new Item("Goggles", ItemType.Key, "A pair of purple, plastic swimming goggles. Thankfully, they don't leak.", 0, false));
             if (invSlot < 0) return "\nInventory full.";
             else {
 
@@ -183,7 +183,7 @@ public class Menu {
         // Non-Biting Ring *
         if (!bitingRing && Player.location == 0 && Player.sublocation == 0) { // TODO: Put this somewhere
 
-            int invSlot = playerRef.addItem(new Item("Non-Biting Ring", ItemType.Armor, "An iron ring with a bloodred gemstone that definitely does not bite.", 1, false));
+            int invSlot = playerRef.addItem(new Item("Non-Biting Ring", ItemType.Wearable, "An iron ring with a bloodred gemstone. Does not bite.", 1, false));
             if (invSlot < 0) return "\nInventory full.";
             else {
 
@@ -208,29 +208,38 @@ public class Menu {
 
             int invSlot = 0;
 
-            switch (r.nextInt(4)) {
+            switch (r.nextInt(9)) {
 
                 case 0:
+                case 1:
 
                     invSlot = playerRef.addItem(new Item("Mottled Swamp Fruit", ItemType.Health, "A mottled fruit from the swamp's woodland.", 3, true));
                     break;
 
-                case 1:
+                case 2:
+                case 3:
 
                     invSlot = playerRef.addItem(new Item("Oblong Swamp Fruit", ItemType.Health, "An oblong fruit from the swamp's woodland.", -2, true));
                     break;
 
-                case 2:
+                case 4:
+                case 5:
 
                     invSlot = playerRef.addItem(new Item("Bulbous Swamp Fruit", ItemType.Health, "A bulbous fruit from the swamp's woodland.", 4, true));
                     break;
 
-                case 3:
+                case 6:
+                case 7:
 
                     invSlot = playerRef.addItem(new Item("Speckled Swamp Fruit", ItemType.Health, "A speckled fruit from the swamp's woodland.", -3, true));
                     break;
 
+                default:
 
+                    invSlot = playerRef.addItem(new Item("Star Swamp Fruit", ItemType.Health, "A star-shaped fruit from the swamp's woodland.", 7, true));
+                    break;
+
+                // TODO: Star fruit
             }
 
             if (invSlot < 0) return "\nInventory full.";
