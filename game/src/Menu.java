@@ -290,6 +290,7 @@ public class Menu {
                 else writeText(theStory.getSearchEvent(Player.location, Player.sublocation) + getItems(), 0);
                 break;
 
+            case "cd":
             case "goto":
 
                 if (enemyRef != null) writeText("You're in combat!", 0);
@@ -367,7 +368,7 @@ public class Menu {
             	writeText("Displaying map.", -1);
             	break;
 
-            case "whami":
+            case "whoami":
             case "characters":
             case "character":
             case "chars":
@@ -510,19 +511,6 @@ public class Menu {
                 enemyTurn = true;
                 break;
 
-            case "spawn":
-
-                if (bits.length < 2) writeText("spawn what", -1);
-                else if (enemyRef == null) {
-
-                    for (Enemy e : Locations.enemyIndex[Player.location]) if (e.name.toLowerCase().equals(bits[1])) enemyRef = e;
-                    if (enemyRef == null) writeText("Failed to spawn that.", -1);
-                    else writeText("Spawned that.", -1);
-
-                } else writeText("There's already an enemy", -1);
-
-                break;
-
             // GENERAL COMMANDS
 
             case "help":
@@ -557,6 +545,7 @@ public class Menu {
             case "exit":
 
                 Log.logData("Shutting down. Goodbye!");
+                Database.closeConnection();
                 Log.closeLog();
                 mainframe.dispatchEvent(new WindowEvent(mainframe, WindowEvent.WINDOW_CLOSING));
                 break;
