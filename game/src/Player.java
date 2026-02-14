@@ -301,7 +301,7 @@ public class Player extends Entity {
 
                     case "mountain":
 
-                        if (sublocation != 0) break;
+                        if (sublocation != 0 || !theStory.wasEventSeen(2, 203)) break;
                         location = 4;
                         sublocation = 0;
                         Audio.activeTrack.stop();

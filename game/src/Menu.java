@@ -344,7 +344,7 @@ public class Menu {
 
                     } else if (Player.location == 1 && Player.sublocation == 1) {
 
-                        if (bits[1].equals("83927354") || theStory.wasEventSeen(Player.location, 113)) {
+                        if (bits[1].equals("83927354") || theStory.wasEventSeen(1, 113)) {
 
                             writeText(theStory.getUnlockEvent(1, 1, true), 0);
 
@@ -353,6 +353,20 @@ public class Menu {
                             theStory.updateEvent(1, 113, "This lock is open already.");
 
                         } else writeText(theStory.getUnlockEvent(1, 1, false), 0);
+
+                    } else if (Player.location == 2 && Player.sublocation == 0) {
+
+                        String code = Database.getMountainCode();
+                        if (code == null || code.length() == 0) {
+
+                            writeText("The lock is broken??", -1);
+                            JOptionPane.showMessageDialog(mainframe, "There was an error accessing the database. Save your game, exit, and fix any database problems.", "Database Error", JOptionPane.ERROR_MESSAGE);
+
+                        } else if (bits[1].equals(code) || theStory.wasEventSeen(2, 203)) {
+
+                            writeText(theStory.getUnlockEvent(2, 0, true), 0);
+
+                        } else writeText(theStory.getUnlockEvent(2, 0, false), 0);
 
                     } else writeText("There's nothing to unlock here.", 0);
 

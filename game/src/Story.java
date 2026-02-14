@@ -85,10 +85,10 @@ public class Story {
 
         // Center
         village.put(200, "You arrive at the village. The buildings are worn from years of neglect and misuse. You don't see any signs of life around. At first glance, it seems like you are alone.");
-        village.put(201, "Rows of abandoned houses lie in silence, and debris lines the streets. A dry well stands in the corner of the square, and a graveyard rests just beyond.");
+        village.put(201, "Rows of abandoned houses lie in silence, and debris lines the streets. A dry well stands in the corner of the square, and a graveyard rests just beyond. Opposite the way you entered from lies a road leading up into the mountains. Another gate blocks this way, with another eight digit padlock attached.");
         village.put(202, "You scavenge amongst the debris. There's nothing of value to be found, and you give up after realizing you look like another desperate looter.");
-        village.put(203, "unlock");
-        village.put(204, "failed unlock");
+        village.put(203, "You hear the click of the lock coming open. This gate is tougher to open, but you manage to shove the doors aside, leaving divets in the dirt. The road to the mountains is clear.");
+        village.put(204, "The lock hangs with indifference.");
 
         // House
         village.put(210, "A particular house catches your eye. It seems less worn then the rest of the buildings, so you decide to take a closer look. You go inside.");

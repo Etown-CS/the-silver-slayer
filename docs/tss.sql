@@ -69,8 +69,8 @@ INSERT INTO enemy(name, enemy_type, health, attack, defense, boss, spawn_message
 INSERT INTO enemy(name, enemy_type, health, attack, defense, boss, spawn_message, mine) VALUES ("Last Prospector", "default", 45, 6, 10, true, "tbd", true);
 INSERT INTO enemy(name, enemy_type, health, attack, defense, boss, spawn_message, desert) VALUES ("Firewall", "default", 60, 10, 5, true, "tbd", true);
 INSERT INTO enemy(name, enemy_type, health, attack, defense, boss, spawn_message, swamp) VALUES ("Mudgulper", "default", 30, 10, 10, true, "tbd", true);
-INSERT INTO enemy(name, enemy_type, health, attack, defense, boss, spawn_message, fracture) VALUES ("DISCOMBOBULATOR", "default", -1, -1, -1, true, "tbd", true);
-INSERT INTO enemy(name, enemy_type, health, attack, defense, boss, spawn_message, lair) VALUES ("The Silver Slayer", "default", -1, -1, -1, true, "tbd", true);
+INSERT INTO enemy(name, enemy_type, health, attack, defense, boss, spawn_message, fracture) VALUES ("DISCOMBOBU-INATOR", "default", -1, -1, -1, true, "tbd", true);
+INSERT INTO enemy(name, enemy_type, health, attack, defense, boss, spawn_message, lair) VALUES ("The Silver Slayer", "default", -1, -1, -1, true, '"Let us begin."', true);
 
 CREATE TABLE IF NOT EXISTS item (
 
@@ -85,6 +85,8 @@ CREATE TABLE IF NOT EXISTS item (
     PRIMARY KEY (itemID)
 
 );
+
+INSERT INTO item (name, item_type, magnitude, consumable, is_unique, info) VALUES ("57396329", "key", 0, false, true, "Is this what you're looking for?");
 
 INSERT INTO item (name, item_type, magnitude, consumable, is_unique, info) VALUES ("Silver Spoon", "weapon", 1, false, true, "A shiny, silver spoon.");
 INSERT INTO item (name, item_type, magnitude, consumable, is_unique, info) VALUES ("Paper Hat", "armor", 1, false, true, "An origami paper hat. Adds a point to ~style~.");

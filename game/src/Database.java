@@ -1,5 +1,7 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Database {
@@ -41,6 +43,28 @@ public class Database {
 		} catch (SQLException ex) {
 
 			Log.logData("WARN: Failed to properly close database connection.");
+
+		}
+
+	}
+
+	public static String getMountainCode() {
+
+		Log.logData("Pulling mountain code from database.");
+
+		try {
+
+			PreparedStatement stmt = conn.prepareStatement("SELECT name FROM item WHERE itemID = 1");
+			ResultSet rs = stmt.executeQuery();
+			rs.next();
+			return rs.getString(1);
+			
+
+		} catch (SQLException ex) {
+
+			Log.logData("WARN: Failed to retrieve mountain code!");
+			ex.printStackTrace();
+			return null;
 
 		}
 
