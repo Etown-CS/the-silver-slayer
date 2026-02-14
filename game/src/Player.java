@@ -246,7 +246,7 @@ public class Player extends Entity {
 
                     case "village":
 
-                        if (sublocation != 1 || !theStory.wasEventSeen(1, 113)) break;
+                        if (sublocation != 1 || !theStory.wasEventSeen(113)) break;
                         location = 2;
                         sublocation = 0;
                         Audio.activeTrack.stop();
@@ -301,7 +301,7 @@ public class Player extends Entity {
 
                     case "mountain":
 
-                        if (sublocation != 0 || !theStory.wasEventSeen(2, 203)) break;
+                        if (sublocation != 0 || !theStory.wasEventSeen(203)) break;
                         location = 4;
                         sublocation = 0;
                         Audio.activeTrack.stop();
@@ -388,7 +388,7 @@ public class Player extends Entity {
 
                     case "desert":
 
-                        if (sublocation != 1) break;
+                        if (sublocation != 1 || !theStory.wasEventSeen(413)) break;
                         location = 5;
                         sublocation = 0;
                         Audio.activeTrack.stop();
@@ -437,7 +437,7 @@ public class Player extends Entity {
 
                     case "mountain":
 
-                        if (sublocation != 0) break;
+                        if (sublocation != 0 || !theStory.wasEventSeen(413)) break;
                         location = 4;
                         sublocation = 1; // Yes this is 1
                         Audio.activeTrack.stop();

@@ -35,7 +35,7 @@ public class Menu {
     private boolean enemyTurn = false, gameOver = false;
 
     // Unique items
-    private boolean silverSpoon = false, paperHat = false, goggles = false, bitingRing = false, silverSword = false;
+    private boolean silverSpoon = false, paperHat = false, goggles = false, woodenClub = false, bitingRing = false, silverSword = false;
 
     // Sounds
     private Audio[] voices = {new Audio("voice_blip"), new Audio("voice_beep")};
@@ -130,7 +130,7 @@ public class Menu {
             else {
 
                 goggles = true;
-                theStory.updateEvent(3, 321, "Luckily you're wearing goggles, so you begin to look around. At the bottom of the lake, you see the enterance to a cave, but you are too nervous to look any further.");
+                theStory.updateEvent(321, "Luckily you're wearing goggles, so you begin to look around. At the bottom of the lake, you see the enterance to a cave, but you are too nervous to look any further.");
                 return "\nAdded Goggles to slot " + invSlot + '!';
 
             }
@@ -142,39 +142,53 @@ public class Menu {
 
             if (Player.mountainPathSearches == 0) {
 
-                theStory.updateEvent(4, 412, "Attempting to follow the lost path's trail is difficult. You somehow keep ending up back at the signpost, over and over again.");
+                theStory.updateEvent(412, "Attempting to follow the lost path's trail is difficult. You somehow keep ending up back at the signpost, over and over again.");
                 Player.mountainPathSearches++;
                 System.out.println(Player.mountainPathSearches);
 
             } else if (Player.mountainPathSearches == 1) {
 
-                theStory.updateEvent(4, 412, "It almost feels like you're being pushed away from your destination. The plants and landmarks never seem to repeat, yet you always return to the signpost.");
+                theStory.updateEvent(412, "It almost feels like you're being pushed away from your destination. The plants and landmarks never seem to repeat, yet you always return to the signpost.");
                 Player.mountainPathSearches++;
                 System.out.println(Player.mountainPathSearches);
 
             } else if (Player.mountainPathSearches == 2) {
 
-                theStory.updateEvent(4, 412, "The signpost's missing text has reappeared. It reads: \"enough\"");
+                theStory.updateEvent(412, "The signpost's missing text has reappeared. It reads: \"enough\"");
                 Player.mountainPathSearches++;
                 System.out.println(Player.mountainPathSearches);
 
             } else if (Player.mountainPathSearches == 3) {
 
-                theStory.updateEvent(4, 412, "Why do you feel so... ill? Give up the search. Give it up. There's nothing to be found.");
+                theStory.updateEvent(412, "Why do you feel so... ill? Give up the search. Give it up. There's nothing to be found.");
                 Player.mountainPathSearches++;
                 System.out.println(Player.mountainPathSearches);
 
             } else if (Player.mountainPathSearches == 4) {
 
-                theStory.updateEvent(4, 412, "You're not wanted here. This place isn't for you. Let it rest. You don't want their attention.");
+                theStory.updateEvent(412, "You're not wanted here. This place isn't for you. Let it rest. You don't want their attention.");
                 Player.mountainPathSearches++;
                 System.out.println(Player.mountainPathSearches);
 
             } else if (Player.mountainPathSearches == 5) {
 
-                theStory.updateEvent(4, 412, "The signpost's missing text has reappeared. It reads: \"Fracture\"");
+                theStory.updateEvent(412, "The signpost's missing text has reappeared. It reads: \"Fracture\"");
                 Player.mountainPathSearches++;
                 System.out.println(Player.mountainPathSearches);
+
+            }
+
+        }
+
+        if (!woodenClub && Player.location == 4 && Player.sublocation == 2) {
+
+            int invSlot = playerRef.addItem(new Item("Wooden Club", ItemType.Weapon, "A hefty branch found on the slopes of the Mountain. Bonk!", 4, false));
+            if (invSlot < 0) return "\nInventory full.";
+            else {
+
+                woodenClub = true;
+                theStory.updateEvent(422, "The few living plants give the Oracle a wide berth. Scattered branches litter the area.");
+                return "\nAdded Wooden Club to slot " + invSlot + '!';
 
             }
 
@@ -239,7 +253,6 @@ public class Menu {
                     invSlot = playerRef.addItem(new Item("Star Swamp Fruit", ItemType.Health, "A star-shaped fruit from the swamp's woodland.", 7, true));
                     break;
 
-                // TODO: Star fruit
             }
 
             if (invSlot < 0) return "\nInventory full.";
@@ -248,7 +261,7 @@ public class Menu {
         }
 
         // Silver Sword *
-        if (!silverSword && Player.location == 8 && Player.sublocation == 3 && theStory.wasEventSeen(Player.location, 833)) {
+        if (!silverSword && Player.location == 8 && Player.sublocation == 3 && theStory.wasEventSeen(833)) {
 
             int invSlot = playerRef.addItem(new Item("Silver Sword", ItemType.Weapon, "A sharp, silver sword taken from a mighty foe. The blade is strangely notched, and the pattern appears to be intentionally engraved.", 99, false));
             if (invSlot == -1) return "\nInventory Full";
@@ -344,13 +357,12 @@ public class Menu {
 
                     } else if (Player.location == 1 && Player.sublocation == 1) {
 
-                        if (bits[1].equals("83927354") || theStory.wasEventSeen(1, 113)) {
+                        if (bits[1].equals("83927354") || theStory.wasEventSeen(113)) {
 
                             writeText(theStory.getUnlockEvent(1, 1, true), 0);
-
-                            theStory.updateEvent(1, 110, "You step up to the gate. The iron doors stand open, and an old lock rests on the ground nearby.");
-                            theStory.updateEvent(1, 111, "The gate is old and weathered.");
-                            theStory.updateEvent(1, 113, "This lock is open already.");
+                            theStory.updateEvent(110, "You step up to the gate. The iron doors stand open, and an old lock rests on the ground nearby.");
+                            theStory.updateEvent(111, "The gate is old and weathered.");
+                            theStory.updateEvent(113, "This lock is open already.");
 
                         } else writeText(theStory.getUnlockEvent(1, 1, false), 0);
 
@@ -362,11 +374,21 @@ public class Menu {
                             writeText("The lock is broken??", -1);
                             JOptionPane.showMessageDialog(mainframe, "There was an error accessing the database. Save your game, exit, and fix any database problems.", "Database Error", JOptionPane.ERROR_MESSAGE);
 
-                        } else if (bits[1].equals(code) || theStory.wasEventSeen(2, 203)) {
+                        } else if (bits[1].equals(code) || theStory.wasEventSeen(203)) {
 
                             writeText(theStory.getUnlockEvent(2, 0, true), 0);
 
                         } else writeText(theStory.getUnlockEvent(2, 0, false), 0);
+
+                    } else if (Player.location == 4 && Player.sublocation == 1) {
+
+                        if (bits[1].equals("wooden") && playerRef.hasItem("Wooden Club")) {
+
+                            writeText(theStory.getUnlockEvent(4, 1, true), 0);
+                            theStory.updateEvent(413, "The chains lie in a ruined pile.");
+                            // TODO: Find a better way to store new events, then update the others related to this action
+
+                        } else writeText(theStory.getUnlockEvent(4, 1, false), 0);
 
                     } else writeText("There's nothing to unlock here.", 0);
 
@@ -497,7 +519,7 @@ public class Menu {
             case "flee":
 
                 if (enemyRef == null) writeText("There's nothing to run from (yet).", 0);
-                else if (enemyRef == Locations.enemyIndex[8][Locations.enemyIndex[8].length - 1]) writeText("You either win, or you don't ever leave.", 0);
+                else if (enemyRef == Locations.enemyIndex[6][Locations.enemyIndex[6].length - 1]) writeText("You either win, or you don't ever leave.", 0);
                 else {
 
                     if (playerRef.flee(65)) {

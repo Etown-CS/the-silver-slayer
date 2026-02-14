@@ -152,15 +152,15 @@ public class Story {
 
         // Path
         mountain.put(410, "As you travel up the mountain, you see a globe of light surrounding what seems to be a person meditating. You should check it out.");
-        mountain.put(411, "The weathered post marks the location where the path splits into three. It seems one path leads down the back of the mountain towards the desert, another further up the mountain, and the last to... somewhere? The text is scratched away, seemingly intentionally. The path it indicates withers away after only a few steps.");
+        mountain.put(411, "The weathered post marks the location where the path splits into three. It seems one path leads down the back of the mountain towards the desert, another further up the mountain, and the last to... somewhere? The text is scratched away, seemingly intentionally. The path it indicates withers away after only a few steps. The road to the desert is blocked by a wooden palisade, held shut by an enourmous metal deadbolt. A series of rusted chains converge on the bolt, holding it in place. Perhaps something with sufficient weight could smash the ball of chains apart...");
         mountain.put(412, "Tufts of coarse grass and hardy, knotted trees dot the surroundings. There's nothing to be found in the immediate vicinity. You could, however, try searching again to find where the missing path used to lead.");
-        mountain.put(413, "unlock");
-        mountain.put(414, "unlock failed");
+        mountain.put(413, "The wooden club easily smashes the rusted chain. You painstakingly heft the deadbolt out of the clasp and slide it open. The desert path is now accessible.");
+        mountain.put(414, "That didn't do it.");
 
         // Oracle
-        mountain.put(420, "As you approach the figure, you see a man in robes. You feel a dark magic coming off of him. He looks towards you as you get closer");
-        mountain.put(421, "You ask the man, 'Who are you? What are you doing here?'");
-        mountain.put(422, "The man says, 'I am the Oracle, keeper of knowledge. I am studying dark magic. If you wish, I can enchant your weapon to help you defeat what comes.'"); // maybe increase weapon damage, or maybe increase attack power?
+        mountain.put(420, "As you approach the figure, you see a man in robes. You feel a dark magic coming off of him. He looks towards you as you get closer. You ask the man, 'Who are you? What are you doing here?' The man says, 'I am the Oracle, keeper of knowledge. I am studying dark magic. If you wish, I can enchant your weapon to help you defeat what comes.'"); // TODO: maybe increase weapon damage, or maybe increase attack power?
+        mountain.put(421, "look");
+        mountain.put(422, "The few living plants give the Oracle a wide berth. Scattered branches litter the area. One of them is much larger than the others...");
         mountain.put(423, "unlock");
         mountain.put(424, "unlock failed");
 
@@ -360,17 +360,17 @@ public class Story {
 
     }
 
-    public boolean wasEventSeen(int locationID, int eventID) {
+    public boolean wasEventSeen(int eventID) {
         /*
         * Reports whether a specific event has been seen
         * eventID: The ID of the event
         */
         
-        return eventsSeen[locationID - 1][eventID % 100];
+        return eventsSeen[eventID / 100][eventID % 100];
 
     }
 
-    public void updateEvent(int locationID, int eventID, String content) {
+    public void updateEvent(int eventID, String content) {
         /*
         * Used to dynamically change an event.
         * 
@@ -379,7 +379,7 @@ public class Story {
         * content: The new event content
         */
 
-        events.get(locationID).put(eventID, content);
+        events.get(eventID / 100).put(eventID, content);
 
     }
     

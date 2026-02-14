@@ -15,9 +15,9 @@ public class TheSilverSlayer {
         * Use this when a fatal error occurs to close all resources and terminate the application
         */
 
-        Log.closeLog();
-        Database.closeConnection();
         if (Audio.activeTrack != null) Audio.activeTrack.stop();
+        Database.closeConnection();
+        Log.closeLog();
         System.exit(1);
 
     }
