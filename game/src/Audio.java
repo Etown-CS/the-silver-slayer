@@ -11,7 +11,7 @@ public class Audio {
     private AudioInputStream stream;
     private Clip clip;
     private String filePath;
-    public static Audio activeTrack;
+    public static Audio activeTrack = null;
 
     public Audio(String fileName) {
         

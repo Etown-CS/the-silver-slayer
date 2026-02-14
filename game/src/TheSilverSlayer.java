@@ -9,5 +9,17 @@ public class TheSilverSlayer {
         new Menu();
 
     }
+
+    public static void shutdownNow() {
+        /*
+        * Use this when a fatal error occurs to close all resources and terminate the application
+        */
+
+        Log.closeLog();
+        Database.closeConnection();
+        if (Audio.activeTrack != null) Audio.activeTrack.stop();
+        System.exit(1);
+
+    }
     
 }

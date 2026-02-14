@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class Database {
 	
-	public static Connection conn;
+	public static Connection conn = null;
 	
 	public static void makeConnection(boolean local) {
 		/*
@@ -25,7 +25,7 @@ public class Database {
 		} catch (SQLException ex) {
 			
 			ex.printStackTrace();
-			System.exit(1);
+			TheSilverSlayer.shutdownNow();
 			
 		}
 		

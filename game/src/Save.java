@@ -22,7 +22,7 @@ public class Save {
         } catch (FileNotFoundException ex) {
 
             Log.logData("FATAL: Failed to init save file!");
-            System.exit(1);
+            TheSilverSlayer.shutdownNow();
 
         }
 

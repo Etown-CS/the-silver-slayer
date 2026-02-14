@@ -545,7 +545,7 @@ public class Menu {
 
                         System.out.println("FATAL: Failed to access save file!");
                         JOptionPane.showMessageDialog(null, ex, "BROKEN SAVE", JOptionPane.ERROR_MESSAGE);
-                        System.exit(1);
+                        TheSilverSlayer.shutdownNow();
 
                     }
 
@@ -634,7 +634,7 @@ public class Menu {
         if (timer.isRunning()) {
 
             Log.logData("FATAL: Attempt to start writeText timer while its still active.");
-            System.exit(1);
+            TheSilverSlayer.shutdownNow();
 
         }
 

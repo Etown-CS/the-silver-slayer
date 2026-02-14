@@ -22,8 +22,8 @@ public class Log {
 
         } catch (IOException ex) {
         	
-        	System.out.println(ex.toString());
-            System.exit(1);
+        	ex.printStackTrace();
+            TheSilverSlayer.shutdownNow();
 
         }
 
@@ -31,7 +31,7 @@ public class Log {
         if (!logData("-= The Silver Slayer v0.1-beta =-\nStart time: " + timer)) {
 
             System.out.println("FATAL: Log hasn't started properly! Is it open somewhere?");
-            System.exit(1);
+            TheSilverSlayer.shutdownNow();
 
         }
 
