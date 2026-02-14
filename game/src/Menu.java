@@ -197,7 +197,7 @@ public class Menu {
         // Non-Biting Ring *
         if (!bitingRing && Player.location == 0 && Player.sublocation == 0) { // TODO: Put this somewhere
 
-            int invSlot = playerRef.addItem(new Item("Non-Biting Ring", ItemType.Wearable, "An iron ring with a bloodred gemstone. Does not bite.", 1, false));
+            int invSlot = playerRef.addItem(new Item("Non-Biting Ring", ItemType.Wearable, "A golden ring inset with a blood-red gemstone. Does not bite.", 1, false));
             if (invSlot < 0) return "\nInventory full.";
             else {
 

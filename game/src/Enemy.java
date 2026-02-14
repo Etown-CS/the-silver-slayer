@@ -71,12 +71,12 @@ public class Enemy extends Entity {
 
                                     case 2:
 
-                                        target.addItem(new Item("Rubbish", ItemType.Junk, "A collection of trash.", 0, false));
+                                        target.addItem(new Item("Rubbish", ItemType.Junk, "A collection of, well, rubbish.", 0, false));
                                         break;
 
                                     case 3:
 
-                                        target.addItem(new Item("Expired Something", ItemType.Health, "An expired piece of some unknown food.", -1, true));
+                                        target.addItem(new Item("Expired... Something", ItemType.Health, "An expired morsel of some unknown substance.", -1, true));
                                         break;
 
                                     case 4:
