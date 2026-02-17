@@ -40,3 +40,11 @@ int getAttacked(player* character,int dmg)
     changeStats(character,-(dmg-character->defense),0,0);
     return dmg-character->defense;
 }
+
+void equipWeapon(player* character,int index)
+{
+    if(character->inventory[index].type==Weapon)
+    {
+        character->weapon=character->inventory[index];
+    }
+}
