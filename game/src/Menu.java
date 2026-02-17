@@ -25,6 +25,12 @@ public class Menu {
     private Timer timer = new Timer(0, null);
     private int characterIndex;
 
+    // SQL
+    private JFrame sqlFrame = new JFrame();
+    private JPanel sqlPanel = new JPanel(new BorderLayout());
+    private JTextArea sqlArea = new JTextArea();
+    private JTextField sqlField = new JTextField();
+
     // Elements
     private SecureRandom r = new SecureRandom();
     private Save save;
@@ -386,7 +392,7 @@ public class Menu {
 
                             writeText(theStory.getUnlockEvent(4, 1, true), 0);
                             theStory.updateEvent(413, "The chains lie in a ruined pile.");
-                            // TODO: Find a better way to store new events, then update the others related to this action
+                            // TODO: Find a better way to store new events, then add updates for the ones related to this action
 
                         } else writeText(theStory.getUnlockEvent(4, 1, false), 0);
 
@@ -397,6 +403,11 @@ public class Menu {
                 break;
  
             // GAMEPLAY COMMANDS
+
+            case "sql":
+
+                sqlFrame.setVisible(true);
+                break;
             
             case "map":
             	
@@ -833,7 +844,7 @@ public class Menu {
         inputField.setForeground(Color.GREEN);
         inputField.setBorder(new LineBorder(Color.GREEN));
         inputField.setHorizontalAlignment(JTextField.CENTER);
-        inputField.addActionListener((@SuppressWarnings("unused") ActionEvent e) -> {
+        inputField.addActionListener((ActionEvent e) -> {
 
             String entered = inputField.getText().strip();
             if (!(entered == null || entered.length() == 0)) {
@@ -881,6 +892,25 @@ public class Menu {
 
         // Randomize title
         mainframe.setTitle(Story.TITLE_STRINGS[r.nextInt(Story.TITLE_STRINGS.length)]);
+
+        // SQL Window Setup
+        sqlFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        sqlFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        sqlFrame.add(sqlPanel);
+        sqlPanel.add(sqlArea, BorderLayout.CENTER);
+        sqlPanel.add(sqlField, BorderLayout.SOUTH);
+        sqlArea.setEditable(false);
+        sqlField.addActionListener((ActionEvent e) -> {
+
+            String entered = sqlField.getText().strip();
+            if (!(entered == null || entered.length() == 0)) {
+
+                sqlArea.setText(Database.makeUnsafeQuery(entered));
+                sqlField.setText(null);
+
+            }
+
+        });
 
         // Background service
         new Thread(() -> {
