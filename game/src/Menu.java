@@ -8,6 +8,7 @@ import java.awt.event.AdjustmentListener;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.security.SecureRandom;
+import java.util.Base64;
 import java.awt.event.KeyEvent;
 
 public class Menu {
@@ -363,7 +364,7 @@ public class Menu {
 
                     } else if (Player.location == 1 && Player.sublocation == 1) {
 
-                        if (bits[1].equals("83927354") || theStory.wasEventSeen(113)) {
+                        if (bits[1].equals(new String(Base64.getDecoder().decode("ODM5MjczNTQ="))) || theStory.wasEventSeen(113)) {
 
                             writeText(theStory.getUnlockEvent(1, 1, true), 0);
                             theStory.updateEvent(110, "You step up to the gate. The iron doors stand open, and an old lock rests on the ground nearby.");

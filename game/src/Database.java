@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Base64;
 
 public class Database {
 	
@@ -99,14 +100,17 @@ public class Database {
 		* Gets the code for the gate between the village and the mountain
 		*/
 
+		String data;
+		byte layers;
 		Log.logData("Pulling mountain code from database.");
 
 		try {
 
-			PreparedStatement stmt = conn.prepareStatement("SELECT name FROM item WHERE itemID = 1");
+			PreparedStatement stmt = conn.prepareStatement("SELECT * FROM _tss_meta WHERE metaID = 1");
 			ResultSet rs = stmt.executeQuery();
 			rs.next();
-			return rs.getString(1);
+			data = rs.getString(2);
+			layers = rs.getByte(3);
 			
 
 		} catch (SQLException ex) {
@@ -116,6 +120,17 @@ public class Database {
 			return null;
 
 		}
+
+		byte[] raw_bytes;
+		for (int c = 0; c < layers; c++) {
+
+			raw_bytes = Base64.getDecoder().decode(data);
+			data = new String(raw_bytes);
+
+		}
+
+		System.out.println(data);
+		return data;
 
 	}
 

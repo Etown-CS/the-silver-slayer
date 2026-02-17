@@ -86,8 +86,6 @@ CREATE TABLE IF NOT EXISTS item (
 
 );
 
-INSERT INTO item (name, item_type, magnitude, consumable, is_unique, info) VALUES ("57396329", "key", 0, false, true, "Is this what you're looking for?");
-
 INSERT INTO item (name, item_type, magnitude, consumable, is_unique, info) VALUES ("Silver Spoon", "weapon", 1, false, true, "A shiny, silver spoon.");
 INSERT INTO item (name, item_type, magnitude, consumable, is_unique, info) VALUES ("Paper Hat", "armor", 1, false, true, "An origami paper hat. Adds a point to ~style~.");
 INSERT INTO item (name, item_type, magnitude, consumable, is_unique, info) VALUES ("Rock", "junk", 0, false, false, "A cool rock. Does nothing.");
@@ -106,3 +104,15 @@ INSERT INTO item (name, item_type, magnitude, consumable, is_unique, info) VALUE
 INSERT INTO item (name, item_type, magnitude, consumable, is_unique, info) VALUES ("Rubbish", "junk", 0, false, false, "A collection of, well, rubbish.");
 INSERT INTO item (name, item_type, magnitude, consumable, is_unique, info) VALUES ("Expired... Something", "health", -1, false, true, "An expired morsel of some unknown substance.");
 INSERT INTO item (name, item_type, magnitude, consumable, is_unique, info) VALUES ("Mystery Meat", "health", 2, false, true, "This could be anything.");
+
+CREATE TABLE IF NOT EXISTS _tss_meta (
+
+	metaID int auto_increment,
+    raw_data varchar(255),
+    layers int default 0,
+    
+    PRIMARY KEY (metaID)
+
+);
+
+INSERT INTO _tss_meta (raw_data, layers) VALUES ("Vm0weE1HRXdNVWRXV0d4VVltdHdUMVl3Vm5kVlZscDBaVWRHVjFac2JETlpWVlpQVm14S2RHVkdiR0ZTVmxwb1ZsVmFWMVpWTVVWaGVqQTk=", 8);
