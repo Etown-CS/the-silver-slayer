@@ -41,19 +41,18 @@ public class Story {
                                             "clear: Clear the terminal\n" + 
                                             "title: Change the title message";
 
-    private HashMap<Integer, String> start = new HashMap<>();
-    private HashMap<Integer, String> village = new HashMap<>();
-    private HashMap<Integer, String> lake = new HashMap<>();
-    private HashMap<Integer, String> mountain = new HashMap<>();
-    private HashMap<Integer, String> desert = new HashMap<>();
-    private HashMap<Integer, String> swamp = new HashMap<>();
-    private HashMap<Integer, String> fracture = new HashMap<>();
-    private HashMap<Integer, String> lair = new HashMap<>();
-    private HashMap<Integer, HashMap<Integer, String>> events = new HashMap<Integer, HashMap<Integer, String>>();
-    
-    private boolean[][] eventsSeen;
+    private static HashMap<Integer, String> start = new HashMap<>();
+    private static HashMap<Integer, String> village = new HashMap<>();
+    private static HashMap<Integer, String> lake = new HashMap<>();
+    private static HashMap<Integer, String> mountain = new HashMap<>();
+    private static HashMap<Integer, String> desert = new HashMap<>();
+    private static HashMap<Integer, String> swamp = new HashMap<>();
+    private static HashMap<Integer, String> fracture = new HashMap<>();
+    private static HashMap<Integer, String> lair = new HashMap<>();
+    private static HashMap<Integer, HashMap<Integer, String>> events = new HashMap<Integer, HashMap<Integer, String>>();
+    private static boolean[][] eventsSeen;
 
-    public Story() {
+    public static void initStory() {
 
         // Populating top-level map
         events.put(1, start);
@@ -290,7 +289,7 @@ public class Story {
 
     }
 
-    private String getExactEvent(int locationID, int eventID) {
+    private static String getExactEvent(int locationID, int eventID) {
         /*
         * Get a specific story event
         * locationID: The ID of the location to pull the event from
@@ -302,7 +301,7 @@ public class Story {
 
     }
 
-    private int genEventKey(int l, int s, int offset) {
+    private static int genEventKey(int l, int s, int offset) {
         /*
         * Mathematically determines an exact event ID based on location and an offset value
         * l: location ID
@@ -314,7 +313,7 @@ public class Story {
 
     }
 
-    public String getBaseEvent(int loc, int sub) {
+    public static String getBaseEvent(int loc, int sub) {
         /*
         * Get the base event (XX0) for provided location
         * loc: Location ID
@@ -325,7 +324,7 @@ public class Story {
 
     }
 
-    public String getLookEvent(int loc, int sub) {
+    public static String getLookEvent(int loc, int sub) {
         /*
         * Get look event (XX1) for provided location
         * loc: Location ID
@@ -336,7 +335,7 @@ public class Story {
 
     }
 
-    public String getSearchEvent(int loc, int sub) {
+    public static String getSearchEvent(int loc, int sub) {
         /*
         * Get search event (XX2) for provided location
         * loc: Location ID
@@ -347,7 +346,7 @@ public class Story {
 
     }
 
-    public String getUnlockEvent(int loc, int sub, boolean unlocked) {
+    public static String getUnlockEvent(int loc, int sub, boolean unlocked) {
         /*
         * Get [failed] unlock event (XX3 or XX4) for provided location
         * loc: Location ID
@@ -360,7 +359,7 @@ public class Story {
 
     }
 
-    public boolean wasEventSeen(int eventID) {
+    public static boolean wasEventSeen(int eventID) {
         /*
         * Reports whether a specific event has been seen
         * eventID: The ID of the event
@@ -370,7 +369,7 @@ public class Story {
 
     }
 
-    public void updateEvent(int eventID, String content) {
+    public static void updateEvent(int eventID, String content) {
         /*
         * Used to dynamically change an event.
         * 

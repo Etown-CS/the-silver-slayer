@@ -5,6 +5,7 @@ public class TheSilverSlayer {
     	
         Log.setupLog();
     	Database.makeConnection(true);
+        Story.initStory();
         Audio.backgroundMusic();
         new Menu();
 

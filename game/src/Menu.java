@@ -35,14 +35,10 @@ public class Menu {
     // Elements
     private SecureRandom r = new SecureRandom();
     private Save save;
-    private Story theStory;
     private Player[] players = new Player[Player.names.length];
     private Player playerRef;
     private Enemy enemyRef;
     private boolean enemyTurn = false, gameOver = false;
-
-    // Unique items
-    private boolean silverSpoon = false, paperHat = false, goggles = false, woodenClub = false, bitingRing = false, silverSword = false;
 
     // Sounds
     private Audio[] voices = {new Audio("voice_blip"), new Audio("voice_beep")};
@@ -55,9 +51,7 @@ public class Menu {
     public Menu() {
 
         save = new Save();
-        theStory = new Story(); // Making it create a "new story" has so much aura
-
-        for (byte c = 0; c < Player.names.length; c++) players[c] = new Player(Player.names[c], theStory);
+        for (byte c = 0; c < Player.names.length; c++) players[c] = new Player(Player.names[c]);
         for (counter = 0; counter < Player.names.length; counter++) {
 
             characterButtons[counter] = new JButton(Player.names[counter]);
@@ -86,202 +80,58 @@ public class Menu {
 
     }
 
-    private String getItems() {
+    private String doSearch() {
         /*
-        * Get an item when searching, if there's one to be found
-        * Items marked with a * are unique
+        * Called whenever the player runs the search command
         */
-        
-        // Silver Spoon *
-        if (!silverSpoon && Player.location == 2 && Player.sublocation == 1) {
 
-            int invSlot = playerRef.addItem(new Item("Silver Spoon", ItemType.Weapon, "A shiny, silver spoon.", 1, false));
-            if (invSlot == -1) return "\nInventory Full";
-            else {
-                
-                silverSpoon = true;
-                return "\nAdded Silver Spoon to slot " + invSlot + ".";
-
-            }
-
-        }
-
-        // Paper Hat *
-        if (!paperHat && Player.location == 2 && Player.sublocation == 2) {
-
-            int invSlot = playerRef.addItem(new Item("Paper Hat", ItemType.Armor, "An origami paper hat. Adds a point to ~style~.", 1, false));
-            if (invSlot < 0) return "\nInventory full.";
-            else {
-                
-                paperHat = true;
-                return "\nAdded Paper Hat to slot " + invSlot + '!';
-
-            }
-
-        }
-
-        // Rock
-        if (Player.location == 3 && Player.sublocation == 0) {
-
-            int invSlot = playerRef.addItem(new Item("Rock", ItemType.Junk, "A cool rock. Does nothing.", 0, false));
-            if (invSlot < 0) return "\nInventory full.";
-            else return "\nAdded Rock to slot " + invSlot + '!';
-
-        }
-
-        // Goggles *
-        if (!goggles && Player.location == 3 && Player.sublocation == 1) {
-
-            int invSlot = playerRef.addItem(new Item("Goggles", ItemType.Key, "A pair of purple, plastic swimming goggles. Thankfully, they don't leak.", 0, false));
-            if (invSlot < 0) return "\nInventory full.";
-            else {
-
-                goggles = true;
-                theStory.updateEvent(321, "Luckily you're wearing goggles, so you begin to look around. At the bottom of the lake, you see the enterance to a cave, but you are too nervous to look any further.");
-                return "\nAdded Goggles to slot " + invSlot + '!';
-
-            }
-
-        }
-
-        // Mountain path searches
-        if (Player.location == 4 && Player.sublocation == 1 && Player.mountainPathSearches < 6) {
+        String foundItem = Item.getItem(playerRef);
+        if (foundItem != null) return foundItem;
+        else if (Player.location == 4 && Player.sublocation == 1 && Player.mountainPathSearches < 6) {
+            // Mountain path searches
 
             if (Player.mountainPathSearches == 0) {
 
-                theStory.updateEvent(412, "Attempting to follow the lost path's trail is difficult. You somehow keep ending up back at the signpost, over and over again.");
+                Story.updateEvent(412, "Attempting to follow the lost path's trail is difficult. You somehow keep ending up back at the signpost, over and over again.");
                 Player.mountainPathSearches++;
                 System.out.println(Player.mountainPathSearches);
 
             } else if (Player.mountainPathSearches == 1) {
 
-                theStory.updateEvent(412, "It almost feels like you're being pushed away from your destination. The plants and landmarks never seem to repeat, yet you always return to the signpost.");
+                Story.updateEvent(412, "It almost feels like you're being pushed away from your destination. The plants and landmarks never seem to repeat, yet you always return to the signpost.");
                 Player.mountainPathSearches++;
                 System.out.println(Player.mountainPathSearches);
 
             } else if (Player.mountainPathSearches == 2) {
 
-                theStory.updateEvent(412, "The signpost's missing text has reappeared. It reads: \"enough\"");
+                Story.updateEvent(412, "The signpost's missing text has reappeared. It reads: \"enough\"");
                 Player.mountainPathSearches++;
                 System.out.println(Player.mountainPathSearches);
 
             } else if (Player.mountainPathSearches == 3) {
 
-                theStory.updateEvent(412, "Why do you feel so... ill? Give up the search. Give it up. There's nothing to be found.");
+                Story.updateEvent(412, "Why do you feel so... ill? Give up the search. Give it up. There's nothing to be found.");
                 Player.mountainPathSearches++;
                 System.out.println(Player.mountainPathSearches);
 
             } else if (Player.mountainPathSearches == 4) {
 
-                theStory.updateEvent(412, "You're not wanted here. This place isn't for you. Let it rest. You don't want their attention.");
+                Story.updateEvent(412, "You're not wanted here. This place isn't for you. Let it rest. You don't want their attention.");
                 Player.mountainPathSearches++;
                 System.out.println(Player.mountainPathSearches);
 
             } else if (Player.mountainPathSearches == 5) {
 
-                theStory.updateEvent(412, "The signpost's missing text has reappeared. It reads: \"Fracture\"");
+                Story.updateEvent(412, "The signpost's missing text has reappeared. It reads: \"Fracture\"");
                 Player.mountainPathSearches++;
                 System.out.println(Player.mountainPathSearches);
 
             }
 
-        }
+            return "";
 
-        if (!woodenClub && Player.location == 4 && Player.sublocation == 2) {
+        } else return "";
 
-            int invSlot = playerRef.addItem(new Item("Wooden Club", ItemType.Weapon, "A hefty branch found on the slopes of the Mountain. Bonk!", 4, false));
-            if (invSlot < 0) return "\nInventory full.";
-            else {
-
-                woodenClub = true;
-                theStory.updateEvent(422, "The few living plants give the Oracle a wide berth. Scattered branches litter the area.");
-                return "\nAdded Wooden Club to slot " + invSlot + '!';
-
-            }
-
-        }
-
-        // Non-Biting Ring *
-        if (!bitingRing && Player.location == 0 && Player.sublocation == 0) { // TODO: Put this somewhere
-
-            int invSlot = playerRef.addItem(new Item("Non-Biting Ring", ItemType.Wearable, "A golden ring inset with a blood-red gemstone. Does not bite.", 1, false));
-            if (invSlot < 0) return "\nInventory full.";
-            else {
-
-                bitingRing = true;
-                return "\nAdded Non-Biting Ring to slot " + invSlot + '!';
-
-            }
-
-        }
-
-        // Cactus Fruit
-        if (Player.location == 5 && (Player.sublocation == 0 || Player.sublocation == 1) && r.nextBoolean()) {
-
-            int invSlot = playerRef.addItem(new Item("Cactus Fruit", ItemType.Health, "A colorful cactus fruit. Pull out the spines first!", 3, true));
-            if (invSlot < 0) return "\nInventory full.";
-            else return "\nAdded a fruit to slot " + invSlot + '!';
-
-        }
-
-        // Swamp Fruits
-        if (Player.location == 6 && Player.sublocation == 2) {
-
-            int invSlot = 0;
-
-            switch (r.nextInt(9)) {
-
-                case 0:
-                case 1:
-
-                    invSlot = playerRef.addItem(new Item("Mottled Swamp Fruit", ItemType.Health, "A mottled fruit from the swamp's woodland.", 3, true));
-                    break;
-
-                case 2:
-                case 3:
-
-                    invSlot = playerRef.addItem(new Item("Oblong Swamp Fruit", ItemType.Health, "An oblong fruit from the swamp's woodland.", -2, true));
-                    break;
-
-                case 4:
-                case 5:
-
-                    invSlot = playerRef.addItem(new Item("Bulbous Swamp Fruit", ItemType.Health, "A bulbous fruit from the swamp's woodland.", 4, true));
-                    break;
-
-                case 6:
-                case 7:
-
-                    invSlot = playerRef.addItem(new Item("Speckled Swamp Fruit", ItemType.Health, "A speckled fruit from the swamp's woodland.", -3, true));
-                    break;
-
-                default:
-
-                    invSlot = playerRef.addItem(new Item("Star Swamp Fruit", ItemType.Health, "A star-shaped fruit from the swamp's woodland.", 7, true));
-                    break;
-
-            }
-
-            if (invSlot < 0) return "\nInventory full.";
-            else return "\nAdded a fruit to slot " + invSlot + '!';
-
-        }
-
-        // Silver Sword *
-        if (!silverSword && Player.location == 8 && Player.sublocation == 3 && theStory.wasEventSeen(833)) {
-
-            int invSlot = playerRef.addItem(new Item("Silver Sword", ItemType.Weapon, "A sharp, silver sword taken from a mighty foe. The blade is strangely notched, and the pattern appears to be intentionally engraved.", 99, false));
-            if (invSlot == -1) return "\nInventory Full";
-            else {
-                
-                silverSword = true;
-                return "\nAdded the Silver Sword to slot " + invSlot + ".";
-
-            }
-
-        }
-        
-        return "";
     }
 
     private void readInput(String text) {
@@ -291,7 +141,6 @@ public class Menu {
          */
 
         if (gameOver) return;
-
         String[] bits = text.toLowerCase().split(" ");
         switch (bits[0]) {
 
@@ -301,13 +150,13 @@ public class Menu {
             case "look":
 
                 if (enemyRef != null) writeText("You're in combat!", 0);
-                else writeText(theStory.getLookEvent(Player.location, Player.sublocation), 0);
+                else writeText(Story.getLookEvent(Player.location, Player.sublocation), 0);
                 break;
 
             case "search":
 
                 if (enemyRef != null) writeText("You're in combat!", 0);
-                else writeText(theStory.getSearchEvent(Player.location, Player.sublocation) + getItems(), 0);
+                else writeText(Story.getSearchEvent(Player.location, Player.sublocation) + doSearch(), 0);
                 break;
 
             case "cd":
@@ -334,8 +183,8 @@ public class Menu {
                         default:
 
                             if (enemyRef == null && Player.location >= 2) enemyRef = Locations.spawnEnemy(Player.location, false);
-                            if (enemyRef != null) writeText(theStory.getBaseEvent(Player.location, Player.sublocation) + enemyRef.spawnMsg, 0);
-                            else writeText(theStory.getBaseEvent(Player.location, Player.sublocation), 0);
+                            if (enemyRef != null) writeText(Story.getBaseEvent(Player.location, Player.sublocation) + enemyRef.spawnMsg, 0);
+                            else writeText(Story.getBaseEvent(Player.location, Player.sublocation), 0);
 
                     }
 
@@ -358,44 +207,44 @@ public class Menu {
 
                         if (bits[1].equals("silver") && playerRef.hasItem("Silver Sword")) {
 
-                            writeText(theStory.getUnlockEvent(1, 0, true), 0);
+                            writeText(Story.getUnlockEvent(1, 0, true), 0);
                             
-                        } else writeText(theStory.getUnlockEvent(1, 0, false), 0);
+                        } else writeText(Story.getUnlockEvent(1, 0, false), 0);
 
                     } else if (Player.location == 1 && Player.sublocation == 1) {
 
-                        if (bits[1].equals(new String(Base64.getDecoder().decode("ODM5MjczNTQ="))) || theStory.wasEventSeen(113)) {
+                        if (bits[1].equals(new String(Base64.getDecoder().decode("ODM5MjczNTQ="))) || Story.wasEventSeen(113)) {
 
-                            writeText(theStory.getUnlockEvent(1, 1, true), 0);
-                            theStory.updateEvent(110, "You step up to the gate. The iron doors stand open, and an old lock rests on the ground nearby.");
-                            theStory.updateEvent(111, "The gate is old and weathered.");
-                            theStory.updateEvent(113, "This lock is open already.");
+                            writeText(Story.getUnlockEvent(1, 1, true), 0);
+                            Story.updateEvent(110, "You step up to the gate. The iron doors stand open, and an old lock rests on the ground nearby.");
+                            Story.updateEvent(111, "The gate is old and weathered.");
+                            Story.updateEvent(113, "This lock is open already.");
 
-                        } else writeText(theStory.getUnlockEvent(1, 1, false), 0);
+                        } else writeText(Story.getUnlockEvent(1, 1, false), 0);
 
                     } else if (Player.location == 2 && Player.sublocation == 0) {
 
                         String code = Database.getMountainCode();
                         if (code == null || code.length() == 0) {
 
-                            writeText("The lock is broken??", -1);
+                            writeText("The lock is broken?!", -1);
                             JOptionPane.showMessageDialog(mainframe, "There was an error accessing the database. Save your game, exit, and fix any database problems.", "Database Error", JOptionPane.ERROR_MESSAGE);
 
-                        } else if (bits[1].equals(code) || theStory.wasEventSeen(203)) {
+                        } else if (bits[1].equals(code) || Story.wasEventSeen(203)) {
 
-                            writeText(theStory.getUnlockEvent(2, 0, true), 0);
+                            writeText(Story.getUnlockEvent(2, 0, true), 0);
 
-                        } else writeText(theStory.getUnlockEvent(2, 0, false), 0);
+                        } else writeText(Story.getUnlockEvent(2, 0, false), 0);
 
                     } else if (Player.location == 4 && Player.sublocation == 1) {
 
                         if (bits[1].equals("wooden") && playerRef.hasItem("Wooden Club")) {
 
-                            writeText(theStory.getUnlockEvent(4, 1, true), 0);
-                            theStory.updateEvent(413, "The chains lie in a ruined pile.");
+                            writeText(Story.getUnlockEvent(4, 1, true), 0);
+                            Story.updateEvent(413, "The chains lie in a ruined pile.");
                             // TODO: Find a better way to store new events, then add updates for the ones related to this action
 
-                        } else writeText(theStory.getUnlockEvent(4, 1, false), 0);
+                        } else writeText(Story.getUnlockEvent(4, 1, false), 0);
 
                     } else writeText("There's nothing to unlock here.", 0);
 
@@ -408,6 +257,13 @@ public class Menu {
             case "sql":
 
                 sqlFrame.setVisible(true);
+                writeText("Opening.", -1);
+                break;
+
+            case "phish":
+            case "fish":
+
+                // TODO: Phishing!
                 break;
             
             case "map":

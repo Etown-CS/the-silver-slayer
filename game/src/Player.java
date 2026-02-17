@@ -1,17 +1,15 @@
 public class Player extends Entity {
 
     public static final String[] names = {"Bitter Java", "Brustel Sprout", "C--", "Dapper Python", "P. H. Periwinkle", "ReacTor", "Saea Quowle"};
-    
-    private static Story theStory;
+
     public Item[] inventory = {null, null, null, null, null, null, null, null, null, null};
     public Item currentArmor = null, currentWeapon = null, currentWearable = null;
     public int invCap = 5;
     public static int location = 1, sublocation = 0, mountainPathSearches = 0;
     public static boolean inCombat = false, inBossfight = false;
 
-    public Player(String title, Story story) {
+    public Player(String title) {
 
-        theStory = story;
         name = title;
         switch (name) {
 
@@ -246,7 +244,7 @@ public class Player extends Entity {
 
                     case "village":
 
-                        if (sublocation != 1 || !theStory.wasEventSeen(113)) break;
+                        if (sublocation != 1 || !Story.wasEventSeen(113)) break;
                         location = 2;
                         sublocation = 0;
                         Audio.activeTrack.stop();
@@ -301,7 +299,7 @@ public class Player extends Entity {
 
                     case "mountain":
 
-                        if (sublocation != 0 || !theStory.wasEventSeen(203)) break;
+                        if (sublocation != 0 || !Story.wasEventSeen(203)) break;
                         location = 4;
                         sublocation = 0;
                         Audio.activeTrack.stop();
@@ -388,7 +386,7 @@ public class Player extends Entity {
 
                     case "desert":
 
-                        if (sublocation != 1 || !theStory.wasEventSeen(413)) break;
+                        if (sublocation != 1 || !Story.wasEventSeen(413)) break;
                         location = 5;
                         sublocation = 0;
                         Audio.activeTrack.stop();
@@ -437,7 +435,7 @@ public class Player extends Entity {
 
                     case "mountain":
 
-                        if (sublocation != 0 || !theStory.wasEventSeen(413)) break;
+                        if (sublocation != 0 || !Story.wasEventSeen(413)) break;
                         location = 4;
                         sublocation = 1; // Yes this is 1
                         Audio.activeTrack.stop();
