@@ -9,6 +9,7 @@ import java.util.Base64;
 
 public class Database {
 	
+	private static final String DATABASE_URL = "192.168.2.3";
 	public static Connection conn = null;
 	public static boolean online;
 	
@@ -19,15 +20,15 @@ public class Database {
 		*/
 
 		Log.logData("Establishing connection to database.");
-
 		try {
 			
 			if (local) conn = DriverManager.getConnection("jdbc:mysql://localhost/tss?allowMultiQueries=true", "root", "");
-			else conn = DriverManager.getConnection("null", "user", "pass"); // TODO: Connect
+			else conn = DriverManager.getConnection("jdbc:mysql://" + DATABASE_URL + "/tss?allow", "___", "___"); // TODO: credentials
 			if (conn.isValid(5)) online = true;
 		
 		} catch (SQLException ex) {
 			
+			Log.logData("WARN: Failed to connect to database. Related features are disabled.\n" + ex.toString());
 			online = false;
 			
 		}
@@ -39,13 +40,10 @@ public class Database {
 		* Close the database connection 
 		*/
 
-		try {
+		try {conn.close();}
+		catch (SQLException | NullPointerException ex) {
 
-			conn.close();
-
-		} catch (SQLException | NullPointerException ex) {
-
-			Log.logData("WARN: Failed to properly close database connection.");
+			Log.logData("WARN: Failed to properly close database connection:\n" + ex.toString());
 
 		}
 
@@ -54,16 +52,16 @@ public class Database {
 	public static String makeUnsafeQuery(String term) {
 		/*
 		* Send an unsafe query
-		* term: The user's search term (or an injection)
-		* a';SELECT * FROM item; --
+		* term: The user's input
 		*/
 
+		Log.logData("Making an unsafe query; user entered: " + term);
 		StringBuilder results = new StringBuilder(128);
 
 		try {
 
 			Statement stmt = conn.createStatement();
-			stmt.executeQuery("SELECT * FROM enemy WHERE enemy_name LIKE '" + term + "'");
+			stmt.executeQuery("SELECT * FROM enemy WHERE enemy_name LIKE '" + term + "'"); // Injection location
 
 			do {
 
@@ -98,12 +96,13 @@ public class Database {
 	public static String getMountainCode() {
 		/*
 		* Gets the code for the gate between the village and the mountain
+		* Called in 'unlock' to verify the user's input is correct
 		*/
 
 		String data;
 		byte layers;
+		
 		Log.logData("Pulling mountain code from database.");
-
 		try {
 
 			PreparedStatement stmt = conn.prepareStatement("SELECT * FROM _tss_meta WHERE metaID = 1");
@@ -115,21 +114,12 @@ public class Database {
 
 		} catch (SQLException ex) {
 
-			Log.logData("WARN: Failed to retrieve mountain code!");
-			ex.printStackTrace();
+			Log.logData("WARN: Failed to retrieve mountain code!\n" + ex.toString());
 			return null;
 
 		}
 
-		byte[] raw_bytes;
-		for (int c = 0; c < layers; c++) {
-
-			raw_bytes = Base64.getDecoder().decode(data);
-			data = new String(raw_bytes);
-
-		}
-
-		System.out.println(data);
+		for (byte c = 0; c < layers; c++) data = new String(Base64.getDecoder().decode(data));
 		return data;
 
 	}
