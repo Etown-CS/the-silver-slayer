@@ -224,17 +224,22 @@ public class Menu {
 
                     } else if (Player.location == 2 && Player.sublocation == 0) {
 
-                        String code = Database.getMountainCode();
-                        if (code == null || code.length() == 0) {
+                        if (!Database.online) writeText("The database connection is offline.", 0);
+                        else {
 
-                            writeText("The lock is broken?!", -1);
-                            JOptionPane.showMessageDialog(mainframe, "There was an error accessing the database. Save your game, exit, and fix any database problems.", "Database Error", JOptionPane.ERROR_MESSAGE);
+                            String code = Database.getMountainCode();
+                            if (code == null || code.length() == 0) {
 
-                        } else if (bits[1].equals(code) || Story.wasEventSeen(203)) {
+                                writeText("The lock is broken?!", -1);
+                                JOptionPane.showMessageDialog(mainframe, "There was an error accessing the database. Save your game, exit, and fix any database problems.", "Database Error", JOptionPane.ERROR_MESSAGE);
 
-                            writeText(Story.getUnlockEvent(2, 0, true), 0);
+                            } else if (bits[1].equals(code) || Story.wasEventSeen(203)) {
 
-                        } else writeText(Story.getUnlockEvent(2, 0, false), 0);
+                                writeText(Story.getUnlockEvent(2, 0, true), 0);
+
+                            } else writeText(Story.getUnlockEvent(2, 0, false), 0);
+
+                        }
 
                     } else if (Player.location == 4 && Player.sublocation == 1) {
 
@@ -256,8 +261,12 @@ public class Menu {
 
             case "sql":
 
-                sqlFrame.setVisible(true);
-                writeText("Opening.", -1);
+                if (Database.online) {
+
+                    sqlFrame.setVisible(true);
+                    writeText("Opening.", -1);
+
+                } else writeText("The database connection is offline.", 0);
                 break;
 
             case "phish":
@@ -449,7 +458,7 @@ public class Menu {
             case "exit":
 
                 Log.logData("Shutting down. Goodbye!");
-                Database.closeConnection();
+                if (Database.online) Database.closeConnection();
                 Log.closeLog();
                 mainframe.dispatchEvent(new WindowEvent(mainframe, WindowEvent.WINDOW_CLOSING));
                 break;

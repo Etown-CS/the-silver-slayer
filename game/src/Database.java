@@ -10,6 +10,7 @@ import java.util.Base64;
 public class Database {
 	
 	public static Connection conn = null;
+	public static boolean online;
 	
 	public static void makeConnection(boolean local) {
 		/*
@@ -23,12 +24,11 @@ public class Database {
 			
 			if (local) conn = DriverManager.getConnection("jdbc:mysql://localhost/tss?allowMultiQueries=true", "root", "");
 			else conn = DriverManager.getConnection("null", "user", "pass"); // TODO: Connect
-			if (conn.isValid(5)) return;
+			if (conn.isValid(5)) online = true;
 		
 		} catch (SQLException ex) {
 			
-			ex.printStackTrace();
-			TheSilverSlayer.shutdownNow();
+			online = false;
 			
 		}
 		
@@ -43,7 +43,7 @@ public class Database {
 
 			conn.close();
 
-		} catch (SQLException ex) {
+		} catch (SQLException | NullPointerException ex) {
 
 			Log.logData("WARN: Failed to properly close database connection.");
 
