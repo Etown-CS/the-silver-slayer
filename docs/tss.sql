@@ -75,7 +75,7 @@ INSERT INTO enemy(enemy_name, enemy_type, health, attack, defense, boss, spawn_m
 CREATE TABLE IF NOT EXISTS item (
 
 	itemID int auto_increment,
-    name varchar(32) not null,
+    item_name varchar(32) not null,
     item_type varchar(16) not null, -- See /game/src/ItemType.java for valid types
     magnitude int,
     consumable bool not null,
@@ -86,24 +86,24 @@ CREATE TABLE IF NOT EXISTS item (
 
 );
 
-INSERT INTO item (name, item_type, magnitude, consumable, is_unique, info) VALUES ("Silver Spoon", "weapon", 1, false, true, "A shiny, silver spoon.");
-INSERT INTO item (name, item_type, magnitude, consumable, is_unique, info) VALUES ("Paper Hat", "armor", 1, false, true, "An origami paper hat. Adds a point to ~style~.");
-INSERT INTO item (name, item_type, magnitude, consumable, is_unique, info) VALUES ("Rock", "junk", 0, false, false, "A cool rock. Does nothing.");
-INSERT INTO item (name, item_type, magnitude, consumable, is_unique, info) VALUES ("Goggles", "key", 0, false, true, "A pair of purple, plastic swimming goggles. Thankfully, they don't leak.");
-INSERT INTO item (name, item_type, magnitude, consumable, is_unique, info) VALUES ("Wooden Club", "weapon", 4, false, true, "A hefty branch found on the slopes of the Mountain. Bonk!");
-INSERT INTO item (name, item_type, magnitude, consumable, is_unique, info) VALUES ("Non-biting Ring", "wearable", 1, false, true, "A golden ring inset with a blood-red gemstone. Does not bite.");
-INSERT INTO item (name, item_type, magnitude, consumable, is_unique, info) VALUES ("Cactus Fruit", "health", 3, true, false, "A colorful cactus fruit. Pull out the spines first!");
-INSERT INTO item (name, item_type, magnitude, consumable, is_unique, info) VALUES ("Mottled Swamp Fruit", "health", 3, true, false, "A mottled fruit from the swamp's woodland.");
-INSERT INTO item (name, item_type, magnitude, consumable, is_unique, info) VALUES ("Oblong Swamp Fruit", "health", -2, true, false, "An oblong fruit from the swamp's woodland.");
-INSERT INTO item (name, item_type, magnitude, consumable, is_unique, info) VALUES ("Bulbous Swamp Fruit", "health", 4, true, false, "A bulbous fruit from the swamp's woodland.");
-INSERT INTO item (name, item_type, magnitude, consumable, is_unique, info) VALUES ("Speckled Swamp Fruit", "health", -3, true, false, "A speckled fruit from the swamp's woodland.");
-INSERT INTO item (name, item_type, magnitude, consumable, is_unique, info) VALUES ("Star Swamp Fruit", "health", 7, true, false, "A star-shaped fruit from the swamp's woodland.");
-INSERT INTO item (name, item_type, magnitude, consumable, is_unique, info) VALUES ("The Silver Sword", "weapon", 99, false, true, "A sharp, silver sword taken from a mighty foe. The blade is strangely notched, and the pattern appears to be intentionally engraved.");
-INSERT INTO item (name, item_type, magnitude, consumable, is_unique, info) VALUES ("Trash", "junk", 0, false, false, "What even is this?");
-INSERT INTO item (name, item_type, magnitude, consumable, is_unique, info) VALUES ("Junk", "junk", 0, false, false, "This is just junk.");
-INSERT INTO item (name, item_type, magnitude, consumable, is_unique, info) VALUES ("Rubbish", "junk", 0, false, false, "A collection of, well, rubbish.");
-INSERT INTO item (name, item_type, magnitude, consumable, is_unique, info) VALUES ("Expired... Something", "health", -1, false, true, "An expired morsel of some unknown substance.");
-INSERT INTO item (name, item_type, magnitude, consumable, is_unique, info) VALUES ("Mystery Meat", "health", 2, false, true, "This could be anything.");
+INSERT INTO item (item_name, item_type, magnitude, consumable, is_unique, info) VALUES ("Silver Spoon", "weapon", 1, false, true, "A shiny, silver spoon.");
+INSERT INTO item (item_name, item_type, magnitude, consumable, is_unique, info) VALUES ("Paper Hat", "armor", 1, false, true, "An origami paper hat. Adds a point to ~style~.");
+INSERT INTO item (item_name, item_type, magnitude, consumable, is_unique, info) VALUES ("Rock", "junk", 0, false, false, "A cool rock. Does nothing.");
+INSERT INTO item (item_name, item_type, magnitude, consumable, is_unique, info) VALUES ("Goggles", "key", 0, false, true, "A pair of purple, plastic swimming goggles. Thankfully, they don't leak.");
+INSERT INTO item (item_name, item_type, magnitude, consumable, is_unique, info) VALUES ("Wooden Club", "weapon", 4, false, true, "A hefty branch found on the slopes of the Mountain. Bonk!");
+INSERT INTO item (item_name, item_type, magnitude, consumable, is_unique, info) VALUES ("Non-biting Ring", "wearable", 1, false, true, "A golden ring inset with a blood-red gemstone. Does not bite.");
+INSERT INTO item (item_name, item_type, magnitude, consumable, is_unique, info) VALUES ("Cactus Fruit", "health", 3, true, false, "A colorful cactus fruit. Pull out the spines first!");
+INSERT INTO item (item_name, item_type, magnitude, consumable, is_unique, info) VALUES ("Mottled Swamp Fruit", "health", 3, true, false, "A mottled fruit from the swamp's woodland.");
+INSERT INTO item (item_name, item_type, magnitude, consumable, is_unique, info) VALUES ("Oblong Swamp Fruit", "health", -2, true, false, "An oblong fruit from the swamp's woodland.");
+INSERT INTO item (item_name, item_type, magnitude, consumable, is_unique, info) VALUES ("Bulbous Swamp Fruit", "health", 4, true, false, "A bulbous fruit from the swamp's woodland.");
+INSERT INTO item (item_name, item_type, magnitude, consumable, is_unique, info) VALUES ("Speckled Swamp Fruit", "health", -3, true, false, "A speckled fruit from the swamp's woodland.");
+INSERT INTO item (item_name, item_type, magnitude, consumable, is_unique, info) VALUES ("Star Swamp Fruit", "health", 7, true, false, "A star-shaped fruit from the swamp's woodland.");
+INSERT INTO item (item_name, item_type, magnitude, consumable, is_unique, info) VALUES ("The Silver Sword", "weapon", 99, false, true, "A sharp, silver sword taken from a mighty foe. The blade is strangely notched, and the pattern appears to be intentionally engraved.");
+INSERT INTO item (item_name, item_type, magnitude, consumable, is_unique, info) VALUES ("Trash", "junk", 0, false, false, "What even is this?");
+INSERT INTO item (item_name, item_type, magnitude, consumable, is_unique, info) VALUES ("Junk", "junk", 0, false, false, "This is just junk.");
+INSERT INTO item (item_name, item_type, magnitude, consumable, is_unique, info) VALUES ("Rubbish", "junk", 0, false, false, "A collection of, well, rubbish.");
+INSERT INTO item (item_name, item_type, magnitude, consumable, is_unique, info) VALUES ("Expired... Something", "health", -1, false, true, "An expired morsel of some unknown substance.");
+INSERT INTO item (item_name, item_type, magnitude, consumable, is_unique, info) VALUES ("Mystery Meat", "health", 2, false, true, "This could be anything.");
 
 CREATE TABLE IF NOT EXISTS _tss_meta (
 

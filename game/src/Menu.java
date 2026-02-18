@@ -50,8 +50,15 @@ public class Menu {
 
     public Menu() {
 
+        if (!Database.online) {
+
+            JOptionPane.showMessageDialog(mainframe, "The database connection was not successful.", "Database Offline", JOptionPane.ERROR_MESSAGE);
+            TheSilverSlayer.shutdownNow();
+            return;
+
+        }
+
         save = new Save();
-        if (!Database.online) JOptionPane.showMessageDialog(mainframe, "The database connection was not successful. Certain features are unavailable.", "Database Offline", JOptionPane.INFORMATION_MESSAGE);
 
         for (byte c = 0; c < Player.names.length; c++) players[c] = new Player(Player.names[c]);
         for (counter = 0; counter < Player.names.length; counter++) {

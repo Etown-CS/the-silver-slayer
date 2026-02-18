@@ -29,7 +29,7 @@ public class Item {
         // Silver Spoon *
         if (!silverSpoon && Player.location == 2 && Player.sublocation == 1) {
 
-            int invSlot = playerRef.addItem(new Item("Silver Spoon", ItemType.Weapon, "A shiny, silver spoon.", 1, false));
+            int invSlot = playerRef.addItem(Database.genItem(1));
             if (invSlot == -1) return "\nInventory Full";
             else {
                 
@@ -43,7 +43,7 @@ public class Item {
         // Paper Hat *
         if (!paperHat && Player.location == 2 && Player.sublocation == 2) {
 
-            int invSlot = playerRef.addItem(new Item("Paper Hat", ItemType.Armor, "An origami paper hat. Adds a point to ~style~.", 1, false));
+            int invSlot = playerRef.addItem(Database.genItem(2));
             if (invSlot < 0) return "\nInventory full.";
             else {
                 
@@ -57,7 +57,7 @@ public class Item {
         // Rock
         if (Player.location == 3 && Player.sublocation == 0) {
 
-            int invSlot = playerRef.addItem(new Item("Rock", ItemType.Junk, "A cool rock. Does nothing.", 0, false));
+            int invSlot = playerRef.addItem(Database.genItem(3));
             if (invSlot < 0) return "\nInventory full.";
             else return "\nAdded Rock to slot " + invSlot + '!';
 
@@ -66,7 +66,7 @@ public class Item {
         // Goggles *
         if (!goggles && Player.location == 3 && Player.sublocation == 1) {
 
-            int invSlot = playerRef.addItem(new Item("Goggles", ItemType.Key, "A pair of purple, plastic swimming goggles. Thankfully, they don't leak.", 0, false));
+            int invSlot = playerRef.addItem(Database.genItem(4));
             if (invSlot < 0) return "\nInventory full.";
             else {
 
@@ -81,7 +81,7 @@ public class Item {
         // Wooden Club *
         if (!woodenClub && Player.location == 4 && Player.sublocation == 2) {
 
-            int invSlot = playerRef.addItem(new Item("Wooden Club", ItemType.Weapon, "A hefty branch found on the slopes of the Mountain. Bonk!", 4, false));
+            int invSlot = playerRef.addItem(Database.genItem(5));
             if (invSlot < 0) return "\nInventory full.";
             else {
 
@@ -94,13 +94,14 @@ public class Item {
         }
 
         // Non-Biting Ring *
-        if (!bitingRing && Player.location == 0 && Player.sublocation == 0) { // TODO: Put this somewhere
+        if (!bitingRing && Player.location == 4 && Player.sublocation == 3) {
 
-            int invSlot = playerRef.addItem(new Item("Non-Biting Ring", ItemType.Wearable, "A golden ring inset with a blood-red gemstone. Does not bite.", 1, false));
+            int invSlot = playerRef.addItem(Database.genItem(6));
             if (invSlot < 0) return "\nInventory full.";
             else {
 
                 bitingRing = true;
+                Story.updateEvent(432, "There are just drifts of snow.");
                 return "\nAdded Non-Biting Ring to slot " + invSlot + '!';
 
             }
@@ -108,9 +109,9 @@ public class Item {
         }
 
         // Cactus Fruit
-        if (Player.location == 5 && (Player.sublocation == 0 || Player.sublocation == 1) && r.nextBoolean()) {
+        if (Player.location == 5 && (Player.sublocation == 0 || Player.sublocation == 1) && r.nextInt(100) < 40) {
 
-            int invSlot = playerRef.addItem(new Item("Cactus Fruit", ItemType.Health, "A colorful cactus fruit. Pull out the spines first!", 3, true));
+            int invSlot = playerRef.addItem(Database.genItem(7));
             if (invSlot < 0) return "\nInventory full.";
             else return "\nAdded a fruit to slot " + invSlot + '!';
 
@@ -126,30 +127,30 @@ public class Item {
                 case 0:
                 case 1:
 
-                    invSlot = playerRef.addItem(new Item("Mottled Swamp Fruit", ItemType.Health, "A mottled fruit from the swamp's woodland.", 3, true));
+                    invSlot = playerRef.addItem(Database.genItem(8));
                     break;
 
                 case 2:
                 case 3:
 
-                    invSlot = playerRef.addItem(new Item("Oblong Swamp Fruit", ItemType.Health, "An oblong fruit from the swamp's woodland.", -2, true));
+                    invSlot = playerRef.addItem(Database.genItem(9));
                     break;
 
                 case 4:
                 case 5:
 
-                    invSlot = playerRef.addItem(new Item("Bulbous Swamp Fruit", ItemType.Health, "A bulbous fruit from the swamp's woodland.", 4, true));
+                    invSlot = playerRef.addItem(Database.genItem(10));
                     break;
 
                 case 6:
                 case 7:
 
-                    invSlot = playerRef.addItem(new Item("Speckled Swamp Fruit", ItemType.Health, "A speckled fruit from the swamp's woodland.", -3, true));
+                    invSlot = playerRef.addItem(Database.genItem(11));
                     break;
 
                 default:
 
-                    invSlot = playerRef.addItem(new Item("Star Swamp Fruit", ItemType.Health, "A star-shaped fruit from the swamp's woodland.", 7, true));
+                    invSlot = playerRef.addItem(Database.genItem(12));
                     break;
 
             }
@@ -162,7 +163,7 @@ public class Item {
         // Silver Sword *
         if (!silverSword && Player.location == 8 && Player.sublocation == 3 && Story.wasEventSeen(833)) {
 
-            int invSlot = playerRef.addItem(new Item("Silver Sword", ItemType.Weapon, "A sharp, silver sword taken from a mighty foe. The blade is strangely notched, and the pattern appears to be intentionally engraved.", 99, false));
+            int invSlot = playerRef.addItem(Database.genItem(13));
             if (invSlot == -1) return "\nInventory Full";
             else {
                 

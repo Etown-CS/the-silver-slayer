@@ -166,7 +166,7 @@ public class Story {
         // Peak
         mountain.put(430, "You have made it to the peak of the mountain.");
         mountain.put(431, "You look at the vast landscape from the top of this mountain. In the distance, you can see a desert to left, and a swamp to the right.");
-        mountain.put(432, "search");
+        mountain.put(432, "There are mostly just drifts of snow; however, there is a curious glint half buried in a nearby mound.");
         mountain.put(433, "unlock");
         mountain.put(434, "unlock failed");
 

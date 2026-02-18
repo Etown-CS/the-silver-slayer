@@ -122,4 +122,59 @@ public class Database {
 
 	}
 
+	public static Item genItem(int itemID) {
+
+		Log.logData("Making an item from ID: " + itemID);
+		try {
+			
+			PreparedStatement stmt = conn.prepareStatement("SELECT * FROM item WHERE itemID LIKE ?");
+			stmt.setInt(1, itemID);
+			ResultSet rs = stmt.executeQuery();
+			rs.next();
+
+			ItemType type;
+			switch (rs.getString("item_type")) {
+
+				case "health":
+					
+					type = ItemType.Health;
+					break;
+
+				case "armor":
+
+					type = ItemType.Armor;
+					break;
+
+				case "weapon":
+
+					type = ItemType.Weapon;
+					break;
+
+				case "wearable":
+
+					type = ItemType.Wearable;
+					break;
+
+				case "key":
+
+					type = ItemType.Key;
+					break;
+
+				default:
+
+					type = ItemType.Junk;
+
+			}
+
+			return new Item(rs.getString("item_name"), type, rs.getString("info"), rs.getInt("magnitude"), rs.getBoolean("consumable"));
+
+		} catch (SQLException ex) {
+
+			Log.logData("WARN: Failed to retrieve item!\n" + ex.toString());
+			return null;
+
+		}
+
+	}
+
 }
