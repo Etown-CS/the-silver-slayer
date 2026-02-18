@@ -9,11 +9,10 @@ import java.util.Base64;
 
 public class Database {
 	
-	private static final String DATABASE_URL = "192.168.2.3";
 	public static Connection conn = null;
 	public static boolean online;
 	
-	public static void makeConnection(boolean local) {
+	public static void makeConnection(String url) {
 		/*
 		* Attempts to connect to the database
 		* local: Whether to connect to a local or remote server
@@ -22,8 +21,7 @@ public class Database {
 		Log.logData("Establishing connection to database.");
 		try {
 			
-			if (local) conn = DriverManager.getConnection("jdbc:mysql://localhost/tss?allowMultiQueries=true", "root", "");
-			else conn = DriverManager.getConnection("jdbc:mysql://" + DATABASE_URL + "/tss?allow", "___", "___"); // TODO: credentials
+			conn = DriverManager.getConnection("jdbc:mysql://" + url + "/tss?allowMultiQueries=true", "test", "test");
 			if (conn.isValid(5)) online = true;
 		
 		} catch (SQLException ex) {

@@ -4,7 +4,8 @@ public class TheSilverSlayer {
         /* Main */
     	
         Log.setupLog();
-    	Database.makeConnection(true);
+        if (args.length == 0) Database.makeConnection("localhost");
+        else Database.makeConnection(args[0]);
         Story.initStory();
         Audio.backgroundMusic();
         new Menu();
