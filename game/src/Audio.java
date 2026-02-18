@@ -68,12 +68,12 @@ public class Audio {
 
         SecureRandom r = new SecureRandom();
         Audio[][] bgSongs = {
-            {new Audio("music_start0"), new Audio("music_start1")},
-            {new Audio("music_village0")},
-            {new Audio("music_lake0"), new Audio("music_lake1")},
+            {new Audio("music_start0"), new Audio("music_start1"), new Audio("music_start2")},
+            {new Audio("music_village0"), new Audio("music_village1"), new Audio("music_village2")},
+            {new Audio("music_lake0"), new Audio("music_lake1"), new Audio("music_lake2")},
             {new Audio("music_mountain0"), new Audio("music_mountain1")},
             {new Audio("music_desert0"), new Audio("music_desert1"), new Audio("music_desert2")},
-            {new Audio("music_swamp0"), new Audio("music_swamp1")},
+            {new Audio("music_swamp0"), new Audio("music_swamp1"), new Audio("music_swamp2")},
             {new Audio("music_fracture0"), new Audio("music_fracture1"), new Audio("music_fracture2")},
             {new Audio("music_lair0"), new Audio("music_lair1"), new Audio("music_lair2")}};
         

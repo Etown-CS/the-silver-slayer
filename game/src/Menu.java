@@ -51,6 +51,8 @@ public class Menu {
     public Menu() {
 
         save = new Save();
+        if (!Database.online) JOptionPane.showMessageDialog(mainframe, "The database connection was not successful. Certain features are unavailable.", "Database Offline", JOptionPane.INFORMATION_MESSAGE);
+
         for (byte c = 0; c < Player.names.length; c++) players[c] = new Player(Player.names[c]);
         for (counter = 0; counter < Player.names.length; counter++) {
 

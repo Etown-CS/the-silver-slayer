@@ -1,30 +1,43 @@
 MUSIC:
 
-Anime Encounter Loop #3 by Sirkoto51 -- https://freesound.org/s/419802/ -- License: Attribution 4.0
-Berlin Town – Synthwave Track for Retrowave and Games by kjartan_abel -- https://freesound.org/s/564665/ -- License: Attribution 4.0
-Bosch’s Garden – Mythical Game Music for Fantasy and AI Projects by kjartan_abel -- https://freesound.org/s/647212/ -- License: Attribution 4.0
-Boss Battle Loop #2 by Sirkoto51 -- https://freesound.org/s/367504/ -- License: Attribution 4.0
-Boss Battle Loop #3 by Sirkoto51 -- https://freesound.org/s/443128/ -- License: Attribution 4.0
+music_start0: Chasing the wind - background music loop by Twotrickpony -- https://freesound.org/s/747915/ -- License: Attribution 4.0
+music_start1: Video Game Music Seamless.wav by x1shi -- https://freesound.org/s/685206/ -- License: Creative Commons 0
+music_start2: Beat Background Music Loop by Migfus20 -- https://freesound.org/s/560452/ -- License: Attribution 4.0
+
+music_village0: Simple Video Game Music Loop by rotlily -- https://freesound.org/s/733259/ -- License: Creative Commons 0
+music_village1: Mysterious Piano Music Loop by Migfus20 -- https://freesound.org/s/559853/ -- License: Attribution 4.0
+music_village2: Mysterious Ambiance Music by TheoJT -- https://freesound.org/s/667735/ -- License: Attribution 4.0
+
+music_lake0: Bosch’s Garden – Mythical Game Music for Fantasy and AI Projects by kjartan_abel -- https://freesound.org/s/647212/ -- License: Attribution 4.0
 music_lake1: Calm synth music.mp3 by ZHRØ -- https://freesound.org/s/636848/ -- License: Attribution 4.0
-Castle Music Loop #1 by Sirkoto51 -- https://freesound.org/s/416632/ -- License: Attribution 4.0
-Chasing the wind - background music loop by Twotrickpony -- https://freesound.org/s/747915/ -- License: Attribution 4.0
-music_desert2: Cowboy Ghost BGM.wav by ChristmasKrumble666 -- https://freesound.org/s/754461/ -- License: Creative Commons 0
-Desolated Field.mp3 by SoundFlakes -- https://freesound.org/s/416984/ -- License: Attribution 4.0
+music_lake2: Oceanic Depths by ViraMiller -- https://freesound.org/s/744116/ -- License: Attribution 4.0
+boss_lake: Anime Encounter Loop #3 by Sirkoto51 -- https://freesound.org/s/419802/ -- License: Attribution 4.0
+
+music_mountain0: Retro/classic game music.wav by ZHRØ -- https://freesound.org/s/668879/ -- License: Attribution 4.0
+music_mountain1: Berlin Town – Synthwave Track for Retrowave and Games by kjartan_abel -- https://freesound.org/s/564665/ -- License: Attribution 4.0
+boss_mountain: Retro Puzzle Music Loop by Sirkoto51 -- https://freesound.org/s/378110/ -- License: Attribution 4.0
+
+music_desert0: Desolated Field.mp3 by SoundFlakes -- https://freesound.org/s/416984/ -- License: Attribution 4.0
 music_desert1: Egypt Music by TheoJT -- https://freesound.org/s/511198/ -- License: Attribution 4.0
+music_desert2: Cowboy Ghost BGM.wav by ChristmasKrumble666 -- https://freesound.org/s/754461/ -- License: Creative Commons 0
+
 music_swamp0: Mushroom Background Music by Sunsai -- https://freesound.org/s/415804/ -- License: Attribution 4.0
-NguyệtChâu - Hang Ngầm Dưới Mặt Biển.wav by SieuAmThanh -- https://freesound.org/s/397391/ -- License: Creative Commons 0
+music_swamp1: NguyệtChâu - Hang Ngầm Dưới Mặt Biển.wav by SieuAmThanh -- https://freesound.org/s/397391/ -- License: Creative Commons 0
+music_swamp2: Mysterious Background Music Orchestra by Migfus20 -- https://freesound.org/s/560444/ -- License: Attribution 4.0
+boss_swamp: Boss Battle Loop #2 by Sirkoto51 -- https://freesound.org/s/367504/ -- License: Attribution 4.0
+
+music_fracture0: DSGNDron_Eerie Otherworldly Blurred Texture 3-1(-1 Oct)_EM by newlocknew -- https://freesound.org/s/842271/ -- License: Attribution 4.0
+music_fracture1: Some Background I made for my game Ambient Music by DRFX -- https://freesound.org/s/341807/ -- License: Creative Commons 0
 music_fracture2: Ominous Horror Soundtrack by Matio888 -- https://freesound.org/s/793486/ -- License: Attribution 4.0
-Retro/classic game music.wav by ZHRØ -- https://freesound.org/s/668879/ -- License: Attribution 4.0
-Retro Puzzle Music Loop by Sirkoto51 -- https://freesound.org/s/378110/ -- License: Attribution 4.0
-Simple Video Game Music Loop by rotlily -- https://freesound.org/s/733259/ -- License: Creative Commons 0
-Slightly Evil Videogame Electronic Music (Air Flow) by SG80_MED1A -- https://freesound.org/s/789400/ -- License: Creative Commons 0
-Some Background I made for my game Ambient Music by DRFX -- https://freesound.org/s/341807/ -- License: Creative Commons 0
-Spy/Secret Agent Loop by Sirkoto51 -- https://freesound.org/s/371580/ -- License: Attribution 4.0
-Stress Music/Ambient Loop by Sirkoto51 -- https://freesound.org/s/377873/ -- License: Attribution 4.0
-Video Game Music Seamless.wav by x1shi -- https://freesound.org/s/685206/ -- License: Creative Commons 0
+boss_fracture: Stress Music/Ambient Loop by Sirkoto51 -- https://freesound.org/s/377873/ -- License: Attribution 4.0
+
+music_lair0: Slightly Evil Videogame Electronic Music (Air Flow) by SG80_MED1A -- https://freesound.org/s/789400/ -- License: Creative Commons 0
+music_lair1: Castle Music Loop #1 by Sirkoto51 -- https://freesound.org/s/416632/ -- License: Attribution 4.0
+music_lair2: Spy/Secret Agent Loop by Sirkoto51 -- https://freesound.org/s/371580/ -- License: Attribution 4.0
+boss_lair: Boss Battle Loop #3 by Sirkoto51 -- https://freesound.org/s/443128/ -- License: Attribution 4.0
 
 SOUNDS:
 
 voice_beep: Blip_C_06 by cabled_mess -- https://freesound.org/s/350866/ -- License: Creative Commons 0
-sfx_attack: Damage by qubodup -- https://freesound.org/s/211634/ -- License: Attribution 4.0
 voice_blip: PongBlipF4.wav by NoiseCollector -- https://freesound.org/s/4359/ -- License: Attribution 3.0
+sfx_attack: Damage by qubodup -- https://freesound.org/s/211634/ -- License: Attribution 4.0
