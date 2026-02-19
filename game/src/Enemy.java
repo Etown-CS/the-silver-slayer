@@ -1,5 +1,5 @@
 public class Enemy extends Entity {
-
+    
     public final boolean isBoss;
 
     public Enemy(String enemyName, int h, int a, int d) {this(enemyName, h, a, d, false);}
@@ -112,7 +112,7 @@ public class Enemy extends Entity {
                 case "Cleanser":
 
                     changeStats(0, 100, 0);
-                    msg.append("\nCleanser is going to anihilate you!");
+                    msg.append("\nCleanser is going to anihilate you!\nCleanser has gained attack!");
                     break;
 
                 case "Cyber Scorpion":
@@ -128,7 +128,37 @@ public class Enemy extends Entity {
 
                 case "Faceless":
 
-                    // TODO: Faceless ability
+                    switch (r.nextInt(3)) {
+
+                        case 0:
+
+                            if (r.nextBoolean()) {
+
+                                msg.append("\nFaceless' absent gaze bores into you. You lost 1 attack!");
+                                target.changeStats(0, -1, 0);
+
+                            } else {
+
+                                msg.append("\nFaceless' absent gaze bores into you. You lost 1 defense!");
+                                target.changeStats(0, 0, -1);
+
+                            }
+
+                            break;
+
+                        case 1:
+
+                            target.statuses.put("dazed", target.statuses.get("dazed") + 5);
+                            msg.append("\nThe void is calling...\nYou've been dazed!");
+                            break;
+
+                        case 2:
+
+                            msg.append("\nFaceless' dark energy is corrupting the world!");
+                            // TODO: Corrupt UI
+
+                    }
+
                     break;
 
                 case "Figment":
@@ -137,7 +167,7 @@ public class Enemy extends Entity {
 
                         case 0:
 
-                            msg.append("Is it possible for imagination to shimmer? Something is happening.");
+                            msg.append("\nIs it possible for imagination to shimmer?");
                             break;
 
                         case 1:
@@ -148,13 +178,13 @@ public class Enemy extends Entity {
 
                         case 2:
 
-                            msg.append("You've gome weak at the knees.");
+                            msg.append("\nYou've gome weak at the knees.");
                             target.statuses.put("weak", target.statuses.get("weak") + 1);
                             break;
 
                         case 3:
 
-                            msg.append("A sudden flash of inspiration!");
+                            msg.append("\nA sudden flash of inspiration!");
                             target.statuses.put("blinded", target.statuses.get("blind") + 1);
                             break;
 
@@ -187,7 +217,7 @@ public class Enemy extends Entity {
                     if (r.nextBoolean()) {
 
                         msg.append("\nIt fades as quickly as it came...");
-                        // TODO: Make it despawn
+                        menuRef.despawnEnemy();
 
                     } else {
 
@@ -224,7 +254,8 @@ public class Enemy extends Entity {
 
                 case "PISMPE":
 
-                    // TODO: PISMPE ability
+                    msg.append("\nYour information is being recorded. Enemies will be stronger for awhile!");
+                    target.statuses.put("known", 4); // Intentionally sets this to a flat value
                     break;
 
                 case "RAT":
@@ -234,10 +265,10 @@ public class Enemy extends Entity {
 
                 case "Scavenger":
 
-                    if (r.nextBoolean() && flee(50)) {
+                    if (flee(50)) {
 
                         msg.append("\nScavenger wastes no time.\nScavenger has fled!");
-                        // TODO: Make it flee
+                        menuRef.despawnEnemy();
 
                     }
 
@@ -245,14 +276,48 @@ public class Enemy extends Entity {
 
                 case "Scrambler":
 
-                    // TODO: Scrambler ability
+                    if (r.nextBoolean()) {
+
+                        msg.append("\nScrambler is mutating!");
+
+                        int tmp;
+                        switch (r.nextInt(3)) {
+
+                            case 0:
+
+                                tmp = health;
+                                health = attack;
+                                attack = tmp;
+                            
+                            case 1:
+
+                                tmp = health;
+                                health = defense;
+                                defense = tmp;
+
+                            case 2:
+
+                                tmp = attack;
+                                attack = defense;
+                                defense = tmp;
+
+                        }
+
+                        changeStats(0, 0, 0);
+
+                    } else {
+
+                        // TODO: Scramble the player, preferably temporarily
+
+                    }
+
                     break;
 
                 case "Worm":
 
                     if (r.nextBoolean()) {
 
-                        changeStats(healthDefault, attackDefault, 0);
+                        changeStats(healthDefault, attackDefault, defenseDefault);
                         msg.append("\nThe virus is replicating!");
 
                     }

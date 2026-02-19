@@ -626,6 +626,13 @@ public class Menu {
 
     }
 
+    public void despawnEnemy() {
+
+        if (!enemyRef.isBoss) enemyRef.reset();
+        enemyRef = null;
+
+    }
+
     private void playerSelect() {
         /*
         * Shows a menu with buttons for available characters
