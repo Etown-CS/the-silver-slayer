@@ -59,6 +59,7 @@ public class Menu {
         }
 
         save = new Save();
+        Entity.setMenu(this);
 
         for (byte c = 0; c < Player.names.length; c++) players[c] = new Player(Player.names[c]);
         for (counter = 0; counter < Player.names.length; counter++) {
@@ -574,7 +575,7 @@ public class Menu {
 
         });
 
-        Log.logData("Game says: " + text);
+        Log.logData("Game responds via writeText().");
         characterIndex = 0;
         timer.start();
 
@@ -823,6 +824,15 @@ public class Menu {
             }
 
         }).start();
+
+    }
+
+    public void squishUI() {
+        /*
+        * Used by the Flashbang enemy to distort the UI
+        */
+
+        mainframe.setSize(new Dimension(800, 1200));
 
     }
 

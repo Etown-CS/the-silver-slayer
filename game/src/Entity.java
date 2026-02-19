@@ -4,6 +4,7 @@ import java.security.SecureRandom;
 public class Entity {
 
     protected SecureRandom r = new SecureRandom();
+    protected static Menu menuRef;
     public HashMap<String, Integer> statuses = new HashMap<String, Integer>();
     public String name, spawnMsg;
     public int health, attack, defense, healthDefault, attackDefault, defenseDefault;
@@ -76,6 +77,12 @@ public class Entity {
         attack = attackDefault;
         defense = defenseDefault;
         initStatuses();
+
+    }
+
+    public static void setMenu(Menu ref) {
+
+        menuRef = ref;
 
     }
     

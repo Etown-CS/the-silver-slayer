@@ -55,40 +55,42 @@ public class Enemy extends Entity {
 
                         if (r.nextBoolean()) {
 
+                            int s = -1;
                             for (int c = 0; c < r.nextInt(1,5); c++) {
 
                                 switch (r.nextInt(5)) {
 
                                     case 0:
 
-                                        target.addItem(new Item("Trash", ItemType.Junk, "What even is this?", 0, false));
+                                        s = target.addItem(Database.genItem(14)); // Trash
                                         break;
 
                                     case 1:
 
-                                        target.addItem(new Item("Waste", ItemType.Junk, "This is just junk.", 0, false));
+                                        s = target.addItem(Database.genItem(15)); // Junk
                                         break;
 
                                     case 2:
 
-                                        target.addItem(new Item("Rubbish", ItemType.Junk, "A collection of, well, rubbish.", 0, false));
+                                        s = target.addItem(Database.genItem(16)); // Rubbish
                                         break;
 
                                     case 3:
 
-                                        target.addItem(new Item("Expired... Something", ItemType.Health, "An expired morsel of some unknown substance.", -1, true));
+                                        s = target.addItem(Database.genItem(17)); // Expired... Something
                                         break;
 
                                     case 4:
 
-                                        target.addItem(new Item("Mystery Meat", ItemType.Health, "This could be anything.", c, true));
+                                        s = target.addItem(Database.genItem(18)); // Mystery Meat
                                         break;
 
                                 }
 
                             }
 
-                            msg.append("\nBanshee spams you with garbage!\nYour inventory gets heavier.");
+                            if (s >= 0) msg.append("\nBanshee spams you with garbage!\nYour inventory gets heavier.");
+                            else msg.append("\nBanshee throws garbage all over you! Gross!");
 
                         } else {
 
@@ -110,7 +112,7 @@ public class Enemy extends Entity {
                 case "Cleanser":
 
                     changeStats(0, 100, 0);
-                    msg.append("\nCleanser prepares to anihilate you!");
+                    msg.append("\nCleanser is going to anihilate you!");
                     break;
 
                 case "Cyber Scorpion":
@@ -171,7 +173,7 @@ public class Enemy extends Entity {
 
                         } else {
 
-                            //TODO: 4:3 resolution
+                            menuRef.squishUI();
                             msg.append("\nFlashbang distorts your vision!");
 
                         }

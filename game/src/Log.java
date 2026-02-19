@@ -68,7 +68,6 @@ public class Log {
     public static void closeLog() {
 
         logData("Session time: " + (System.currentTimeMillis() - timer));
-
         try {
 
             logFile.close();
