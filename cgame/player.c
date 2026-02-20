@@ -45,6 +45,6 @@ void equipWeapon(player* character,int index)
 {
     if(character->inventory[index].type==Weapon)
     {
-        character->weapon=character->inventory[index];
+        character->weapon=&(character->inventory[index]);
     }
 }

@@ -4,7 +4,9 @@ typedef struct{
     int health, attack, defense, invCap, healthCap;
     item inventory[20];
     char* name;
-    item weapon;
+    item* weapon;
+    item* armor;
+    item* clothing;
 
 } player;
 
