@@ -11,6 +11,7 @@ public class Story {
     * Events ending in 0 are the event that occurs when first entering somewhere.
     * Events ending in 1 are what happens when you run look.
     * Similarly, events ending in 2 are the search events, 3 is for an unlock, and 4 is for failing to unlock
+    * 5 is for the event that shows when arriving somewhere after the first time
     * 
     * Cave & Mine are omitted here because they're implemented exclusively in C
     * Also, this allows us to use 3 digit locations IDs.
@@ -67,11 +68,12 @@ public class Story {
         // START
 
         // Field
-        start.put(100, "Where it all began.");
+        start.put(100, "The place where it began.");
         start.put(101, "You stand in an empty field of verdant grass. The path you came from trails away behind, and ahead, a dark, iron gate stands waiting. The endless expanse of green grass extends to the horizon, while the gate waits patiently.");
         start.put(102, "A wooden signpost stands nearby. The text has long since worn away. At its base sits a small, metal crate. A silver-lined keyhole resides front and center.");
         start.put(103, "OPENED THE BOX");
         start.put(104, "You attempt to pry the box open, but it remains sealed. You're not getting into this without either special tools or the original key.");
+        start.put(105, "It's quiet here.");
 
         // Gate
         start.put(110, "You step up to the gate. Despite the lack of travelers, it's locked. A rusted, yet entirely solid padlock hangs on a chain wrapped between the two doors.");
@@ -79,6 +81,7 @@ public class Story {
         start.put(112, "There's nothing to be found in the nearby vicinity. Nothing seems to have been disturbed prior to your arrival.");
         start.put(113, "The lock clicks open, the chain falls to the ground, and you're able to push the gate open with little resistance. The doors swing wide with a long, metallic screech. The path forward is open to you.");
         start.put(114, "The lock is unresponsive.");
+        start.put(115, "The gate remains open, and the padlock still rests nearby. The occassional breeze causes a gentle creaking in the iron.");
 
         // VILLAGE
 
@@ -88,6 +91,7 @@ public class Story {
         village.put(202, "You scavenge amongst the debris. There's nothing of value to be found, and you give up after realizing you look like another desperate looter.");
         village.put(203, "You hear the click of the lock coming open. This gate is tougher to open, but you manage to shove the doors aside, leaving divets in the dirt. The road to the mountains is clear.");
         village.put(204, "The lock hangs with indifference.");
+        village.put(205, "new base");
 
         // House
         village.put(210, "A particular house catches your eye. It seems less worn then the rest of the buildings, so you decide to take a closer look. You go inside.");
@@ -95,6 +99,7 @@ public class Story {
         village.put(212, "You pick up the Silver Spoon.");
         village.put(213, "unlock");
         village.put(214, "failed unlock");
+        village.put(215, "The house remains as you had left it previously, with no others signs of disturbance. The dust has already begun to settle again.");
 
         // Graveyard
         village.put(220, "The village graveyard is vast, with many gravestones in perfect rows. You decide to explore.");
@@ -102,6 +107,7 @@ public class Story {
         village.put(222, "Digging through a graveyard seems like a bad idea for several reasons. However, you do find a paper hat sitting on an unmarked stone. Someone placed this here.");
         village.put(223, "unlock");
         village.put(224, "failed unlock");
+        village.put(225, "The village graveyard is vast, with many gravestones in perfect rows.");
 
         // Well
         village.put(230, "In the center of the village there is a well. Must have been the water source for everyone. You decide to take a look inside.");
@@ -109,6 +115,7 @@ public class Story {
         village.put(232, "You scrounge around the well and peer down the pit. There's the bucket, but beyond that, there's nothing here.\nYou're not taking the bucket.");
         village.put(233, "unlock");
         village.put(234, "failed unlock");
+        village.put(235, "Wellcome back.");
 
         // LAKE
 
@@ -118,13 +125,15 @@ public class Story {
         lake.put(302, "Scrounging along the edge of the lake yields a variety of different rocks. One in particular is quite interesting.");
         lake.put(303, "unlock");
         lake.put(304, "failed unlock");
+        lake.put(305, "new base");
 
         // Dock
         lake.put(310, "You have stumbled upon a dock. This could be a good place to phish, but for what?");
         lake.put(311, "You see a tackle box on the dock.");
         lake.put(312, "You find goggles in the tackle box. You also notice a weird smell coming from it.");
-        lake.put(303, "unlock");
-        lake.put(304, "failed unlock");
+        lake.put(313, "unlock");
+        lake.put(314, "failed unlock");
+        lake.put(315, "new base");
 
         // Water
         lake.put(320, "You decide to take a swim! You dive into the water.");
@@ -132,6 +141,7 @@ public class Story {
         lake.put(322, "You lake is large and surprisingly clean. There's nothing to be found within its waters. (No, you can't grab a fish.)");
         lake.put(323, "unlock");
         lake.put(324, "failed unlock");
+        lake.put(325, "new base");
 
         // Entrance
         lake.put(330, "A dark tunnel leads downwards into the dark. It's difficult to C very far.");
@@ -139,6 +149,7 @@ public class Story {
         lake.put(332, "There's an excessive amount of plant debris. No one has passed through here in quite some time.");
         lake.put(333, "unlock");
         lake.put(334, "failed unlock");
+        lake.put(335, "new base");
 
         // MOUNTAIN
 
@@ -148,6 +159,7 @@ public class Story {
         mountain.put(402, "search");
         mountain.put(403, "unlock");
         mountain.put(404, "event not found");
+        mountain.put(405, "new base");
 
         // Path
         mountain.put(410, "As you travel up the mountain, you see a globe of light surrounding what seems to be a person meditating. You should check it out.");
@@ -155,6 +167,7 @@ public class Story {
         mountain.put(412, "Tufts of coarse grass and hardy, knotted trees dot the surroundings. There's nothing to be found in the immediate vicinity. You could, however, try searching again to find where the missing path used to lead.");
         mountain.put(413, "The wooden club easily smashes the rusted chain. You painstakingly heft the deadbolt out of the clasp and slide it open. The desert path is now accessible.");
         mountain.put(414, "That didn't do it.");
+        mountain.put(415, "new base");
 
         // Oracle
         mountain.put(420, "As you approach the figure, you see a man in robes. You feel a dark magic coming off of him. He looks towards you as you get closer. You ask the man, 'Who are you? What are you doing here?' The man says, 'I am the Oracle, keeper of knowledge. I am studying dark magic. If you wish, I can enchant your weapon to help you defeat what comes.'"); // TODO: maybe increase weapon damage, or maybe increase attack power?
@@ -162,6 +175,7 @@ public class Story {
         mountain.put(422, "The few living plants give the Oracle a wide berth. Scattered branches litter the area. One of them is much larger than the others...");
         mountain.put(423, "unlock");
         mountain.put(424, "unlock failed");
+        mountain.put(425, "new base");
 
         // Peak
         mountain.put(430, "You have made it to the peak of the mountain.");
@@ -169,6 +183,7 @@ public class Story {
         mountain.put(432, "There are mostly just drifts of snow; however, there is a curious glint half buried in a nearby mound.");
         mountain.put(433, "unlock");
         mountain.put(434, "unlock failed");
+        mountain.put(435, "new base");
 
         // DESERT
 
@@ -178,6 +193,7 @@ public class Story {
         desert.put(502, "search");
         desert.put(503, "unlock");
         desert.put(504, "unlock failed");
+        desert.put(505, "new base");
 
         // Dunes
         desert.put(510, "You walk to one of the many large dunes. You decide to look around.");
@@ -185,6 +201,7 @@ public class Story {
         desert.put(512, "search");
         desert.put(513, "unlock");
         desert.put(514, "unlock failed");
+        desert.put(515, "new base");
 
         // Town
         desert.put(520, "You decide to walk to the town and check it out.");
@@ -192,6 +209,7 @@ public class Story {
         desert.put(522, "You see a bar in the town and decide to go into it. Maybe someone in there will have some advice.");
         desert.put(523, "unlock");
         desert.put(524, "unlock failed");
+        desert.put(525, "new base");
 
         // Well
         desert.put(530, "A small well is not far from you. Though looking inside, you see it is completely dry.");
@@ -199,6 +217,7 @@ public class Story {
         desert.put(532, "This one doesn't even have any water, let alone a bucket.");
         desert.put(533, "unlock");
         desert.put(534, "unlock failed");
+        desert.put(535, "new base");
 
         // SWAMP
 
@@ -208,6 +227,7 @@ public class Story {
         swamp.put(602, "search");
         swamp.put(603, "unlock");
         swamp.put(604, "unlock failed");
+        swamp.put(605, "new base");
 
         // Wetland
         swamp.put(610, "The ground here is more liquid than solid. Ripples echo across the fetid pools, and you can see the shadows of those that lurk beneath.");
@@ -215,6 +235,7 @@ public class Story {
         swamp.put(612, "Digging into the mud is a fruitless endeavor, and sticking your hands randomly into the brackish water probably isn't a good idea. If there's anything to find here, it's too well hidden.");
         swamp.put(613, "unlock");
         swamp.put(614, "unlock failed");
+        swamp.put(615, "new base");
 
         // Woodland
         swamp.put(620, "A dark, dense forest. An ominous mist lingers on the ground, making it difficult to see what you're stepping in to.");
@@ -222,6 +243,7 @@ public class Story {
         swamp.put(622, "There are a wide variety of plants to be found, some of which yield fruit. These may or may not be safe to eat.");
         swamp.put(623, "unlock");
         swamp.put(624, "unlock failed");
+        swamp.put(625, "new base");
 
         // FRACTURE
 
@@ -231,6 +253,7 @@ public class Story {
         fracture.put(702, "You find foreign plants, hints of ancient ruins, and your own memories. Phones ring from behind you. The scent of honeysuckle blends with lacquered wood, and you keep picking up the same rock. It burns. Perhaps you should stop.");
         fracture.put(703, "unlock");
         fracture.put(704, "unlock failed");
+        fracture.put(705, "new base");
 
         // Edge
         fracture.put(710, "You notice the lights in the sky are leading somewhere, somewhere dark, even evil. You decide to follow them.");
@@ -238,6 +261,7 @@ public class Story {
         fracture.put(712, "search");
         fracture.put(713, "unlock");
         fracture.put(714, "unlock failed");
+        fracture.put(715, "new base");
 
         // Doom
         fracture.put(720, "Big secret");
@@ -245,6 +269,7 @@ public class Story {
         fracture.put(722, "search");
         fracture.put(723, "unlock");
         fracture.put(724, "unlock failed");
+        fracture.put(725, "new base");
 
         // Mirrors
         fracture.put(730, "A building in the distance catches your eye. It is completely black, a void color. You decide to check it out.");
@@ -252,6 +277,7 @@ public class Story {
         fracture.put(732, "search");
         fracture.put(733, "unlock");
         fracture.put(734, "unlock failed");
+        fracture.put(735, "new base");
 
         // LAIR
 
@@ -261,6 +287,7 @@ public class Story {
         lair.put(802, "search");
         lair.put(803, "unlock");
         lair.put(804, "unlock failed");
+        lair.put(805, "new base");
 
         // Village
         lair.put(810, "Exploring the outskirts around the lair, you see a small shack that catches you eye.");
@@ -268,6 +295,7 @@ public class Story {
         lair.put(812, "You open the chest and are shocked by whats inside.");
         lair.put(813, "unlock");
         lair.put(814, "unlock failed");
+        lair.put(815, "new base");
 
         // Castle
         lair.put(820, "castle");
@@ -275,6 +303,7 @@ public class Story {
         lair.put(822, "search");
         lair.put(823, "unlock");
         lair.put(824, "unlock failed");
+        lair.put(825, "new base");
 
         // Throne
         lair.put(830, "\"Welcome. You took your time coming here, so let us not waste any more.\"");
@@ -282,7 +311,8 @@ public class Story {
         lair.put(832, "search");
         lair.put(833, "unlock");
         lair.put(834, "unlock failed");
-        lair.put(835, "Congratulations on defeating the Silver Slayer! You now have access to the Silver Sword, but there is still more adventure to be had.");
+        lair.put(835, "new base");
+        lair.put(839, "Congratulations on defeating the Silver Slayer! You now have access to the Silver Sword, but there is still more adventure to be had.");
 
         eventsSeen = new boolean[8][100];
         for (int c = 0; c < eventsSeen.length; c++) for (int c2 = 0; c2 < eventsSeen[c].length; c2++) eventsSeen[c][c2] = false;
@@ -320,7 +350,8 @@ public class Story {
         * sub: Sublocation ID
         */
 
-        return getExactEvent(loc, genEventKey(loc, sub, 0));
+        if (wasEventSeen(genEventKey(loc, sub, 0))) return getExactEvent(loc, genEventKey(loc, sub, 5));
+        else return getExactEvent(loc, genEventKey(loc, sub, 0));
 
     }
 
