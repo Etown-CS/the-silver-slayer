@@ -509,6 +509,16 @@ public class Menu {
 
                 break;
 
+            // DEBUG COMMANDS
+
+            case "warp":
+
+                if (++Player.location > 8) Player.location = 1;
+                Player.sublocation = 0;
+                Audio.activeTrack.stop();
+                writeText("Away you go!", -1);
+                break;
+
             default:
 
                 writeText("Unknown command: \"" + text + "\"\nUse 'help' to see valid commands.", 0);

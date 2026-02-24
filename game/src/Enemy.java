@@ -43,6 +43,7 @@ public class Enemy extends Entity {
 
         StringBuilder msg = new StringBuilder(64);
         int atkDmg = (statuses.get("weak") > 0) ? (int) (attack * 0.7) : attack;
+        if (target.statuses.get("known") > 0) atkDmg *= 1.3;
         msg.append(name + " attacks for " + target.getAttacked(atkDmg) + " damage!");
 
         if (target.health > 0) {
@@ -260,7 +261,25 @@ public class Enemy extends Entity {
 
                 case "RAT":
 
-                    // TODO: RAT ability
+                    int slot = r.nextInt(target.invCap);
+                    Item i = target.inventory[slot];
+                    if (i != null) {
+                        
+                        switch (i.type) {
+
+                            case Health:
+
+                                msg.append("\nRAT ate your " + target.removeItem(slot) + '!');
+                                changeStats(i.magnitude, 0, 0);
+                                break;
+
+                            default:
+
+                                msg.append("\nRAT found nothing of interest.");
+
+                        }
+
+                    } else msg.append("\nRAT found nothing of interest.");
                     break;
 
                 case "Scavenger":

@@ -296,7 +296,7 @@ public class Story {
         * eventID: A three digit integer referencing the specific event
         */
         
-        eventsSeen[locationID][eventID % 100] = true;
+        eventsSeen[locationID - 1][eventID % 100] = true;
         return events.get(locationID).get(eventID);
 
     }
@@ -365,7 +365,7 @@ public class Story {
         * eventID: The ID of the event
         */
         
-        return eventsSeen[eventID / 100][eventID % 100];
+        return eventsSeen[eventID / 100 - 1][eventID % 100];
 
     }
 
