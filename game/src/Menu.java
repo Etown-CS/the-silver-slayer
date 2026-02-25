@@ -513,6 +513,7 @@ public class Menu {
 
             case "warp":
 
+                if (!TheSilverSlayer.debug) break;
                 if (++Player.location > 8) Player.location = 1;
                 Player.sublocation = 0;
                 Audio.activeTrack.stop();

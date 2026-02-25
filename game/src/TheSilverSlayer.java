@@ -1,5 +1,8 @@
 public class TheSilverSlayer {
 
+    // Use this to toggle debug mode
+    public static final boolean debug = true;
+
     public static void main(String[] args) {
         /* Main */
     	

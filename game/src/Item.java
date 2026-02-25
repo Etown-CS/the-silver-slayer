@@ -161,7 +161,7 @@ public class Item {
         }
 
         // Silver Sword *
-        if (!silverSword && Player.location == 8 && Player.sublocation == 3 && Story.wasEventSeen(833)) {
+        if (!silverSword && Player.location == 8 && Player.sublocation == 3 && Locations.Lair[Locations.Lair.length - 1].health == 0) {
 
             int invSlot = playerRef.addItem(Database.genItem(13));
             if (invSlot == -1) return "\nInventory Full";

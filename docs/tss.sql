@@ -98,7 +98,7 @@ INSERT INTO item (item_name, item_type, magnitude, consumable, is_unique, info) 
 INSERT INTO item (item_name, item_type, magnitude, consumable, is_unique, info) VALUES ("Bulbous Swamp Fruit", "health", 4, true, false, "A bulbous fruit from the swamp's woodland.");
 INSERT INTO item (item_name, item_type, magnitude, consumable, is_unique, info) VALUES ("Speckled Swamp Fruit", "health", -3, true, false, "A speckled fruit from the swamp's woodland.");
 INSERT INTO item (item_name, item_type, magnitude, consumable, is_unique, info) VALUES ("Star Swamp Fruit", "health", 7, true, false, "A star-shaped fruit from the swamp's woodland.");
-INSERT INTO item (item_name, item_type, magnitude, consumable, is_unique, info) VALUES ("The Silver Sword", "weapon", 99, false, true, "A sharp, silver sword taken from a mighty foe. The blade is strangely notched, and the pattern appears to be intentionally engraved.");
+INSERT INTO item (item_name, item_type, magnitude, consumable, is_unique, info) VALUES ("Silver Sword", "weapon", 99, false, true, "A sharp, silver sword taken from a mighty foe. The blade is strangely notched, and the pattern appears to be intentionally engraved.");
 INSERT INTO item (item_name, item_type, magnitude, consumable, is_unique, info) VALUES ("Trash", "junk", 0, false, false, "What even is this?");
 INSERT INTO item (item_name, item_type, magnitude, consumable, is_unique, info) VALUES ("Junk", "junk", 0, false, false, "This is just junk.");
 INSERT INTO item (item_name, item_type, magnitude, consumable, is_unique, info) VALUES ("Rubbish", "junk", 0, false, false, "A collection of, well, rubbish.");

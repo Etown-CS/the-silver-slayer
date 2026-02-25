@@ -2,29 +2,23 @@ import java.util.HashMap;
 
 public class Story {
 
-    /*
-    * The idea for this class is to store all the story elements here
-    * This way they won't get in the way of the code
-    * 
-    * Every major location has its own HashMap.
-    * Each HashMap consists of an event ID and then the event itself.
-    * Events ending in 0 are the event that occurs when first entering somewhere.
-    * Events ending in 1 are what happens when you run look.
-    * Similarly, events ending in 2 are the search events, 3 is for an unlock, and 4 is for failing to unlock
-    * 5 is for the event that shows when arriving somewhere after the first time
-    * 
-    * Cave & Mine are omitted here because they're implemented exclusively in C
-    * Also, this allows us to use 3 digit locations IDs.
-    */
-
+    // Messages that can be shown on the title bar of the game window
     public static final String[] TITLE_STRINGS = {"Silver Slayer RPG", "Also try Terraria!", "Also try Minecraft!", "THE FOG IS COMING", 
                                             "There may be an egg", "here come dat boi", "JOHN WAS HERE", "The name is Gus... Amon Gus", "water bottle", 
                                             "As I write this, it's 1:30pm on October 3rd, 2025", "[J]ohn, [A]sher, and [M]artin: JAM", 
                                             "Why am I writing these?", "Silksong is out!", "I ate my toothbrush", "o _ o", "get rekt", 
                                             "Low on magenta!", "Strings", "jk jk... unless?", "Remember to cave"};
+    
+    // Messages that can be displayed when the player flees
     public static final String[] FLEE_STRINGS = {"You can't run forever.", "You got away... for now.", "You'll be back."};
+    
+    // Each boss has a unique message for when it's defeated
     public static final String[] BOSS_DEFEATED = {null, null, "The Guardian has fallen. The first of many."};
+    
+    // Messages that can appear on the title bar of the game over popup
     public static final String[] GAME_OVERS = {"How unfortunate", "That's gonna leave a mark", "Better luck some time!", "oof", "bruh.mp3", "Process killed"};
+    
+    // The string that prints when the player enters 'help'
     public static final String HELP_TEXT = "look / ls: Look around yourself\n" +
                                             "search: Search your surroundings\n" +
                                             "goto [place]: Travel to a specified location\n" +
@@ -42,6 +36,20 @@ public class Story {
                                             "clear: Clear the terminal\n" + 
                                             "title: Change the title message";
 
+    /*
+    * The original idea behind this class was to store all the story elements here
+    * This way the events won't get in the way of the code
+    * 
+    * Every major location has its own HashMap consisting of event IDs and then the events themselves
+    * Events ending in 0 are the events that occur when entering a location for the first time
+    * Events ending in 1 are what happens when you run look.
+    * Similarly, events ending in 2 are the search events, 3 is for an unlock, and 4 is for failing to unlock
+    * 5 is for the event that shows when arriving somewhere after the first time
+    * There's one final, over-arching HashMap that holds all the others
+    * 
+    * Cave & Mine are omitted here because they're implemented exclusively in C
+    * Also, this allows us to use 3 digit locations IDs.
+    */
     private static HashMap<Integer, String> start = new HashMap<>();
     private static HashMap<Integer, String> village = new HashMap<>();
     private static HashMap<Integer, String> lake = new HashMap<>();
@@ -51,19 +59,14 @@ public class Story {
     private static HashMap<Integer, String> fracture = new HashMap<>();
     private static HashMap<Integer, String> lair = new HashMap<>();
     private static HashMap<Integer, HashMap<Integer, String>> events = new HashMap<Integer, HashMap<Integer, String>>();
+    
+    // A 2D boolean array that keeps track of which events have been shown
     private static boolean[][] eventsSeen;
 
     public static void initStory() {
-
-        // Populating top-level map
-        events.put(1, start);
-        events.put(2, village);
-        events.put(3, lake);
-        events.put(4, mountain);
-        events.put(5, desert);
-        events.put(6, swamp);
-        events.put(7, fracture);
-        events.put(8, lair);
+        /*
+        * Populates all story HashMaps
+        */
 
         // START
 
@@ -314,6 +317,17 @@ public class Story {
         lair.put(835, "new base");
         lair.put(839, "Congratulations on defeating the Silver Slayer! You now have access to the Silver Sword, but there is still more adventure to be had.");
 
+        // Populating top-level map
+        events.put(1, start);
+        events.put(2, village);
+        events.put(3, lake);
+        events.put(4, mountain);
+        events.put(5, desert);
+        events.put(6, swamp);
+        events.put(7, fracture);
+        events.put(8, lair);
+
+        // Fill arrays w/ 'false'
         eventsSeen = new boolean[8][100];
         for (int c = 0; c < eventsSeen.length; c++) for (int c2 = 0; c2 < eventsSeen[c].length; c2++) eventsSeen[c][c2] = false;
 

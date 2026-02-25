@@ -20,6 +20,10 @@ public class Audio {
     }
 
     public void play(boolean loop) {
+        /*
+        * Play the clip
+        * loop: Whether or not to loop the clip
+        */
 
         try {
 
@@ -40,6 +44,9 @@ public class Audio {
     }
 
     public void stop() {
+        /*
+        * Stop the clip and close resources
+        */
 
         if (clip != null) {
 
@@ -65,6 +72,9 @@ public class Audio {
     }
 
     public static void backgroundMusic() {
+        /*
+        * Sets up a thread to handle the game's background/ambient music
+        */
 
         SecureRandom r = new SecureRandom();
         Audio[][] bgSongs = {
@@ -81,16 +91,6 @@ public class Audio {
         new Thread(() -> {
 
             while (true) {
-
-                try {
-
-                    Thread.sleep(r.nextInt(0, 100)); // TODO: Change this in production
-
-                } catch (InterruptedException ex) {
-
-                    Log.logData("WARN: Background music delay interrupted.");
-
-                }
 
                 if (!Player.inBossfight) {
 
@@ -115,6 +115,16 @@ public class Audio {
                 }
 
                 activeTrack.stop();
+
+                try {
+
+                    Thread.sleep(r.nextInt(30, 180));
+
+                } catch (InterruptedException ex) {
+
+                    Log.logData("WARN: Background music delay interrupted.");
+
+                }
 
             }
 
