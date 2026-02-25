@@ -97,44 +97,44 @@ public class Menu {
 
         String foundItem = Item.getItem(playerRef);
         if (foundItem != null) return foundItem;
-        else if (Player.location == 4 && Player.sublocation == 1 && Player.mountainPathSearches < 6) {
+        else if (Player.location == 4 && Player.sublocation == 1) {
             // Mountain path searches
 
             if (Player.mountainPathSearches == 0) {
 
                 Story.updateEvent(412, "Attempting to follow the lost path's trail is difficult. You somehow keep ending up back at the signpost, over and over again.");
                 Player.mountainPathSearches++;
-                System.out.println(Player.mountainPathSearches);
 
             } else if (Player.mountainPathSearches == 1) {
 
                 Story.updateEvent(412, "It almost feels like you're being pushed away from your destination. The plants and landmarks never seem to repeat, yet you always return to the signpost.");
                 Player.mountainPathSearches++;
-                System.out.println(Player.mountainPathSearches);
 
             } else if (Player.mountainPathSearches == 2) {
 
                 Story.updateEvent(412, "The signpost's missing text has reappeared. It reads: \"enough\"");
                 Player.mountainPathSearches++;
-                System.out.println(Player.mountainPathSearches);
 
             } else if (Player.mountainPathSearches == 3) {
 
                 Story.updateEvent(412, "Why do you feel so... ill? Give up the search. Give it up. There's nothing to be found.");
                 Player.mountainPathSearches++;
-                System.out.println(Player.mountainPathSearches);
 
             } else if (Player.mountainPathSearches == 4) {
 
                 Story.updateEvent(412, "You're not wanted here. This place isn't for you. Let it rest. You don't want their attention.");
                 Player.mountainPathSearches++;
-                System.out.println(Player.mountainPathSearches);
 
             } else if (Player.mountainPathSearches == 5) {
 
+                Story.updateEvent(412, "Something comes crashing down from high above, barreling towards you at high speed. You barely manage to leap away. The object slams into the ground, and then turns towards you..." + Locations.Mountain[Locations.Mountain.length - 1].spawnMsg);
+                Player.mountainPathSearches++;
+                
+            } else if (Player.mountainPathSearches == 6) {
+                
+                if (Locations.Mountain[Locations.Mountain.length - 1].health > 0) enemyRef = Locations.spawnEnemy(4, true);
                 Story.updateEvent(412, "The signpost's missing text has reappeared. It reads: \"Fracture\"");
                 Player.mountainPathSearches++;
-                System.out.println(Player.mountainPathSearches);
 
             }
 
@@ -416,6 +416,7 @@ public class Menu {
                 else if (enemyRef.isBoss) {
 
                     if (Player.location == 2) writeText("The Guardian is faster than you and intent on fighting. You need to defeat it.", 0);
+                    else if (Player.location == 4) writeText("The one time you want to escape, you can't. Should've listened to the warnings.", 0);
                     else if (Player.location == 8) writeText("You either win, or you don't ever leave.", 0);
 
                 } else {

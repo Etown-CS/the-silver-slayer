@@ -64,7 +64,7 @@ INSERT INTO enemy (enemy_name, enemy_type, health, attack, defense, mountain, de
 
 INSERT INTO enemy(enemy_name, enemy_type, health, attack, defense, boss, spawn_message, village) VALUES ("First Guardian", "default", 10, 3, 2, true, "tbd", true);
 INSERT INTO enemy(enemy_name, enemy_type, health, attack, defense, boss, spawn_message, lake) VALUES ("The Big One", "default", 30, 3, 1, true, "tbd", true);
-INSERT INTO enemy(enemy_name, enemy_type, health, attack, defense, boss, spawn_message, mountain) VALUES ("Abominable Snowball", "default", 40, 4, 4, true, "tbd", true);
+INSERT INTO enemy(enemy_name, enemy_type, health, attack, defense, boss, spawn_message, mountain) VALUES ("Abominable Snowball", "default", 40, 4, 4, true, "That was your last mistake.", true);
 INSERT INTO enemy(enemy_name, enemy_type, health, attack, defense, boss, spawn_message, cave) VALUES ("SkeleTON", "default", 30, 5, 5, true, "tbd", true);
 INSERT INTO enemy(enemy_name, enemy_type, health, attack, defense, boss, spawn_message, mine) VALUES ("Last Prospector", "default", 45, 6, 10, true, "tbd", true);
 INSERT INTO enemy(enemy_name, enemy_type, health, attack, defense, boss, spawn_message, desert) VALUES ("Firewall", "default", 60, 10, 5, true, "tbd", true);

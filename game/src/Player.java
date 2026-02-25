@@ -1,7 +1,6 @@
 public class Player extends Entity {
 
     public static final String[] names = {"Bitter Java", "Brustel Sprout", "C--", "Dapper Python", "P. H. Periwinkle", "ReacTor", "Saea Quowle"};
-
     public Item[] inventory = {null, null, null, null, null, null, null, null, null, null};
     public Item currentArmor = null, currentWeapon = null, currentWearable = null;
     public int invCap = 5;
@@ -394,7 +393,7 @@ public class Player extends Entity {
 
                     case "fracture":
 
-                        if (sublocation != 1 || mountainPathSearches < 6) break;
+                        if (sublocation != 1 || Locations.Mountain[Locations.Mountain.length - 1].health > 0) break;
                         location = 7;
                         sublocation = 0;
                         Audio.activeTrack.stop();

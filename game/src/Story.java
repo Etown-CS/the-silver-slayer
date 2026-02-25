@@ -13,7 +13,7 @@ public class Story {
     public static final String[] FLEE_STRINGS = {"You can't run forever.", "You got away... for now.", "You'll be back."};
     
     // Each boss has a unique message for when it's defeated
-    public static final String[] BOSS_DEFEATED = {null, null, "The Guardian has fallen. The first of many."};
+    public static final String[] BOSS_DEFEATED = {null, null, "The Guardian has fallen. The first of many.", "lake", "The snowball shivers, and then collapses into a pile of slush.", "desert", "swamp", "lair"};
     
     // Messages that can appear on the title bar of the game over popup
     public static final String[] GAME_OVERS = {"How unfortunate", "That's gonna leave a mark", "Better luck some time!", "oof", "bruh.mp3", "Process killed"};
