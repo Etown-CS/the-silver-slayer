@@ -163,6 +163,7 @@ public class Menu {
                 else writeText(Story.getLookEvent(Player.location, Player.sublocation), 0);
                 break;
 
+            case "grep":
             case "search":
 
                 if (enemyRef != null) writeText("You're in combat!", 0);
@@ -174,7 +175,14 @@ public class Menu {
 
                 if (enemyRef != null) writeText("You're in combat!", 0);
                 else if (bits.length < 2) writeText("Go where?", 0);
-                else if (playerRef.travel(bits[1].toLowerCase())) {
+                else if (Player.location == 2 && Locations.Village[Locations.Village.length - 1].health > 0) {
+
+                    writeText("As you approach the border to the village, you hear a sudden burst of heavy footsteps rushing up behind you. It seems your antics have attracted something's attention.", 0);
+                    enemyRef = Locations.spawnEnemy(2, true);
+                    Audio.activeTrack.stop();
+                    bossTracks[0].play(true);
+
+                } else if (playerRef.travel(bits[1].toLowerCase())) {
 
                     switch (Player.location) {
 
@@ -218,6 +226,7 @@ public class Menu {
                         if (bits[1].equals("silver") && playerRef.hasItem("Silver Sword")) {
 
                             writeText(Story.getUnlockEvent(1, 0, true), 0);
+                            showImage("orange.png");
                             
                         } else writeText(Story.getUnlockEvent(1, 0, false), 0);
 
@@ -292,8 +301,6 @@ public class Menu {
             	break;
 
             case "whoami":
-            case "characters":
-            case "character":
             case "chars":
             case "char":
 
@@ -406,8 +413,12 @@ public class Menu {
             case "flee":
 
                 if (enemyRef == null) writeText("There's nothing to run from (yet).", 0);
-                else if (enemyRef == Locations.enemyIndex[6][Locations.enemyIndex[6].length - 1]) writeText("You either win, or you don't ever leave.", 0);
-                else {
+                else if (enemyRef.isBoss) {
+
+                    if (Player.location == 2) writeText("The Guardian is faster than you and intent on fighting. You need to defeat it.", 0);
+                    else if (Player.location == 8) writeText("You either win, or you don't ever leave.", 0);
+
+                } else {
 
                     if (playerRef.flee(65)) {
 

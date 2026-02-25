@@ -4,9 +4,9 @@ public class Story {
 
     // Messages that can be shown on the title bar of the game window
     public static final String[] TITLE_STRINGS = {"Silver Slayer RPG", "Also try Terraria!", "Also try Minecraft!", "THE FOG IS COMING", 
-                                            "There may be an egg", "here come dat boi", "JOHN WAS HERE", "The name is Gus... Amon Gus", "water bottle", 
+                                            "There may be an egg", "here come dat boi", "The names Gus... Amon Gus", "water bottle", 
                                             "As I write this, it's 1:30pm on October 3rd, 2025", "[J]ohn, [A]sher, and [M]artin: JAM", 
-                                            "Why am I writing these?", "Silksong is out!", "I ate my toothbrush", "o _ o", "get rekt", 
+                                            "Why am I writing these?", "I ate my toothbrush", "o _ o", "get rekt", "lock in", "svlmcmdsfl",
                                             "Low on magenta!", "Strings", "jk jk... unless?", "Remember to cave"};
     
     // Messages that can be displayed when the player flees
@@ -20,16 +20,17 @@ public class Story {
     
     // The string that prints when the player enters 'help'
     public static final String HELP_TEXT = "look / ls: Look around yourself\n" +
-                                            "search: Search your surroundings\n" +
-                                            "goto [place]: Travel to a specified location\n" +
+                                            "search / grep: Search your surroundings\n" +
+                                            "goto / cd [place]: Travel to a specified location (eg: goto gate)\n" +
                                             "unlock [code / item]: Unlock something\n" +
-                                            "char / chars / character / chatacters: Select a character\n\n" +
+                                            "char / chars / whoami: Select a character\n\n" +
                                             "desc / describe [slot #]: Describe the item in the specific inventory slot\n" + 
                                             "use [slot #]: Use an item in the specified inventory slot\n" +
                                             "drop [slot #]: Drop a specific item\n" + 
                                             "atk / attack: Attack the current enemy\n" + 
                                             "flee: Attempt to flee from an ongoing fight\n" + 
                                             "pass: Do nothing; wait.\n\n" + 
+                                            "sql: Open the SQL window.\n\n" +
                                             "help: Display this message\n" + 
                                             "save: Save your game\n" + 
                                             "exit / quit: Close the game (save first!)\n" + 
@@ -76,7 +77,7 @@ public class Story {
         start.put(102, "A wooden signpost stands nearby. The text has long since worn away. At its base sits a small, metal crate. A silver-lined keyhole resides front and center.");
         start.put(103, "OPENED THE BOX");
         start.put(104, "You attempt to pry the box open, but it remains sealed. You're not getting into this without either special tools or the original key.");
-        start.put(105, "It's quiet here.");
+        start.put(105, "It's quiet here. No one else has come this way.");
 
         // Gate
         start.put(110, "You step up to the gate. Despite the lack of travelers, it's locked. A rusted, yet entirely solid padlock hangs on a chain wrapped between the two doors.");
@@ -94,7 +95,7 @@ public class Story {
         village.put(202, "You scavenge amongst the debris. There's nothing of value to be found, and you give up after realizing you look like another desperate looter.");
         village.put(203, "You hear the click of the lock coming open. This gate is tougher to open, but you manage to shove the doors aside, leaving divets in the dirt. The road to the mountains is clear.");
         village.put(204, "The lock hangs with indifference.");
-        village.put(205, "new base");
+        village.put(205, "You return to the village. The buildings are worn from years of neglect and misuse. You don't see any signs of life around. At first glance, it seems like you are alone.");
 
         // House
         village.put(210, "A particular house catches your eye. It seems less worn then the rest of the buildings, so you decide to take a closer look. You go inside.");
@@ -128,7 +129,7 @@ public class Story {
         lake.put(302, "Scrounging along the edge of the lake yields a variety of different rocks. One in particular is quite interesting.");
         lake.put(303, "unlock");
         lake.put(304, "failed unlock");
-        lake.put(305, "new base");
+        lake.put(305, "The water is completely still. The lake's inhabitants continue their business, either unaware or uncaring of your presence.");
 
         // Dock
         lake.put(310, "You have stumbled upon a dock. This could be a good place to phish, but for what?");
@@ -136,7 +137,7 @@ public class Story {
         lake.put(312, "You find goggles in the tackle box. You also notice a weird smell coming from it.");
         lake.put(313, "unlock");
         lake.put(314, "failed unlock");
-        lake.put(315, "new base");
+        lake.put(315, "You step out onto the dock. This could be a good place to phish, but for what?");
 
         // Water
         lake.put(320, "You decide to take a swim! You dive into the water.");
@@ -144,15 +145,15 @@ public class Story {
         lake.put(322, "You lake is large and surprisingly clean. There's nothing to be found within its waters. (No, you can't grab a fish.)");
         lake.put(323, "unlock");
         lake.put(324, "failed unlock");
-        lake.put(325, "new base");
+        lake.put(325, "You once again leap into the water. It hasn't warmed up since last time.");
 
         // Entrance
-        lake.put(330, "A dark tunnel leads downwards into the dark. It's difficult to C very far.");
+        lake.put(330, "A dark tunnel leads downwards into the depths. It's difficult to C very far.");
         lake.put(331, "The cave entrance is surrounded by dense plant life, to the point where you'd never have found it without knowing something was here.");
         lake.put(332, "There's an excessive amount of plant debris. No one has passed through here in quite some time.");
         lake.put(333, "unlock");
         lake.put(334, "failed unlock");
-        lake.put(335, "new base");
+        lake.put(335, "A dark tunnel leads downwards into the depths.");
 
         // MOUNTAIN
 
@@ -178,7 +179,7 @@ public class Story {
         mountain.put(422, "The few living plants give the Oracle a wide berth. Scattered branches litter the area. One of them is much larger than the others...");
         mountain.put(423, "unlock");
         mountain.put(424, "unlock failed");
-        mountain.put(425, "new base");
+        mountain.put(425, "The Oracle looks towards you as you get closer. He seems unsurprised to see you.");
 
         // Peak
         mountain.put(430, "You have made it to the peak of the mountain.");
