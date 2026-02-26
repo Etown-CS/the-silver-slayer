@@ -134,10 +134,9 @@ public class Story {
         // Dock
         lake.put(310, "You have stumbled upon a dock. This could be a good place to phish, but for what?");
         lake.put(311, "You see a tackle box on the dock.");
-        lake.put(312, "You find goggles in the tackle box. You also notice a weird smell coming from it.");
+        lake.put(312, "You find goggles and bait in the tackle box. Oddly the bait is a bunch of emails. You also notice a weird smell coming from it.");
         lake.put(313, "unlock");
         lake.put(314, "failed unlock");
-        lake.put(315, "You step out onto the dock. This could be a good place to phish, but for what?");
 
         // Water
         lake.put(320, "You decide to take a swim! You dive into the water.");
@@ -154,6 +153,14 @@ public class Story {
         lake.put(333, "unlock");
         lake.put(334, "failed unlock");
         lake.put(335, "A dark tunnel leads downwards into the depths.");
+
+        // Phishing - chance to catch someones personal info
+
+        lake.put(340, "Using the emails you got from the tackle box, you are now able to phish.");
+        lake.put(341, "You cast your rod into the water hoping to catch something.");
+        lake.put(342, "You have caught someones personal information!");
+        lake.put(343, "Your line broke.");
+
 
         // MOUNTAIN
 
