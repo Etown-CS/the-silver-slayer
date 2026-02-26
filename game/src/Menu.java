@@ -175,36 +175,39 @@ public class Menu {
 
                 if (enemyRef != null) writeText("You're in combat!", 0);
                 else if (bits.length < 2) writeText("Go where?", 0);
-                else if (Player.location == 2 && Locations.Village[Locations.Village.length - 1].health > 0) {
+                else if (Player.fractureMirrorMoves > 0 && Player.fractureMirrorMoves < 7) {
+
+                    writeText("You are lost in the mirrors!", 0);
+                    Player.fractureMirrorMoves++;
+
+                } else if (Player.location == 2 && Locations.Village[Locations.Village.length - 1].health > 0 && (bits[1].equals("lake") || bits[1].equals("mountain"))) {
 
                     writeText("As you approach the border to the village, you hear a sudden burst of heavy footsteps rushing up behind you. It seems your antics have attracted something's attention.", 0);
                     enemyRef = Locations.spawnEnemy(2, true);
                     Audio.activeTrack.stop();
                     bossTracks[0].play(true);
+                
+                } else if (Player.location == 5 && Locations.Desert[Locations.Desert.length - 1].health > 0 && bits[1].equals("swamp")) {
 
-                } else if (playerRef.travel(bits[1].toLowerCase())) {
+                    writeText("A massive barrier stands between you and the swamp. The heat emanating from it dwarfs the usual desert temperatures. There's no going around this; only through.", 0);
+                    enemyRef = Locations.spawnEnemy(5, true);
+                    Audio.activeTrack.stop();
+                    bossTracks[3].play(enemyTurn);
 
-                    switch (Player.location) {
+                } else if (playerRef.travel(bits[1])) {
 
-                        case 8:
+                    if (Player.fractureMirrorMoves == 0 && Player.location == 7 && Player.sublocation == 2) Player.fractureMirrorMoves = 1;
+                    else if (Player.location == 8 && Player.sublocation == 3 && Locations.Lair[Locations.Lair.length - 1].health > 0) {
 
-                            if (Player.sublocation == 3 && Locations.Lair[Locations.Lair.length - 1].health > 0) {
-
-                                enemyRef = Locations.spawnEnemy(8, true);
-                                Audio.activeTrack.stop();
-                                bossTracks[6].play(true);
-
-                            }
-
-                            // no break here
-
-                        default:
-
-                            if (enemyRef == null && Player.location >= 2) enemyRef = Locations.spawnEnemy(Player.location, false);
-                            if (enemyRef != null) writeText(Story.getBaseEvent(Player.location, Player.sublocation) + enemyRef.spawnMsg, 0);
-                            else writeText(Story.getBaseEvent(Player.location, Player.sublocation), 0);
+                        enemyRef = Locations.spawnEnemy(8, true);
+                        Audio.activeTrack.stop();
+                        bossTracks[6].play(true);
 
                     }
+
+                    if (enemyRef == null && Player.location >= 2) enemyRef = Locations.spawnEnemy(Player.location, false);
+                    if (enemyRef != null) writeText(Story.getBaseEvent(Player.location, Player.sublocation) + enemyRef.spawnMsg, 0);
+                    else writeText(Story.getBaseEvent(Player.location, Player.sublocation), 0);
 
                 } else writeText("You can't get there from here, if there even exists.", 0);
                 break;
@@ -417,6 +420,7 @@ public class Menu {
 
                     if (Player.location == 2) writeText("The Guardian is faster than you and intent on fighting. You need to defeat it.", 0);
                     else if (Player.location == 4) writeText("The one time you want to escape, you can't. Should've listened to the warnings.", 0);
+                    else if (Player.location == 5) writeText("The flames have warped to block your retreat!", 0);
                     else if (Player.location == 8) writeText("You either win, or you don't ever leave.", 0);
 
                 } else {

@@ -4,7 +4,7 @@ public class Player extends Entity {
     public Item[] inventory = {null, null, null, null, null, null, null, null, null, null};
     public Item currentArmor = null, currentWeapon = null, currentWearable = null;
     public int invCap = 5;
-    public static int location = 1, sublocation = 0, mountainPathSearches = 0;
+    public static int location = 1, sublocation = 0, mountainPathSearches = 0, fractureMirrorMoves = 0;
     public static boolean inCombat = false, inBossfight = false;
 
     public Player(String title) {
@@ -500,12 +500,13 @@ public class Player extends Entity {
 
                     case "wasteland":
 
+                        if (fractureMirrorMoves > 0 && fractureMirrorMoves < 7) break;
                         sublocation = 0;
                         return true;
 
                     case "edge":
 
-                        if (sublocation != 0) break;
+                        if (sublocation != 0 || (fractureMirrorMoves > 0 && fractureMirrorMoves < 7)) break;
                         sublocation = 1;
                         return true;
 
@@ -517,13 +518,13 @@ public class Player extends Entity {
 
                     case "i<3_tss_123":
 
-                        if (sublocation != 0) break;
+                        if (sublocation != 0 || (fractureMirrorMoves > 0 && fractureMirrorMoves < 7)) break;
                         sublocation = 3;
                         return true;
 
                     case "mountain":
 
-                        if (sublocation > 1) break;
+                        if (sublocation > 1 || (fractureMirrorMoves > 0 && fractureMirrorMoves < 7)) break;
                         location = 4;
                         sublocation = 3;
                         Audio.activeTrack.stop();
@@ -531,7 +532,7 @@ public class Player extends Entity {
 
                     case "lair":
 
-                        if (sublocation > 1) break;
+                        if (sublocation > 1 || (fractureMirrorMoves > 0 && fractureMirrorMoves < 7)) break;
                         location = 8;
                         sublocation = 0;
                         Audio.activeTrack.stop();
