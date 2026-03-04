@@ -1,4 +1,5 @@
 #include "story.h"
+#include "item.h"
 /*
 Enter cave.
 ssh through to mine.
@@ -13,14 +14,23 @@ location cave;
 
 void initLocations()
 {
+    for(int i=0;i<5;i++)
+    {
+        mine.sublocations[i]=0;
+        cave.sublocations[i]=0;
+        mine.accessableItems[i]=0;
+        cave.accessableItems[i]=0;
+    }
     mine.name="Mine";
     mine.level=100;
     mine.area=0;
-    mine.sublocations[0]="Enterance";
+    mine.sublocations[0]="Entrance";
     mine.sublocations[1]="Maze";
     mine.sublocations[2]="Mineshaft";
-    mine.sublocations[3]="Elevator";
+    mine.sublocations[3]="Door";
+    mine.sublocations[4]="Elevator";
     mine.accessableLocations[0]=1;
+
     
 
     cave.name="Cave";
@@ -32,6 +42,7 @@ void initLocations()
     cave.sublocations[3]="Tunnels";
     cave.sublocations[4]="Boulders";
     cave.accessableLocations[0]=1;
+    cave.locItems[2]=initItem("Secure Fossilized Shell",Equipment,"Encrypts anything you say into it",0,0);
     
 
 }

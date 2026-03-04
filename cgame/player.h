@@ -1,14 +1,20 @@
+#ifndef PLAYER_H
+#define PLAYER_H
+
 #include "item.h"
 
 typedef struct{
-    int health, attack, defense, invCap, healthCap;
-    item inventory[20];
+    int health, attack, defense, invCap, healthCap, currSlot;
+    item* inventory[20];
     char* name;
     item* weapon;
     item* armor;
     item* clothing;
+    int torch;
 
 } player;
 
 void equipWeapon(player* character,int index);
 player* createPlayer();
+
+#endif

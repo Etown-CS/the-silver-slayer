@@ -35,11 +35,12 @@ void printBattleText(player* mc,enemy * enm);
 void roundOfAttack(player* mc,enemy * enm);
 void changeLocation(char* identifier);
 void stripNewline(char* str);
+void changeConsoleText(char* location,char* sublocation);
 
 char consoleText[32];
 int waterlvl=1;
-player mainChar;
-enemy hannibal;
+player *mainChar;
+enemy *hannibal;
 location *currentLocation;
 int battlemode=0;
 int lit=0;
@@ -48,7 +49,7 @@ int main()
 {
     initStory();
     initLocations();
-    currentLocation=&mine;
+    currentLocation=&cave;
     char startText[]="The Silver Slayer [c alpha v1.1]\n\n";
     strcpy(consoleText,"Cave/Entryway>");
     char inputText[256];
@@ -56,26 +57,18 @@ int main()
     printSpecialText(startText,0);
     printSpecialText(getStoryEvent(0),1);
     
-    mainChar.attack=3;
-    mainChar.defense=2;
-    mainChar.health=5;
-    mainChar.healthCap=10;
-    mainChar.invCap=10;
-    mainChar.name="Dapper Python";
-    mainChar.inventory[0] = initItem("Golden Frying Pan",Weapon,"Epic beyond compare",99,0);
-    mainChar.inventory[1] = initItem("Wrought Helm",Armor,"Sturdy with big horns",3,0);
-    mainChar.inventory[2] = initItem("Fashionable Sneakers",Wearable,"The most fashonable sneaking attire",2,0);
-    mainChar.inventory[3] = initItem("Roast Orangeneakers",Junk,"I'm not sure what you do with this",0,1);
-    mainChar.inventory[4] = initItem("Baked Potato",Health,"A good, but boring dinner",4,1);
-    mainChar.inventory[5] = initItem("Apple Vision Pro",Unassigned,"Very very expensive",999,1);
-    hannibal= * createEnemy("Groundhog",10,1,1);
+    mainChar=createPlayer();
+    
 
-    while(1)
+    hannibal= createEnemy("Groundhog",10,1,1);
+
+    while(waterlvl<=100)
     {
         if(battlemode)
         {
-            printBattleText(&mainChar,&hannibal);
+            printBattleText(mainChar,hannibal);
         }
+
         printSpecialText(consoleText,0);
         fgets(inputText,256,stdin);
         //printf("%s",inputText);
@@ -84,17 +77,16 @@ int main()
         stripNewline(inputText);
         handleCommand(inputText);
         
-        if(waterlvl>100)
-        {
-            handleCommand("clear\n");
-            printSpecialText("You Died",1);
-            printSpecialText("Respawn   Main Menu",1);
-            break;
-        }
+        
+            
+        
         if(!battlemode)
             waterlvl+=2;
         
     }
+    handleCommand("clear");
+    printSpecialText("You Died",1);
+    printSpecialText("Respawn   Main Menu",1);
 
 
     return 0;
@@ -107,7 +99,7 @@ int handleCommand(char* input)
     else if(!strcmp(input,"help"))
         printSpecialText("GENERAL\nexit / quit: Quit the game.\nsettings: Modify game settings\n\nINVENTORY\ndesc / describe: Show an inventory item's description\ndrop (int)+: Drop an item\ninv / inventory / ls: Display inventory\nuse (int)+: Use an inventory item\n\nCOMBAT\natk / attack: Attack the current enemy",1);
     else if(!strcmp(input,"inv")||!strcmp(input,"inventory"))
-        printInv(&mainChar);
+        printInv(mainChar);
     else if(!strcmp(input,"clear"))
         printf("\033[2J \033[1;1H");
     else if(!strcmp(input,"flee"))
@@ -117,7 +109,7 @@ int handleCommand(char* input)
         battlemode=0;
     }
     else if(!strcmp(input,"atk")||!strcmp(input,"attack\n"))
-        roundOfAttack(&mainChar,&hannibal);
+        roundOfAttack(mainChar,hannibal);
     else if(!strcmp(input,"ls")||!strcmp(input,"look\n"))
     {
         printSpecialText(getStoryEvent(currentLocation->level+currentLocation->area+1),1);
@@ -125,7 +117,7 @@ int handleCommand(char* input)
     }
     else if(!strcmp(input,"search"))
         printSpecialText(getStoryEvent(currentLocation->level+currentLocation->area+2),1);
-    else if(strstr(input,"goto")!=NULL)
+    else if(strstr(input,"goto")!=NULL||strstr(input,"cd")!=NULL)
     {
         printSpecialText("Where do you want to go?",1);
         fgets(input,256,stdin);
@@ -144,16 +136,59 @@ int handleCommand(char* input)
         printSpecialText("Specify an inventory slot.",1);
         fgets(input,256,stdin);
         int idx=input[0]-'0';
-        if(idx>mainChar.invCap)
+        if(idx>mainChar->invCap)
             printSpecialText("You're inventory isn't that big!",1);
         else
         {
-            printSpecialText(mainChar.inventory[idx].name,1);
-            printSpecialText(mainChar.inventory[idx].description,1);
+            printSpecialText(mainChar->inventory[idx]->name,1);
+            printSpecialText(mainChar->inventory[idx]->description,1);
         }
     }
     else if(!strcmp(input,"map"))
         printSpecialText("It's far too dark to see the map, you will have to Look to see what's ahead.",1);
+    else if(!strcmp(input,"pickup"))
+    {
+        
+        if(mainChar->currSlot>=mainChar->invCap)
+            printSpecialText("Your Inventory is full! You need to drop an item before picking up anything else",1);
+        else
+        {
+            
+            if(currentLocation->locItems[currentLocation->area/10]!=NULL)
+            {
+                printSpecialText("You found a ",0);
+                printf(YELLOW"%s"RESET,currentLocation->locItems[currentLocation->area/10]->name);
+                printSpecialText(" and put it into your inventory",1);
+                mainChar->inventory[mainChar->currSlot++]=currentLocation->locItems[currentLocation->area/10];
+            }
+            else
+                printSpecialText("Either there's nothing here or you haven't SEARCHed enough",1);
+        }
+
+    }
+    else if(!strcmp(input,"torch"))
+        {
+            if(mainChar->torch)
+            {
+                lit=!lit;
+                if(!lit)
+                    printSpecialText("You extinguish your torch.",1);
+                
+                else
+                    printSpecialText("You light your torch.",1);
+            }
+            else
+                printSpecialText("You don't have anything to do that yet.",1);
+
+        }
+    else if(!strcmp(input,"swaplvl"))
+    {
+        if(currentLocation==&cave)
+            currentLocation=&mine;
+        else
+            currentLocation=&cave;
+        changeConsoleText(currentLocation->name,currentLocation->sublocations[currentLocation->area/10]);
+    }
     else
     {
         printSpecialText("Invalid input: ",0);
@@ -202,25 +237,31 @@ void printWaterText(char* inputText,int percentage,int newline)
 
 void printLitText(char* inputText,int newline)
 {
-    int i=0;
-    while(inputText[i]!='\0')
+    if(lit)
     {
-        if((rand()%100)<LITPERCENT)
+        int i=0;
+        while(inputText[i]!='\0')
         {
-            printf(BKYELLOW"%c",inputText[i]);
-            if(rand()%100<LITPERCENT+20)
+            if((rand()%100)<LITPERCENT)
             {
-                printf(RED"%c"RESET,inputText[++i]);
-                printf(BKYELLOW"%c",inputText[++i]);
+                printf(BKYELLOW"%c",inputText[i]);
+                if(rand()%100<LITPERCENT+20 && inputText[++i]!='\0')
+                {
+                    printf(RED"%c"RESET,inputText[i]);
+                    if(inputText[++i]!='\0')
+                        printf(BKYELLOW"%c",inputText[i]);
+                }
+                printf(BKBLACK);
             }
-            printf(BKBLACK);
+            else
+            {
+                printf("%c",inputText[i]);
+            }
+            i++;
         }
-        else
-        {
-            printf("%c",inputText[i]);
-        }
-        i++;
     }
+    else
+        printf("%s",inputText);
     if(newline)
         printf("\n");
 }
@@ -242,7 +283,7 @@ void changeLocation(char* identifier)
         {
             locflag=1;
             currentLocation->area=i*10;
-            snprintf(consoleText,sizeof(consoleText),"%s/%s>",currentLocation->name,currentLocation->sublocations[i]);
+            changeConsoleText(currentLocation->name,currentLocation->sublocations[i]);
             printSpecialText(getStoryEvent(currentLocation->level+currentLocation->area),1);
             break;
         }
@@ -251,53 +292,58 @@ void changeLocation(char* identifier)
         printSpecialText("You can't go there, if there even exists...",1);
 }
 
+void changeConsoleText(char* location,char* sublocation)
+{
+    snprintf(consoleText,sizeof(consoleText),"%s/%s>",location,sublocation);
+}
+
 void handleItem(char* idx)
 {
     int index=idx[0]-'0';
 
-    if(index>mainChar.invCap)
+    if(index>mainChar->invCap)
     {
         printSpecialText("You're inventory isn't that big!",1);
         return;
     }
     //printSpecialText(mainChar.inventory[index].name,100,1);
 
-    switch(mainChar.inventory[index].type)
+    switch(mainChar->inventory[index]->type)
     {
         case Weapon:
-            mainChar.weapon=&(mainChar.inventory[index]);
+            mainChar->weapon=mainChar->inventory[index];
             printSpecialText("Weapon: ",0);
-            printSpecialText(mainChar.weapon->name,0);
+            printSpecialText(mainChar->weapon->name,0);
             printSpecialText(" Was Equipped",1);
         break;
 
         case Armor:
-            mainChar.armor=&(mainChar.inventory[index]);
+            mainChar->armor=mainChar->inventory[index];
             printSpecialText("Armor: ",0);
-            printSpecialText(mainChar.armor->name,0);
+            printSpecialText(mainChar->armor->name,0);
             printSpecialText(" Was Equipped",1);
         break;
 
         case Wearable:
-            mainChar.clothing=&(mainChar.inventory[index]);
+            mainChar->clothing=mainChar->inventory[index];
             printSpecialText("Clothing: ",0);
-            printSpecialText(mainChar.clothing->name,0);
+            printSpecialText(mainChar->clothing->name,0);
             printSpecialText(" Was Equipped",1);
         break;
 
         case Health:
-            //num num num
+            //TODO num num num
         break;
 
         case Junk:
             printSpecialText("This might be usefull elsewhere but here, ",0);
-            printSpecialText(mainChar.inventory[index].name,0);
+            printSpecialText(mainChar->inventory[index]->name,0);
             printSpecialText("? That's Junk",1);
         break;
 
         default:
         printSpecialText("I'm not even sure what you'd do with a ",0);
-        printSpecialText(mainChar.inventory[index].name,1);
+        printSpecialText(mainChar->inventory[index]->name,1);
     }
 }
 
@@ -328,8 +374,10 @@ void unlockLocation(int currAreaCode)
 
 void printInv(player* mc)
 {
+    printf("here");
     char buffer[32];
     int buffersize=32;
+    
     if(mc->weapon!=NULL)
     {
         printSpecialText("Current Weapon Equipped: ",0);
@@ -348,7 +396,7 @@ void printInv(player* mc)
     
     for(int i=0;i<mc->invCap;i++)
     {
-        snprintf(buffer,buffersize,"Slot[%d]: %s",i,mc->inventory[i].name);
+        snprintf(buffer,buffersize,"Slot[%d]: %s",i,mc->inventory[i]->name);
         printSpecialText(buffer,1);
     }
     
@@ -366,5 +414,6 @@ void printBattleText(player* mc,enemy * enm)
 
 void roundOfAttack(player* mc,enemy * enm)
 {
+    //TODO fix this.
     enemyGetAttacked(enm,mc->attack);
 }

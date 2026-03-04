@@ -1,3 +1,6 @@
+#ifndef ENEMY_H
+#define ENEMY_H
+
 typedef struct
 {
     char name[15];
@@ -11,3 +14,5 @@ enemy* createEnemy(char* enemyName,int h,int a,int d);
 void enemyChangeStats(enemy* enemy,int h,int a,int d);
 
 int enemyGetAttacked(enemy* enemy, int dmg);
+
+#endif

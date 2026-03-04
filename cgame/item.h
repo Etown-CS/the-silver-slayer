@@ -1,6 +1,8 @@
+#ifndef ITEM_H
+#define ITEM_H
 typedef enum 
 {
-    Unassigned, Junk, Health, Armor, Weapon, Wearable
+    Unassigned, Junk, Health, Armor, Weapon, Wearable, Equipment
 } Type;
 typedef struct{
     Type type;
@@ -10,4 +12,7 @@ typedef struct{
 
 
 
-item initItem(char* itemName,Type ItemType,char* desc,int statValChange,int consumedOnUse);
+item* initItem(char* itemName,Type ItemType,char* desc,int statValChange,int consumedOnUse);
+
+
+#endif
