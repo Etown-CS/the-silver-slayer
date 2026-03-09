@@ -156,7 +156,7 @@ public class Enemy extends Entity {
                         case 2:
 
                             msg.append("\nFaceless' dark energy is corrupting the world!");
-                            // TODO: Corrupt UI
+                            menuRef.corruptUI();
 
                     }
 
@@ -250,13 +250,47 @@ public class Enemy extends Entity {
 
                 case "Mimic":
 
-                    // TODO: Mimic ability
+                    switch (r.nextInt(3)) {
+
+                        case 0:
+
+                            msg.append("\nYour information is being recorded. Enemies will be stronger for awhile!");
+                            target.statuses.put("known", target.statuses.get("known") + 2);
+
+                        case 1:
+
+                            if (r.nextBoolean()) {
+
+                                if (attack == attackDefault && target.currentWeapon != null) {
+
+                                    msg.append("\nMimic equips " + target.currentWeapon.name + ".\nIts attack increased!");
+                                    attack += target.currentWeapon.magnitude;
+
+                                }
+
+                            } else {
+
+                                if (defense == defenseDefault && target.currentArmor != null) {
+
+                                    msg.append("\nMimic equips " + target.currentArmor.name + ".\nIts defense increased!");
+                                    defense += target.currentArmor.magnitude;
+
+                                }
+
+                            }
+
+                        default:
+
+                            break;
+
+                    }
+                    
                     break;
 
                 case "PISMPE":
 
                     msg.append("\nYour information is being recorded. Enemies will be stronger for awhile!");
-                    target.statuses.put("known", 4); // Intentionally sets this to a flat value
+                    target.statuses.put("known", 5); // Intentionally sets this to a flat value
                     break;
 
                 case "RAT":
@@ -326,7 +360,8 @@ public class Enemy extends Entity {
 
                     } else {
 
-                        // TODO: Scramble the player, preferably temporarily
+                        msg.append("You're being scrambled!");
+                        changeStats(r.nextInt(target.health / 3, target.healthDefault + 1), 0, 0);
 
                     }
 

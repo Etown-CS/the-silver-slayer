@@ -238,7 +238,7 @@ public class Menu {
                         if (bits[1].equals(new String(Base64.getDecoder().decode("ODM5MjczNTQ="))) || Story.wasEventSeen(113)) {
 
                             writeText(Story.getUnlockEvent(1, 1, true), 0);
-                            Story.updateEvent(110, "You step up to the gate. The iron doors stand open, and an old lock rests on the ground nearby.");
+                            Story.updateEvent(115, "The gate remains open, and the padlock still rests nearby. The occassional breeze causes a gentle creaking in the iron.");
                             Story.updateEvent(111, "The gate is old and weathered.");
                             Story.updateEvent(113, "This lock is open already.");
 
@@ -867,6 +867,19 @@ public class Menu {
         */
 
         mainframe.setSize(new Dimension(800, 1200));
+
+    }
+
+    public void corruptUI() {
+        /*
+        * Used by the Faceless enemy to corrupt the UI
+        * No I didn't copy/paste the previous function, this was manually typed
+        * Why? Idk
+        */
+
+        // TODO: Make better and undo eventually
+        playerBar.setVisible(false);
+        enemyBar.setVisible(false);
 
     }
 

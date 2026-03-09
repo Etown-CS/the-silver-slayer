@@ -85,7 +85,7 @@ public class Story {
         start.put(112, "There's nothing to be found in the nearby vicinity. Nothing seems to have been disturbed prior to your arrival.");
         start.put(113, "The lock clicks open, the chain falls to the ground, and you're able to push the gate open with little resistance. The doors swing wide with a long, metallic screech. The path forward is open to you.");
         start.put(114, "The lock is unresponsive.");
-        start.put(115, "The gate remains open, and the padlock still rests nearby. The occassional breeze causes a gentle creaking in the iron.");
+        start.put(115, "The occassional breeze causes a gentle creaking in the iron.");
 
         // VILLAGE
 
