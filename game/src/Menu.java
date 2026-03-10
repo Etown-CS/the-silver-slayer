@@ -400,7 +400,7 @@ public class Menu {
 
                         }
 
-                        enemyRef = null;
+                        despawnEnemy(true);
 
                     } else {
 
@@ -429,9 +429,7 @@ public class Menu {
 
                         if (playerRef.flee(80)) writeText("You fled from " + enemyRef.name + '\n' + Story.FLEE_STRINGS[r.nextInt(Story.FLEE_STRINGS.length)], 0);
                         else writeText("You fled from " + enemyRef.name + ", but not unscathed.\nReceived " + playerRef.getAttacked(enemyRef.attack) + " damage!", 0);
-
-                        enemyRef.reset();
-                        enemyRef = null;
+                        despawnEnemy(false);
 
                     } else {
 
@@ -653,7 +651,15 @@ public class Menu {
 
     }
 
-    public void despawnEnemy() {
+    public void despawnEnemy(boolean awardBits) {
+
+        if (awardBits && Player.bits < Integer.MAX_VALUE) {
+
+            int b = r.nextInt(enemyRef.healthDefault);
+            Player.bits += b;
+            Log.logData("Despawning " + enemyRef.name + ". Awarded " + b + " bits");
+
+        } else Log.logData("Despawning " + enemyRef.name);
 
         if (!enemyRef.isBoss) enemyRef.reset();
         enemyRef = null;

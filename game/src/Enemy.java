@@ -218,7 +218,7 @@ public class Enemy extends Entity {
                     if (r.nextBoolean()) {
 
                         msg.append("\nIt fades as quickly as it came...");
-                        menuRef.despawnEnemy();
+                        menuRef.despawnEnemy(false);
 
                     } else {
 
@@ -321,7 +321,7 @@ public class Enemy extends Entity {
                     if (flee(50)) {
 
                         msg.append("\nScavenger wastes no time.\nScavenger has fled!");
-                        menuRef.despawnEnemy();
+                        menuRef.despawnEnemy(false);
 
                     }
 
