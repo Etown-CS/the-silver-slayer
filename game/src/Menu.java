@@ -658,11 +658,18 @@ public class Menu {
 
     public void despawnEnemy(boolean awardBits) {
 
-        if (awardBits && Player.bits < Integer.MAX_VALUE) {
+        if (awardBits) {
 
             int b = r.nextInt(enemyRef.healthDefault);
             Player.bits += b;
             Log.logData("Despawning " + enemyRef.name + ". Awarded " + b + " bits");
+
+            if (Player.bits > 9999) {
+
+                Player.bits = 9999;
+                Log.logData("Clamped bits to maximum allowed");
+
+            }
 
         } else Log.logData("Despawning " + enemyRef.name);
 

@@ -12,7 +12,7 @@ public class Database {
 	public static Connection conn = null;
 	public static boolean online;
 	
-	public static void makeConnection(String url) {
+	public static void makeConnection() {
 		/*
 		* Attempts to connect to the database
 		* local: Whether to connect to a local or remote server
@@ -21,7 +21,7 @@ public class Database {
 		Log.logData("Establishing connection to database.");
 		try {
 			
-			conn = DriverManager.getConnection("jdbc:mysql://" + url + "/tss?allowMultiQueries=true", "test", "test");
+			conn = DriverManager.getConnection("jdbc:mysql://" + "192.168.2.3" + "/tss?allowMultiQueries=true", "gamer", "tss");
 			if (conn.isValid(5)) online = true;
 		
 		} catch (SQLException ex) {
