@@ -1,5 +1,9 @@
 import javax.swing.*;
 import javax.swing.border.LineBorder;
+
+import org.w3c.dom.events.MouseEvent;
+
+import java.awt.event.MouseAdapter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,6 +14,7 @@ import java.io.IOException;
 import java.security.SecureRandom;
 import java.util.Base64;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseListener;
 
 public class Menu {
 
@@ -676,10 +681,50 @@ public class Menu {
         
     }
     
+    // Showing map and minimaps
     private void showImage(String file) {
     	
     	JFrame imageFrame = new JFrame();
     	imageFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+        JLabel imageLabel = new JLabel(new ImageIcon(getClass().getResource("../images/" + file)));
+        imageFrame.add(imageLabel);
+        imageFrame.setVisible(true);
+
+        imageLabel.addMouseListener(new MouseAdapter() { 
+            @Override public void mouseClicked(java.awt.event.MouseEvent e) {
+                int x = e.getX();
+                int y = e.getY();
+
+                // click on map to open minimaps
+                if (file.equals("TSS_map.png")) {
+                    //Village Location
+                    if (x > 270 && x < 500 && y < 250 && y > 100) showImage("Town.png");
+                    
+                    //Lake Location
+                    if (x > 450 && x < 690 && y < 550 && y > 430) showImage("Lake.png");
+                    
+                    // Mountain Location
+                    if (x > 720 && x < 960 && y < 140 && y > 30) showImage("Mountain.png");
+                    
+                    // Desert Location
+                    if (x > 850 && x < 1050 && y < 410 && y > 330) showImage("Desert.png");
+                    
+                    // Swamp Location
+                    if (x > 980 && x < 1160 && y < 650 && y > 520) showImage("Swamp.png");
+                    
+                    // Evil Lair Location
+                    if (x > 1160 && x < 1350 && y < 490 && y > 350) showImage("Lair.png");
+                    
+                    // Fracture Location
+                    if (x > 1280 && x < 1450 && y < 170 && y > 100) showImage("Fracture.png");
+
+
+                }
+            }
+        });
+
+
     	imageFrame.add(new JLabel(new ImageIcon(getClass().getResource("images/" + file))));
     	imageFrame.pack();
     	imageFrame.setVisible(true);
