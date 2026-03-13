@@ -24,3 +24,12 @@ item* initItem(char* itemName,Type ItemType,char* desc,int statValChange,int con
     newItem->consumeable=consumedOnUse;
     return newItem;
 }
+
+void recycleItem(item* recycled,char* itemName, Type itemType, char* desc,int statValChange,int ConsumedOnUse)
+{
+    strcpy(recycled->name,itemName);
+    strcpy(recycled->description,desc);
+    recycled->type=itemType;
+    recycled->magnitude=statValChange;
+    recycled->consumeable=ConsumedOnUse;
+}

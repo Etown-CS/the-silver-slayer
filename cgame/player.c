@@ -50,6 +50,11 @@ void changeStats(player* character,int h,int a,int d)
     if(character->defense<0) character->defense=0;
 }
 
+void eatFood(player* character,int health)
+{
+    changeStats(character,health,0,0);
+}
+
 int getAttacked(player* character,int dmg)
 {
     if(dmg-character->defense<1)

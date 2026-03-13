@@ -1,5 +1,5 @@
 #include "story.h"
-#include "item.h"
+//#include "item.h"
 /*
 Enter cave.
 ssh through to mine.
@@ -31,6 +31,16 @@ void initLocations()
     mine.sublocations[4]="Elevator";
     mine.accessableLocations[0]=1;
 
+    mine.spawnAbleEnemys[0]=createEnemy("Bug",3,1,0,None);
+    mine.spawnAbleEnemys[1]=createEnemy("Dweller",10,4,3,None);
+    mine.spawnAbleEnemys[2]=createEnemy("Gobbler",5,3,2,None);
+    mine.spawnAbleEnemys[3]=createEnemy("Phantom",3,5,0,None);
+    mine.spawnAbleEnemys[4]=createEnemy("Rat",1,3,0,None);
+    mine.spawnAbleEnemys[5]=createEnemy("Skeleton",6,2,3,None);
+    mine.spawnAbleEnemys[6]=createEnemy("Banshee",9,9,1,adware);
+    mine.spawnAbleEnemys[7]=createEnemy("PISMPE",2,0,0,spyWare);
+    mine.spawnAbleEnemys[8]=createEnemy("RAT",6,10,0,trojan);
+    mine.boss=createEnemy("Last Prospector",45,6,10,lastProspector);
     
 
     cave.name="Cave";
@@ -43,6 +53,19 @@ void initLocations()
     cave.sublocations[4]="Boulders";
     cave.accessableLocations[0]=1;
     cave.locItems[2]=initItem("Secure Fossilized Shell",Equipment,"Encrypts anything you say into it",0,0);
+
+    cave.spawnAbleEnemys[0]=createEnemy("Blue Flower",3,3,0,None);
+    cave.spawnAbleEnemys[1]=createEnemy("Bug",3,1,0,None);
+    cave.spawnAbleEnemys[2]=createEnemy("Gobbler",5,3,2,None);
+    cave.spawnAbleEnemys[3]=createEnemy("Gremlin",4,1,1,None);
+    cave.spawnAbleEnemys[4]=createEnemy("Rat",1,3,0,None);
+    cave.spawnAbleEnemys[5]=createEnemy("Skeleton",6,2,3,None);
+    cave.spawnAbleEnemys[6]=createEnemy("Waterlogged",7,3,4,None);
+    cave.spawnAbleEnemys[7]=createEnemy("Scavenger",8,0,0,lootPlus);
+    cave.spawnAbleEnemys[8]=createEnemy("PISMPE",2,0,0,spyWare);
+    cave.spawnAbleEnemys[9]=createEnemy("RAT",6,10,0,trojan);
+    cave.spawnAbleEnemys[10]=createEnemy("Worm",4,1,5,replicates);
+    cave.boss=createEnemy("SkeleTON",30,5,5,skeleTON);
     
 
 }
@@ -76,7 +99,7 @@ void initStory()
     //side cave
     Story[20]="You walk to the left into the side cave, your steps echo as you walk into the cave.";
     Story[21]="The side cave is very big, stalagtites and stalagmites are everywhere, and there are pools of water around";
-    Story[22]="You scrounge around the side cave, until you find [ITEM OF IMPORTANCE]";//TODO FINISH THIS
+    Story[22]="You scrounge around the side cave, until you find the Secure Fossilized Shell";
 
     //side cave [sunk]
 

@@ -13,6 +13,6 @@ typedef struct{
 
 
 item* initItem(char* itemName,Type ItemType,char* desc,int statValChange,int consumedOnUse);
-
+void recycleItem(item* recycled,char* itemName, Type itemType, char* desc,int statValChange,int ConsumedOnUse);
 
 #endif

@@ -60,7 +60,7 @@ int main()
     mainChar=createPlayer();
     
 
-    hannibal= createEnemy("Groundhog",10,1,1);
+    hannibal= createEnemy("Groundhog",10,1,1,None);
 
     while(waterlvl<=100)
     {
@@ -158,7 +158,8 @@ int handleCommand(char* input)
             {
                 printSpecialText("You found a ",0);
                 printf(YELLOW"%s"RESET,currentLocation->locItems[currentLocation->area/10]->name);
-                printSpecialText(" and put it into your inventory",1);
+                printSpecialText(" It, ",0);
+                printSpecialText(currentLocation->locItems[currentLocation->area/10]->description,1);
                 mainChar->inventory[mainChar->currSlot++]=currentLocation->locItems[currentLocation->area/10];
             }
             else
@@ -269,7 +270,7 @@ void printLitText(char* inputText,int newline)
 void stripNewline(char* str)
 {
     int c=0;
-    while(str[c]!='\n')
+    while(str[c]!='\n')//) || str[c]!='\0')
         c++;
     str[c]='\0';
 }
@@ -300,6 +301,12 @@ void changeConsoleText(char* location,char* sublocation)
 void handleItem(char* idx)
 {
     int index=idx[0]-'0';
+    if(index<0)
+    {
+        char buffer[96];
+        snprintf(buffer,sizeof(buffer),"Please put in an numeric number between 0 and %d",mainChar->invCap);
+        printSpecialText(buffer,1);
+    }
 
     if(index>mainChar->invCap)
     {
@@ -332,7 +339,14 @@ void handleItem(char* idx)
         break;
 
         case Health:
-            //TODO num num num
+            
+            printSpecialText("You chow down, on the ",0);
+            printSpecialText(mainChar->inventory[index]->name,0);
+            char healthText[40];
+            snprintf(healthText,sizeof(healthText)," It's Quite Filling, restoring %d Health",mainChar->inventory[index]->magnitude);
+            printSpecialText(healthText,1);
+            eatFood(mainChar,mainChar->inventory[index]->magnitude);
+            recycleItem(mainChar->inventory[index],"",Unassigned,"",0,0);
         break;
 
         case Junk:
@@ -374,7 +388,7 @@ void unlockLocation(int currAreaCode)
 
 void printInv(player* mc)
 {
-    printf("here");
+    //printf("here");
     char buffer[32];
     int buffersize=32;
     
@@ -414,6 +428,26 @@ void printBattleText(player* mc,enemy * enm)
 
 void roundOfAttack(player* mc,enemy * enm)
 {
-    //TODO fix this.
-    enemyGetAttacked(enm,mc->attack);
+    //TODO test the battle mode
+    int eDamage=enemyGetAttacked(enm,mc->attack);
+    char buffer[40];
+    snprintf(buffer,sizeof(buffer),"%s took %d Damage!",enm->name,eDamage);
+    printSpecialText(buffer,1);
+    if(enm->health>0)
+    {
+        int damage=getAttacked(mc,enm->attack);
+        snprintf(buffer,sizeof(buffer),"You took %d Damage, ouch.",damage);
+        printSpecialText(buffer,1);
+    }
+    else
+    {
+        battlemode=0;
+        snprintf(buffer,sizeof(buffer),"You Defeated %s, congrats!",enm->name);
+        printSpecialText(buffer,1);
+    }
+}
+
+void summonEnemy(enemy *enm)
+{
+    //TODO: create a summoning enemy algorithm
 }

@@ -16,5 +16,7 @@ typedef struct{
 
 void equipWeapon(player* character,int index);
 player* createPlayer();
+void eatFood(player* character,int health);
+int getAttacked(player* character,int dmg);
 
 #endif

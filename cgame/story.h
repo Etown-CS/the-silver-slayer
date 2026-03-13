@@ -2,6 +2,7 @@
 #define STORY_H
 
 #include "item.h"
+#include "enemy.h"
 
 void initStory();
 void initLocations();
@@ -14,6 +15,8 @@ typedef struct {
     int accessableLocations[5];
     int level;
     int area;
+    enemy* spawnAbleEnemys[15];
+    enemy* boss;
 } location;
 
 extern char *Story[200];

@@ -1,5 +1,6 @@
 #include "enemy.h"
 #include <string.h>
+#include <stdlib.h>
 
 
 
@@ -10,18 +11,18 @@
     int healthDefault, attackDefault, defenseDefault;
 } enemy;*/
 
-enemy* createEnemy(char* enemyName,int h,int a,int d)
+enemy* createEnemy(char* enemyName,int h,int a,int d,Ability ab)
 {
-    enemy newEnemy, *ptr;
-    strcpy(newEnemy.name,enemyName);
-    newEnemy.health=h;
-    newEnemy.healthDefault=h;
-    newEnemy.attack=a;
-    newEnemy.attackDefault=a;
-    newEnemy.defense=d;
-    newEnemy.defenseDefault=d;
-    ptr=&newEnemy;
-    return ptr;
+    enemy *newEnemy=malloc(sizeof(enemy));
+    strcpy(newEnemy->name,enemyName);
+    newEnemy->health=h;
+    newEnemy->healthDefault=h;
+    newEnemy->attack=a;
+    newEnemy->attackDefault=a;
+    newEnemy->defense=d;
+    newEnemy->defenseDefault=d;
+    newEnemy->power=ab;
+    return newEnemy;
 }
 
 void enemyChangeStats(enemy* enemy,int h,int a,int d)
