@@ -234,7 +234,7 @@ public class Menu {
                         if (bits[1].equals("silver") && playerRef.hasItem("Silver Sword")) {
 
                             writeText(Story.getUnlockEvent(1, 0, true), 0);
-                            showImage("orange.png");
+                            // showImage("orange.png");
                             
                         } else writeText(Story.getUnlockEvent(1, 0, false), 0);
 
@@ -304,7 +304,7 @@ public class Menu {
             
             case "map":
             	
-            	showImage("TSS_map.png");
+            	showImage("TSSMain.png");
             	writeText("Displaying map.", -1);
             	break;
 
@@ -685,10 +685,18 @@ public class Menu {
     private void showImage(String file) {
     	
     	JFrame imageFrame = new JFrame();
-    	imageFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        ImageIcon imageIcon = new ImageIcon(getClass().getResource("images/" + file));
+        Image scaledImage = imageIcon.getImage().getScaledInstance(1280,720, Image.SCALE_SMOOTH);
+        JLabel imageLabel = new JLabel(new ImageIcon(scaledImage));
 
-        JLabel imageLabel = new JLabel(new ImageIcon(getClass().getResource("../images/" + file)));
+        imageFrame.setSize(1280,720);
+
+        // JLabel imageLabel = new JLabel(new ImageIcon(getClass().getResource("images/" + file)));
+        
+        imageFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         imageFrame.add(imageLabel);
+        
+        imageFrame.setLocationRelativeTo(null);
         imageFrame.setVisible(true);
 
         imageLabel.addMouseListener(new MouseAdapter() { 
@@ -697,37 +705,31 @@ public class Menu {
                 int y = e.getY();
 
                 // click on map to open minimaps
-                if (file.equals("TSS_map.png")) {
+                if (file.equals("TSSMain.png")) {
+
                     //Village Location
-                    if (x > 270 && x < 500 && y < 250 && y > 100) showImage("Town.png");
-                    
+                    if (x > 230 && x < 430 && y < 200 && y > 90) showImage("Town.png");
+
                     //Lake Location
-                    if (x > 450 && x < 690 && y < 550 && y > 430) showImage("Lake.png");
+                    if (x > 400 && x < 590 && y < 360 && y > 300) showImage("Lake.png");
                     
                     // Mountain Location
-                    if (x > 720 && x < 960 && y < 140 && y > 30) showImage("Mountain.png");
+                    if (x > 620 && x < 820 && y < 120 && y > 20) showImage("Mountain.png");
                     
                     // Desert Location
-                    if (x > 850 && x < 1050 && y < 410 && y > 330) showImage("Desert.png");
+                    if (x > 730 && x < 900 && y < 340 && y > 290) showImage("Desert.png");
                     
                     // Swamp Location
-                    if (x > 980 && x < 1160 && y < 650 && y > 520) showImage("Swamp.png");
+                    if (x > 850 && x < 1000 && y < 560 && y > 430) showImage("Swamp.png");
                     
                     // Evil Lair Location
-                    if (x > 1160 && x < 1350 && y < 490 && y > 350) showImage("Lair.png");
+                    if (x > 1000 && x < 1170 && y < 410 && y > 300) showImage("Lair.png");
                     
                     // Fracture Location
-                    if (x > 1280 && x < 1450 && y < 170 && y > 100) showImage("Fracture.png");
-
-
+                    if (x > 1130 && x < 1240 && y < 140 && y > 80) showImage("Fracture.png");
                 }
             }
         });
-
-
-    	imageFrame.add(new JLabel(new ImageIcon(getClass().getResource("images/" + file))));
-    	imageFrame.pack();
-    	imageFrame.setVisible(true);
 
         // closes image when user hits escape key
         KeyStroke escapeKey = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, false);
