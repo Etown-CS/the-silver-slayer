@@ -28,4 +28,6 @@ void enemyChangeStats(enemy* enemy,int h,int a,int d);
 
 int enemyGetAttacked(enemy* enemy, int dmg);
 
+enemy* copyEnemy(enemy* enmy);
+
 #endif

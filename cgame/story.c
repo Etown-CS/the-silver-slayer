@@ -40,11 +40,11 @@ void initLocations()
     mine.spawnAbleEnemys[6]=createEnemy("Banshee",9,9,1,adware);
     mine.spawnAbleEnemys[7]=createEnemy("PISMPE",2,0,0,spyWare);
     mine.spawnAbleEnemys[8]=createEnemy("RAT",6,10,0,trojan);
+    mine.spawnAbleEnemys[9]=createEnemy("Worm",4,1,5,replicates);
     mine.boss=createEnemy("Last Prospector",45,6,10,lastProspector);
     
 
     cave.name="Cave";
-    cave.level=0;
     cave.level=0;
     cave.sublocations[0]="Entryway";
     cave.sublocations[1]="Split";
@@ -64,7 +64,6 @@ void initLocations()
     cave.spawnAbleEnemys[7]=createEnemy("Scavenger",8,0,0,lootPlus);
     cave.spawnAbleEnemys[8]=createEnemy("PISMPE",2,0,0,spyWare);
     cave.spawnAbleEnemys[9]=createEnemy("RAT",6,10,0,trojan);
-    cave.spawnAbleEnemys[10]=createEnemy("Worm",4,1,5,replicates);
     cave.boss=createEnemy("SkeleTON",30,5,5,skeleTON);
     
 

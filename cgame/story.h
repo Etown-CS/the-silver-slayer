@@ -15,7 +15,7 @@ typedef struct {
     int accessableLocations[5];
     int level;
     int area;
-    enemy* spawnAbleEnemys[15];
+    enemy* spawnAbleEnemys[10];
     enemy* boss;
 } location;
 

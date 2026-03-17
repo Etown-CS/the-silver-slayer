@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include "player.h"
 #include "enemy.h"
 #include "story.h"
@@ -36,13 +37,14 @@ void roundOfAttack(player* mc,enemy * enm);
 void changeLocation(char* identifier);
 void stripNewline(char* str);
 void changeConsoleText(char* location,char* sublocation);
+void summonEnemy();
 
 char consoleText[32];
 int waterlvl=1;
 player *mainChar;
 enemy *hannibal;
 location *currentLocation;
-int battlemode=0;
+int battlemode=1;
 int lit=0;
 
 int main()
@@ -62,7 +64,7 @@ int main()
 
     hannibal= createEnemy("Groundhog",10,1,1,None);
 
-    while(waterlvl<=100)
+    while(waterlvl<=100 && mainChar->health!=0)
     {
         if(battlemode)
         {
@@ -81,13 +83,18 @@ int main()
             
         
         if(!battlemode)
+        {
             waterlvl+=2;
+            summonEnemy();
+        }
+        else if(!hannibal->health)
+            battlemode=0;
         
     }
     handleCommand("clear");
     printSpecialText("You Died",1);
     printSpecialText("Respawn   Main Menu",1);
-
+    sleep(10);
 
     return 0;
 }
@@ -146,6 +153,12 @@ int handleCommand(char* input)
     }
     else if(!strcmp(input,"map"))
         printSpecialText("It's far too dark to see the map, you will have to Look to see what's ahead.",1);
+    else if(!strcmp(input,"echo health"))
+    {
+        char buffer[8];
+        snprintf(buffer,sizeof(buffer),"%d/%d",mainChar->health,mainChar->healthCap);
+        printSpecialText(buffer,1);
+    }
     else if(!strcmp(input,"pickup"))
     {
         
@@ -441,13 +454,18 @@ void roundOfAttack(player* mc,enemy * enm)
     }
     else
     {
-        battlemode=0;
         snprintf(buffer,sizeof(buffer),"You Defeated %s, congrats!",enm->name);
         printSpecialText(buffer,1);
     }
 }
 
-void summonEnemy(enemy *enm)
+void summonEnemy()
 {
-    //TODO: create a summoning enemy algorithm
+    int chance=rand()%40;
+    if(chance  <((currentLocation->level/10)+10))
+    {
+        hannibal=copyEnemy(currentLocation->spawnAbleEnemys[rand()%10]);
+        battlemode=1;
+    }
+    printf("the random roll %d, location diff=%d\n",chance,((currentLocation->level/10)+10));
 }

@@ -42,3 +42,8 @@ int enemyGetAttacked(enemy* enemy, int dmg)
     enemyChangeStats(enemy,-dmg,0,0);
     return dmg;
 }
+
+enemy* copyEnemy(enemy* enmy)
+{
+    return createEnemy(enmy->name,enmy->health,enmy->attack,enmy->defense,enmy->power);
+}
