@@ -555,21 +555,6 @@ public class Menu {
         * voiceID: ID for the sound to be played (use 0 for default or negative for silent)
         */
 
-        while (timer.isRunning()) {
-
-                try {
-
-                    Log.logData("writeText is waiting...");
-                    Thread.sleep(100);
-
-                } catch (InterruptedException ex) {
-                    
-                    Log.logData("WARN: writeText wait was interrupted.");
-
-                }
-
-            }
-
         if (timer.isRunning()) {
 
             Log.logData("FATAL: Attempt to start writeText timer while its still active.");
@@ -817,7 +802,7 @@ public class Menu {
         inputField.addActionListener((ActionEvent e) -> {
 
             String entered = inputField.getText().strip();
-            if (!(entered == null || entered.length() == 0)) {
+            if (!(entered == null || entered.length() == 0) && !timer.isRunning()) {
 
                 Log.logData("Player entered: " + entered);
                 terminalScreen.append(entered + "\n\n");
