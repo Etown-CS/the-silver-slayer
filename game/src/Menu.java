@@ -322,7 +322,7 @@ public class Menu {
                     try {
 
                         int slot = Integer.parseInt(bits[1]);
-                        if (slot < 0 || slot >= playerRef.invCap) writeText(slot + " is not a valid inventory slot.", 0);
+                        if (slot < 0 || slot >= Player.invCap) writeText(slot + " is not a valid inventory slot.", 0);
                         else if (playerRef.inventory[slot] == null) writeText("Slot " + slot + " is empty.", 0);
                         else writeText(playerRef.inventory[slot].description, 0);
 
@@ -344,7 +344,7 @@ public class Menu {
                     try {
 
                         int slot = Integer.parseInt(bits[1]);
-                        if (slot < 0 || slot >= playerRef.invCap) writeText(slot + " is not a valid inventory slot.", 0);
+                        if (slot < 0 || slot >= Player.invCap) writeText(slot + " is not a valid inventory slot.", 0);
                         else if (playerRef.inventory[slot] == null) writeText("Slot " + slot + " is empty.", 0);
                         else writeText(playerRef.useItem(slot), 0);
 
@@ -366,7 +366,7 @@ public class Menu {
                     try {
 
                         int slot = Integer.parseInt(bits[1]);
-                        if (slot < 0 || slot >= playerRef.invCap) writeText(slot + " is not a valid inventory slot.", 0);
+                        if (slot < 0 || slot >= Player.invCap) writeText(slot + " is not a valid inventory slot.", 0);
                         else if (playerRef.inventory[slot] == null) writeText("Slot " + slot + " is already empty.", 0);
                         else writeText("Dropped '" + playerRef.removeItem(slot) + "' from inventory.", 0);
 
@@ -639,6 +639,10 @@ public class Menu {
     }
 
     public void despawnEnemy(boolean awardBits) {
+        /*
+        * Despawns the currrent enemy, and optionally awards bits
+        * awardBits: Whether to dispense bits to the player
+        */
 
         if (awardBits) {
 

@@ -3,8 +3,7 @@ public class Player extends Entity {
     public static final String[] names = {"Bitter Java", "Brustel Sprout", "C--", "Dapper Python", "P. H. Periwinkle", "ReacTor", "Saea Quowle"};
     public Item[] inventory = {null, null, null, null, null, null, null, null, null, null};
     public Item currentArmor = null, currentWeapon = null, currentWearable = null;
-    public int invCap = 5;
-    public static int location = 1, sublocation = 0, bits = 0, pSwaps = 0, mountainPathSearches = 0, fractureMirrorMoves = 0;
+    public static int location = 1, sublocation = 0, bits = 0, pSwaps = 0, invCap = 5, mountainPathSearches = 0, fractureMirrorMoves = 0;
     public static boolean inCombat = false, inBossfight = false;
 
     public Player(String title) {

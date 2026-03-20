@@ -49,6 +49,7 @@ public class Save {
             contents.append("\tactive:'" + p.name + "'\n");
             contents.append("\tlocation:" + Player.location + '\n');
             contents.append("\tsublocation:" + Player.sublocation + '\n');
+            contents.append("\tinvcap:" + Player.invCap + '\n');
 
             for (int c = 0; c < all.length; c++) {
                 
@@ -58,10 +59,9 @@ public class Save {
                 contents.append("\t\thp_cap:" + all[c].healthDefault + '\n');
                 contents.append("\t\tatk:" + all[c].attack + '\n');
                 contents.append("\t\tdef:" + all[c].defense + '\n');
-                contents.append("\t\tinvcap:" + all[c].invCap + '\n');
                 
                 // Inventory
-                for (int i = 0; i < all[c].invCap; i++) {
+                for (int i = 0; i < Player.invCap; i++) {
 
                     if (all[c].inventory[i] == null) contents.append("\t\titem" + i + ":null\n");
                     else {
