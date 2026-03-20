@@ -137,7 +137,7 @@ public class Player extends Entity {
             if (inventory[c] != null) {
 
                 inv.append(c + ": " + inventory[c].name);
-                if (inventory[c] == currentArmor || inventory[c] == currentWeapon || inventory[c] == currentWearable) inv.append(" *");
+                if (inventory[c].equipped) inv.append(" *");
                 inv.append("\n");
 
             } else inv.append(c + ": \n");
@@ -169,16 +169,6 @@ public class Player extends Entity {
                 changeStats(inventory[slot].magnitude, 0, 0);
                 msg.append("You ate the " + inventory[slot].name + ".\n");
 
-                // Extra flavor text
-                switch (inventory[slot].name) {
-
-                    case "Golden Apple":
-
-                        msg.append("Eating gold is not good for you.\n");
-                        break;
-
-                }
-
                 if (inventory[slot].magnitude >= 0) msg.append("+" + inventory[slot].magnitude + " health!");
                 else msg.append(inventory[slot].magnitude + " health!");
                 break;
@@ -186,20 +176,30 @@ public class Player extends Entity {
             case Armor:
 
                 currentArmor = inventory[slot];
+                currentArmor.equipped = true;
                 msg.append("Equipped armor: " + inventory[slot].name);
                 break;
 
             case Weapon:
 
                 currentWeapon = inventory[slot];
+                currentWeapon.equipped = true;
                 msg.append("Equipped weapon: " + inventory[slot].name);
                 break;
 
             case Wearable:
-            case Key:
 
-                // Will likely need manual implemtations for each item
+                currentWearable = inventory[slot];
+                currentWearable.equipped = true;
+                msg.append("Equipped wearable: " + inventory[slot].name);
+
+                // TODO: Logic for each wearable
+
                 break;
+
+            default:
+
+                msg.append("This item cannot be used nor equipped.");
 
         }
         

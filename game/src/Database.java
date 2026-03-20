@@ -171,7 +171,7 @@ public class Database {
 
 			}
 
-			return new Item(rs.getString("item_name"), type, rs.getString("info"), rs.getInt("magnitude"), rs.getBoolean("consumable"));
+			return new Item(rs.getString(2), rs.getString(3), type, rs.getInt(5), rs.getInt(6), rs.getBoolean(7));
 
 		} catch (SQLException ex) {
 

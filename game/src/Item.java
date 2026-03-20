@@ -5,18 +5,19 @@ public class Item {
     private static SecureRandom r = new SecureRandom();
     public static boolean silverSpoon = false, paperHat = false, goggles = false, woodenClub = false, bitingRing = false, silverSword = false;
 
-    public ItemType type;
     public String name, description;
-    public int magnitude;
-    public boolean consumable;
+    public ItemType type;
+    public int value, magnitude;
+    public boolean consumable, equipped;
 
-    public Item(String itemName, ItemType itemType, String desc, int mag, boolean consumedOnUse) {
+    public Item(String itemName, String desc, ItemType itemType, int value, int mag, boolean consumedOnUse) {
 
         name = itemName;
         type = itemType;
         description = desc;
         magnitude = mag;
         consumable = consumedOnUse;
+        equipped = false;
 
     }
 
