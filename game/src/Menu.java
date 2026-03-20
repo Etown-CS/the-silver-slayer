@@ -78,7 +78,8 @@ public class Menu {
                     charsPanel.removeAll();
 
                     Log.logData("Player selects character: " + playerRef.name);
-                    writeText("Selected " + playerRef.name, 0);
+                    Player.bits -= Player.pSwaps * 10;
+                    writeText("Selected " + playerRef.name + ". Spent " + Player.pSwaps++ * 10 + " bits.", 0);
                     inputField.requestFocusInWindow();
 
                 }
@@ -193,7 +194,7 @@ public class Menu {
                     writeText("A massive barrier stands between you and the swamp. The heat emanating from it dwarfs the usual desert temperatures. There's no going around this; only through.", 0);
                     enemyRef = Locations.spawnEnemy(5, true);
                     Audio.activeTrack.stop();
-                    bossTracks[3].play(enemyTurn);
+                    bossTracks[3].play(true);
 
                 } else if (playerRef.travel(bits[1])) {
 
@@ -606,7 +607,7 @@ public class Menu {
 
             byte numDown = 0;
             for (byte c = 0; c < Player.names.length; c++) if (players[c].health == 0) numDown++;
-            if (numDown == Player.names.length) {
+            if (numDown == Player.names.length || Player.bits < Player.pSwaps * 10) {
 
                 gameOver = true;
                 mainframe.setTitle("Game Over");
@@ -641,7 +642,7 @@ public class Menu {
 
         if (awardBits) {
 
-            int b = r.nextInt(enemyRef.healthDefault);
+            int b = r.nextInt(1, enemyRef.healthDefault);
             Player.bits += b;
             Log.logData("Despawning " + enemyRef.name + ". Awarded " + b + " bits");
 
@@ -656,16 +657,24 @@ public class Menu {
 
         if (!enemyRef.isBoss) enemyRef.reset();
         enemyRef = null;
+        enemyTurn = false;
 
     }
 
     private void playerSelect() {
         /*
         * Shows a menu with buttons for available characters
+        * Costs an increasing amount of bits to swap
         */
         
-        for (int c = 0; c < Player.names.length; c++) if (players[c].health > 0) charsPanel.add(characterButtons[c]);
-        cards.next(basePanel);
+        int cost = Player.pSwaps * 10;
+        if (Player.bits < cost) writeText("You need " + cost + " bits to swap characters.", 0);
+        else {
+
+            for (int c = 0; c < Player.names.length; c++) if (players[c].health > 0) charsPanel.add(characterButtons[c]);
+            cards.next(basePanel);
+
+        }
         
     }
     

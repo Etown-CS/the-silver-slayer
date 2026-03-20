@@ -4,7 +4,7 @@ public class Player extends Entity {
     public Item[] inventory = {null, null, null, null, null, null, null, null, null, null};
     public Item currentArmor = null, currentWeapon = null, currentWearable = null;
     public int invCap = 5;
-    public static int location = 1, sublocation = 0, bits = 0, mountainPathSearches = 0, fractureMirrorMoves = 0;
+    public static int location = 1, sublocation = 0, bits = 0, pSwaps = 0, mountainPathSearches = 0, fractureMirrorMoves = 0;
     public static boolean inCombat = false, inBossfight = false;
 
     public Player(String title) {
