@@ -42,6 +42,7 @@ INSERT INTO enemy (enemy_name, enemy_type, health, attack, defense, note, desert
 INSERT INTO enemy (enemy_name, enemy_type, health, attack, defense, fracture) VALUES ("Glitch", "special", -1, -1, -1, true);
 INSERT INTO enemy (enemy_name, enemy_type, health, attack, defense, lake, mountain, cave, mine, desert, swamp) VALUES ("Gobbler", "default", 5, 3, 2, true, true, true, true, true, true);
 INSERT INTO enemy (enemy_name, enemy_type, health, attack, defense, village, lake, mountain, cave) VALUES ("Gremlin", "default", 4, 1, 1, true, true, true, true);
+INSERT INTO enemy (enemy_name, enemy_type, health, attack, defense, cave, mine) VALUES ("Groundhog", "default", 3, 3, 3, true, true);
 INSERT INTO enemy (enemy_name, enemy_type, health, attack, defense, mountain) VALUES ("Liquid Cooler", "default", 5, 2, 3, true);
 INSERT INTO enemy (enemy_name, enemy_type, health, attack, defense, note, lair) VALUES ("Mimic", "malware", 50, 0, 0, "Keylogger", true);
 INSERT INTO enemy (enemy_name, enemy_type, health, attack, defense, fracture) VALUES ("Memory", "special", 15, 1, 0, true);
@@ -104,6 +105,8 @@ INSERT INTO item (item_name, item_type, magnitude, consumable, is_unique, info) 
 INSERT INTO item (item_name, item_type, magnitude, consumable, is_unique, info) VALUES ("Rubbish", "junk", 0, false, false, "A collection of, well, rubbish.");
 INSERT INTO item (item_name, item_type, magnitude, consumable, is_unique, info) VALUES ("Expired... Something", "health", -1, false, true, "An expired morsel of some unknown substance.");
 INSERT INTO item (item_name, item_type, magnitude, consumable, is_unique, info) VALUES ("Mystery Meat", "health", 2, false, true, "This could be anything.");
+INSERT INTO item (item_name, item_type, magnitude, consumable, is_unique, info) VALUES ("Bean", "health", 1, true, true, "One, singular bean.");
+INSERT INTO item (item_name, item_type, magnitude, consumable, is_unique, info) VALUES ("Depleted Rod", "weapon", 1, true, false, "A depleted reactor rod. Fragile and somewhat unstable.");
 
 CREATE TABLE IF NOT EXISTS _tss_meta (
 

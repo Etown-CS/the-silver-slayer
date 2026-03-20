@@ -124,6 +124,10 @@ public class Database {
 	}
 
 	public static Item genItem(int itemID) {
+		/*
+		* Pulls information from the database to construct an item
+		* itemID: The ID of the item to be made
+		*/
 
 		Log.logData("Making an item from ID: " + itemID);
 		try {
