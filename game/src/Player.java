@@ -174,26 +174,90 @@ public class Player extends Entity {
 
             case Armor:
 
-                currentArmor = inventory[slot];
-                currentArmor.equipped = true;
-                msg.append("Equipped armor: " + inventory[slot].name);
+                if (currentArmor == null) {
+
+                    currentArmor = inventory[slot];
+                    currentArmor.equipped = true;
+                    msg.append("Equipped armor: " + inventory[slot].name);
+
+                } else {
+
+                    if (currentArmor == inventory[slot]) {
+
+                        currentArmor.equipped = false;
+                        currentArmor = null;
+                        msg.append("Unequipped " + inventory[slot].name);
+
+                    } else {
+
+                        currentArmor.equipped = false;
+                        currentArmor = inventory[slot];
+                        currentArmor.equipped = true;
+                        msg.append("Equipped armor: " + inventory[slot].name);
+
+                    }
+
+                }
+                
                 break;
 
             case Weapon:
 
-                currentWeapon = inventory[slot];
-                currentWeapon.equipped = true;
-                msg.append("Equipped weapon: " + inventory[slot].name);
+                if (currentWeapon == null) {
+
+                    currentWeapon = inventory[slot];
+                    currentWeapon.equipped = true;
+                    msg.append("Equipped weapon: " + inventory[slot].name);
+
+                } else {
+
+                    if (currentWeapon == inventory[slot]) {
+
+                        currentWeapon.equipped = false;
+                        currentWeapon = null;
+                        msg.append("Unequipped " + inventory[slot].name);
+
+                    } else {
+
+                        currentWeapon.equipped = false;
+                        currentWeapon = inventory[slot];
+                        currentWeapon.equipped = true;
+                        msg.append("Equipped weapon: " + inventory[slot].name);
+
+                    }
+
+                }
+
                 break;
 
             case Wearable:
 
-                currentWearable = inventory[slot];
-                currentWearable.equipped = true;
-                msg.append("Equipped wearable: " + inventory[slot].name);
+                if (currentWearable == null) {
 
-                // TODO: Logic for each wearable
+                    currentWearable = inventory[slot];
+                    currentWearable.equipped = true;
+                    msg.append("Equipped wearable: " + inventory[slot].name);
 
+                } else {
+
+                    if (currentWearable == inventory[slot]) {
+
+                        currentWearable.equipped = false;
+                        currentWearable = null;
+                        msg.append("Unequipped " + inventory[slot].name);
+
+                    } else {
+
+                        currentWearable.equipped = false;
+                        currentWearable = inventory[slot];
+                        currentWearable.equipped = true;
+                        msg.append("Equipped wearable: " + inventory[slot].name);
+
+                    }
+
+                }
+
+                // TODO: Special logic for each wearable
                 break;
 
             default:
@@ -234,6 +298,7 @@ public class Player extends Entity {
 
                 switch (dest) {
 
+                    case "home":
                     case "field":
 
                         sublocation = 0;
@@ -260,6 +325,7 @@ public class Player extends Entity {
 
                 switch (dest) {
 
+                    case "home":
                     case "center":
 
                         sublocation = 0;
@@ -312,9 +378,10 @@ public class Player extends Entity {
                 break;
 
             case 3:
-
+                
                 switch (dest) {
 
+                    case "home":
                     case "shore":
 
                         sublocation = 0;
@@ -354,6 +421,7 @@ public class Player extends Entity {
 
                 switch (dest) {
 
+                    case "home":
                     case "base":
 
                         if (sublocation > 1) break;
@@ -410,6 +478,7 @@ public class Player extends Entity {
 
                 switch (dest) {
 
+                    case "home":
                     case "plain":
                     case "plains":
 
@@ -459,6 +528,7 @@ public class Player extends Entity {
 
                 switch (dest) {
 
+                    case "home":
                     case "mudpit":
                     case "mudpits":
 
@@ -501,6 +571,7 @@ public class Player extends Entity {
 
                 switch (dest) {
 
+                    case "home":
                     case "wasteland":
 
                         if (fractureMirrorMoves > 0 && fractureMirrorMoves < 7) break;
@@ -549,6 +620,7 @@ public class Player extends Entity {
 
                 switch (dest) {
 
+                    case "home":
                     case "gate":
 
                         if (sublocation > 1) break;
