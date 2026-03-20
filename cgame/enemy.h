@@ -30,4 +30,5 @@ int enemyGetAttacked(enemy* enemy, int dmg);
 
 enemy* copyEnemy(enemy* enmy);
 
+
 #endif

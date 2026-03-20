@@ -24,4 +24,4 @@ clean:
 	rm *.o cave
 
 exe:
-	x86_64-w64-mingw32-gcc  cave.c player.c item.c enemy.c story.c -o cave.exe
+	x86_64-w64-mingw32-gcc  cave.c player.c item.c enemy.c story.c -o the-silver-slayer.exe

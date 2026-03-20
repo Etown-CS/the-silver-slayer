@@ -14,6 +14,11 @@ typedef struct{
 
 } player;
 
+typedef enum
+{
+    Fight,Wait,Skip
+}attackModes;
+
 void equipWeapon(player* character,int index);
 player* createPlayer();
 void eatFood(player* character,int health);

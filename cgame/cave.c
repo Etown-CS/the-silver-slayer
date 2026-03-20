@@ -33,7 +33,8 @@ void printSpecialText(char* inputText,int newline);
 void unlockLocation(int currAreaCode);
 void printInv(player* mc);
 void printBattleText(player* mc,enemy * enm);
-void roundOfAttack(player* mc,enemy * enm);
+void roundOfAttack(player* mc,enemy * enm,attackModes mode);
+void useAbility(enemy* enmy,player* mc);
 void changeLocation(char* identifier);
 void stripNewline(char* str);
 void changeConsoleText(char* location,char* sublocation);
@@ -52,7 +53,7 @@ int main()
     initStory();
     initLocations();
     currentLocation=&cave;
-    char startText[]="The Silver Slayer [c alpha v1.1]\n\n";
+    char startText[]="The Silver Slayer [c alpha v2.6]\n\n";
     strcpy(consoleText,"Cave/Entryway>");
     char inputText[256];
     printf("\033[2J \033[1;1H");
@@ -62,7 +63,7 @@ int main()
     mainChar=createPlayer();
     
 
-    hannibal= createEnemy("Groundhog",10,1,1,None);
+    hannibal= createEnemy("Groundhog",10,1,1,adware);
 
     while(waterlvl<=100 && mainChar->health!=0)
     {
@@ -70,9 +71,10 @@ int main()
         {
             printBattleText(mainChar,hannibal);
         }
-
+        printf("\n");
         printSpecialText(consoleText,0);
         fgets(inputText,256,stdin);
+        printf("\n");
         //printf("%s",inputText);
         if(battlemode)
             printf("\033[2J \033[1;1H");
@@ -87,7 +89,7 @@ int main()
             waterlvl+=2;
             summonEnemy();
         }
-        else if(!hannibal->health)
+        else if(hannibal->health<1)
             battlemode=0;
         
     }
@@ -116,7 +118,9 @@ int handleCommand(char* input)
         battlemode=0;
     }
     else if(!strcmp(input,"atk")||!strcmp(input,"attack\n"))
-        roundOfAttack(mainChar,hannibal);
+        roundOfAttack(mainChar,hannibal,Fight);
+    else if(!strcmp(input,"wait"))
+        roundOfAttack(mainChar,hannibal,Wait);
     else if(!strcmp(input,"ls")||!strcmp(input,"look\n"))
     {
         printSpecialText(getStoryEvent(currentLocation->level+currentLocation->area+1),1);
@@ -151,6 +155,17 @@ int handleCommand(char* input)
             printSpecialText(mainChar->inventory[idx]->description,1);
         }
     }
+    else if(!strcmp(input,"warp"))
+    {
+        if(currentLocation==&mine)
+            currentLocation=&cave;
+        else
+            currentLocation=&mine;
+        
+        printSpecialText("Swapped",1);
+    }
+    else if(!strcmp(input,"lol"))
+        printSpecialText("you hear a whisper, what's so funny?",1);
     else if(!strcmp(input,"map"))
         printSpecialText("It's far too dark to see the map, you will have to Look to see what's ahead.",1);
     else if(!strcmp(input,"echo health"))
@@ -331,20 +346,57 @@ void handleItem(char* idx)
     switch(mainChar->inventory[index]->type)
     {
         case Weapon:
-            mainChar->weapon=mainChar->inventory[index];
+            
+            
+            //TODO FIX WEAPON AND ARMOR EQUIPING
+            if(mainChar->weapon!=NULL)
+            {
+                mainChar->attack -= mainChar->weapon->magnitude;
+            }
+            
             printSpecialText("Weapon: ",0);
-            printSpecialText(mainChar->weapon->name,0);
-            printSpecialText(" Was Equipped",1);
+            printSpecialText(mainChar->inventory[index]->name,0);
+            if(mainChar->weapon==mainChar->inventory[index])
+            {
+                mainChar->weapon=NULL;
+                printSpecialText(" Was Unequipped",1);
+            }
+            else
+            {
+                
+                mainChar->weapon=mainChar->inventory[index];
+                printSpecialText(" Was Equipped",1);
+                mainChar->attack+=mainChar->weapon->magnitude;
+            }
         break;
 
         case Armor:
-            mainChar->armor=mainChar->inventory[index];
+            if(mainChar->armor!=NULL)
+                mainChar->defense -= mainChar->armor->magnitude;
+            
             printSpecialText("Armor: ",0);
-            printSpecialText(mainChar->armor->name,0);
-            printSpecialText(" Was Equipped",1);
+            printSpecialText(mainChar->inventory[index]->name,0);
+            if(mainChar->armor==mainChar->inventory[index])
+            {
+                mainChar->armor=NULL;
+                printSpecialText(" Was Unequipped",1);
+            }
+            else
+            {
+                mainChar->armor=mainChar->inventory[index];
+                mainChar->defense=mainChar->armor->magnitude;
+                printSpecialText(" Was Equipped",1);
+            }
+            
         break;
 
         case Wearable:
+            if(mainChar->clothing==mainChar->inventory[index])
+            {
+                printSpecialText("Armor: ",0);
+                printSpecialText(mainChar->clothing->name,0);
+                printSpecialText(" Was Unequipped",1);
+            }
             mainChar->clothing=mainChar->inventory[index];
             printSpecialText("Clothing: ",0);
             printSpecialText(mainChar->clothing->name,0);
@@ -439,23 +491,38 @@ void printBattleText(player* mc,enemy * enm)
     printSpecialText(buffer,1);
 }
 
-void roundOfAttack(player* mc,enemy * enm)
+void roundOfAttack(player* mc,enemy * enm,attackModes mode)
 {
-    //TODO test the battle mode
-    int eDamage=enemyGetAttacked(enm,mc->attack);
-    char buffer[40];
-    snprintf(buffer,sizeof(buffer),"%s took %d Damage!",enm->name,eDamage);
-    printSpecialText(buffer,1);
-    if(enm->health>0)
+    char buffer[64];
+    if(mode==Fight)
     {
-        int damage=getAttacked(mc,enm->attack);
-        snprintf(buffer,sizeof(buffer),"You took %d Damage, ouch.",damage);
-        printSpecialText(buffer,1);
+        //weapons and damage
+        int eDamage=enemyGetAttacked(enm,mc->attack);
+        snprintf(buffer,sizeof(buffer),"%s took ",enm->name);
+        printSpecialText(buffer,0);
+        printf(GREEN"%d"RESET,eDamage);
+        printSpecialText(" Damage!",1);
     }
-    else
+    else if(mode==Wait)
+        printSpecialText("You bide your time...",1);
+    if(mode==Fight || mode ==Wait)
     {
-        snprintf(buffer,sizeof(buffer),"You Defeated %s, congrats!",enm->name);
-        printSpecialText(buffer,1);
+        if(enm->health>0)
+        {
+            int damage=getAttacked(mc,enm->attack);
+            printSpecialText("You took ",0);
+            printf(RED"%d"RESET,damage);
+            printSpecialText(" Damage, ouch.",1);
+            if(rand()%5==1)
+            {
+                useAbility(hannibal,mainChar);
+            }
+        }
+    
+        else
+        {
+            printf(GREEN"You Defeated %s, congrats!"RESET,enm->name);
+        }
     }
 }
 
@@ -466,6 +533,51 @@ void summonEnemy()
     {
         hannibal=copyEnemy(currentLocation->spawnAbleEnemys[rand()%10]);
         battlemode=1;
+        printSpecialText("A wild ",0);
+        printSpecialText(hannibal->name,0);
+        printSpecialText(" Has appeared!",1);
     }
-    printf("the random roll %d, location diff=%d\n",chance,((currentLocation->level/10)+10));
+    //printf("the random roll %d, location diff=%d\n",chance,((currentLocation->level/10)+10));
+}
+
+//  None, //No ability
+//     lootPlus, //Gives extra loot, money or something
+//     spyWare, //"reports" player data
+//     trojan, //Tampers with the player or items
+//     replicates, //Replicates the enemy multiple times
+//     adware, //destorts the user's ui
+//     skeleTON, //Skeleton boss
+//     lastProspector, //mine boss
+
+void useAbility(enemy* enmy,player* mc)
+{
+    switch(enmy->power)
+    {
+        case spyWare:
+            printf(YELLOW"The %s has hit you with spyware!"RESET,enmy->name);
+        break;
+        case trojan:
+            printf(YELLOW"The %s has hit you with a trojan!"RESET,enmy->name);
+        break;
+        case replicates:
+            printf(YELLOW"%s Just Duplicated!"RESET,enmy->name);
+            enmy->health+=enmy->healthDefault;
+            enmy->attack+=enmy->attackDefault;
+        break;
+        case adware:
+            printf(YELLOW"the %s is blasting you with adds!\n"RESET,enmy->name);
+            int len=strlen(consoleText);
+            consoleText[rand()%len]='a'+rand()%26;
+            consoleText[rand()%len]='A'+rand()%26;
+            consoleText[rand()%len]='0'+rand()%10;
+        break;
+        case skeleTON:
+             printf(RED"The %s has hit you with bone fragments!"RESET,enmy->name);
+        break;
+        case lastProspector:
+            printf(CYAN"The %s has cursed you!"RESET,enmy->name);
+        break;
+        default:
+        break;
+    }
 }
