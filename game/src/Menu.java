@@ -6,7 +6,6 @@ import java.awt.event.AdjustmentListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
-import java.io.IOException;
 import java.security.SecureRandom;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -35,7 +34,6 @@ public class Menu {
 
     // Elements
     private SecureRandom r = new SecureRandom();
-    private Save save;
     private Player[] players = new Player[Player.names.length];
     private Player playerRef;
     private Enemy enemyRef;
@@ -59,7 +57,6 @@ public class Menu {
 
         }
 
-        save = new Save();     // Init save file class
         Entity.setMenu(this);  // Pass menu reference to Entity
 
         for (byte c = 0; c < Player.names.length; c++) players[c] = new Player(Player.names[c]);
@@ -462,19 +459,9 @@ public class Menu {
 
                 if (enemyRef == null) {
 
-                    try {
-
-                        save.saveGame(players, playerRef);
-
-                    } catch (IOException ex) {
-
-                        System.out.println("FATAL: Failed to access save file!");
-                        JOptionPane.showMessageDialog(null, ex, "BROKEN SAVE", JOptionPane.ERROR_MESSAGE);
-                        TheSilverSlayer.shutdownNow();
-
-                    }
-
-                    writeText("Game saved.", 0);
+                    if (Save.saveGame(players, playerRef)) writeText("Game saved.", 0);
+                    else writeText("Failed to save game! Check log file.", 0);
+                    
 
                 } else writeText("Cannot save during combat!", 0);
 
