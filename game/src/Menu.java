@@ -1,20 +1,16 @@
-import javax.swing.*;
-import javax.swing.border.LineBorder;
-
-import org.w3c.dom.events.MouseEvent;
-
-import java.awt.event.MouseAdapter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.security.SecureRandom;
+import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.util.Base64;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseListener;
 
 public class Menu {
 
@@ -55,7 +51,7 @@ public class Menu {
 
     public Menu() {
 
-        if (!Database.online) {
+        if (!Database.online) { // If database connection fails, cancel startup
 
             JOptionPane.showMessageDialog(mainframe, "The database connection was not successful.", "Database Offline", JOptionPane.ERROR_MESSAGE);
             TheSilverSlayer.shutdownNow();
@@ -63,8 +59,8 @@ public class Menu {
 
         }
 
-        save = new Save();
-        Entity.setMenu(this);
+        save = new Save();     // Init save file class
+        Entity.setMenu(this);  // Pass menu reference to Entity
 
         for (byte c = 0; c < Player.names.length; c++) players[c] = new Player(Player.names[c]);
         for (counter = 0; counter < Player.names.length; counter++) {

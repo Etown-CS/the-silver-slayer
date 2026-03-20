@@ -9,7 +9,8 @@ import java.util.Base64;
 
 public class Database {
 	
-	public static Connection conn = null;
+	private static final String url = "localhost";
+	private static Connection conn = null;
 	public static boolean online;
 	
 	public static void makeConnection() {
@@ -21,7 +22,7 @@ public class Database {
 		Log.logData("Establishing connection to database.");
 		try {
 			
-			conn = DriverManager.getConnection("jdbc:mysql://" + "192.168.2.3" + "/tss?allowMultiQueries=true", "gamer", "tss");
+			conn = DriverManager.getConnection("jdbc:mysql://" + url + "/tss?allowMultiQueries=true", "root", "");
 			if (conn.isValid(5)) online = true;
 		
 		} catch (SQLException ex) {
