@@ -42,7 +42,7 @@ public class Menu {
     // Sounds
     private Audio[] voices = {new Audio("voice_blip"), new Audio("voice_beep")};
     private Audio[] bossTracks = {new Audio("boss_village"), new Audio("boss_lake"), new Audio("boss_mountain"), new Audio("boss_desert"), new Audio("boss_swamp"), new Audio("boss_fracture"), new Audio("boss_lair")};
-    private Audio damageSFX = new Audio("sfx_attack");
+    private Audio damageSFX = new Audio("sfx_attack"), beatBossSFX = new Audio("sfx_beatboss");
 
     // This is here so it can be used in the ActionListerner creations below
     private byte counter;
@@ -647,6 +647,14 @@ public class Menu {
         } else Log.logData("Despawning " + enemyRef.name);
 
         if (!enemyRef.isBoss) enemyRef.reset();
+        else {
+
+            Player.invCap++;
+            bossTracks[Player.location - 2].stop();
+            beatBossSFX.play(false);
+
+        }
+
         enemyRef = null;
         enemyTurn = false;
 
