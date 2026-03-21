@@ -3,6 +3,7 @@ import java.io.RandomAccessFile;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
 import java.nio.channels.OverlappingFileLockException;
+import java.time.LocalDateTime;
 
 public class Log {
 
@@ -15,7 +16,7 @@ public class Log {
 
         try {
 
-            logFile = new RandomAccessFile("tss_log.txt", "rw");
+            logFile = new RandomAccessFile("tss_log_" + LocalDateTime.now() + ".txt", "rw");
             fc = logFile.getChannel();
             fc.truncate(0);
             logFile.seek(0);
