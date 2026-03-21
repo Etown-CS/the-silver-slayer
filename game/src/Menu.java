@@ -37,6 +37,7 @@ public class Menu {
     private Player[] players = new Player[Player.names.length];
     private Player playerRef;
     private Enemy enemyRef;
+    private final int pSwapCostMultipler = 5;
     private boolean enemyTurn = false, gameOver = false;
 
     // Sounds
@@ -75,8 +76,8 @@ public class Menu {
                     charsPanel.removeAll();
 
                     Log.logData("Player selects character: " + playerRef.name);
-                    Player.bits -= Player.pSwaps * 10;
-                    writeText("Selected " + playerRef.name + ". Spent " + Player.pSwaps++ * 10 + " bits.", 0);
+                    Player.bits -= Player.pSwaps * pSwapCostMultipler;
+                    writeText("Selected " + playerRef.name + ". Spent " + Player.pSwaps++ * pSwapCostMultipler + " bits.", 0);
                     inputField.requestFocusInWindow();
 
                 }
@@ -594,7 +595,7 @@ public class Menu {
 
             byte numDown = 0;
             for (byte c = 0; c < Player.names.length; c++) if (players[c].health == 0) numDown++;
-            if (numDown == Player.names.length || Player.bits < Player.pSwaps * 10) {
+            if (numDown == Player.names.length || Player.bits < Player.pSwaps * pSwapCostMultipler) {
 
                 gameOver = true;
                 mainframe.setTitle("Game Over");
@@ -666,7 +667,7 @@ public class Menu {
         * Costs an increasing amount of bits to swap
         */
         
-        int cost = Player.pSwaps * 10;
+        int cost = Player.pSwaps * pSwapCostMultipler;
         if (Player.bits < cost) writeText("You need " + cost + " bits to swap characters.", 0);
         else {
 
@@ -677,26 +678,28 @@ public class Menu {
         
     }
     
-    // Showing map and minimaps
     private void showImage(String file) {
+        /*
+        * Displays a image in a new JFrame
+        * file: The name of the image file to be displayed
+        */
     	
     	JFrame imageFrame = new JFrame();
         ImageIcon imageIcon = new ImageIcon(getClass().getResource("images/" + file));
         Image scaledImage = imageIcon.getImage().getScaledInstance(1280,720, Image.SCALE_SMOOTH);
         JLabel imageLabel = new JLabel(new ImageIcon(scaledImage));
 
-        imageFrame.setSize(1280,720);
-
-        // JLabel imageLabel = new JLabel(new ImageIcon(getClass().getResource("images/" + file)));
-        
+        imageFrame.setSize(1280,720);        
         imageFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         imageFrame.add(imageLabel);
-        
         imageFrame.setLocationRelativeTo(null);
         imageFrame.setVisible(true);
 
-        imageLabel.addMouseListener(new MouseAdapter() { 
-            @Override public void mouseClicked(java.awt.event.MouseEvent e) {
+        imageLabel.addMouseListener(new MouseAdapter() {
+
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent e) {
+
                 int x = e.getX();
                 int y = e.getY();
 

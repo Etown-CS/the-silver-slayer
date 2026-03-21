@@ -40,4 +40,6 @@ SOUNDS:
 
 voice_beep: Blip_C_06 by cabled_mess -- https://freesound.org/s/350866/ -- License: Creative Commons 0
 voice_blip: PongBlipF4.wav by NoiseCollector -- https://freesound.org/s/4359/ -- License: Attribution 3.0
+
 sfx_attack: Damage by qubodup -- https://freesound.org/s/211634/ -- License: Attribution 4.0
+sfx_beatboss: Success Resolution Video Game Sound Effect Strings.mp3 by FunWithSound -- https://freesound.org/s/456967/ -- License: Creative Commons 0
