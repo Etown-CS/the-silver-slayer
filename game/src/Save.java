@@ -4,6 +4,7 @@ import java.io.RandomAccessFile;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
 import java.nio.channels.OverlappingFileLockException;
+import java.time.LocalDateTime;
 
 public class Save {
 
@@ -12,7 +13,7 @@ public class Save {
     private static FileChannel fc;
     private static FileLock lock;
 
-    public static boolean saveGame(Player[] all, Player p) {
+    public static boolean saveGame(Player[] players, Player playerRef) {
         /*
          * Save the game
          * all: Array of all players
@@ -21,7 +22,7 @@ public class Save {
 
         try {
 
-            saveFile = new RandomAccessFile("tss_save.txt" + System.currentTimeMillis(), "rw");
+            saveFile = new RandomAccessFile("tss_save_" + LocalDateTime.now() + ".txt", "rw");
             fc = saveFile.getChannel();
 
         } catch (FileNotFoundException ex) {
@@ -44,50 +45,42 @@ public class Save {
 
         StringBuilder contents = new StringBuilder(1024);
 
-        // Players' data
-        contents.append("PLAYERS\n");
-        contents.append("\tactive:'" + p.name + "'\n");
-        contents.append("\tlocation:" + Player.location + '\n');
-        contents.append("\tsublocation:" + Player.sublocation + '\n');
-        contents.append("\tinvcap:" + Player.invCap + '\n');
+        contents.append("CHARACTERS\n\n");
+        for (int c = 0; c < players.length; c++) {
 
-        for (int c = 0; c < all.length; c++) {
-            
-            // General stats
-            contents.append("\tname:" + all[c].name + '\n');
-            contents.append("\t\thp:" + all[c].health + '\n');
-            contents.append("\t\thp_cap:" + all[c].healthDefault + '\n');
-            contents.append("\t\tatk:" + all[c].attack + '\n');
-            contents.append("\t\tdef:" + all[c].defense + '\n');
-            
-            // Inventory
-            for (int i = 0; i < Player.invCap; i++) {
+            contents.append(players[c].name + ": ");
+            contents.append(players[c].health + "/" + players[c].healthDefault + ", ");
+            contents.append(players[c].attack + "/" + players[c].attackDefault + ", ");
+            contents.append(players[c].defense + "/" + players[c].defenseDefault + ", ");
+            contents.append(players[c].statuses);
 
-                if (all[c].inventory[i] == null) contents.append("\t\titem" + i + ":null\n");
-                else {
-
-                    contents.append("\t\titem" + i + ":[" + all[c].inventory[i].name + ',' + all[c].inventory[i].type + ',' +all[c].inventory[i].description + ',' + all[c].inventory[i].magnitude + ',' + all[c].inventory[i].consumable + ']');
-                    if (all[c].inventory[i] == all[c].currentArmor || all[c].inventory[i] == all[c].currentWeapon || all[c].inventory[i] == all[c].currentWearable) contents.append('*');
-                    contents.append('\n');
-
-                }
-
-            }
+            if (players[c] == playerRef) contents.append(" *\n");
+            else contents.append('\n');
 
         }
 
-        // Boss data
-        contents.append("BOSSES_BEATEN\n");
-        for (int c = 2; c < Locations.locations.length; c++) {
+        contents.append("\nLocation: " + Player.location + "/" + Player.sublocation + ", ");
+        contents.append("Bits: " + Player.bits + ", ");
+        contents.append("Swaps: " + Player.pSwaps + ", ");
+        contents.append("Mountain searches: " + Player.mountainPathSearches + ", ");
+        contents.append("Mirror moves: " + Player.fractureMirrorMoves + "\n\n");
+        // In combat/bossfight values not saved because you can't save the game while in combat anyway
 
-            if (Locations.enemyIndex[c][Locations.enemyIndex[c].length - 1].health == 0) contents.append("\tLocation" + c + ":true\n");
-            else contents.append("\tLocation" + c + ":false\n");
+        contents.append("INVENTORY\n\nwip\n\n");
+
+        contents.append("BOSSES\n\n");
+        for (int c = 0; c < Locations.enemyIndex.length; c++) {
+
+            contents.append(Locations.enemyIndex[c][Locations.enemyIndex[c].length - 1].name + ": ");
+            if (Locations.enemyIndex[c][Locations.enemyIndex[c].length - 1].health == 0) contents.append(" y\n");
+            else contents.append("n\n");
 
         }
 
         try {
 
-            saveFile.writeChars(encrypt(contents.toString()));
+            //saveFile.writeChars(encrypt(contents.toString()));
+            saveFile.writeChars(contents.toString());
 
         } catch (IOException ex) {
 
@@ -112,6 +105,7 @@ public class Save {
 
     }
 
+    @SuppressWarnings("unused")
     private static String encrypt(String contents) {
 
         StringBuilder result = new StringBuilder(1024);

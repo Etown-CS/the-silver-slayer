@@ -14,38 +14,38 @@ public class Player extends Entity {
             case "Bitter Java":
 
                 healthDefault = 8;
-                attack = 3;
+                attackDefault = 3;
                 addItem(Database.genItem(19));
                 break;
 
             case "Brustel Sprout":
 
                 healthDefault = 15;
-                attack = 1;
+                attackDefault = 1;
                 break;
 
             case "C--":
 
                 healthDefault = 7;
-                attack = 4;
+                attackDefault = 4;
                 break;
 
             case "Dapper Python":
 
                 healthDefault = 5;
-                attack = 5;
+                attackDefault = 5;
                 break;
 
             case "P. H. Periwinkle":
 
                 healthDefault = 12;
-                attack = 2;
+                attackDefault = 2;
                 break;
 
             case "ReacTor":
 
                 healthDefault = 7;
-                attack = 3;
+                attackDefault = 3;
                 addItem(Database.genItem(20));
                 break;
 
@@ -53,12 +53,13 @@ public class Player extends Entity {
 
                 // Default stats. Use as reference
                 healthDefault = 10;
-                attack = 3;
+                attackDefault = 3;
                 break;
 
         }
 
         health = healthDefault;
+        attack = attackDefault;
         initStatuses();
 
     }

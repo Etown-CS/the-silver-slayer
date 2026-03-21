@@ -6,4 +6,4 @@ game/.project
 game/bin/
 game/lib/
 tss_log.txt
-tss_save.txt
+**/tss_save_*

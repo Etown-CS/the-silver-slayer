@@ -10,11 +10,12 @@ public class Item {
     public int value, magnitude;
     public boolean consumable, equipped;
 
-    public Item(String itemName, String desc, ItemType itemType, int value, int mag, boolean consumedOnUse) {
+    public Item(String itemName, String desc, ItemType itemType, int val, int mag, boolean consumedOnUse) {
 
         name = itemName;
         type = itemType;
         description = desc;
+        value = val;
         magnitude = mag;
         consumable = consumedOnUse;
         equipped = false;
