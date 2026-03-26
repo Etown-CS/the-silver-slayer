@@ -296,7 +296,7 @@ public class Enemy extends Entity {
                 case "RAT":
 
                     int slot = r.nextInt(Player.invCap);
-                    Item i = target.inventory[slot];
+                    Item i = Player.inventory[slot];
                     if (i != null) {
                         
                         switch (i.type) {

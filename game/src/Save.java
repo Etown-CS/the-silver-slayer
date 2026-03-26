@@ -48,14 +48,12 @@ public class Save {
         contents.append("CHARACTERS\n\n");
         for (int c = 0; c < players.length; c++) {
 
+            if (players[c] == playerRef) contents.append('*');
             contents.append(players[c].name + ": ");
             contents.append(players[c].health + "/" + players[c].healthDefault + ", ");
             contents.append(players[c].attack + "/" + players[c].attackDefault + ", ");
             contents.append(players[c].defense + "/" + players[c].defenseDefault + ", ");
             contents.append(players[c].statuses);
-
-            if (players[c] == playerRef) contents.append(" *\n");
-            else contents.append('\n');
 
         }
 

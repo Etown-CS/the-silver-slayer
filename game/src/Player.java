@@ -1,7 +1,7 @@
 public class Player extends Entity {
 
     public static final String[] names = {"Bitter Java", "Brustel Sprout", "C--", "Dapper Python", "P. H. Periwinkle", "ReacTor", "Saea Quowle"};
-    public Item[] inventory = {null, null, null, null, null, null, null, null, null, null};
+    public static Item[] inventory = {null, null, null, null, null, null, null, null, null, null};
     public Item currentArmor = null, currentWeapon = null, currentWearable = null;
     public static int location = 1, sublocation = 0, bits = 0, pSwaps = 0, invCap = 5, mountainPathSearches = 0, fractureMirrorMoves = 0;
     public static boolean inCombat = false, inBossfight = false;
@@ -137,7 +137,7 @@ public class Player extends Entity {
             if (inventory[c] != null) {
 
                 inv.append(c + ": " + inventory[c].name);
-                if (inventory[c].equipped) inv.append(" *");
+                if (inventory[c] == currentArmor || inventory[c] == currentWeapon || inventory[c] == currentWearable) inv.append(" *");
                 inv.append("\n");
 
             } else inv.append(c + ": \n");
@@ -177,9 +177,14 @@ public class Player extends Entity {
 
                 if (currentArmor == null) {
 
-                    currentArmor = inventory[slot];
-                    currentArmor.equipped = true;
-                    msg.append("Equipped armor: " + inventory[slot].name);
+                    if (inventory[slot].equipped) msg.append("Someone else is using this.");
+                    else {
+
+                        currentArmor = inventory[slot];
+                        currentArmor.equipped = true;
+                        msg.append("Equipped armor: " + inventory[slot].name);
+
+                    }
 
                 } else {
 
@@ -191,10 +196,15 @@ public class Player extends Entity {
 
                     } else {
 
-                        currentArmor.equipped = false;
-                        currentArmor = inventory[slot];
-                        currentArmor.equipped = true;
-                        msg.append("Equipped armor: " + inventory[slot].name);
+                        if (inventory[slot].equipped) msg.append("Someone else is using this.");
+                        else {
+
+                            currentArmor.equipped = false;
+                            currentArmor = inventory[slot];
+                            currentArmor.equipped = true;
+                            msg.append("Equipped armor: " + inventory[slot].name);
+
+                        }
 
                     }
 
@@ -206,9 +216,14 @@ public class Player extends Entity {
 
                 if (currentWeapon == null) {
 
-                    currentWeapon = inventory[slot];
-                    currentWeapon.equipped = true;
-                    msg.append("Equipped weapon: " + inventory[slot].name);
+                    if (inventory[slot].equipped) msg.append("Someone else is using this.");
+                    else {
+
+                        currentWeapon = inventory[slot];
+                        currentWeapon.equipped = true;
+                        msg.append("Equipped weapon: " + inventory[slot].name);
+
+                    }
 
                 } else {
 
@@ -220,10 +235,15 @@ public class Player extends Entity {
 
                     } else {
 
-                        currentWeapon.equipped = false;
-                        currentWeapon = inventory[slot];
-                        currentWeapon.equipped = true;
-                        msg.append("Equipped weapon: " + inventory[slot].name);
+                        if (inventory[slot].equipped) msg.append("Someone else is using this.");
+                        else {
+
+                            currentWeapon.equipped = false;
+                            currentWeapon = inventory[slot];
+                            currentWeapon.equipped = true;
+                            msg.append("Equipped weapon: " + inventory[slot].name);
+
+                        }
 
                     }
 
@@ -235,9 +255,14 @@ public class Player extends Entity {
 
                 if (currentWearable == null) {
 
-                    currentWearable = inventory[slot];
-                    currentWearable.equipped = true;
-                    msg.append("Equipped wearable: " + inventory[slot].name);
+                    if (inventory[slot].equipped) msg.append("Someone else is using this.");
+                    else {
+
+                        currentWearable = inventory[slot];
+                        currentWearable.equipped = true;
+                        msg.append("Equipped wearable: " + inventory[slot].name);
+
+                    }
 
                 } else {
 
@@ -249,10 +274,15 @@ public class Player extends Entity {
 
                     } else {
 
-                        currentWearable.equipped = false;
-                        currentWearable = inventory[slot];
-                        currentWearable.equipped = true;
-                        msg.append("Equipped wearable: " + inventory[slot].name);
+                        if (inventory[slot].equipped) msg.append("Someone else is using this.");
+                        else {
+
+                            currentWearable.equipped = false;
+                            currentWearable = inventory[slot];
+                            currentWearable.equipped = true;
+                            msg.append("Equipped wearable: " + inventory[slot].name);
+
+                        }
 
                     }
 

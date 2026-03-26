@@ -26,6 +26,7 @@ CREATE TABLE IF NOT EXISTS enemy (
 
 );
 
+-- Normal Enemies
 INSERT INTO enemy (enemy_name, enemy_type, health, attack, defense, mountain) VALUES ("Air Cooler", "default", 4, 1, 4, true);
 INSERT INTO enemy (enemy_name, enemy_type, health, attack, defense, note, mountain, mine, lair) VALUES ("Banshee", "malware", 9, 9, 1, "Adware", true, true, true);
 INSERT INTO enemy (enemy_name, enemy_type, health, attack, defense, note, swamp, lair) VALUES ("Bot Swarm", "malware", 30, 1, 20, "Botnet", true, true);
@@ -63,6 +64,7 @@ INSERT INTO enemy (enemy_name, enemy_type, health, attack, defense, note, lair) 
 INSERT INTO enemy (enemy_name, enemy_type, health, attack, defense, note, cave, swamp, lair) VALUES ("Worm", "malware", 4, 1, 5, "Worm", true, true, true);
 INSERT INTO enemy (enemy_name, enemy_type, health, attack, defense, mountain, desert) VALUES ("Yellow Flower", "default", 3, 3, 0, true, true);
 
+-- Bosses
 INSERT INTO enemy(enemy_name, enemy_type, health, attack, defense, boss, spawn_message, village) VALUES ("First Guardian", "default", 10, 3, 2, true, "tbd", true);
 INSERT INTO enemy(enemy_name, enemy_type, health, attack, defense, boss, spawn_message, lake) VALUES ("The Big One", "default", 30, 3, 1, true, "tbd", true);
 INSERT INTO enemy(enemy_name, enemy_type, health, attack, defense, boss, spawn_message, mountain) VALUES ("Abominable Snowball", "default", 40, 4, 4, true, "That was your last mistake.", true);
