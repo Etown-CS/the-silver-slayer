@@ -294,8 +294,35 @@ public class Menu {
             case "phish":
             case "fish":
 
-                // TODO: Phishing!
-                break;
+                if (!Story.wasEventSeen(312)) 
+                    writeText("You do not know where to fish.", 0);
+                    
+                else if (Story.wasEventSeen(312) && Player.location == 3 && Player.sublocation == 0) {
+
+                    int emailSlot = -1;
+                    for (int i = 0; i < playerRef.inventory.length; i++) {
+                        if (playerRef.inventory[i] != null && 
+                            playerRef.inventory[i].name.equals("Email")) {
+                            emailSlot = i;
+                            break;
+                        }
+                    }
+                    if (emailSlot == -1) {
+                        writeText("You need bait in order to fish, or should I say... phish?", 0);
+                        break;
+                    }
+                    playerRef.removeItem(emailSlot);
+
+                    // randomly generate phishing result *FAKE NAME & FAKE SSN*
+                    String[] fNames = {"Martin, Asher, John, Truman, Cecil, Dorian, Silas, Felix, Jasper, Oscar"};
+                    String[] lNames = {"Smith, Johnson, Williams, Brown, Jones, Pork, Davis, Garcia, Rodriguez, Wilson"};
+
+                    String randomFName = fNames[r.nextInt(fNames.length)] + " " + lNames[r.nextInt(lNames.length)];
+                    String randomSSN = String.format("%03d-%02d-%04d", r.nextInt(1000), r.nextInt(100), r.nextInt(10000));
+
+                    writeText("You just phished " + randomFName + " with SSN " + randomSSN + "!\n" + "Now you have their identity!", 0);
+                }
+                    break;
             
             case "map":
             	

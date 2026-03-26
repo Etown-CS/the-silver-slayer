@@ -3,7 +3,7 @@ import java.security.SecureRandom;
 public class Item {
 
     private static SecureRandom r = new SecureRandom();
-    public static boolean silverSpoon = false, paperHat = false, goggles = false, woodenClub = false, bitingRing = false, silverSword = false;
+    public static boolean silverSpoon = false, paperHat = false, goggles = false, woodenClub = false, bitingRing = false, silverSword = false, Email = false;
 
     public String name, description;
     public ItemType type;
@@ -78,6 +78,16 @@ public class Item {
 
             }
 
+        }
+
+        // Email Bait
+        if (!Email && Player.location == 3 && Player.sublocation == 1) {
+            int invSlot = playerRef.addItem(Database.genItem(14));
+            if (invSlot < 0) return "\nInventory full.";
+            else {
+                Email = true;
+                return "\nAdded a suspicious Email to slot " + invSlot + '.';
+            }
         }
 
         // Wooden Club *
@@ -175,9 +185,11 @@ public class Item {
             }
 
         }
-        
+
         return null;
 
     }
+
+
     
 }

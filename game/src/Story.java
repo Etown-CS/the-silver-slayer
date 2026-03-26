@@ -157,9 +157,9 @@ public class Story {
         // Phishing - chance to catch someones personal info
 
         lake.put(340, "Using the emails you got from the tackle box, you are now able to phish.");
-        lake.put(341, "You cast your rod into the water hoping to catch something.");
-        lake.put(342, "You have caught someones personal information!");
-        lake.put(343, "Your line broke.");
+        // lake.put(341, "You cast your rod into the water hoping to catch something.");
+        // lake.put(342, "You have caught someones personal information!");
+        // lake.put(343, "Your line broke.");
 
 
         // MOUNTAIN
