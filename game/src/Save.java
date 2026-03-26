@@ -53,7 +53,7 @@ public class Save {
             contents.append(players[c].health + "/" + players[c].healthDefault + ", ");
             contents.append(players[c].attack + "/" + players[c].attackDefault + ", ");
             contents.append(players[c].defense + "/" + players[c].defenseDefault + ", ");
-            contents.append(players[c].statuses);
+            contents.append(players[c].statuses + "\n");
 
         }
 
@@ -64,9 +64,16 @@ public class Save {
         contents.append("Mirror moves: " + Player.fractureMirrorMoves + "\n\n");
         // In combat/bossfight values not saved because you can't save the game while in combat anyway
 
-        contents.append("INVENTORY\n\nwip\n\n");
+        contents.append("INVENTORY\n\n");
+        for (int c = 0; c < Player.invCap; c++) {
 
-        contents.append("BOSSES\n\n");
+            contents.append(c + ": ");
+            if (Player.inventory[c] == null) contents.append('\n');
+            else contents.append(Player.inventory[c].name + '\n');
+
+        }
+
+        contents.append("\nBOSSES\n\n");
         for (int c = 0; c < Locations.enemyIndex.length; c++) {
 
             contents.append(Locations.enemyIndex[c][Locations.enemyIndex[c].length - 1].name + ": ");
@@ -74,6 +81,9 @@ public class Save {
             else contents.append("n\n");
 
         }
+
+        // TODO: Update this value dynamically
+        contents.append("SkeleTON: n\nLast Prospector: n");
 
         try {
 
