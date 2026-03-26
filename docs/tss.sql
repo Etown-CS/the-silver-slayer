@@ -108,6 +108,7 @@ INSERT INTO item (item_name, item_desc, item_type, item_value, magnitude, consum
 INSERT INTO item (item_name, item_desc, item_type, item_value, magnitude, consumable, is_unique) VALUES ("Mystery Meat", "This could be anything.", "health", 5, 2, true, false);
 INSERT INTO item (item_name, item_desc, item_type, item_value, magnitude, consumable, is_unique) VALUES ("Bean", "One, singular bean.", "health", 5, 1, true, true);
 INSERT INTO item (item_name, item_desc, item_type, item_value, magnitude, consumable, is_unique) VALUES ("Depleted Rod", "A depleted reactor rod. Fragile and unstable.", "weapon", 10, 1, false, true);
+INSERT INTO item (item_name, item_desc, item_type, item_value, magnitude, consumable, is_unique) VALUES ("Email", "Its definitely not a scam", "junk", 0, 0, false, false);
 
 CREATE TABLE IF NOT EXISTS _tss_meta (
 

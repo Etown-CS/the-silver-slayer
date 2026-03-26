@@ -13,7 +13,7 @@ public class Locations {
         {"Plain", "Dune", "Town", "Well"},
         {"Mudpits", "Wetland", "Woodland"},
         {"Wasteland", "Edge", "Mirrors", "???"},
-        {"Gate", "Village", "Castle", "Throne"}
+        {"Gate", "Shack", "Castle", "Throne"}
     };
     public static final Enemy[] Village = 
         {

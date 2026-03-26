@@ -300,7 +300,7 @@ public class Story {
         lair.put(804, "unlock failed");
         lair.put(805, "new base");
 
-        // Village
+        // Shack
         lair.put(810, "Exploring the outskirts around the lair, you see a small shack that catches you eye.");
         lair.put(811, "You enter the shack. Inside you see a chest that looks like it hasn't been opened in years. You want to look inside.");
         lair.put(812, "You open the chest and are shocked by whats inside.");
