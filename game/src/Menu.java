@@ -294,37 +294,36 @@ public class Menu {
             case "phish":
             case "fish":
 
-                if (!Story.wasEventSeen(312)) 
-                    writeText("You do not know where to fish.", 0);
-                    
-                else if (Story.wasEventSeen(312) && Player.location == 3 && Player.sublocation == 0 && playerRef.hasItem("Email")) {
+                if (!Story.wasEventSeen(312)) writeText("You do not know where to fish.", 0);
+                else if (Player.location == 3 && Player.sublocation == 0) {
 
                     int emailSlot = -1;
-                    for (int i = 0; i < playerRef.inventory.length; i++) {
-                        if (playerRef.inventory[i] != null && 
-                            playerRef.inventory[i].name.equals("Email")) {
+                    for (int i = 0; i < Player.inventory.length; i++) {
+
+                        if (Player.inventory[i] != null && Player.inventory[i].name.equals("Email")) {
+
                             emailSlot = i;
                             break;
+
                         }
+
                     }
-                    if (emailSlot == -1) {
-                        writeText("You need bait in order to fish, or should I say... phish?", 0);
-                        break;
+
+                    if (emailSlot == -1) writeText("You need bait in order to fish, or should I say... phish?", 0);
+                    else {
+
+                        playerRef.removeItem(emailSlot);
+
+                        // randomly generate phishing result *FAKE NAME & FAKE SSN*
+                        String fullName = Story.fNames[r.nextInt(Story.fNames.length)] + " " + Story.lNames[r.nextInt(Story.lNames.length)];
+                        String randomSSN = String.format("%03d-%02d-%04d", r.nextInt(1000), r.nextInt(100), r.nextInt(10000));
+
+                        writeText("You just phished " + fullName + " with SSN " + randomSSN + "!\n" + "Now you have their identity!", 0);
+                
                     }
-                    playerRef.removeItem(emailSlot);
 
-                    // randomly generate phishing result *FAKE NAME & FAKE SSN*
-                    String[] fNames = {"Martin", "Asher", "John", "Truman", "Cecil", "Dorian", "Silas", "Felix", "Jasper", "Oscar"};
-                    String[] lNames = {"Smith", "Johnson", "Williams", "Brown", "Jones", "Pork", "Davis", "Garcia", "Rodriguez", "Wilson"};
-
-                    String randomFName = fNames[r.nextInt(fNames.length)];
-                    String randonLName = lNames[r.nextInt(lNames.length)];
-                    String fullName = randomFName + " " + randonLName;
-                    String randomSSN = String.format("%03d-%02d-%04d", r.nextInt(1000), r.nextInt(100), r.nextInt(10000));
-
-                    writeText("You just phished " + fullName + " with SSN " + randomSSN + "!\n" + "Now you have their identity!", 0);
-                }
-                    break;
+                } else writeText("There's not a good spot here.", 0);
+                break;
             
             case "map":
             	

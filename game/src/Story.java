@@ -36,6 +36,10 @@ public class Story {
                                             "exit / quit: Close the game (save first!)\n" + 
                                             "clear: Clear the terminal\n" + 
                                             "title: Change the title message";
+    
+    // Data for fishing minigame (fake)
+    public static final String[] fNames = {"Asher", "Austin", "Beverly", "Brandon", "Brian", "Cecil", "David", "Dorian", "Eric", "Felix", "Greg", "Harold", "Ingram", "Jason", "Jasper", "John", "Josh", "Kylie", "Lydia", "Martin", "Nick", "Oscar", "Patrick", "Qui", "Randall", "Silas", "Steve", "Steven", "Theresa", "Truman", "Ulysses", "Vector", "Wanita", "Xander", "Yennifer", "Zachary"};
+    public static final String[] lNames = {"Armstrong", "Brown", "Conrad", "Davis", "Evans", "Ferguson", "Garcia", "Henderson", "Iglehart", "Johnson", "Jones", "Krafton", "Li", "McGovern", "Norris", "Oinyoin", "Pork", "Quinn", "Rodriguez", "Smith", "Thompson", "Ulgrith", "Veriton", "Williams", "Wilson", "X", "Yearsley", "Zorin"};
 
     /*
     * The original idea behind this class was to store all the story elements here
