@@ -393,6 +393,7 @@ public class Menu {
 
                         int slot = Integer.parseInt(bits[1]);
                         if (slot < 0 || slot >= Player.invCap) writeText(slot + " is not a valid inventory slot.", 0);
+                        else if (Player.inventory[slot].equipped) writeText("Unequip the item first.", 0);
                         else if (Player.inventory[slot] == null) writeText("Slot " + slot + " is already empty.", 0);
                         else writeText("Dropped '" + playerRef.removeItem(slot) + "' from inventory.", 0);
 

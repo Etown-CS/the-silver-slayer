@@ -50,6 +50,7 @@ public class Player extends Entity {
                 break;
 
             case "Saea Quowle":
+            default:
 
                 // Default stats. Use as reference
                 healthDefault = 10;
@@ -94,21 +95,6 @@ public class Player extends Entity {
 
         if (inventory[slot] == null) return null;
         String tmp = inventory[slot].name;
-
-        if (inventory[slot] == currentArmor) {
-
-            currentArmor = null;
-
-        } else if (inventory[slot] == currentWeapon) {
-
-            currentWeapon = null;
-
-        } else if (inventory[slot] == currentWearable) {
-
-            currentWearable = null;
-
-        }
-
         inventory[slot] = null;
         return tmp;
         

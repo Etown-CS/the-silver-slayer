@@ -10,13 +10,13 @@ public class Story {
                                             "Low on magenta!", "Strings", "jk jk... unless?", "Remember to cave"};
     
     // Messages that can be displayed when the player flees
-    public static final String[] FLEE_STRINGS = {"You can't run forever.", "You got away... for now.", "You'll be back."};
+    public static final String[] FLEE_STRINGS = {"You can't run forever.", "You got away... for now.", "You've escaped this time.", "You'll be back."};
     
     // Each boss has a unique message for when it's defeated
     public static final String[] BOSS_DEFEATED = {null, null, "The Guardian has fallen. The first of many.", "lake", "The snowball shivers, and then collapses into a pile of slush.", "desert", "swamp", "lair"};
     
     // Messages that can appear on the title bar of the game over popup
-    public static final String[] GAME_OVERS = {"How unfortunate", "That's gonna leave a mark", "Better luck some time!", "oof", "bruh.mp3", "Process killed"};
+    public static final String[] GAME_OVERS = {"How unfortunate", "That's gonna leave a mark", "Better luck some time!", "oof", "bruh.mp3", "Process killed", "CONNECTION TERMINATED"};
     
     // The string that prints when the player enters 'help'
     public static final String HELP_TEXT = "look / ls: Look around yourself\n" +
