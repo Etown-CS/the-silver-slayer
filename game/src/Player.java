@@ -1,5 +1,6 @@
 public class Player extends Entity {
 
+    private byte pID; // Used to keep track of which character has an item equipped
     public static final String[] names = {"Bitter Java", "Brustel Sprout", "C--", "Dapper Python", "P. H. Periwinkle", "ReacTor", "Saea Quowle"};
     public static Item[] inventory = {null, null, null, null, null, null, null, null, null, null};
     public Item currentArmor = null, currentWeapon = null, currentWearable = null;
@@ -13,6 +14,7 @@ public class Player extends Entity {
 
             case "Bitter Java":
 
+                pID = 0;
                 healthDefault = 8;
                 attackDefault = 3;
                 addItem(Database.genItem(19));
@@ -20,39 +22,51 @@ public class Player extends Entity {
 
             case "Brustel Sprout":
 
+                pID = 1;
                 healthDefault = 15;
                 attackDefault = 1;
                 break;
 
             case "C--":
 
+                pID = 2;
                 healthDefault = 7;
                 attackDefault = 4;
                 break;
 
             case "Dapper Python":
 
+                pID = 3;
                 healthDefault = 5;
                 attackDefault = 5;
                 break;
 
             case "P. H. Periwinkle":
 
+                pID = 4;
                 healthDefault = 12;
                 attackDefault = 2;
                 break;
 
             case "ReacTor":
 
+                pID = 5;
                 healthDefault = 7;
                 attackDefault = 3;
                 addItem(Database.genItem(20));
                 break;
 
             case "Saea Quowle":
+
+                pID = 6;
+                healthDefault = 10;
+                attackDefault = 3;
+                break;
+
             default:
 
                 // Default stats. Use as reference
+                pID = -1;
                 healthDefault = 10;
                 attackDefault = 3;
                 break;
@@ -160,34 +174,45 @@ public class Player extends Entity {
                 break;
 
             case Armor:
-
+                
+                // Current player has no armor
                 if (currentArmor == null) {
 
                     if (inventory[slot].equipped) msg.append("Someone else is using this.");
                     else {
 
+                        // Equip it (if it's not in use)
                         currentArmor = inventory[slot];
                         currentArmor.equipped = true;
+                        currentArmor.user = pID;
                         msg.append("Equipped armor: " + inventory[slot].name);
 
                     }
-
+                
+                // Current player DOES have armor equipped already
                 } else {
 
+                    // If currentArmor and the target inventory item are the same
                     if (currentArmor == inventory[slot]) {
 
+                        // Unequip item
                         currentArmor.equipped = false;
+                        currentArmor.user = 0;
                         currentArmor = null;
                         msg.append("Unequipped " + inventory[slot].name);
-
+                    
+                    // currentArmor and target item are NOT the same
                     } else {
 
                         if (inventory[slot].equipped) msg.append("Someone else is using this.");
                         else {
 
+                            // Swap to the new item (if the new item isn't already in use)
                             currentArmor.equipped = false;
+                            currentArmor.user = 0;
                             currentArmor = inventory[slot];
                             currentArmor.equipped = true;
+                            currentWeapon.user = pID;
                             msg.append("Equipped armor: " + inventory[slot].name);
 
                         }
@@ -207,6 +232,7 @@ public class Player extends Entity {
 
                         currentWeapon = inventory[slot];
                         currentWeapon.equipped = true;
+                        currentWeapon.user = pID;
                         msg.append("Equipped weapon: " + inventory[slot].name);
 
                     }
@@ -216,6 +242,7 @@ public class Player extends Entity {
                     if (currentWeapon == inventory[slot]) {
 
                         currentWeapon.equipped = false;
+                        currentWeapon.user = 0;
                         currentWeapon = null;
                         msg.append("Unequipped " + inventory[slot].name);
 
@@ -225,8 +252,10 @@ public class Player extends Entity {
                         else {
 
                             currentWeapon.equipped = false;
+                            currentWeapon.user = 0;
                             currentWeapon = inventory[slot];
                             currentWeapon.equipped = true;
+                            currentWeapon.user = pID;
                             msg.append("Equipped weapon: " + inventory[slot].name);
 
                         }
@@ -246,6 +275,7 @@ public class Player extends Entity {
 
                         currentWearable = inventory[slot];
                         currentWearable.equipped = true;
+                        currentWeapon.user = pID;
                         msg.append("Equipped wearable: " + inventory[slot].name);
 
                     }
@@ -255,6 +285,7 @@ public class Player extends Entity {
                     if (currentWearable == inventory[slot]) {
 
                         currentWearable.equipped = false;
+                        currentWeapon.user = 0;
                         currentWearable = null;
                         msg.append("Unequipped " + inventory[slot].name);
 
@@ -264,8 +295,10 @@ public class Player extends Entity {
                         else {
 
                             currentWearable.equipped = false;
+                            currentWeapon.user = 0;
                             currentWearable = inventory[slot];
                             currentWearable.equipped = true;
+                            currentWeapon.user = pID;
                             msg.append("Equipped wearable: " + inventory[slot].name);
 
                         }

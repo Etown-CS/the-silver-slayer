@@ -8,6 +8,7 @@ public class Item {
     public String name, description;
     public ItemType type;
     public int value, magnitude;
+    public byte user = 0;
     public boolean consumable, equipped;
 
     public Item(String itemName, String desc, ItemType itemType, int val, int mag, boolean consumedOnUse) {

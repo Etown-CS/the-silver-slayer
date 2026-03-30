@@ -62,14 +62,14 @@ public class Save {
         contents.append("Swaps: " + Player.pSwaps + ", ");
         contents.append("Mountain searches: " + Player.mountainPathSearches + ", ");
         contents.append("Mirror moves: " + Player.fractureMirrorMoves + "\n\n");
-        // In combat/bossfight values not saved because you can't save the game while in combat anyway
+        // In combat/bossfight values aren't saved because you can't save the game while in combat anyway
 
         contents.append("INVENTORY\n\n");
         for (int c = 0; c < Player.invCap; c++) {
 
             contents.append(c + ": ");
             if (Player.inventory[c] == null) contents.append('\n');
-            else contents.append(Player.inventory[c].name + '\n');
+            else contents.append(Player.inventory[c].name + ", p" + Player.inventory[c].user + '\n');
 
         }
 
