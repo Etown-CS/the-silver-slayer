@@ -615,12 +615,12 @@ public class Menu {
         * Runs every time the terminal stops writing text
         */
 
-        playerRef.statusEffects();
+        String stats = playerRef.statusEffects();
         
         // Update player sidebar
         int totalAtk = (playerRef.currentWeapon != null) ? playerRef.attack + playerRef.currentWeapon.magnitude : playerRef.attack;
         int totalDef = (playerRef.currentArmor != null) ? playerRef.defense + playerRef.currentArmor.magnitude : playerRef.defense;
-        playerBar.setText(playerRef.name + "\n\nHealth: " + playerRef.health + " / " + playerRef.healthDefault + "\nAttack: " + totalAtk + "\nDefense: " + totalDef + "\n\nInventory\n" + playerRef.listItems());
+        playerBar.setText(playerRef.name + "\n\nHealth: " + playerRef.health + " / " + playerRef.healthDefault + "\nAttack: " + totalAtk + "\nDefense: " + totalDef + "\n\nInventory\n" + playerRef.listItems() + stats);
         
         if (gameOver) return;
         else if (playerRef.health == 0) {
