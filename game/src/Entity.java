@@ -45,6 +45,65 @@ public class Entity {
 
     }
 
+    public void statusEffects() {
+        /*
+        * Called from Menu's update function
+        * Handles status effects and decrements their values
+        */
+
+        if (statuses.get("poison") > 0) {
+
+            changeStats(-1, 0, 0);
+            statuses.put("poison", statuses.get("poison") - 1);
+
+        }
+
+        if (statuses.get("fire") > 0) {
+
+            changeStats(-2, 0, 0);
+            statuses.put("fire", statuses.get("fire") - 1);
+
+        }
+
+        if (statuses.get("strength") > 0) {
+
+            statuses.put("strength", statuses.get("strength") - 1);
+
+        }
+
+        if (statuses.get("weak") > 0) {
+
+            statuses.put("weak", statuses.get("weak") - 1);
+
+        }
+
+        if (statuses.get("dazed") > 0) {
+
+            statuses.put("dazed", statuses.get("dazed") - 1);
+
+        }
+
+        if (statuses.get("blind") > 0) {
+
+            statuses.put("blind", statuses.get("blind") - 1);
+
+        }
+
+        if (statuses.get("known") > 0) {
+
+            statuses.put("known", statuses.get("known") - 1);
+
+        }
+
+        if (statuses.get("doom") > 0) {
+
+            changeStats(-1, -1, -1);
+            statuses.put("doom", statuses.get("doom") - 1);
+
+        }
+
+    }
+
     public int getAttacked(int dmg) {
         /*
          * Use getAttacked to deal damage to this entity

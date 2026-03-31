@@ -615,6 +615,9 @@ public class Menu {
         * Runs every time the terminal stops writing text
         */
 
+        playerRef.statusEffects();
+        
+        // Update player sidebar
         int totalAtk = (playerRef.currentWeapon != null) ? playerRef.attack + playerRef.currentWeapon.magnitude : playerRef.attack;
         int totalDef = (playerRef.currentArmor != null) ? playerRef.defense + playerRef.currentArmor.magnitude : playerRef.defense;
         playerBar.setText(playerRef.name + "\n\nHealth: " + playerRef.health + " / " + playerRef.healthDefault + "\nAttack: " + totalAtk + "\nDefense: " + totalDef + "\n\nInventory\n" + playerRef.listItems());
@@ -636,6 +639,8 @@ public class Menu {
 
             Player.inCombat = true;
             Player.inBossfight = enemyRef.isBoss;
+
+            enemyRef.statusEffects();
             enemyBar.setText(enemyRef.name + "\n\nHealth: " + enemyRef.health + "\nAttack: " + enemyRef.attack + "\nDefense: " + enemyRef.defense);
 
             if (enemyTurn) {
