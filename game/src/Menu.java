@@ -640,8 +640,8 @@ public class Menu {
             Player.inCombat = true;
             Player.inBossfight = enemyRef.isBoss;
 
-            enemyRef.statusEffects();
-            enemyBar.setText(enemyRef.name + "\n\nHealth: " + enemyRef.health + "\nAttack: " + enemyRef.attack + "\nDefense: " + enemyRef.defense);
+            String enStats = enemyRef.statusEffects();
+            enemyBar.setText(enemyRef.name + "\n\nHealth: " + enemyRef.health + "\nAttack: " + enemyRef.attack + "\nDefense: " + enemyRef.defense + enStats);
 
             if (enemyTurn) {
 
