@@ -25,6 +25,19 @@
 
 #define LITPERCENT 10
 
+/*
+* TODOS:
+* Read the save file in, and write out to it
+* create ssh puzzle to get out of the cave area and into the mine area
+* make the story for the mine.
+* mine light effects (can't see the exit with the light on)
+* mine ddos puzzles
+* STRETCH TODOS:
+* loot from the enemies
+* drop command
+* enemy abilities
+*/
+
 void printWaterText(char* inputText,int percentage,int newline);
 void printLitText(char* inputText,int newline);
 int handleCommand(char* input);
@@ -45,7 +58,7 @@ int waterlvl=1;
 player *mainChar;
 enemy *hannibal;
 location *currentLocation;
-int battlemode=1;
+int battlemode=0;
 int lit=0;
 
 int main()
@@ -65,7 +78,7 @@ int main()
 
     hannibal= createEnemy("Groundhog",10,1,1,adware);
 
-    while(waterlvl<=100 && mainChar->health!=0)
+    while(waterlvl<=100 && mainChar->health>0)
     {
         if(battlemode)
         {
@@ -151,8 +164,15 @@ int handleCommand(char* input)
             printSpecialText("You're inventory isn't that big!",1);
         else
         {
-            printSpecialText(mainChar->inventory[idx]->name,1);
-            printSpecialText(mainChar->inventory[idx]->description,1);
+            if(mainChar->inventory[idx]->type!=Unassigned)
+            {
+                printSpecialText(mainChar->inventory[idx]->name,1);
+                printSpecialText(mainChar->inventory[idx]->description,1);
+            }
+            else
+            {
+                printSpecialText("Nothing is in that slot",1);
+            }
         }
     }
     else if(!strcmp(input,"warp"))
@@ -421,8 +441,9 @@ void handleItem(char* idx)
         break;
 
         default:
-        printSpecialText("I'm not even sure what you'd do with a ",0);
-        printSpecialText(mainChar->inventory[index]->name,1);
+        printSpecialText("Nothing is in that slot",1);
+        //printSpecialText("I'm not even sure what you'd do with a ",0);
+        //printSpecialText(mainChar->inventory[index]->name,1);
     }
 }
 
@@ -485,7 +506,7 @@ void printBattleText(player* mc,enemy * enm)
 {
     char buffer[128];
     int buffersize=128;
-    snprintf(buffer,buffersize,"\n%s\nHealth: %d/%d\nAttack: %d\nDefense: %d\n","c--",mc->health,mc->healthCap,mc->attack,mc->defense);
+    snprintf(buffer,buffersize,"\n%s\nHealth: %d/%d\nAttack: %d\nDefense: %d\n",mc->name,mc->health,mc->healthCap,mc->attack,mc->defense);
     printSpecialText(buffer,1);
     snprintf(buffer,buffersize,"%s\nHealth: %d/%d\nAttack: %d\nDefense: %d\n",enm->name,enm->health,enm->healthDefault,enm->attack,enm->defense);
     printSpecialText(buffer,1);

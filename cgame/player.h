@@ -6,7 +6,7 @@
 typedef struct{
     int health, attack, defense, invCap, healthCap, currSlot;
     item* inventory[20];
-    char* name;
+    char name[64];
     item* weapon;
     item* armor;
     item* clothing;
@@ -23,5 +23,6 @@ void equipWeapon(player* character,int index);
 player* createPlayer();
 void eatFood(player* character,int health);
 int getAttacked(player* character,int dmg);
+int parseInt(char* strin,int i);
 
 #endif
