@@ -526,7 +526,7 @@ public class Menu {
             case "clear":
 
                 terminalScreen.setText(null);
-                writeText("The Silver Slayer [Beta v1.0]", -1);
+                writeText(Story.header, -1);
                 break;
 
             case "title":
@@ -885,7 +885,7 @@ public class Menu {
         mainframe.setVisible(true);
         
         inputField.requestFocus();
-        terminalScreen.setText("The Silver Slayer [Beta v0.1]\n\n" + Locations.locations[1] + '/' + Locations.sublocations[1][0] + "> ");
+        terminalScreen.setText(Story.header + "\n\n" + Locations.locations[1] + '/' + Locations.sublocations[1][0] + "> ");
 
         playerSelect();
 

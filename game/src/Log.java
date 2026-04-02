@@ -4,6 +4,7 @@ import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
 import java.nio.channels.OverlappingFileLockException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Log {
 
@@ -14,9 +15,12 @@ public class Log {
 
     public static void setupLog() {
 
+        LocalDateTime time = LocalDateTime.now();
+        DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy_HH-mm-ss");
+
         try {
 
-            logFile = new RandomAccessFile("tss_log_" + LocalDateTime.now() + ".txt", "rw");
+            logFile = new RandomAccessFile("tss_log_" + time.format(timeFormat) + ".txt", "rw");
             fc = logFile.getChannel();
             fc.truncate(0);
             logFile.seek(0);

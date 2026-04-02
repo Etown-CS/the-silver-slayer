@@ -36,6 +36,8 @@ public class Story {
                                             "exit / quit: Close the game (save first!)\n" + 
                                             "clear: Clear the terminal\n" + 
                                             "title: Change the title message";
+
+    public static final String header = "The Silver Slayer [beta-1]";
     
     // Data for fishing minigame (fake)
     public static final String[] fNames = {"Asher", "Austin", "Beverly", "Brandon", "Brian", "Cecil", "David", "Dorian", "Eric", "Felix", "Greg", "Harold", "Ingram", "Jason", "Jasper", "John", "Josh", "Kylie", "Lydia", "Martin", "Nick", "Oscar", "Patrick", "Qui", "Randall", "Silas", "Steve", "Steven", "Theresa", "Truman", "Ulysses", "Vector", "Wanita", "Xander", "Yennifer", "Zachary"};
