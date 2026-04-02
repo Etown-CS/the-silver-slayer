@@ -45,7 +45,7 @@ public class Save {
 
         StringBuilder contents = new StringBuilder(1024);
 
-        contents.append("CHARACTERS\n\n");
+        contents.append("\nCHARACTERS\n\n");
         for (int c = 0; c < players.length; c++) {
 
             if (players[c] == playerRef) contents.append('*');
@@ -69,7 +69,12 @@ public class Save {
 
             contents.append(c + ": ");
             if (Player.inventory[c] == null) contents.append('\n');
-            else contents.append(Player.inventory[c].name + ", p" + Player.inventory[c].user + '\n');
+            else {
+
+                Item tmp = Player.inventory[c];
+                contents.append("{name=" + tmp.name + ", desc='" + tmp.description + "', type=" + tmp.type.toString() + ", value=" + tmp.value + ", mag=" + tmp.magnitude + ", user=" + tmp.user + ", consumable=" + tmp.consumable + "}\n");
+
+            }
 
         }
 
@@ -88,7 +93,7 @@ public class Save {
         try {
 
             //saveFile.writeChars(encrypt(contents.toString()));
-            saveFile.writeChars(contents.toString());
+            saveFile.writeUTF(contents.toString());
 
         } catch (IOException ex) {
 
