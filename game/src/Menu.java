@@ -352,8 +352,7 @@ public class Menu {
             case "chars":
             case "char":
 
-                enemyTurn = true;
-                playerSelect();
+                playerSelect(true);
                 break;
 
             case "desc":
@@ -650,7 +649,7 @@ public class Menu {
                 mainframe.setTitle("Game Over");
                 JOptionPane.showMessageDialog(terminalPanel, "You have been terminated.", Story.GAME_OVERS[r.nextInt(Story.GAME_OVERS.length)], JOptionPane.ERROR_MESSAGE);
 
-            } else playerSelect();
+            } else playerSelect(false);
 
         } else if (enemyRef != null) {
 
@@ -712,18 +711,20 @@ public class Menu {
 
     }
 
-    private void playerSelect() {
+    private void playerSelect(boolean allowCancel) {
         /*
         * Shows a menu with buttons for available characters
         * Costs an increasing amount of bits to swap
+        * allowCancel: Whether the cancel button is shown
         */
         
         int cost = Player.pSwaps * pSwapCostMultipler;
         if (Player.bits < cost) writeText("You need " + cost + " bits to swap characters.", 0);
         else {
 
+            enemyTurn = true;
             for (int c = 0; c < Player.names.length; c++) if (players[c].health > 0) charsPanel.add(characterButtons[c]);
-            charsPanel.add(cancelButton);
+            if (allowCancel) charsPanel.add(cancelButton);
             cards.next(basePanel);
 
         }
@@ -887,7 +888,7 @@ public class Menu {
         inputField.requestFocus();
         terminalScreen.setText(Story.header + "\n\n" + Locations.locations[1] + '/' + Locations.sublocations[1][0] + "> ");
 
-        playerSelect();
+        playerSelect(false);
 
         // Wait
         while (playerRef == null) {
