@@ -17,7 +17,6 @@ public class Player extends Entity {
                 pID = 0;
                 healthDefault = 8;
                 attackDefault = 3;
-                addItem(Database.genItem(19));
                 break;
 
             case "Brustel Sprout":
@@ -53,7 +52,6 @@ public class Player extends Entity {
                 pID = 5;
                 healthDefault = 7;
                 attackDefault = 3;
-                addItem(Database.genItem(20));
                 break;
 
             case "Saea Quowle":

@@ -21,6 +21,7 @@ public class Menu {
     private JScrollPane scrollPane;
     private JTextField inputField = new JTextField();
     private JButton[] characterButtons = new JButton[Player.names.length];
+    private JButton cancelButton = new JButton("Cancel");
 
     // Text
     private Timer timer = new Timer(0, null);
@@ -85,6 +86,22 @@ public class Menu {
             });
 
         }
+
+        cancelButton.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+                cards.next(basePanel);
+                charsPanel.removeAll();
+
+                Log.logData("Player cancelled character swap");
+                writeText("Cancelled swap.", 0);
+                inputField.requestFocusInWindow();
+
+            }
+            
+        });
 
         setupUI();
 
@@ -229,7 +246,7 @@ public class Menu {
                         if (bits[1].equals("silver") && playerRef.hasItem("Silver Sword")) {
 
                             writeText(Story.getUnlockEvent(1, 0, true), 0);
-                            // showImage("orange.png");
+                            showImage("orange.png");
                             
                         } else writeText(Story.getUnlockEvent(1, 0, false), 0);
 
@@ -706,6 +723,7 @@ public class Menu {
         else {
 
             for (int c = 0; c < Player.names.length; c++) if (players[c].health > 0) charsPanel.add(characterButtons[c]);
+            charsPanel.add(cancelButton);
             cards.next(basePanel);
 
         }
@@ -714,7 +732,7 @@ public class Menu {
     
     private void showImage(String file) {
         /*
-        * Displays a image in a new JFrame
+        * Displays an image in a new JFrame
         * file: The name of the image file to be displayed
         */
     	
