@@ -20,9 +20,10 @@ typedef enum
 }attackModes;
 
 void equipWeapon(player* character,int index);
-player* createPlayer();
+player* createPlayer(int *loc,int *area);
 void eatFood(player* character,int health);
 int getAttacked(player* character,int dmg);
 int parseInt(char* strin,int i);
+void writeSave(player *mc,int locCode,int areaCode);
 
 #endif

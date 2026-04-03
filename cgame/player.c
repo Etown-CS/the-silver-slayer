@@ -13,7 +13,7 @@
 } player;*/
 
 
-player* createPlayer()
+player* createPlayer(int *loc,int *area)
 {
     player *newChar = malloc(sizeof(player));
     if (!newChar) 
@@ -23,7 +23,7 @@ player* createPlayer()
     */
     //temp data for the game to work
     //printf("here\n");
-    FILE *savefile = fopen("tss_save.txt","r");
+    FILE *savefile = fopen("tss_save.sav","r");
     //printf("the pointer:%p\n",(void*)savefile);
     char buffer[256];
     char inputField[256];
@@ -53,6 +53,12 @@ player* createPlayer()
     i+=5;
     newChar->defense=parseInt(buffer,i);
 
+    while(buffer[0]!='L')
+        fgets(buffer,sizeof(buffer),savefile);
+    *loc=parseInt(buffer,10);
+    *area=parseInt(buffer,11+(*loc));
+
+    //printf("area: %d, location %d\n",*loc,*area);
     int itemsRead=0;
     while(buffer[0]!='[')
         fgets(buffer,sizeof(buffer),savefile);
@@ -68,20 +74,30 @@ player* createPlayer()
             index++;
         }
         name[index-1]='\0';
+        
         index+=1;
         Type type=parseInt(buffer,index);
-        index+=1;
+        index+=2;
+        
         char desk[100];
+        int deskindex=0;
         while(buffer[index]!=',')
         {
-            desk[index-1]=buffer[index];
-            index++;
+            desk[deskindex]=buffer[index];
+            index++;deskindex++;
+            //printf("%d: %c\n",index,buffer[index]);
         }
-
+        desk[deskindex]='\0';
         index+=1;
+        //printf("%c",buffer[index]);
         int mag=parseInt(buffer,index);
-        index+=1;
+
+        while(buffer[index]!=',')
+            index++;
+        
+        index++;
         int consumeable=parseInt(buffer,index);
+        
         newChar->inventory[itemsRead++]= initItem(name,type,desk,mag,consumeable);
         fgets(buffer,sizeof(buffer),savefile);
     }while(buffer[0]=='{');
@@ -123,7 +139,39 @@ int parseInt(char* strin,int i)
 void writeSave(player *mc,int locCode,int areaCode)
 {
     FILE* savefile=fopen("tss_save.txt","r");
+    FILE* tempsave=fopen("tss_save.tmp","w+");
 
+    char linein[1024];
+
+    while(fgets(linein,sizeof(linein),savefile))
+    {
+        if(linein[0]=='*')
+        {
+            int atk = mc->weapon ? (mc->attack)-(mc->weapon->magnitude) : mc->attack;
+            int def = mc->armor ? (mc->defense)-(mc->armor->magnitude) : mc->defense;
+            snprintf(linein,sizeof(linein),"*%s: %d/%d, %d/%d, %d/%d, {blind=0, dazed=0, poison=0, strength=0, known=0, doom=0, fire=0, weak=0}\n",mc->name,mc->health,mc->healthCap,atk,atk,def,def);
+        }
+        else if(linein[0]=='L')
+            snprintf(linein,sizeof(linein),"Location: %d/%d, Bits: 0, Swaps: 1, Mountain searches: 0, Mirror moves: 0",locCode,areaCode);
+        else if(linein[0]=='[')
+        {
+            fputs(linein,tempsave);
+            for(int i=0;i<mc->currSlot;i++)
+            {
+                snprintf(linein,sizeof(linein),"{%s,%d,%s,%d,%d}\n",mc->inventory[i]->name,mc->inventory[i]->type,mc->inventory[i]->description,mc->inventory[i]->magnitude,mc->inventory[i]->consumeable);
+                fputs(linein,tempsave);
+            }
+            fgets(linein,sizeof(linein),savefile);
+            while(linein[0]!=']')
+                fgets(linein,sizeof(linein),savefile);
+        }
+        fputs(linein,tempsave);
+    }
+
+    fclose(savefile);
+    fclose(tempsave);
+
+    rename("tss_save.tmp","tss_save.sav");
     
 }
 

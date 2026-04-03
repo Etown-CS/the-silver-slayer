@@ -60,21 +60,27 @@ enemy *hannibal;
 location *currentLocation;
 int battlemode=0;
 int lit=0;
+int locCode;
+int areaCode;
 
 int main()
 {
     initStory();
     initLocations();
-    currentLocation=&cave;
+    
     char startText[]="The Silver Slayer [c alpha v2.6]\n\n";
     strcpy(consoleText,"Cave/Entryway>");
     char inputText[256];
     printf("\033[2J \033[1;1H");
     printSpecialText(startText,0);
     printSpecialText(getStoryEvent(0),1);
-    
-    mainChar=createPlayer();
-    
+
+    mainChar=createPlayer(&locCode,&areaCode);
+    if(!locCode)
+        currentLocation=&cave;
+    else
+        currentLocation=&mine;
+    currentLocation->area=areaCode;
 
     hannibal= createEnemy("Groundhog",10,1,1,adware);
 
@@ -110,14 +116,16 @@ int main()
     printSpecialText("You Died",1);
     printSpecialText("Respawn   Main Menu",1);
     sleep(10);
-
     return 0;
 }
 
 int handleCommand(char* input)
 {
     if(!strcmp(input,"exit")||!strcmp(input,"quit"))
+    {
+        writeSave(mainChar,currentLocation->level,currentLocation->area);
         exit(0);
+    }
     else if(!strcmp(input,"help"))
         printSpecialText("GENERAL\nexit / quit: Quit the game.\nsettings: Modify game settings\n\nINVENTORY\ndesc / describe: Show an inventory item's description\ndrop (int)+: Drop an item\ninv / inventory / ls: Display inventory\nuse (int)+: Use an inventory item\n\nCOMBAT\natk / attack: Attack the current enemy",1);
     else if(!strcmp(input,"inv")||!strcmp(input,"inventory"))
@@ -131,9 +139,19 @@ int handleCommand(char* input)
         battlemode=0;
     }
     else if(!strcmp(input,"atk")||!strcmp(input,"attack\n"))
-        roundOfAttack(mainChar,hannibal,Fight);
+    {
+        if(battlemode)
+            roundOfAttack(mainChar,hannibal,Fight);
+        else
+            printSpecialText("You're not in combat?",1);
+    }
     else if(!strcmp(input,"wait"))
-        roundOfAttack(mainChar,hannibal,Wait);
+    {
+        if(battlemode)
+            roundOfAttack(mainChar,hannibal,Wait);
+        else
+            printSpecialText("You're not in combat?",1);
+    }
     else if(!strcmp(input,"ls")||!strcmp(input,"look\n"))
     {
         printSpecialText(getStoryEvent(currentLocation->level+currentLocation->area+1),1);
@@ -168,6 +186,7 @@ int handleCommand(char* input)
             {
                 printSpecialText(mainChar->inventory[idx]->name,1);
                 printSpecialText(mainChar->inventory[idx]->description,1);
+                printf("Power: "GREEN"%d"RESET" %s\n",mainChar->inventory[idx]->magnitude,(mainChar->inventory[idx]->consumeable ? "\nConsumable" : ""));
             }
             else
             {
@@ -482,16 +501,22 @@ void printInv(player* mc)
     {
         printSpecialText("Current Weapon Equipped: ",0);
         printSpecialText(mc->weapon->name,1);
+        printSpecialText("Damage: ",0);
+        printf(YELLOW"%d"RESET"\n",mc->weapon->magnitude);
     }
     if(mc->armor!=NULL)
     {
         printSpecialText("Current Armour Equipped: ",0);
         printSpecialText(mc->armor->name,1);
+        printSpecialText("Defense: ",0);
+        printf(GREEN"%d"RESET"\n",mc->armor->magnitude);
     }
     if(mc->clothing!=NULL)
     {
         printSpecialText("Current Clothing Equipped: ",0);
         printSpecialText(mc->clothing->name,1);
+        printSpecialText("StylePoints: ",0);
+        printf(CYAN"%d"RESET"\n",mc->clothing->magnitude);
     }
     
     for(int i=0;i<mc->invCap;i++)
