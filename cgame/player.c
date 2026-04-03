@@ -18,6 +18,7 @@ player* createPlayer(int *loc,int *area)
     player *newChar = malloc(sizeof(player));
     if (!newChar) 
         return 0;
+    memset(newChar,0,sizeof(*newChar));
     /* 
     read data in from file to make the character
     */
@@ -138,7 +139,7 @@ int parseInt(char* strin,int i)
 
 void writeSave(player *mc,int locCode,int areaCode)
 {
-    FILE* savefile=fopen("tss_save.txt","r");
+    FILE* savefile=fopen("tss_save.sav","r");
     FILE* tempsave=fopen("tss_save.tmp","w+");
 
     char linein[1024];
@@ -152,7 +153,7 @@ void writeSave(player *mc,int locCode,int areaCode)
             snprintf(linein,sizeof(linein),"*%s: %d/%d, %d/%d, %d/%d, {blind=0, dazed=0, poison=0, strength=0, known=0, doom=0, fire=0, weak=0}\n",mc->name,mc->health,mc->healthCap,atk,atk,def,def);
         }
         else if(linein[0]=='L')
-            snprintf(linein,sizeof(linein),"Location: %d/%d, Bits: 0, Swaps: 1, Mountain searches: 0, Mirror moves: 0",locCode,areaCode);
+            snprintf(linein,sizeof(linein),"Location: %d/%d, Bits: 0, Swaps: 1, Mountain searches: 0, Mirror moves: 0\n",locCode,areaCode);
         else if(linein[0]=='[')
         {
             fputs(linein,tempsave);
@@ -170,7 +171,7 @@ void writeSave(player *mc,int locCode,int areaCode)
 
     fclose(savefile);
     fclose(tempsave);
-
+    remove("tss_save.sav");
     rename("tss_save.tmp","tss_save.sav");
     
 }

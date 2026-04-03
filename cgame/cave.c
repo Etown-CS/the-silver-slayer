@@ -27,7 +27,6 @@
 
 /*
 * TODOS:
-* Read the save file in, and write out to it
 * create ssh puzzle to get out of the cave area and into the mine area
 * make the story for the mine.
 * mine light effects (can't see the exit with the light on)
