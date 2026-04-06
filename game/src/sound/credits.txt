@@ -7,6 +7,7 @@ music_start2: Beat Background Music Loop by Migfus20 -- https://freesound.org/s/
 music_village0: Simple Video Game Music Loop by rotlily -- https://freesound.org/s/733259/ -- License: Creative Commons 0
 music_village1: Mysterious Piano Music Loop by Migfus20 -- https://freesound.org/s/559853/ -- License: Attribution 4.0
 music_village2: Mysterious Ambiance Music by TheoJT -- https://freesound.org/s/667735/ -- License: Attribution 4.0
+boss_village: Boss fight by Victor_Natas -- https://freesound.org/s/721472/ -- License: Attribution 4.0
 
 music_lake0: Bosch’s Garden – Mythical Game Music for Fantasy and AI Projects by kjartan_abel -- https://freesound.org/s/647212/ -- License: Attribution 4.0
 music_lake1: Calm synth music.mp3 by ZHRØ -- https://freesound.org/s/636848/ -- License: Attribution 4.0
@@ -15,11 +16,13 @@ boss_lake: Anime Encounter Loop #3 by Sirkoto51 -- https://freesound.org/s/41980
 
 music_mountain0: Retro/classic game music.wav by ZHRØ -- https://freesound.org/s/668879/ -- License: Attribution 4.0
 music_mountain1: Berlin Town – Synthwave Track for Retrowave and Games by kjartan_abel -- https://freesound.org/s/564665/ -- License: Attribution 4.0
+music_mountain2: Karst mountains by neolein -- https://freesound.org/s/664200/ -- License: Creative Commons 0
 boss_mountain: Retro Puzzle Music Loop by Sirkoto51 -- https://freesound.org/s/378110/ -- License: Attribution 4.0
 
 music_desert0: Desolated Field.mp3 by SoundFlakes -- https://freesound.org/s/416984/ -- License: Attribution 4.0
 music_desert1: Egypt Music by TheoJT -- https://freesound.org/s/511198/ -- License: Attribution 4.0
 music_desert2: Cowboy Ghost BGM.wav by ChristmasKrumble666 -- https://freesound.org/s/754461/ -- License: Creative Commons 0
+boss_desert: Michael Stutz - Pistris.wav by Michaelp800 -- https://freesound.org/s/669435/ -- License: Attribution 4.0
 
 music_swamp0: Mushroom Background Music by Sunsai -- https://freesound.org/s/415804/ -- License: Attribution 4.0
 music_swamp1: NguyệtChâu - Hang Ngầm Dưới Mặt Biển.wav by SieuAmThanh -- https://freesound.org/s/397391/ -- License: Creative Commons 0
