@@ -9,7 +9,7 @@ import java.util.Base64;
 
 public class Database {
 	
-	private static final String url = "localhost";
+	private static final String URL = "localhost", USER = "root", PASS = "";
 	private static Connection conn = null;
 	public static boolean online;
 	
@@ -22,12 +22,12 @@ public class Database {
 		Log.logData("Establishing connection to database.");
 		try {
 			
-			conn = DriverManager.getConnection("jdbc:mysql://" + url + "/tss?allowMultiQueries=true", "root", "");
+			conn = DriverManager.getConnection("jdbc:mysql://" + URL + "/tss?allowMultiQueries=true", USER, PASS);
 			if (conn.isValid(5)) online = true;
 		
 		} catch (SQLException ex) {
 			
-			Log.logData("WARN: Failed to connect to database. Related features are disabled.\n" + ex.toString());
+			Log.logData("FATAL: Failed to connect to database.\n" + ex.toString());
 			online = false;
 			
 		}
