@@ -17,6 +17,7 @@ typedef struct {
     int area;
     enemy* spawnAbleEnemys[10];
     enemy* boss;
+    int mineSubArea;
 } location;
 
 extern char *Story[200];

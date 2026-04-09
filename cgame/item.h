@@ -2,7 +2,7 @@
 #define ITEM_H
 typedef enum 
 {
-    Unassigned, Junk, Health, Armor, Weapon, Wearable, Equipment
+    Unassigned, Junk, Health, Armor, Weapon, Wearable, Equipment, Puzzle
 } Type;
 typedef struct{
     Type type;

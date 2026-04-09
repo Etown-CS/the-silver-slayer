@@ -67,6 +67,7 @@ player* createPlayer(int *loc,int *area)
     do
     {   
         //printf("%s\n",buffer);
+        //printf("%c",buffer[3]);
         int index=1;
         char name[32];
         while(buffer[index]!=',')
@@ -86,11 +87,11 @@ player* createPlayer(int *loc,int *area)
         {
             desk[deskindex]=buffer[index];
             index++;deskindex++;
-            //printf("%d: %c\n",index,buffer[index]);
+            printf("%d: %c\n",index,buffer[index]);
         }
         desk[deskindex]='\0';
         index+=1;
-        //printf("%c",buffer[index]);
+        printf("%c",buffer[index]);
         int mag=parseInt(buffer,index);
 
         while(buffer[index]!=',')
@@ -121,7 +122,7 @@ player* createPlayer(int *loc,int *area)
     newChar->currSlot=itemsRead;
     for(int i=itemsRead;i<20;i++)
         newChar->inventory[i]=initItem("",Unassigned,"",0,0);
-    newChar->torch=0;
+    newChar->torch=1;
     
    return newChar;
 }
@@ -157,9 +158,10 @@ void writeSave(player *mc,int locCode,int areaCode)
         else if(linein[0]=='[')
         {
             fputs(linein,tempsave);
-            for(int i=0;i<mc->currSlot;i++)
+            for(int i=0;i<mc->invCap;i++)
             {
-                snprintf(linein,sizeof(linein),"{%s,%d,%s,%d,%d}\n",mc->inventory[i]->name,mc->inventory[i]->type,mc->inventory[i]->description,mc->inventory[i]->magnitude,mc->inventory[i]->consumeable);
+                if(strcmp(mc->inventory[i]->name,""))
+                    snprintf(linein,sizeof(linein),"{%s,%d,%s,%d,%d}\n",mc->inventory[i]->name,mc->inventory[i]->type,mc->inventory[i]->description,mc->inventory[i]->magnitude,mc->inventory[i]->consumeable);
                 fputs(linein,tempsave);
             }
             fgets(linein,sizeof(linein),savefile);

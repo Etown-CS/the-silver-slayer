@@ -27,11 +27,12 @@
 
 /*
 * TODOS:
-* create ssh puzzle to get out of the cave area and into the mine area
-* make the story for the mine.
-* mine light effects (can't see the exit with the light on)
+* create ssh puzzle with JTR to get out of the cave area and into the mine area
+* Finish the exit puzzle with the elevator in the mine
 * mine ddos puzzles
+* mine boss battle + loot
 * STRETCH TODOS:
+* when you delete the shadow file, shift back the inventory.
 * loot from the enemies
 * drop command
 * enemy abilities
@@ -67,7 +68,7 @@ int main()
     initStory();
     initLocations();
     
-    char startText[]="The Silver Slayer [c alpha v2.6]\n\n";
+    char startText[]="The Silver Slayer [c alpha v2.8]\n\n";
     strcpy(consoleText,"Cave/Entryway>");
     char inputText[256];
     printf("\033[2J \033[1;1H");
@@ -83,7 +84,7 @@ int main()
 
     hannibal= createEnemy("Groundhog",10,1,1,adware);
 
-    while(waterlvl<=100 && mainChar->health>0)
+    while(mainChar->health>0)
     {
         if(battlemode)
         {
@@ -109,11 +110,17 @@ int main()
         }
         else if(hannibal->health<1)
             battlemode=0;
-        
+        if(&cave==currentLocation && waterlvl>=100)
+        {
+            printSpecialText("The water surrounds you and you sink into the depths drowning in the mine",1);
+            break;
+        }
     }
     handleCommand("clear");
     printSpecialText("You Died",1);
     printSpecialText("Respawn   Main Menu",1);
+    mainChar->health=mainChar->healthCap;
+    writeSave(mainChar,currentLocation->level,0);
     sleep(10);
     return 0;
 }
@@ -133,11 +140,40 @@ int handleCommand(char* input)
         printf("\033[2J \033[1;1H");
     else if(!strcmp(input,"flee"))
     {
-        printSpecialText("You run in discrace",1);
-        printf("\033[2J \033[1;1H");
-        battlemode=0;
+        if(battlemode)
+        {
+            if(hannibal->power !=lastProspector)
+            {
+                //printf("\033[2J \033[1;1H");
+                printSpecialText("You run in discrace",1);
+                battlemode=0;
+            }
+            else
+            {
+                int success=0;
+                for(int i=0;i<mainChar->invCap;i++)
+                {
+                    if(!strcmp(mainChar->inventory[i]->name,"DDOS Drill"))
+                    {
+                        mainChar->health/=2;
+                        printSpecialText("you Manage to Escape, but you get hit for half of your health on the way out",1);
+                        success=1;
+                    }
+                    break;
+                }
+                if(!success)
+                {
+                    printSpecialText("You Can't Flee!",1);
+                    roundOfAttack(mainChar,hannibal,Wait);
+                }
+            }
+        }
+        else
+        {
+            printSpecialText("There's nothing to run from?",1);
+        }
     }
-    else if(!strcmp(input,"atk")||!strcmp(input,"attack\n"))
+    else if(!strcmp(input,"atk")||!strcmp(input,"attack"))
     {
         if(battlemode)
             roundOfAttack(mainChar,hannibal,Fight);
@@ -151,13 +187,30 @@ int handleCommand(char* input)
         else
             printSpecialText("You're not in combat?",1);
     }
-    else if(!strcmp(input,"ls")||!strcmp(input,"look\n"))
+    else if(!strcmp(input,"ls")||!strcmp(input,"look"))
     {
-        printSpecialText(getStoryEvent(currentLocation->level+currentLocation->area+1),1);
-        unlockLocation(currentLocation->area);
+        if(&cave == currentLocation)
+        {
+            printSpecialText(getStoryEvent(currentLocation->level+currentLocation->area+1 + (waterlvl>=50 ? 50 : 0) ),1);
+            unlockLocation(currentLocation->area);
+        }
+        else
+        {
+            printSpecialText(getStoryEvent(currentLocation->level+currentLocation->area+1 + (lit ? 50 : 0) ),1);
+            unlockLocation(currentLocation->area);
+        }
+        
     }
     else if(!strcmp(input,"search"))
-        printSpecialText(getStoryEvent(currentLocation->level+currentLocation->area+2),1);
+    {
+        int mod;
+        if(&cave==currentLocation)
+            mod=waterlvl>=50?50:0;
+        else
+            mod=lit?50:0;
+        printSpecialText(getStoryEvent(currentLocation->level+currentLocation->area+2+mod),1);
+        currentLocation->accessableItems[currentLocation->area/10]=1;
+    }
     else if(strstr(input,"goto")!=NULL||strstr(input,"cd")!=NULL)
     {
         printSpecialText("Where do you want to go?",1);
@@ -220,13 +273,18 @@ int handleCommand(char* input)
         else
         {
             
-            if(currentLocation->locItems[currentLocation->area/10]!=NULL)
+            if(currentLocation->locItems[currentLocation->area/10]!=NULL && currentLocation->accessableItems[currentLocation->area/10])
             {
                 printSpecialText("You found a ",0);
                 printf(YELLOW"%s"RESET,currentLocation->locItems[currentLocation->area/10]->name);
                 printSpecialText(" It, ",0);
                 printSpecialText(currentLocation->locItems[currentLocation->area/10]->description,1);
                 mainChar->inventory[mainChar->currSlot++]=currentLocation->locItems[currentLocation->area/10];
+            }
+            else if(&mine == currentLocation && !currentLocation->area && currentLocation->accessableItems[0])
+            {
+                printSpecialText("you've pickup up a torch, use the command TORCH to light and extinguish it",1);
+                mainChar->torch=1;
             }
             else
                 printSpecialText("Either there's nothing here or you haven't SEARCHed enough",1);
@@ -344,6 +402,35 @@ void stripNewline(char* str)
 void changeLocation(char* identifier)
 {
     int locflag=0;
+    if(!strcmp("Continue",identifier) && currentLocation->area==10 && currentLocation==&mine)
+    {
+        if(currentLocation->mineSubArea==0 || currentLocation->mineSubArea==2)
+        {
+            currentLocation->mineSubArea+=2;
+            printSpecialText("You continue into the maze...",1);
+            return;
+        }
+        else if(currentLocation->mineSubArea==6)
+            currentLocation->mineSubArea=0;
+
+    }
+    else if(currentLocation->area==10 && currentLocation==&mine && currentLocation->mineSubArea==4)
+    {
+        if(!strcmp("Right",identifier))
+        {
+            currentLocation->mineSubArea+=2;
+            printSpecialText("You go right in the maze...",1);
+            return;
+        }
+        else if(!strcmp("Left",identifier))//TODO fix the maze cd-ing
+        {
+            currentLocation->mineSubArea-=2;
+            printSpecialText("You go left into the maze...",1);
+            return;
+        }
+    }
+    else
+    {
     for(int i=0;i<5;i++)
     {
         if(!strcmp(identifier,currentLocation->sublocations[i]) && currentLocation->accessableLocations[i])
@@ -351,9 +438,15 @@ void changeLocation(char* identifier)
             locflag=1;
             currentLocation->area=i*10;
             changeConsoleText(currentLocation->name,currentLocation->sublocations[i]);
-            printSpecialText(getStoryEvent(currentLocation->level+currentLocation->area),1);
+            int code;
+            if(&cave==currentLocation)
+                code=currentLocation->level+currentLocation->area+(waterlvl>=50?50:0);
+            else
+                code=currentLocation->level+currentLocation->area+(waterlvl>=50?50:0);
+                printSpecialText(getStoryEvent(code),1);
             break;
         }
+    }
     }
     if(!locflag)
         printSpecialText("You can't go there, if there even exists...",1);
@@ -456,6 +549,52 @@ void handleItem(char* idx)
             printSpecialText("This might be usefull elsewhere but here, ",0);
             printSpecialText(mainChar->inventory[index]->name,0);
             printSpecialText("? That's Junk",1);
+        break;
+
+        case Puzzle:
+            if(!strcmp(mainChar->inventory[index]->name,"Shadow File"))
+                printSpecialText("this Item is meant to be used with another...",1);
+            else if(!strcmp(mainChar->inventory[index]->name,"Johnny The Ripper"))
+            {
+                
+                for(int i=0;i<mainChar->invCap;i++)
+                {
+                    if(!strcmp(mainChar->inventory[i]->name,"Shadow File"))
+                    {
+                        if(mainChar->inventory[i]->magnitude)
+                            printSpecialText("Breaking the shadow file reveals the user: applej and the password: #Min3rsP4rad1ce",1);
+                        else
+                            printSpecialText("Breaking the shadow file reveals the user: mazeman13 and the password: M4$sterM4zer!",1);
+                        recycleItem(mainChar->inventory[i],"",0,"",0,0);
+                        return;
+                    }
+                }
+            }
+            else if(!strcmp(mainChar->inventory[index]->name,"Secure Fossilized Shell"))
+            {
+                char usr[32],pwd[32];
+                printSpecialText("Username:",0);
+                fgets(usr,sizeof(usr),stdin);
+                printSpecialText("Password:",0);
+                stripNewline(usr);
+                stripNewline(pwd);
+                if(!strcmp("applej",usr)&&!strcmp("#Min3rsP4rad1ce",pwd))
+                {
+                    //TODO Change location from cave to mine
+                    printSpecialText("The Shell warps your location...",1);
+                    printSpecialText(getStoryEvent(waterlvl>50? 99:49),1);
+                    currentLocation=&mine;
+                }
+                else if(!strcmp("mazeman13",usr)&&!strcmp("M4$sterM4zer!",pwd))
+                {
+                    printSpecialText("The Shell warps your location...",1);
+                    //printSpecialText(getStoryEvent(lit?170:120),1);
+                    currentLocation->accessableLocations[2]=1;
+                    changeLocation("Mineshaft");
+                }
+
+            }
+
         break;
 
         default:
@@ -574,7 +713,7 @@ void roundOfAttack(player* mc,enemy * enm,attackModes mode)
 void summonEnemy()
 {
     int chance=rand()%40;
-    if(chance  <((currentLocation->level/10)+10))
+    if(chance  < (&mine == currentLocation ? 15 : 10))
     {
         hannibal=copyEnemy(currentLocation->spawnAbleEnemys[rand()%10]);
         battlemode=1;
@@ -582,7 +721,7 @@ void summonEnemy()
         printSpecialText(hannibal->name,0);
         printSpecialText(" Has appeared!",1);
     }
-    //printf("the random roll %d, location diff=%d\n",chance,((currentLocation->level/10)+10));
+    //printf("the random roll %d, location diff=%d\n",chance,(&mine == currentLocation ? 15 : 10));
 }
 
 //  None, //No ability
