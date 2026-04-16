@@ -447,9 +447,10 @@ public class Player extends Entity {
                         sublocation = 2;
                         return true;
 
+                    case "entrance":
                     case "entry":
 
-                        if (sublocation == 2) break;
+                        if (sublocation == 2 || !hasItem("Goggles")) break;
                         sublocation = 3;
                         return true;
 

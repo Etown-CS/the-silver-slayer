@@ -5,6 +5,7 @@ import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
 import java.nio.channels.OverlappingFileLockException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Save {
 
@@ -20,9 +21,11 @@ public class Save {
          * p: Active player
          */
 
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd-MM-yyyy_HH-mm-ss");
+
         try {
 
-            saveFile = new RandomAccessFile("tss_save_" + LocalDateTime.now() + ".txt", "rw");
+            saveFile = new RandomAccessFile("tss_save_" + LocalDateTime.now().format(fmt) + ".txt", "rw");
             fc = saveFile.getChannel();
 
         } catch (FileNotFoundException ex) {

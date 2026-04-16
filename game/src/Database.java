@@ -9,7 +9,7 @@ import java.util.Base64;
 
 public class Database {
 	
-	private static final String URL = "localhost", USER = "root", PASS = "";
+	private static final String URL = "192.168.2.3", USER = "gamer", PASS = "tss";
 	private static Connection conn = null;
 	public static boolean online;
 	

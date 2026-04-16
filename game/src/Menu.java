@@ -562,12 +562,15 @@ public class Menu {
 
             case "warp":
 
-                if (!TheSilverSlayer.debug) break;
-                if (++Player.location > 8) Player.location = 1;
-                Player.sublocation = 0;
-                Audio.activeTrack.stop();
-                writeText("Away you go!", -1);
-                break;
+                if (TheSilverSlayer.debug) {
+
+                    if (++Player.location > 8) Player.location = 1;
+                    Player.sublocation = 0;
+                    Audio.activeTrack.stop();
+                    writeText("Away you go!", -1);
+                    break;
+                    
+                }
 
             default:
 
@@ -684,7 +687,7 @@ public class Menu {
 
         if (awardBits) {
 
-            int b = r.nextInt(1, enemyRef.healthDefault);
+            int b = r.nextInt(1, enemyRef.healthDefault * 5);
             Player.bits += b;
             Log.logData("Despawning " + enemyRef.name + ". Awarded " + b + " bits");
 
