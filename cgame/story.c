@@ -30,7 +30,7 @@ void initLocations()
     mine.sublocations[3]="Door";
     mine.sublocations[4]="Elevator";
     mine.accessableLocations[0]=1;
-    mine.locItems[3]=initItem("DDOS Drill",Puzzle,"A drill that repeatedly spams packets at the target",0,0);
+    mine.locItems[2]=initItem("DDOS Drill",Puzzle,"A drill that repeatedly spams packets at the target IP Address",0,0);
     mine.locItems[1]=initItem("Shadow File",Puzzle,"This needs to be used with a ripper",0,1);
     mine.mineSubArea=0;
 
@@ -141,6 +141,7 @@ void initStory()
     //------------------------MINE--------------------------//
 
     //mine entrance
+    Story[109]="You enter the Mines...";
     Story[100]="you stumble out of the cave, the water from the caves is running out down into the endless way down into the mineshaft";
     Story[101]="There are wooden beams holding up the mine, you can't see much in either direction";
     Story[102]="You search around the cave, on the ground is a TORCH that is leaning against a beam";
@@ -158,7 +159,7 @@ void initStory()
     Story[114]="You find a SHADOW FILE lodged in the wall, Hopefully you remembered Johnny's Ripper";
     Story[115]="You squint your eyes to see that there are mine tunnels LEFT and RIGHT";
     Story[116]="Bumbling around the room in the dark reveals that there is nothing here";
-    Story[117]="as your eyes adjust to the light you see a faint light out on one of the tunnels leading to a MINESHAFT";
+    Story[117]="You can't really see where anything goes, I guess you have no choice but to CONTINUE";
     Story[118]="You stumble around the room, but are unable to find anything useful, if only you had more light...";
     Story[119]="You SSH and stumble over a rock in the dark as you escape the maze";
 
@@ -170,7 +171,7 @@ void initStory()
     Story[164]="You Search, but see only SHADOWS.";
     Story[165]="The room is uninteresting, there is nothing here except more mineshafts, leading LEFT or RIGHT";
     Story[166]="Even With the light you don't find anything interesting when you search the room";
-    Story[167]="You look around but the light of your torch blinds you from seeing the way out";
+    Story[167]="You look around but even with the torch you can't see the way out, I guess you'll have to CONTINUE";
     Story[168]="You find the DENIAL DRILL OF SERVICE leaning next to the beam.";
     Story[169]="You SSH out of the maze nearly avoiding a rock on the other side";
 
@@ -185,15 +186,28 @@ void initStory()
     Story[171]="You frantically look around for an escape but THE LAST PROSPECTOR blocks your way";//Trigger boss battle
     Story[172]="You search around the room, but nothing can save you from THE LAST PROSPECTOR";
 
-    //evavator puzzle (ddos)
-    Story[130]="";//TBD
-    Story[131]="ddos time";
-    Story[132]="";
+    //evavator door (ddos)
+    Story[130]="You come to an old rusted metal door, you see light from the other side of it";
+    Story[131]="You look around the door, area, It looks like the DDOS drill could break the lock keeping it closed";
+    Story[132]="You peer closly at the door, there seems to be something written on it, but can't tell in the low lighting.";
+
+    //elevator door (ddos) [lit]
+    Story[180]="You walk to an old very rusty door, you're torch reflects off the somewhat shiny surface";
+    Story[181]="You look around the door area, examining the door you are confident that the DDOS drill will be able to break the lock on it";
+    Story[182]="Looking closly at the Door, you see the IP address inlaid on the side of the lock of it 43.235.97.214";
+
+    //elevator puzzle (ddos)
+    Story[140]="You Stumble into the elevator room, It feels like there's no turning back now, it's time to leave the dark mines...";
+    Story[141]="you Look up, the sun is coming in from the top of the shaft, you're so close to freedom";
+    Story[142]="Searching around the room finds the elevator box, there are no controls on them, but it is keeping the elevator down, DDOSing it might let the elevator go up, but there's writing you can't seem to make out";
+    Story[143]="You Stumble on to the elevator";
 
     //elevator puzzle (ddos) [lit]
-    Story[180]="";
-    Story[181]="ddos but lighter";
-    Story[182]="";
+
+    Story[190]="You Enter the elevator room, you see there's no turning back now, it's time to leave the mines...";
+    Story[191]="You look around the room with your torch, there's no way to go but up";
+    Story[192]="Searching around the room you see writing on the elevator control box, which seems to be keeping down the elevator DDOSing it could let the elevator go up, it's an IP that reads: 135.24.231.12";
+    Story[193]="You carefully step on to the elevator";
 
     //Exit
     Story[199]="You stumble out of the entryway to the mines, your trusty torch fizzling out completely, as you leave it by the mine's entrance.";

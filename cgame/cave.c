@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <time.h>
 #include "player.h"
 #include "enemy.h"
 #include "story.h"
@@ -26,16 +27,36 @@
 #define LITPERCENT 10
 
 /*
+*
+* THE SILVER SLAYER C Alpha v3.2
+* Author: Asher Wayde
+* Date: NOT FINISHED YET
+* Project: The Silver Slayer Cybersecurity Game
+*
+* Desc:
+* This game is a companion game to the silver slayer JAVA game, it is only 2 sections of that game
+* is not meant to be played on it's own, and is kind of the "lite" version of the game meaning that
+* it doesn't have all of the features, but is meant to be a short little break from the main action.
+*
 * TODOS:
-* create ssh puzzle with JTR to get out of the cave area and into the mine area
-* Finish the exit puzzle with the elevator in the mine
-* mine ddos puzzles
-* mine boss battle + loot
-* STRETCH TODOS:
-* when you delete the shadow file, shift back the inventory.
-* loot from the enemies
 * drop command
+* Test with java game
+* 
+* STRETCH TODOS:
+* loot from the enemies
 * enemy abilities
+* 
+* DONE:
+* implement locking the cgame once finished --test
+* fix the fact that it always says you enter the caves
+* mine ddos puzzle
+* Finish the exit puzzle with the elevator in the mine
+*
+* fix the stuff around the ddos drill since it's ID in the story changed from 3 to 2
+* Bug: last prospector won't drop loot
+* Last prospector boss battle + Loot
+* when you delete the shadow file, shift back the inventory.
+* General Bug Squashing
 */
 
 void printWaterText(char* inputText,int percentage,int newline);
@@ -62,25 +83,51 @@ int battlemode=0;
 int lit=0;
 int locCode;
 int areaCode;
+int cgame;
 
 int main()
 {
     initStory();
     initLocations();
     
-    char startText[]="The Silver Slayer [c alpha v2.8]\n\n";
-    strcpy(consoleText,"Cave/Entryway>");
+    char startText[]="The Silver Slayer [c alpha v3.2]\n\n";
+    
     char inputText[256];
     printf("\033[2J \033[1;1H");
     printSpecialText(startText,0);
-    printSpecialText(getStoryEvent(0),1);
+    
 
-    mainChar=createPlayer(&locCode,&areaCode);
+    mainChar=createPlayer(&locCode,&areaCode,&cgame);
+    if(!cgame)
+    {
+        printSpecialText("What are you doing here? you can't play the cgame now...",1);
+        sleep(20);
+        return 0;
+    }
+    
     if(!locCode)
         currentLocation=&cave;
     else
         currentLocation=&mine;
     currentLocation->area=areaCode;
+    printSpecialText(getStoryEvent(currentLocation->level+currentLocation->area),1);
+    //printf("%d\n",currentLocation->area);
+    changeConsoleText(currentLocation->name,currentLocation->sublocations[currentLocation->area/10]);
+
+    if(currentLocation==&cave)
+    {
+        for(int i=0;i<areaCode/10;i++)
+        {
+            currentLocation->accessableLocations[i]=1;
+        }
+        if(areaCode==20)
+            currentLocation->accessableLocations[3]=1;
+    }
+    else
+    {
+        if(areaCode==10)
+            currentLocation->accessableLocations[0]=1;
+    }
 
     hannibal= createEnemy("Groundhog",10,1,1,adware);
 
@@ -98,7 +145,8 @@ int main()
         if(battlemode)
             printf("\033[2J \033[1;1H");
         stripNewline(inputText);
-        handleCommand(inputText);
+        if(strcmp("",inputText))
+            handleCommand(inputText);
         
         
             
@@ -115,12 +163,13 @@ int main()
             printSpecialText("The water surrounds you and you sink into the depths drowning in the mine",1);
             break;
         }
+        changeConsoleText(currentLocation->name,currentLocation->sublocations[currentLocation->area/10]);
     }
     handleCommand("clear");
     printSpecialText("You Died",1);
     printSpecialText("Respawn   Main Menu",1);
     mainChar->health=mainChar->healthCap;
-    writeSave(mainChar,currentLocation->level,0);
+    writeSave(mainChar,currentLocation->level,0,1);
     sleep(10);
     return 0;
 }
@@ -129,7 +178,7 @@ int handleCommand(char* input)
 {
     if(!strcmp(input,"exit")||!strcmp(input,"quit"))
     {
-        writeSave(mainChar,currentLocation->level,currentLocation->area);
+        writeSave(mainChar,currentLocation->level,currentLocation->area,1);
         exit(0);
     }
     else if(!strcmp(input,"help"))
@@ -201,6 +250,11 @@ int handleCommand(char* input)
         }
         
     }
+    else if(!strcmp(input,"save"))
+    {
+        writeSave(mainChar,currentLocation->level,currentLocation->area,1);
+        printSpecialText("Game Saved!",1);
+    }
     else if(!strcmp(input,"search"))
     {
         int mod;
@@ -209,7 +263,8 @@ int handleCommand(char* input)
         else
             mod=lit?50:0;
         printSpecialText(getStoryEvent(currentLocation->level+currentLocation->area+2+mod),1);
-        currentLocation->accessableItems[currentLocation->area/10]=1;
+        if(!(currentLocation->area/10==2 && currentLocation == &mine))
+            currentLocation->accessableItems[currentLocation->area/10]=1;
     }
     else if(strstr(input,"goto")!=NULL||strstr(input,"cd")!=NULL)
     {
@@ -272,16 +327,29 @@ int handleCommand(char* input)
             printSpecialText("Your Inventory is full! You need to drop an item before picking up anything else",1);
         else
         {
-            
-            if(currentLocation->locItems[currentLocation->area/10]!=NULL && currentLocation->accessableItems[currentLocation->area/10])
+            if(currentLocation==&mine && currentLocation->area==10 && currentLocation->mineSubArea==6)
+            {
+                printSpecialText("You found a ",0);
+                printf(YELLOW"%s"RESET,currentLocation->locItems[2]->name);
+                printSpecialText(" It, ",0);
+                printSpecialText(currentLocation->locItems[2]->description,1);
+                mainChar->inventory[mainChar->currSlot++]=currentLocation->locItems[2];
+                currentLocation->locItems[2]=NULL;
+            }
+            else if(currentLocation->locItems[currentLocation->area/10]!=NULL && currentLocation->accessableItems[currentLocation->area/10])
             {
                 printSpecialText("You found a ",0);
                 printf(YELLOW"%s"RESET,currentLocation->locItems[currentLocation->area/10]->name);
                 printSpecialText(" It, ",0);
                 printSpecialText(currentLocation->locItems[currentLocation->area/10]->description,1);
                 mainChar->inventory[mainChar->currSlot++]=currentLocation->locItems[currentLocation->area/10];
+                //if it's not a shadow file, remove it from the list of things that you can pickup
+                if(strcmp(currentLocation->locItems[currentLocation->area/10]->name,"Shadow File"))
+                    currentLocation->locItems[currentLocation->area/10]=NULL;
+                else
+                    currentLocation->locItems[currentLocation->area/10]=initItem(currentLocation->locItems[currentLocation->area/10]->name,currentLocation->locItems[currentLocation->area/10]->type,currentLocation->locItems[currentLocation->area/10]->description,currentLocation->locItems[currentLocation->area/10]->magnitude,currentLocation->locItems[currentLocation->area/10]->consumeable);
             }
-            else if(&mine == currentLocation && !currentLocation->area && currentLocation->accessableItems[0])
+            else if(&mine == currentLocation && !currentLocation->area && currentLocation->accessableItems[0] && !mainChar->torch)
             {
                 printSpecialText("you've pickup up a torch, use the command TORCH to light and extinguish it",1);
                 mainChar->torch=1;
@@ -312,7 +380,7 @@ int handleCommand(char* input)
             currentLocation=&mine;
         else
             currentLocation=&cave;
-        changeConsoleText(currentLocation->name,currentLocation->sublocations[currentLocation->area/10]);
+        //changeConsoleText(currentLocation->name,currentLocation->sublocations[currentLocation->area/10]);
     }
     else
     {
@@ -394,7 +462,7 @@ void printLitText(char* inputText,int newline)
 void stripNewline(char* str)
 {
     int c=0;
-    while(str[c]!='\n')//) || str[c]!='\0')
+    while(str[c]!='\n' && str[c]!='\0')
         c++;
     str[c]='\0';
 }
@@ -429,6 +497,13 @@ void changeLocation(char* identifier)
             return;
         }
     }
+    else if(currentLocation->area==40 && currentLocation==&mine && !strcmp("Elevator Platform",identifier))
+    {
+        currentLocation->mineSubArea=9;
+        printSpecialText(getStoryEvent(currentLocation->level+currentLocation->area+3+(lit?50:0)),1);
+        changeConsoleText("Mine","Elevator Platform");
+        return;
+    }
     else
     {
     for(int i=0;i<5;i++)
@@ -437,7 +512,7 @@ void changeLocation(char* identifier)
         {
             locflag=1;
             currentLocation->area=i*10;
-            changeConsoleText(currentLocation->name,currentLocation->sublocations[i]);
+            //changeConsoleText(currentLocation->name,currentLocation->sublocations[i]);
             int code;
             if(&cave==currentLocation)
                 code=currentLocation->level+currentLocation->area+(waterlvl>=50?50:0);
@@ -459,7 +534,7 @@ void changeConsoleText(char* location,char* sublocation)
 
 void handleItem(char* idx)
 {
-    int index=idx[0]-'0';
+    int index=idx[0]-'0',itemDeleted=0;
     if(index<0)
     {
         char buffer[96];
@@ -539,9 +614,10 @@ void handleItem(char* idx)
             printSpecialText("You chow down, on the ",0);
             printSpecialText(mainChar->inventory[index]->name,0);
             char healthText[40];
-            snprintf(healthText,sizeof(healthText)," It's Quite Filling, restoring %d Health",mainChar->inventory[index]->magnitude);
+            int restored = eatFood(mainChar,mainChar->inventory[index]->magnitude);
+            snprintf(healthText,sizeof(healthText)," It's Quite Filling, restoring %d Health",restored);
             printSpecialText(healthText,1);
-            eatFood(mainChar,mainChar->inventory[index]->magnitude);
+            itemDeleted=1;
             recycleItem(mainChar->inventory[index],"",Unassigned,"",0,0);
         break;
 
@@ -564,11 +640,14 @@ void handleItem(char* idx)
                         if(mainChar->inventory[i]->magnitude)
                             printSpecialText("Breaking the shadow file reveals the user: applej and the password: #Min3rsP4rad1ce",1);
                         else
-                            printSpecialText("Breaking the shadow file reveals the user: mazeman13 and the password: M4$sterM4zer!",1);
+                            printSpecialText("Breaking the shadow file reveals the user: mazeman13 and the password: M4$terM4zer!",1);
                         recycleItem(mainChar->inventory[i],"",0,"",0,0);
+                        itemDeleted=1;
                         return;
                     }
                 }
+                if(!itemDeleted)
+                    printSpecialText("Johhny's ripper didn't find a shadow file to break...",1);
             }
             else if(!strcmp(mainChar->inventory[index]->name,"Secure Fossilized Shell"))
             {
@@ -576,6 +655,7 @@ void handleItem(char* idx)
                 printSpecialText("Username:",0);
                 fgets(usr,sizeof(usr),stdin);
                 printSpecialText("Password:",0);
+                fgets(pwd,sizeof(pwd),stdin);
                 stripNewline(usr);
                 stripNewline(pwd);
                 if(!strcmp("applej",usr)&&!strcmp("#Min3rsP4rad1ce",pwd))
@@ -585,14 +665,91 @@ void handleItem(char* idx)
                     printSpecialText(getStoryEvent(waterlvl>50? 99:49),1);
                     currentLocation=&mine;
                 }
-                else if(!strcmp("mazeman13",usr)&&!strcmp("M4$sterM4zer!",pwd))
+                else if(!strcmp("mazeman13",usr)&&!strcmp("M4$terM4zer!",pwd))
                 {
                     printSpecialText("The Shell warps your location...",1);
                     //printSpecialText(getStoryEvent(lit?170:120),1);
                     currentLocation->accessableLocations[2]=1;
                     changeLocation("Mineshaft");
+                    hannibal=currentLocation->boss;
+                    printSpecialText("The shell's warping has attracted the attention of ",0);
+                    printf(YELLOW"THE LAST PROSPECTOR!!!!"RESET"\n");
+                    battlemode=1;
                 }
 
+            }
+            else if(!strcmp(mainChar->inventory[index]->name,"DDOS Drill"))
+            {
+                printSpecialText("What is the address of the thing you want to target?",1);
+                printSpecialText("IP:",0);
+                char ip[32];
+                fgets(ip,sizeof(ip),stdin);
+                stripNewline(ip);
+                
+                
+                printSpecialText("Attempting to crack lock, In 3 Seconds, the Enter key as fast as you can.",1);
+                printSpecialText("3...",1);                    
+                sleep(1);
+                printSpecialText("2...",1);
+                sleep(1);
+                printSpecialText("1...",1);
+                sleep(1);
+                printSpecialText("SPAM!!!!",1);
+                
+                int tries=10+(rand()%20);
+                time_t start,end;
+                time(&start);
+                int failure=0;
+                for(int i=0;i<tries;i++)
+                {
+                    if(fgetc(stdin)!='\n')
+                    {
+                        failure=1;
+                        break;
+                    }
+                }
+                
+                time(&end);
+                if(end-start>15)
+                    printSpecialText("You didn't spam hard enough, and the target wasn't fazed",1);
+                else if(failure)
+                    printSpecialText("You confused the DDOS drill and it turned off",1);
+                else
+                {
+                    
+                    printSpecialText("You Sucessfully Cracked ",0);
+                    if(!strcmp(ip,"43.235.97.214"))
+                    {
+                        printSpecialText("The Door in the mineshaft",1);
+                        printSpecialText("You enter through the door, there is an ELEVATOR on the other side",1);
+                        currentLocation->accessableLocations[4]=1;
+                        currentLocation->accessableLocations[3]=1;
+                        changeLocation("Elevator");
+                        printSpecialText("When you enter the door clangs shut with a loud BANG.",1);
+                    }
+                    else if(!strcmp(ip,"135.24.231.12"))
+                    {
+                        if(mine.mineSubArea==9)
+                        {
+                            printSpecialText("The Elevator! It's now lifting you to the surface",1);
+                            printSpecialText(getStoryEvent(199),1);
+                            writeSave(mainChar,currentLocation->level,currentLocation->area,0);
+                            sleep(20);
+                            printSpecialText("it's time to boot up java again...",1);
+                            exit(0);
+                        }
+                        else
+                        {
+                            printSpecialText("The Elevator! It's Rising up! to bad you're not on it...",1);
+                            sleep(2);
+                            printSpecialText("The elevator came back down you should try going to the ELEVATOR PLATFORM",1);
+                            
+                        }
+                    }
+                    else
+                        printSpecialText("Nothing! You should probably check your IP target again.",1);
+                    sleep(3);
+                }
             }
 
         break;
@@ -602,6 +759,18 @@ void handleItem(char* idx)
         //printSpecialText("I'm not even sure what you'd do with a ",0);
         //printSpecialText(mainChar->inventory[index]->name,1);
     }
+    if(itemDeleted)
+    {
+        int i=index+1;
+        item* recycled=mainChar->inventory[index];
+        while(mainChar->inventory[i]->type!=Unassigned)
+        {
+            mainChar->inventory[i-1]=mainChar->inventory[i];
+            i++;
+        }
+        mainChar->inventory[i-1]=recycled;
+    }
+    
 }
 
 void unlockLocation(int currAreaCode)
@@ -625,7 +794,8 @@ void unlockLocation(int currAreaCode)
     }
     else
     {
-        currentLocation->accessableLocations[(currAreaCode/10)+1]=1;
+        if(currAreaCode==0)
+            currentLocation->accessableLocations[1]=1;
     }
 }
 
@@ -705,7 +875,24 @@ void roundOfAttack(player* mc,enemy * enm,attackModes mode)
     
         else
         {
-            printf(GREEN"You Defeated %s, congrats!"RESET,enm->name);
+            printf(GREEN"You Defeated %s, congrats!"RESET"\n",enm->name);
+            if(hannibal==currentLocation->boss)
+            {
+                if(currentLocation->locItems[2]!=NULL)
+                {
+                    printSpecialText("You see something dropped from the last Prospector!",1);
+                    currentLocation->accessableItems[2]=1;
+                    handleCommand("pickup");
+                    printSpecialText("Now that the Last Prospector is gone, you see the way out to the DOOR at the end of the mineshaft, and quickly GOTO it",1);
+                }
+                else
+                    printSpecialText("The Last Prospector dropped the DDOS Drill, but you leave it since you already have one",1);
+                currentLocation->accessableLocations[3]=1;
+                changeLocation("Door");
+                currentLocation->accessableLocations[0]=0;
+                currentLocation->accessableLocations[1]=0;
+                currentLocation->accessableLocations[2]=0;
+            }
         }
     }
 }

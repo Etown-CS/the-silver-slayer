@@ -13,7 +13,7 @@
 } player;*/
 
 
-player* createPlayer(int *loc,int *area)
+player* createPlayer(int *loc,int *area,int *cgame)
 {
     player *newChar = malloc(sizeof(player));
     if (!newChar) 
@@ -57,7 +57,20 @@ player* createPlayer(int *loc,int *area)
     while(buffer[0]!='L')
         fgets(buffer,sizeof(buffer),savefile);
     *loc=parseInt(buffer,10);
-    *area=parseInt(buffer,11+(*loc));
+    //printf("offset %d char: %c\n",(*loc==100?2:0)+11,buffer[(*loc==100?2:0)+11]);
+    *area=parseInt(buffer,(*loc==100?2:0)+12);
+
+    while(buffer[0]!='c')
+        fgets(buffer,sizeof(buffer),savefile);
+    // printf("What yall readin: %c\n",buffer[8]);
+    // int j=0;
+    // while(buffer[j]!='\n')
+    // {
+    //     printf("%d:%c\n",j,buffer[j]);
+    //     j++;
+    // }
+    *cgame=parseInt(buffer,8);
+    
 
     //printf("area: %d, location %d\n",*loc,*area);
     int itemsRead=0;
@@ -87,11 +100,11 @@ player* createPlayer(int *loc,int *area)
         {
             desk[deskindex]=buffer[index];
             index++;deskindex++;
-            printf("%d: %c\n",index,buffer[index]);
+            //printf("%d: %c\n",index,buffer[index]);
         }
         desk[deskindex]='\0';
         index+=1;
-        printf("%c",buffer[index]);
+        //printf("%c",buffer[index]);
         int mag=parseInt(buffer,index);
 
         while(buffer[index]!=',')
@@ -138,7 +151,7 @@ int parseInt(char* strin,int i)
     return parsedInt;
 }
 
-void writeSave(player *mc,int locCode,int areaCode)
+void writeSave(player *mc,int locCode,int areaCode,int cgame)
 {
     FILE* savefile=fopen("tss_save.sav","r");
     FILE* tempsave=fopen("tss_save.tmp","w+");
@@ -155,13 +168,17 @@ void writeSave(player *mc,int locCode,int areaCode)
         }
         else if(linein[0]=='L')
             snprintf(linein,sizeof(linein),"Location: %d/%d, Bits: 0, Swaps: 1, Mountain searches: 0, Mirror moves: 0\n",locCode,areaCode);
+        else if(linein[0]=='c')
+            snprintf(linein,sizeof(linein),"cgame?: %d\n",cgame);
         else if(linein[0]=='[')
         {
             fputs(linein,tempsave);
             for(int i=0;i<mc->invCap;i++)
             {
                 if(strcmp(mc->inventory[i]->name,""))
-                    snprintf(linein,sizeof(linein),"{%s,%d,%s,%d,%d}\n",mc->inventory[i]->name,mc->inventory[i]->type,mc->inventory[i]->description,mc->inventory[i]->magnitude,mc->inventory[i]->consumeable);
+                    snprintf(linein,sizeof(linein),"{%s,%d,%s,%d,%d}%d\n",mc->inventory[i]->name,mc->inventory[i]->type,mc->inventory[i]->description,mc->inventory[i]->magnitude,mc->inventory[i]->consumeable,i);
+                else
+                    snprintf(linein,sizeof(linein),"%d\n",i);
                 fputs(linein,tempsave);
             }
             fgets(linein,sizeof(linein),savefile);
@@ -188,9 +205,15 @@ void changeStats(player* character,int h,int a,int d)
     if(character->defense<0) character->defense=0;
 }
 
-void eatFood(player* character,int health)
+int eatFood(player* character,int health)
 {
-    changeStats(character,health,0,0);
+    int delta;
+    if(character->health+health>character->healthCap)
+        delta=character->healthCap-character->health;
+    else
+        delta=health;
+    changeStats(character,delta,0,0);
+    return delta;
 }
 
 int getAttacked(player* character,int dmg)
