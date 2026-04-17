@@ -65,23 +65,22 @@ public class Save {
         contents.append("Swaps: " + Player.pSwaps + ", ");
         contents.append("Mountain searches: " + Player.mountainPathSearches + ", ");
         contents.append("Mirror moves: " + Player.fractureMirrorMoves + "\n\n");
+        contents.append("cgame?: 0\n\n"); // hardcoded to 0 because you'll always be in java when this function runs
         // In combat/bossfight values aren't saved because you can't save the game while in combat anyway
 
-        contents.append("INVENTORY\n\n");
+        contents.append("INVENTORY\n\n[\n");
         for (int c = 0; c < Player.invCap; c++) {
 
-            contents.append(c + ": ");
-            if (Player.inventory[c] == null) contents.append('\n');
-            else {
+            if (Player.inventory[c] != null) {
 
                 Item tmp = Player.inventory[c];
-                contents.append("{name=" + tmp.name + ", desc='" + tmp.description + "', type=" + tmp.type.toString() + ", value=" + tmp.value + ", mag=" + tmp.magnitude + ", user=" + tmp.user + ", consumable=" + tmp.consumable + "}\n");
+                contents.append("{name=" + tmp.name + ", desc='" + tmp.description + "', type=" + tmp.type.toString() + ", value=" + tmp.value + ", mag=" + tmp.magnitude + ", user=" + tmp.user + ", consumable=" + tmp.consumable + "}" + c + "\n");
 
             }
 
         }
 
-        contents.append("\nBOSSES\n\n");
+        contents.append("]\n\ntorch: 0\n\nBOSSES\n\n"); // again, hardcoded torch to 0
         for (int c = 0; c < Locations.enemyIndex.length; c++) {
 
             contents.append(Locations.enemyIndex[c][Locations.enemyIndex[c].length - 1].name + ": ");

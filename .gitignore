@@ -1,10 +1,17 @@
+# MacOS and VSCode/VSCodium files
 **/.DS_Store
-**/tss_*
 .vscode/
+
+# Game logs and saves
+**/tss_*
+
+# Java project files
 game/.settings/
 game/.classpath
 game/.project
 game/bin/
 game/lib/
-tss_log.txt
-tss_save*.txt
+
+# C project files
+cgame/cave
+cgame/*.o
