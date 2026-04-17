@@ -35,6 +35,14 @@ player* createPlayer(int *loc,int *area,int *cgame)
     }
     int i=1;
     
+    int j=0;
+    while(buffer[j]!='\n')
+    {
+        printf("%d:%c\n",j,buffer[j]);
+        j++;
+    }
+
+
     while(buffer[i]!=':'){
         //printf("%c",buffer[i]);
         inputField[i-1]=buffer[i];
@@ -44,15 +52,20 @@ player* createPlayer(int *loc,int *area,int *cgame)
     inputField[i-1]='\0';
     //printf("%s\n",inputField);
     strcpy(newChar->name,inputField);
-    i+=2;
     
-    newChar->health=parseInt(buffer,i);
     i+=2;
-    newChar->healthCap=parseInt(buffer,i);
-    i+=3;
-    newChar->attack=parseInt(buffer,i);
-    i+=5;
-    newChar->defense=parseInt(buffer,i);
+    newChar->health=parseInt(buffer,i);
+    //i+=2;
+    printf("What's being read %d, %c",i,buffer[i]);
+    while(buffer[i-1]!='/')i++;
+    
+    newChar->healthCap=parseInt(buffer,i++);
+    //i+=3;
+    while(buffer[i-1]!='/')i++;
+    newChar->attack=parseInt(buffer,i++);
+    //i+=5;
+    while(buffer[i-1]!='/')i++;
+    newChar->defense=parseInt(buffer,i++);
 
     while(buffer[0]!='L')
         fgets(buffer,sizeof(buffer),savefile);
@@ -62,13 +75,7 @@ player* createPlayer(int *loc,int *area,int *cgame)
 
     while(buffer[0]!='c')
         fgets(buffer,sizeof(buffer),savefile);
-    // printf("What yall readin: %c\n",buffer[8]);
-    // int j=0;
-    // while(buffer[j]!='\n')
-    // {
-    //     printf("%d:%c\n",j,buffer[j]);
-    //     j++;
-    // }
+    
     *cgame=parseInt(buffer,8);
     
 
@@ -117,6 +124,14 @@ player* createPlayer(int *loc,int *area,int *cgame)
         fgets(buffer,sizeof(buffer),savefile);
     }while(buffer[0]=='{');
     
+    while(buffer[0]!='t')
+        fgets(buffer,sizeof(buffer),savefile);
+    
+    // printf("What yall readin: %c\n",buffer[8]);
+    
+
+    
+    newChar->torch=parseInt(buffer,7);
 
     fclose(savefile);
     
@@ -135,7 +150,7 @@ player* createPlayer(int *loc,int *area,int *cgame)
     newChar->currSlot=itemsRead;
     for(int i=itemsRead;i<20;i++)
         newChar->inventory[i]=initItem("",Unassigned,"",0,0);
-    newChar->torch=1;
+    
     
    return newChar;
 }
@@ -170,6 +185,8 @@ void writeSave(player *mc,int locCode,int areaCode,int cgame)
             snprintf(linein,sizeof(linein),"Location: %d/%d, Bits: 0, Swaps: 1, Mountain searches: 0, Mirror moves: 0\n",locCode,areaCode);
         else if(linein[0]=='c')
             snprintf(linein,sizeof(linein),"cgame?: %d\n",cgame);
+        else if(linein[0]=='t')
+            snprintf(linein,sizeof(linein),"torch: %d\n",mc->torch);
         else if(linein[0]=='[')
         {
             fputs(linein,tempsave);

@@ -39,14 +39,19 @@
 * it doesn't have all of the features, but is meant to be a short little break from the main action.
 *
 * TODOS:
-* drop command
-* Test with java game
+
+* Test with java game, done? almost need to check the save file one more time...
+
 * 
 * STRETCH TODOS:
 * loot from the enemies
 * enemy abilities
 * 
 * DONE:
+* bugs with save file, it's reading a defined number of characters since the *
+* drop command
+* when johhny broke a shadow file it didn't shift properly
+* bugs with torches pickup
 * implement locking the cgame once finished --test
 * fix the fact that it always says you enter the caves
 * mine ddos puzzle
@@ -90,7 +95,7 @@ int main()
     initStory();
     initLocations();
     
-    char startText[]="The Silver Slayer [c alpha v3.2]\n\n";
+    char startText[]="The Silver Slayer [c beta v1.0]\n\n";
     
     char inputText[256];
     printf("\033[2J \033[1;1H");
@@ -229,6 +234,50 @@ int handleCommand(char* input)
         else
             printSpecialText("You're not in combat?",1);
     }
+    else if(!strcmp(input,"drop"))
+    {
+        printSpecialText("Index of the item you want to drop?[WARNING THIS MAY BE PERMINANT]",1);
+        fgets(input,256,stdin);
+        int idx=input[0]-'0';
+        if(idx>mainChar->invCap)
+            printSpecialText("You're inventory isn't that big!",1);
+        else
+        {
+            if(mainChar->inventory[idx]->type!=Unassigned)
+            {
+                printSpecialText("you have dropped ",0);
+                printf(YELLOW"%s"RESET,mainChar->inventory[idx]->name);
+                
+                
+                if(currentLocation->locItems[currentLocation->area/10]==NULL)
+                {
+                    printSpecialText(" It Lays on the ground for you to pick it up again...",1);
+                    currentLocation->locItems[currentLocation->area/10]=mainChar->inventory[idx];
+                    currentLocation->accessableItems[currentLocation->area/10]=1;
+                    mainChar->inventory[idx]=initItem("",0,"",0,0);
+                }
+                else
+                {
+                    printSpecialText(" It dissapates into the void...",1);
+                    recycleItem(mainChar->inventory[idx],"",0,"",0,0);
+                }
+                
+                int i=idx+1;
+                item* recycled=mainChar->inventory[idx];
+                while(mainChar->inventory[i]->type!=Unassigned)
+                {
+                    mainChar->inventory[i-1]=mainChar->inventory[i];
+                    i++;
+                }
+                mainChar->inventory[i-1]=recycled;
+                mainChar->currSlot--;
+            }
+            else
+            {
+                printSpecialText("Nothing is in that slot",1);
+            }
+        }
+    }
     else if(!strcmp(input,"wait"))
     {
         if(battlemode)
@@ -301,15 +350,15 @@ int handleCommand(char* input)
             }
         }
     }
-    else if(!strcmp(input,"warp"))
-    {
-        if(currentLocation==&mine)
-            currentLocation=&cave;
-        else
-            currentLocation=&mine;
+    // else if(!strcmp(input,"warp"))
+    // {
+    //     if(currentLocation==&mine)
+    //         currentLocation=&cave;
+    //     else
+    //         currentLocation=&mine;
         
-        printSpecialText("Swapped",1);
-    }
+    //     printSpecialText("Swapped",1);
+    // }
     else if(!strcmp(input,"lol"))
         printSpecialText("you hear a whisper, what's so funny?",1);
     else if(!strcmp(input,"map"))
@@ -643,9 +692,11 @@ void handleItem(char* idx)
                             printSpecialText("Breaking the shadow file reveals the user: mazeman13 and the password: M4$terM4zer!",1);
                         recycleItem(mainChar->inventory[i],"",0,"",0,0);
                         itemDeleted=1;
-                        return;
+                        index=i;
+                        break;
                     }
                 }
+                //printf("Hello?\n");
                 if(!itemDeleted)
                     printSpecialText("Johhny's ripper didn't find a shadow file to break...",1);
             }
@@ -759,8 +810,10 @@ void handleItem(char* idx)
         //printSpecialText("I'm not even sure what you'd do with a ",0);
         //printSpecialText(mainChar->inventory[index]->name,1);
     }
+    //printf("here? %d\n",itemDeleted);
     if(itemDeleted)
     {
+        
         int i=index+1;
         item* recycled=mainChar->inventory[index];
         while(mainChar->inventory[i]->type!=Unassigned)
