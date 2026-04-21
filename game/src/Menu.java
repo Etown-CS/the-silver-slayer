@@ -505,7 +505,7 @@ public class Menu {
 
                 if (enemyRef == null) {
 
-                    if (Save.saveGame(players, playerRef)) writeText("Game saved.", 0);
+                    if (Save.saveGame(players, playerRef, true)) writeText("Game saved.", 0);
                     else writeText("Failed to save game! Check log file.", 0);
                     
 

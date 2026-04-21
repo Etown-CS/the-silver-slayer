@@ -14,7 +14,7 @@ public class Save {
     private static FileChannel fc;
     private static FileLock lock;
 
-    public static boolean saveGame(Player[] players, Player playerRef) {
+    public static boolean saveGame(Player[] players, Player playerRef, boolean useEncrypt) {
         /*
          * Save the game
          * all: Array of all players
@@ -30,7 +30,7 @@ public class Save {
 
         } catch (FileNotFoundException ex) {
 
-            Log.logData("WARN: Failed to init save file!");
+            Log.logData("WARN: Failed to create/open save file!");
             return false;
 
         }
@@ -66,15 +66,15 @@ public class Save {
         contents.append("Mountain searches: " + Player.mountainPathSearches + ", ");
         contents.append("Mirror moves: " + Player.fractureMirrorMoves + "\n\n");
         contents.append("cgame?: 0\n\n"); // hardcoded to 0 because you'll always be in java when this function runs
-        // In combat/bossfight values aren't saved because you can't save the game while in combat anyway
+        // Combat/bossfight variables aren't saved because you can't save the game while in combat anyway
 
-        contents.append("INVENTORY\n\n[\n");
+        contents.append("INVENTORY\n{name,desc,type,value,magnitude,user,consumable}slot\n\n[\n");
         for (int c = 0; c < Player.invCap; c++) {
 
             if (Player.inventory[c] != null) {
 
                 Item tmp = Player.inventory[c];
-                contents.append("{name=" + tmp.name + ", desc='" + tmp.description + "', type=" + tmp.type.toString() + ", value=" + tmp.value + ", mag=" + tmp.magnitude + ", user=" + tmp.user + ", consumable=" + tmp.consumable + "}" + c + "\n");
+                contents.append('{' + tmp.name + ",'" + tmp.description + "'," + tmp.type.toString() + ',' + tmp.value + ',' + tmp.magnitude + ',' + tmp.user + ',' + tmp.consumable + '}' + c + '\n');
 
             }
 
@@ -89,13 +89,13 @@ public class Save {
 
         }
 
-        // TODO: Update this value dynamically
+        // TODO: Update these two values dynamically
         contents.append("SkeleTON: n\nLast Prospector: n");
 
         try {
 
-            //saveFile.writeChars(encrypt(contents.toString()));
-            saveFile.writeUTF(contents.toString());
+            if (useEncrypt) saveFile.writeChars(encrypt(contents.toString()));
+            else saveFile.writeUTF(contents.toString());
 
         } catch (IOException ex) {
 
@@ -120,7 +120,6 @@ public class Save {
 
     }
 
-    @SuppressWarnings("unused")
     private static String encrypt(String contents) {
 
         StringBuilder result = new StringBuilder(1024);
