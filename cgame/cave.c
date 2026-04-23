@@ -95,7 +95,7 @@ int main()
     initStory();
     initLocations();
     
-    char startText[]="The Silver Slayer [c beta v1.0]\n\n";
+    char startText[]="The Silver Slayer [c beta v1.1]\n\n";
     
     char inputText[256];
     printf("\033[2J \033[1;1H");
@@ -151,7 +151,11 @@ int main()
             printf("\033[2J \033[1;1H");
         stripNewline(inputText);
         if(strcmp("",inputText))
-            handleCommand(inputText);
+            if(handleCommand(inputText))
+                {
+                    printSpecialText("Waiting around like that could get you hurt, the enemy attacks!",1);
+                    roundOfAttack(mainChar,hannibal,Wait);
+                }
         
         
             
@@ -181,13 +185,14 @@ int main()
 
 int handleCommand(char* input)
 {
+    int triggerBattle=0;
     if(!strcmp(input,"exit")||!strcmp(input,"quit"))
     {
         writeSave(mainChar,currentLocation->level,currentLocation->area,1);
         exit(0);
     }
     else if(!strcmp(input,"help"))
-        printSpecialText("GENERAL\nexit / quit: Quit the game.\nsettings: Modify game settings\n\nINVENTORY\ndesc / describe: Show an inventory item's description\ndrop (int)+: Drop an item\ninv / inventory / ls: Display inventory\nuse (int)+: Use an inventory item\n\nCOMBAT\natk / attack: Attack the current enemy",1);
+        printSpecialText("GENERAL\nexit / quit: Quit the game.\nclear: Clear out the screen\nsave: save the game\ntorch: light your torch\nls / look: look around the area\nsearch: search the area for items\ngoto / cd: change location. always capitalize the first letter of a word and leave the rest of the letters lowercase\n\nINVENTORY\ndesc / describe: Show an inventory item's description\ndrop (int)+: Drop an item\npickup: pick up an item\ninv / inventory: Display inventory\nuse (int)+: Use an inventory item\n\nCOMBAT\natk / attack: Attack the current enemy\nflee: try to escape the current enemy\nwait: wait out a turn of attack",1);
     else if(!strcmp(input,"inv")||!strcmp(input,"inventory"))
         printInv(mainChar);
     else if(!strcmp(input,"clear"))
@@ -236,6 +241,7 @@ int handleCommand(char* input)
     }
     else if(!strcmp(input,"drop"))
     {
+        triggerBattle=1;
         printSpecialText("Index of the item you want to drop?[WARNING THIS MAY BE PERMINANT]",1);
         fgets(input,256,stdin);
         int idx=input[0]-'0';
@@ -287,6 +293,7 @@ int handleCommand(char* input)
     }
     else if(!strcmp(input,"ls")||!strcmp(input,"look"))
     {
+        triggerBattle=1;
         if(&cave == currentLocation)
         {
             printSpecialText(getStoryEvent(currentLocation->level+currentLocation->area+1 + (waterlvl>=50 ? 50 : 0) ),1);
@@ -306,6 +313,7 @@ int handleCommand(char* input)
     }
     else if(!strcmp(input,"search"))
     {
+        triggerBattle=1;
         int mod;
         if(&cave==currentLocation)
             mod=waterlvl>=50?50:0;
@@ -317,13 +325,20 @@ int handleCommand(char* input)
     }
     else if(strstr(input,"goto")!=NULL||strstr(input,"cd")!=NULL)
     {
-        printSpecialText("Where do you want to go?",1);
-        fgets(input,256,stdin);
-        stripNewline(input);
-        changeLocation(input);
+        triggerBattle=1;
+        if(battlemode)
+            printSpecialText("You can't go anywhere now, your fighting!",1);
+        else
+        {
+            printSpecialText("Where do you want to go?",1);
+            fgets(input,256,stdin);
+            stripNewline(input);
+            changeLocation(input);
+        }
     }
     else if(strstr(input,"use")!=NULL)
     {
+        triggerBattle=1;
         printSpecialText("Specify an inventory slot.",1);
         fgets(input,256,stdin);
         stripNewline(input);
@@ -371,7 +386,7 @@ int handleCommand(char* input)
     }
     else if(!strcmp(input,"pickup"))
     {
-        
+        triggerBattle=1;
         if(mainChar->currSlot>=mainChar->invCap)
             printSpecialText("Your Inventory is full! You need to drop an item before picking up anything else",1);
         else
@@ -423,14 +438,14 @@ int handleCommand(char* input)
                 printSpecialText("You don't have anything to do that yet.",1);
 
         }
-    else if(!strcmp(input,"swaplvl"))
-    {
-        if(currentLocation==&cave)
-            currentLocation=&mine;
-        else
-            currentLocation=&cave;
-        //changeConsoleText(currentLocation->name,currentLocation->sublocations[currentLocation->area/10]);
-    }
+    // else if(!strcmp(input,"swaplvl"))
+    // {
+    //     if(currentLocation==&cave)
+    //         currentLocation=&mine;
+    //     else
+    //         currentLocation=&cave;
+    //     //changeConsoleText(currentLocation->name,currentLocation->sublocations[currentLocation->area/10]);
+    // }
     else
     {
         printSpecialText("Invalid input: ",0);
@@ -438,7 +453,7 @@ int handleCommand(char* input)
         printSpecialText("Please type help for available commands",1);
     }
 
-    return 0;
+    return triggerBattle;
 }
 
 void printSpecialText(char* inputText,int newline)
@@ -539,7 +554,7 @@ void changeLocation(char* identifier)
             printSpecialText("You go right in the maze...",1);
             return;
         }
-        else if(!strcmp("Left",identifier))//TODO fix the maze cd-ing
+        else if(!strcmp("Left",identifier))
         {
             currentLocation->mineSubArea-=2;
             printSpecialText("You go left into the maze...",1);
@@ -603,7 +618,7 @@ void handleItem(char* idx)
         case Weapon:
             
             
-            //TODO FIX WEAPON AND ARMOR EQUIPING
+            
             if(mainChar->weapon!=NULL)
             {
                 mainChar->attack -= mainChar->weapon->magnitude;
@@ -711,7 +726,6 @@ void handleItem(char* idx)
                 stripNewline(pwd);
                 if(!strcmp("applej",usr)&&!strcmp("#Min3rsP4rad1ce",pwd))
                 {
-                    //TODO Change location from cave to mine
                     printSpecialText("The Shell warps your location...",1);
                     printSpecialText(getStoryEvent(waterlvl>50? 99:49),1);
                     currentLocation=&mine;
@@ -784,7 +798,7 @@ void handleItem(char* idx)
                         {
                             printSpecialText("The Elevator! It's now lifting you to the surface",1);
                             printSpecialText(getStoryEvent(199),1);
-                            writeSave(mainChar,currentLocation->level,currentLocation->area,0);
+                            writeSave(mainChar,5,0,0);
                             sleep(20);
                             printSpecialText("it's time to boot up java again...",1);
                             exit(0);

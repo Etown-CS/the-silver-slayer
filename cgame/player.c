@@ -36,11 +36,11 @@ player* createPlayer(int *loc,int *area,int *cgame)
     int i=1;
     
     int j=0;
-    while(buffer[j]!='\n')
-    {
-        printf("%d:%c\n",j,buffer[j]);
-        j++;
-    }
+    // while(buffer[j]!='\n')
+    // {
+    //     printf("%d:%c\n",j,buffer[j]);
+    //     j++;
+    // }
 
 
     while(buffer[i]!=':'){
@@ -56,7 +56,7 @@ player* createPlayer(int *loc,int *area,int *cgame)
     i+=2;
     newChar->health=parseInt(buffer,i);
     //i+=2;
-    printf("What's being read %d, %c",i,buffer[i]);
+    //printf("What's being read %d, %c",i,buffer[i]);
     while(buffer[i-1]!='/')i++;
     
     newChar->healthCap=parseInt(buffer,i++);
